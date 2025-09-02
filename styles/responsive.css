@@ -255,10 +255,16 @@
   }
   
   .toast {
-    bottom: 10px;
+    top: 20px;
     right: 10px;
     left: 10px;
+    bottom: auto;
     padding: 12px 15px;
+    transform: translateY(-100px);
+  }
+  
+  .toast.show {
+    transform: translateY(0);
   }
   
   .go-to-top {
@@ -911,10 +917,16 @@
   }
   
   .toast {
-    bottom: 10px;
+    top: 20px;
     right: 10px;
     left: 10px;
+    bottom: auto;
     padding: 12px 15px;
+    transform: translateY(-100px);
+  }
+  
+  .toast.show {
+    transform: translateY(0);
   }
 }
 
