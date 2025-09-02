@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Advanced Goal Alignment Calculator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+  <!-- Mobile Navigation -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-item active" data-section="home">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </div>
+    <div class="mobile-nav-item" data-section="results">
+      <i class="fas fa-chart-line"></i>
+      <span>Results</span>
+    </div>
+  </nav>
+
+  <!-- Mobile Ad Space -->
+  <div class="mobile-ad-container">
+    <div class="ad-container mobile-banner">
+      <div>
+        <i class="fas fa-rectangle-ad" style="font-size: 1.2rem; margin-bottom: 8px; opacity: 0.3;"></i>
+        <p>Mobile Banner Ad</p>
+        <small>320x50 mobile banner</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Ad Space: Left Sidebar -->
+    <div class="ad-sidebar left-ad">
+      <div class="ad-container sidebar vertical">
+        <div>
+          <i class="fas fa-rectangle-ad" style="font-size: 1.5rem; margin-bottom: 10px; opacity: 0.3;"></i>
+          <p>Left Sidebar Ad</p>
+          <small>160x600 skyscraper</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEFT PANEL - INPUTS -->
+    <div class="left-panel" id="home-section">
+      <div class="header">
+        <h1><i class="fas fa-bullseye"></i> Advanced Goal Alignment Calculator</h1>
+        <p>Plan your financial future with detailed scenarios and insights</p>
+      </div>
+
+      <!-- Tabs for different sections -->
+      <div class="tabs">
+        <div class="tab active" data-tab="goals">Goals</div>
+        <div class="tab" data-tab="finances">Finances</div>
+        <div class="tab" data-tab="investments">Investments</div>
+        <div class="tab" data-tab="visualization">Visualization</div>
+      </div>
+
+      <!-- Personal Details -->
+      <div class="section">
+        <div class="section-title">
+          <span><i class="fas fa-user"></i> Personal Details</span>
+          <i class="fas fa-info-circle info-icon" title="Your personal information helps us customize recommendations"></i>
+        </div>
+        <div class="card">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="age"><i class="fas fa-birthday-cake"></i> Current Age</label>
+              <input type="number" id="age" class="form-control" value="" min="16" max="100" placeholder="Enter your age">
+            </div>
+            <div class="form-group">
+              <label for="timeline"><i class="fas fa-calendar-alt"></i> Goal Timeline (years)</label>
+              <input type="number" id="timeline" class="form-control" value="" min="1" max="50" placeholder="Years to achieve goals">
+            </div>
+            <div class="form-group">
+              <label for="life-expectancy"><i class="fas fa-heart"></i> Life Expectancy</label>
+              <input type="number" id="life-expectancy" class="form-control" value="" min="60" max="120" placeholder="Expected life expectancy">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Finances -->
+      <div class="section">
+        <div class="section-title">
+          <span><i class="fas fa-money-bill-wave"></i> Monthly Finances</span>
+          <i class="fas fa-info-circle info-icon" title="Your income, expenses, and existing financial commitments"></i>
+        </div>
+        <div class="card">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="income"><i class="fas fa-dollar-sign"></i> Monthly Income</label>
+              <input type="number" id="income" class="form-control" value="" step="1000" placeholder="Enter monthly income">
+            </div>
+            <div class="form-group">
+              <label for="expenses"><i class="fas fa-receipt"></i> Monthly Expenses</label>
+              <input type="number" id="expenses" class="form-control" value="" step="1000" placeholder="Enter monthly expenses">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="savings"><i class="fas fa-piggy-bank"></i> Current Savings</label>
+              <input type="number" id="savings" class="form-control" value="" step="10000" placeholder="Enter current savings">
+            </div>
+            <!-- Monthly EMI field removed -->
+          </div>
+          <button class="btn btn-sm btn-secondary" onclick="addLoan()"><i class="fas fa-plus"></i> Add Loan Details</button>
+          <div id="loan-list" class="loan-details-container" style="display: none;">
+            <h4 style="margin: 20px 0 15px 0; color: #495057;"><i class="fas fa-list"></i> Loan Details</h4>
+            <!-- Loan entries will be added here -->
+          </div>
+          
+          <!-- Hidden field for total EMI calculations -->
+          <input type="hidden" id="existing-emi" value="0">
+
+          <!-- Progress visualization -->
+          <div class="progress-container">
+            <div class="progress-label">
+              <span>Expense Ratio</span>
+              <span id="expense-ratio">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="expense-progress" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Investment Assumptions -->
+      <div class="section">
+        <div class="section-title">
+          <span><i class="fas fa-chart-line"></i> Investment Assumptions</span>
+          <i class="fas fa-info-circle info-icon" title="Your existing investments and expected returns help create accurate projections"></i>
+        </div>
+        <div class="card">
+          <!-- Current Investment Portfolio -->
+          <div class="subsection-title" style="margin-bottom: 15px; color: #495057; font-weight: 500; border-bottom: 1px solid #e9ecef; padding-bottom: 8px;">
+            <i class="fas fa-wallet"></i> Current Investment Portfolio
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="existing-investments"><i class="fas fa-chart-area"></i> Existing Investment Value</label>
+              <input type="number" id="existing-investments" class="form-control" value="" step="10000" min="0" placeholder="Current portfolio value">
+              <small style="color: #6c757d; font-size: 0.8rem;">Total value of all your current investments</small>
+            </div>
+            <div class="form-group">
+              <label for="current-sip"><i class="fas fa-calendar-check"></i> Monthly SIP Amount</label>
+              <input type="number" id="current-sip" class="form-control" value="" step="500" min="0" placeholder="Current monthly SIP">
+              <small style="color: #6c757d; font-size: 0.8rem;">Amount you currently invest monthly via SIP</small>
+            </div>
+            <div class="form-group">
+              <label for="sip-duration"><i class="fas fa-history"></i> SIP Duration (years)</label>
+              <input type="number" id="sip-duration" class="form-control" value="" step="0.5" min="0" max="50" placeholder="Years of SIP">
+              <small style="color: #6c757d; font-size: 0.8rem;">How long have you been investing via SIP</small>
+            </div>
+          </div>
+
+          <!-- Market Assumptions -->
+          <div class="subsection-title" style="margin: 25px 0 15px 0; color: #495057; font-weight: 500; border-bottom: 1px solid #e9ecef; padding-bottom: 8px;">
+            <i class="fas fa-trending-up"></i> Market Assumptions
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="returns"><i class="fas fa-chart-pie"></i> Expected Returns (%)</label>
+              <input type="number" id="returns" class="form-control" value="" step="0.5" min="0" max="20" placeholder="Expected annual returns">
+              <small style="color: #6c757d; font-size: 0.8rem;">Expected average annual returns on your investments</small>
+            </div>
+            <div class="form-group">
+              <label for="inflation"><i class="fas fa-money-bill-trend-up"></i> Inflation Rate (%)</label>
+              <input type="number" id="inflation" class="form-control" value="" step="0.1" min="0" max="15" placeholder="Expected inflation rate">
+              <small style="color: #6c757d; font-size: 0.8rem;">Expected average annual inflation rate</small>
+            </div>
+          </div>
+
+          <!-- Investment Summary (Dynamic) -->
+          <div id="investment-summary" class="investment-summary" style="display: none; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 6px; border-left: 4px solid var(--primary);">
+            <div style="font-weight: 600; color: #495057; margin-bottom: 10px;">
+              <i class="fas fa-calculator"></i> Investment Portfolio Summary
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.9rem;">
+              <div>
+                <span style="color: #6c757d;">Current Portfolio:</span>
+                <span id="summary-current-value" style="font-weight: 500;">₹0</span>
+              </div>
+              <div>
+                <span style="color: #6c757d;">Monthly SIP:</span>
+                <span id="summary-sip-amount" style="font-weight: 500;">₹0</span>
+              </div>
+              <div>
+                <span style="color: #6c757d;">Projected Value:</span>
+                <span id="summary-projected-value" style="font-weight: 500; color: var(--success);">₹0</span>
+              </div>
+              <div>
+                <span style="color: #6c757d;">Additional Needed:</span>
+                <span id="summary-additional-needed" style="font-weight: 500; color: var(--primary);">₹0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Goals -->
+      <div class="section">
+        <div class="section-title">
+          <span><i class="fas fa-flag"></i> Your Goals</span>
+          <i class="fas fa-info-circle info-icon" title="Set your financial goals with target amounts"></i>
+        </div>
+        <div class="card" id="goals-container">
+          <!-- Goals will be dynamically generated -->
+        </div>
+      </div>
+
+      <!-- Ad Space 1: Native ad after goals -->
+      <div class="ad-container native">
+        <div>
+          <i class="fas fa-ad" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.3;"></i>
+          <p>Advertisement Space</p>
+          <small>Native ad placement - blends with content</small>
+        </div>
+      </div>
+
+      <!-- Visualization Section -->
+      <div class="section">
+        <div class="section-title">
+          <span><i class="fas fa-chart-bar"></i> Goal Visualization</span>
+          <i class="fas fa-info-circle info-icon" title="Visual representation of your financial goals"></i>
+        </div>
+        <div class="card">
+          <div class="visualization">
+            <div class="visualization-title">
+              <i class="fas fa-chart-pie"></i> Goal Allocation
+            </div>
+            <div id="goal-chart" style="height: 200px;">
+              <div style="text-align: center; padding: 20px; color: #6c757d;">
+                <i class="fas fa-chart-pie" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                <p>Goal distribution chart will appear here</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Ad Space 4: Bottom banner before results -->
+      <div class="ad-container banner">
+        <div>
+          <i class="fas fa-rectangle-ad" style="font-size: 1.5rem; margin-bottom: 8px; opacity: 0.3;"></i>
+          <p>Bottom Banner Advertisement</p>
+          <small>Leaderboard 728x90 or responsive</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL - RESULTS -->
+    <div class="right-panel" id="results-section">
+      <!-- Balance Meter -->
+      <div class="results-section">
+        <div class="results-title"><i class="fas fa-balance-scale"></i> Work ↔ Life Balance</div>
+        <div class="balance-meter">
+          <div class="meter-container">
+            <div class="meter-indicator" id="balance-indicator"></div>
+          </div>          
+          <div class="meter-labels">
+            <span><i class="fas fa-briefcase"></i> Bad</span>
+            <span><i class="fas fa-balance-scale"></i> Balanced</span>
+            <span><i class="fas fa-heart"></i> Good</span>
+          </div>
+          <div class="balance-status" id="balance-status">Enter your financial details</div>
+          <button class="btn btn-warning" id="balance-button" style="width:100%; margin-top:15px; display:none;">
+            <i class="fas fa-cogs"></i> Make It More Balanced
+          </button>
+        </div>
+      </div>
+
+      <!-- Live KPIs -->
+      <div class="results-section">
+        <div class="results-title"><i class="fas fa-chart-bar"></i> Key Metrics</div>
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-value" id="total-cost">₹0</div>
+            <div class="kpi-label">Total Goal Cost</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-value" id="monthly-needed">₹0</div>
+            <div class="kpi-label">Monthly Investment Needed</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-value" id="time-required">0y</div>
+            <div class="kpi-label">Time Required</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-value" id="savings-rate">0%</div>
+            <div class="kpi-label">Savings Rate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Achievements -->
+      <div class="results-section">
+        <div class="results-title"><i class="fas fa-trophy"></i> Financial Health</div>
+        <div class="insights-card">
+          <div id="achievements-container">
+            <!-- Achievements will be populated dynamically based on financial data -->
+          </div>
+          <div class="progress-container" style="margin-top: 15px;">
+            <div class="progress-label">
+              <span>Overall Financial Health</span>
+              <span id="financial-health-value">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="financial-health-bar" style="width: 0%; background: linear-gradient(90deg, var(--success), var(--info));"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insights -->
+      <div class="results-section">
+        <div class="results-title"><i class="fas fa-lightbulb"></i> Financial Insights</div>
+        <div class="insights-card">
+          <div id="insights-list">
+            <!-- Insights will be dynamically generated -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenarios -->
+      <div class="results-section">
+        <div class="results-title"><i class="fas fa-chess-board"></i> Financial Scenarios</div>
+        <div class="scenarios-card">
+          <div id="scenarios-list">
+            <!-- Scenarios will be dynamically generated -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Ad Space 2: Sidebar banner ad -->
+      <div class="ad-container banner">
+        <div>
+          <i class="fas fa-rectangle-ad" style="font-size: 1.5rem; margin-bottom: 8px; opacity: 0.3;"></i>
+          <p>Banner Advertisement</p>
+          <small>728x90 or responsive banner</small>
+        </div>
+      </div>
+
+
+
+      <!-- Ad Space 3: Sidebar native ad -->
+      <div class="ad-container sidebar">
+        <div>
+          <i class="fas fa-rectangle-ad" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.3;"></i>
+          <p>Sidebar Advertisement</p>
+          <small>300x250 medium rectangle or native content</small>
+        </div>
+      </div>
+
+      <!-- Export & Share -->
+      <div class="results-section">
+        <div class="results-title"><i class="fas fa-share-alt"></i> Export & Share</div>
+        <div class="export-card">
+          <div class="export-section">
+            <h4><i class="fas fa-database"></i> Data Management</h4>
+            <div class="export-buttons data-buttons">
+              <button class="btn btn-sm btn-success" onclick="downloadJSON()"><i class="fas fa-download"></i> Download JSON</button>
+              <button class="btn btn-sm btn-primary" onclick="loadJSON()"><i class="fas fa-upload"></i> Load JSON</button>
+              <input type="file" id="json-file-input" accept=".json" style="display: none;" onchange="handleJSONLoad(event)">
+            </div>
+          </div>
+          
+          <div class="export-section">
+            <h4><i class="fas fa-share"></i> Social Sharing</h4>
+            <div class="export-buttons share-buttons">
+              <button class="btn btn-sm btn-info" onclick="shareToSocialMedia()"><i class="fas fa-image"></i> Share Image</button>
+              <button class="btn btn-sm btn-danger" onclick="resetAll()"><i class="fas fa-redo"></i> Reset All</button>
+            </div>
+            <p class="share-description">Generate a shareable image with your financial plan and our watermark</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feedback & Suggestions -->
+      <div class="results-section">
+        <div class="results-title"><i class="fas fa-comments"></i> Feedback & Suggestions</div>
+        <div class="feedback-card">
+          <div class="form-group">
+            <label for="feedback-rating"><i class="fas fa-star"></i> Overall Rating</label>
+            <div class="star-rating" id="star-rating">
+              <span class="star" data-rating="1">★</span>
+              <span class="star" data-rating="2">★</span>
+              <span class="star" data-rating="3">★</span>
+              <span class="star" data-rating="4">★</span>
+              <span class="star" data-rating="5">★</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="feedback-message"><i class="fas fa-comment"></i> Your Message</label>
+            <textarea id="feedback-message" class="form-control" rows="3" 
+                      placeholder="Share your feedback or suggestions anonymously..."></textarea>
+          </div>
+          
+          <button class="btn btn-primary" onclick="submitFeedback()" style="width: 100%; margin-top: 10px;">
+            <i class="fas fa-paper-plane"></i> Submit Anonymous Feedback
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ad Space: Right Sidebar -->
+    <div class="ad-sidebar right-ad">
+      <div class="ad-container sidebar vertical">
+        <div>
+          <i class="fas fa-rectangle-ad" style="font-size: 1.5rem; margin-bottom: 10px; opacity: 0.3;"></i>
+          <p>Right Sidebar Ad</p>
+          <small>160x600 skyscraper</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Go to Top Button -->
+  <button id="go-to-top" class="go-to-top" title="Go to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toast-message">Calculation completed successfully</span>
+  </div>
+
+  <!-- Balance Plan Modal -->
+  <div class="modal" id="balance-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title"><i class="fas fa-balance-scale"></i> Choose a Balanced Plan</div>
+        <button class="close-modal" onclick="closeModal()">&times;</button>
+      </div>
+      <div id="plan-options">
+        <!-- Plan options will be inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    emailjs.init('Tk8koJt9URiM4StA1'); // Your EmailJS public key
+  </script>
+  <script src="js/config.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/goals.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
