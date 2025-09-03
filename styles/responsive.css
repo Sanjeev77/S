@@ -762,10 +762,71 @@
   }
   
   /* Fix balance meter potential overflow */
+  /* Work ↔ Life Balance Slider Mobile Fixes */
   .balance-container, .balance-meter, .balance-track {
     width: 100% !important;
     max-width: calc(100vw - 40px) !important;
     overflow: hidden !important;
+  }
+  
+  .balance-meter {
+    padding: 15px !important;
+    margin: 10px 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  .meter-container {
+    position: relative !important;
+    height: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 15px 0 !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+  }
+  
+  .meter-indicator {
+    position: absolute !important;
+    top: -7px !important;
+    width: 24px !important;
+    height: 24px !important;
+    border: 2px solid #333 !important;
+    transform: translateX(-50%) !important;
+    box-sizing: border-box !important;
+  }
+  
+  .meter-labels {
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 0.75rem !important;
+    margin-top: 8px !important;
+    padding: 0 12px !important;
+    box-sizing: border-box !important;
+  }
+  
+  .meter-labels span {
+    flex: 1 1 33.33% !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  
+  .meter-labels span:first-child {
+    text-align: left !important;
+  }
+  
+  .meter-labels span:last-child {
+    text-align: right !important;
+  }
+  
+  .balance-status {
+    text-align: center !important;
+    margin-top: 10px !important;
+    font-size: 0.9rem !important;
+    padding: 6px !important;
+    word-wrap: break-word !important;
   }
   
   .balance-indicator {
