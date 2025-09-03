@@ -1438,7 +1438,7 @@ class FinancialPlannerApp {
         
         <div class="form-group">
           <label><i class="fas fa-calendar-alt"></i> Remaining Tenure</label>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div class="tenure-grid" style="display: grid; grid-template-columns: minmax(140px, 1.5fr) minmax(120px, 1fr); gap: 12px; max-width: 100%;">
             <input type="number" class="form-control loan-tenure-years" placeholder="Years" 
                   step="1" min="0" max="30">
             <input type="number" class="form-control loan-tenure-months" placeholder="Months" 
@@ -2028,12 +2028,90 @@ Generated with Advanced Goal Alignment Calculator`;
     return previewText;
   }
 
+  // NEW: Export loan data to JSON format
+  exportLoans() {
+    const loanItems = document.querySelectorAll('.loan-item');
+    const loans = [];
+    
+    loanItems.forEach((loanItem, index) => {
+      const loanType = loanItem.querySelector('.loan-type')?.value || 'Personal Loan';
+      const principal = parseFloat(loanItem.querySelector('.loan-principal')?.value) || 0;
+      const rate = parseFloat(loanItem.querySelector('.loan-rate')?.value) || 0;
+      const emi = parseFloat(loanItem.querySelector('.loan-emi')?.value) || 0;
+      const tenureYears = parseFloat(loanItem.querySelector('.loan-tenure-years')?.value) || 0;
+      const tenureMonths = parseFloat(loanItem.querySelector('.loan-tenure-months')?.value) || 0;
+      
+      if (principal > 0) { // Only export loans with valid principal
+        loans.push({
+          id: loanItem.id || `loan_${index + 1}`,
+          loanType,
+          principal,
+          rate,
+          emi,
+          tenureYears,
+          tenureMonths
+        });
+      }
+    });
+    
+    return loans;
+  }
+
+  // NEW: Import loan data from JSON format
+  importLoans(loans) {
+    // Clear existing loans first
+    const loanContainer = document.getElementById('loan-list');
+    const existingLoans = loanContainer.querySelectorAll('.loan-item');
+    existingLoans.forEach(loan => loan.remove());
+    
+    // If no loans to import, hide the container
+    if (!loans || loans.length === 0) {
+      loanContainer.style.display = 'none';
+      return;
+    }
+    
+    // Show the loan container
+    loanContainer.style.display = 'block';
+    
+    // Add each loan
+    loans.forEach((loanData, index) => {
+      this.addLoan(); // Add a new loan item
+      
+      // Get the newly added loan item (it should be the last one)
+      const loanItems = document.querySelectorAll('.loan-item');
+      const newLoanItem = loanItems[loanItems.length - 1];
+      
+      // Set the loan data
+      if (newLoanItem) {
+        const loanTypeSelect = newLoanItem.querySelector('.loan-type');
+        const principalInput = newLoanItem.querySelector('.loan-principal');
+        const rateInput = newLoanItem.querySelector('.loan-rate');
+        const emiInput = newLoanItem.querySelector('.loan-emi');
+        const tenureYearsInput = newLoanItem.querySelector('.loan-tenure-years');
+        const tenureMonthsInput = newLoanItem.querySelector('.loan-tenure-months');
+        
+        if (loanTypeSelect) loanTypeSelect.value = loanData.loanType || 'Personal Loan';
+        if (principalInput) principalInput.value = loanData.principal || 0;
+        if (rateInput) rateInput.value = loanData.rate || 0;
+        if (emiInput) emiInput.value = loanData.emi || 0;
+        if (tenureYearsInput) tenureYearsInput.value = loanData.tenureYears || 0;
+        if (tenureMonthsInput) tenureMonthsInput.value = loanData.tenureMonths || 0;
+        
+        // Trigger calculation for this loan
+        if (principalInput) {
+          principalInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      }
+    });
+  }
+
   // NEW: Download financial data as JSON
   downloadJSON() {
     const planData = {
       formData: this.getFormData(),
       results: this.previousResults,
       goals: this.goalsManager.exportGoals(),
+      loans: this.exportLoans(),
       timestamp: new Date().toISOString(),
       appVersion: "1.0",
       description: "Advanced Goal Alignment Calculator Data"
@@ -2087,6 +2165,11 @@ Generated with Advanced Goal Alignment Calculator`;
         
         // Load goals
         this.goalsManager.importGoals(planData.goals);
+        
+        // Load loans if they exist
+        if (planData.loans && Array.isArray(planData.loans)) {
+          this.importLoans(planData.loans);
+        }
         
         // Recalculate results
         this.calculateResults();
@@ -2945,9 +3028,24 @@ Generated with Advanced Goal Alignment Calculator`;
 
   // Helper method to set form data
   setFormData(formData) {
+    // Map camelCase keys to actual HTML element IDs
+    const keyMapping = {
+      'existingInvestments': 'existing-investments',
+      'currentSip': 'current-sip',
+      'sipDuration': 'sip-duration',
+      'lifeExpectancy': 'life-expectancy',
+      'existingEmi': 'existing-emi'
+    };
+    
     Object.keys(formData).forEach(key => {
-      const element = document.getElementById(key);
-      if (element) {
+      // Skip goals as they are handled separately
+      if (key === 'goals') return;
+      
+      // Map camelCase keys to hyphenated IDs
+      const elementId = keyMapping[key] || key;
+      const element = document.getElementById(elementId);
+      
+      if (element && formData[key] !== undefined && formData[key] !== null) {
         element.value = formData[key];
         // Trigger input event to update calculations
         element.dispatchEvent(new Event('input', { bubbles: true }));
