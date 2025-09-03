@@ -216,11 +216,21 @@ class UIManager {
       }
     }
 
-    // Add delay for mobile to ensure section switching is complete
+    // Add delay for mobile to ensure section switching is complete, but only if user isn't actively filling forms
     if (isMobile) {
-      setTimeout(() => {
-        this.scrollToSection(tabName);
-      }, 100);
+      const activeElement = document.activeElement;
+      const isInputFocused = activeElement && (
+        activeElement.tagName === 'INPUT' || 
+        activeElement.tagName === 'TEXTAREA' || 
+        activeElement.tagName === 'SELECT'
+      );
+      
+      // Only auto-scroll if user isn't actively typing
+      if (!isInputFocused) {
+        setTimeout(() => {
+          this.scrollToSection(tabName);
+        }, 100);
+      }
     } else {
       this.scrollToSection(tabName);
     }
@@ -229,6 +239,22 @@ class UIManager {
   }
 
   scrollToSection(tabName) {
+    // Prevent auto-scrolling on mobile when user is actively filling forms
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      const activeElement = document.activeElement;
+      const isInputFocused = activeElement && (
+        activeElement.tagName === 'INPUT' || 
+        activeElement.tagName === 'TEXTAREA' || 
+        activeElement.tagName === 'SELECT'
+      );
+      
+      // If user is actively typing in an input field, don't scroll
+      if (isInputFocused) {
+        return;
+      }
+    }
+    
     let targetElement = null;
     
     const sectionMap = {
@@ -258,8 +284,6 @@ class UIManager {
     });
 
     if (targetElement) {
-      
-      const isMobile = window.innerWidth <= 768;
       const headerOffset = isMobile ? 120 : 80; // Account for mobile navigation
       
       // Get the target position
@@ -280,12 +304,14 @@ class UIManager {
       }, 2000);
       
     } else {
-      // Fallback: scroll to top of page if section not found
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-      this.showToast(`Section "${tabName}" not found`, 'error');
+      // On mobile, don't scroll to top automatically unless explicitly requested
+      if (!isMobile) {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+      this.showToast(`Section "${tabName}" not found`, 'warning');
     }
   }
   
