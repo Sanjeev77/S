@@ -5,6 +5,10 @@ class FinancialPlannerApp {
     this.goalsManager = new GoalsManager();
     this.uiManager = new UIManager();
     this.previousResults = null;
+    this.userIsScrolling = false;
+    this.scrollTimeout = null;
+    this.lastTouchTime = 0;
+    this.touchEndTimeout = null;
     this.init();
   }
 
@@ -83,16 +87,83 @@ class FinancialPlannerApp {
       return;
     }
 
+    let isScrolling = false;
     const handleScroll = () => {
-      goToTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+      if (!isScrolling) {
+        requestAnimationFrame(() => {
+          goToTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+          isScrolling = false;
+        });
+        isScrolling = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    // Add touch event listeners to track user interaction
+    let touchStartTime = 0;
+    document.addEventListener('touchstart', () => {
+      touchStartTime = Date.now();
+      this.userIsScrolling = true;
+      clearTimeout(this.scrollTimeout);
+      clearTimeout(this.touchEndTimeout);
+    }, { passive: true });
+    
+    document.addEventListener('touchend', () => {
+      this.lastTouchTime = Date.now();
+      // Keep userIsScrolling true for longer after touch ends to account for momentum
+      this.touchEndTimeout = setTimeout(() => {
+        this.userIsScrolling = false;
+      }, 2500); // Extended to 2.5 seconds after touch end
+      
+      // Extra protection: temporarily disable any potential scrollTo calls during momentum
+      const originalScrollTo = window.scrollTo;
+      window.scrollTo = function(...args) {
+        const timeSinceTouch = Date.now() - window.financialPlannerApp.lastTouchTime;
+        if (timeSinceTouch < 2000) {
+          console.log('Blocked scrollTo during momentum period');
+          return; // Block the scroll call
+        }
+        return originalScrollTo.apply(window, args);
+      };
+      
+      // Restore original scrollTo after momentum period
+      setTimeout(() => {
+        window.scrollTo = originalScrollTo;
+      }, 2500);
+    }, { passive: true });
+    
+    document.addEventListener('touchcancel', () => {
+      this.lastTouchTime = Date.now();
+      this.touchEndTimeout = setTimeout(() => {
+        this.userIsScrolling = false;
+      }, 2000);
+    }, { passive: true });
+
+    // Add passive listener to improve performance and prevent interference
+    window.addEventListener('scroll', (e) => {
+      // Track user scrolling to prevent conflicts
+      this.userIsScrolling = true;
+      clearTimeout(this.scrollTimeout);
+      
+      // Much longer timeout to account for momentum scrolling
+      this.scrollTimeout = setTimeout(() => {
+        // Only allow scroll to stop if it's been a while since last touch
+        const timeSinceTouch = Date.now() - this.lastTouchTime;
+        if (timeSinceTouch > 1500) { // 1.5 seconds since last touch
+          this.userIsScrolling = false;
+        }
+      }, 500); // 500ms after scroll stops
+      
+      handleScroll(e);
+    }, { passive: true });
     handleScroll();
 
     goToTopBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const isMobile = window.innerWidth <= 768;
+      window.scrollTo({ 
+        top: 0, 
+        behavior: isMobile ? 'auto' : 'smooth' 
+      });
       this.uiManager.showToast('Scrolled to top', 'info');
     });
 
@@ -152,19 +223,15 @@ class FinancialPlannerApp {
     if (section === 'home') {
       homeSection.classList.remove('mobile-hidden');
       resultsSection.classList.add('mobile-hidden');
-      // Only scroll to top if user isn't actively filling a form
-      if (!isInputFocused) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+      // DISABLED: Don't auto-scroll to top on mobile section switch to prevent conflicts
+      // Users can use the go-to-top button if they want to scroll up
+      // This prevents the finger-lift scroll-to-top issue completely
     } else if (section === 'results') {
       homeSection.classList.add('mobile-hidden');
       resultsSection.classList.remove('mobile-hidden');
-      // Only scroll to top if user isn't actively filling a form
-      if (!isInputFocused) {
-        setTimeout(() => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 100);
-      }
+      // DISABLED: Complete removal of auto-scroll to prevent finger-lift scroll-to-top issue
+      // Users can use the go-to-top button if they want to scroll up
+      // This ensures no automatic scrolling interferes with momentum scrolling
     }
   }
 

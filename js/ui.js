@@ -291,10 +291,11 @@ class UIManager {
       // Get the target position
       const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
       
-      // Scroll to the target with proper offset
+      // Scroll to the target with proper offset - disable smooth on mobile to prevent auto-scroll issues
+      const isMobile = window.innerWidth <= 768;
       window.scrollTo({
         top: targetPosition,
-        behavior: 'smooth'
+        behavior: isMobile ? 'auto' : 'smooth'
       });
       
       // Highlight the section
@@ -340,8 +341,9 @@ class UIManager {
     }
     
     if (fallbackElement) {
+      const isMobile = window.innerWidth <= 768;
       fallbackElement.scrollIntoView({ 
-        behavior: 'smooth', 
+        behavior: isMobile ? 'auto' : 'smooth', 
         block: 'start'
       });
       
@@ -349,7 +351,7 @@ class UIManager {
         const currentPosition = window.pageYOffset;
         window.scrollTo({
           top: currentPosition - 50,
-          behavior: 'smooth'
+          behavior: isMobile ? 'auto' : 'smooth'
         });
       }, 100);
       
