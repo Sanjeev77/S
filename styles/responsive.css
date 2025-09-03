@@ -1004,6 +1004,104 @@
   .toast.show {
     transform: translateY(0);
   }
+  
+  /* Loan Details Mobile Fixes */
+  .loan-details-container,
+  .loan-item,
+  .loan-fields,
+  .loan-summary,
+  .loan-summary-item {
+    max-width: 100vw !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Fix Remaining Tenure field layout on mobile */
+  .loan-fields .form-group {
+    margin-bottom: 15px;
+  }
+  
+  /* Adjust the grid for Years/Months inputs */
+  .form-group div[style*="grid-template-columns: 1fr 1fr"] {
+    display: grid !important;
+    grid-template-columns: minmax(120px, 1fr) minmax(100px, 1fr) !important;
+    gap: 8px !important;
+  }
+  
+  /* Ensure input fields don't overflow */
+  .loan-tenure-years,
+  .loan-tenure-months {
+    min-width: 0 !important;
+    width: 100% !important;
+    font-size: 14px !important;
+  }
+  
+  /* Fix loan summary alignment and text overflow */
+  .loan-summary-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    margin-bottom: 8px !important;
+    flex-wrap: nowrap !important;
+    min-height: 20px;
+  }
+  
+  .loan-summary-item span:first-child {
+    flex: 1 1 60% !important;
+    margin-right: 8px !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.3;
+  }
+  
+  .loan-summary-item span:last-child {
+    flex: 0 0 35% !important;
+    text-align: right !important;
+    font-weight: 600 !important;
+    min-width: 0 !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    line-height: 1.3;
+  }
+  
+  /* Ensure EMI scenario section is properly contained */
+  .emi-scenario {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  
+  /* Make sure currency values don't get cut off */
+  .loan-summary-item span[id*="_emi"],
+  .loan-summary-item span[id*="_interest"],
+  .loan-summary-item span[id*="_amount"],
+  .loan-summary-item span[id*="_saved"] {
+    font-size: 13px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  
+  /* For very long numbers, allow them to wrap */
+  @media (max-width: 320px) {
+    .loan-summary-item span[id*="_emi"],
+    .loan-summary-item span[id*="_interest"],
+    .loan-summary-item span[id*="_amount"],
+    .loan-summary-item span[id*="_saved"] {
+      white-space: normal !important;
+      word-break: break-all;
+      font-size: 12px !important;
+    }
+    
+    .loan-summary-item span:last-child {
+      flex: 0 0 40% !important;
+    }
+    
+    .loan-summary-item span:first-child {
+      flex: 1 1 55% !important;
+    }
+  }
 }
 
 /* Small mobile styles */
