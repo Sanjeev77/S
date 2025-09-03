@@ -931,7 +931,7 @@ class UIManager {
           </svg>
         </div>
         
-        <div class="pie-chart-metrics" style="${isMobile ? 'width: 100%; max-width: 400px;' : 'flex: 1; min-width: 0;'} ${isMobile ? '' : 'max-height: 180px; overflow-y: auto;'}">
+        <div class="pie-chart-metrics" style="${isMobile ? 'width: 100%; max-width: calc(100vw - 40px); padding: 0 5px; box-sizing: border-box; overflow: visible;' : 'flex: 1; min-width: 0;'} ${isMobile ? '' : 'max-height: 180px; overflow-y: auto;'}">
           <div style="margin-bottom: ${isMobile ? '15px' : '10px'};">
     `;
 
@@ -940,14 +940,14 @@ class UIManager {
 
     visibleGoals.forEach(segment => {
       html += `
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: ${isMobile ? '8px 12px' : '4px 8px'}; margin-bottom: ${isMobile ? '6px' : '3px'}; background: #f8f9fa; border-radius: 6px; border-left: 3px solid ${segment.color};">
-          <div style="display: flex; align-items: center; min-width: 0; flex: 1;">
-            <i class="${segment.icon}" style="margin-right: ${isMobile ? '10px' : '6px'}; color: ${segment.color}; width: ${isMobile ? '16px' : '12px'}; font-size: ${isMobile ? '1rem' : '0.8rem'};"></i>
-            <span style="font-weight: 600; color: #333; font-size: ${isMobile ? '0.9rem' : '0.75rem'}; ${isMobile ? '' : 'white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'}">${segment.title}</span>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: ${isMobile ? '8px 10px' : '4px 8px'}; margin-bottom: ${isMobile ? '6px' : '3px'}; background: #f8f9fa; border-radius: 6px; border-left: 3px solid ${segment.color}; width: 100%; max-width: 100%; box-sizing: border-box; overflow: visible;">
+          <div style="display: flex; align-items: center; min-width: 0; flex: 1; margin-right: ${isMobile ? '10px' : '8px'}; overflow: visible;">
+            <i class="${segment.icon}" style="margin-right: ${isMobile ? '8px' : '6px'}; color: ${segment.color}; width: ${isMobile ? '14px' : '12px'}; font-size: ${isMobile ? '0.9rem' : '0.8rem'}; flex-shrink: 0;"></i>
+            <span style="font-weight: 600; color: #333; font-size: ${isMobile ? '0.85rem' : '0.75rem'}; ${isMobile ? 'word-wrap: break-word; overflow-wrap: break-word; line-height: 1.2;' : 'white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'}">${segment.title}</span>
           </div>
-          <div style="text-align: right; flex-shrink: 0; margin-left: ${isMobile ? '12px' : '8px'};">
-            <div style="font-weight: bold; color: #333; font-size: ${isMobile ? '0.9rem' : '0.75rem'};">${segment.percentage.toFixed(1)}%</div>
-            <div style="color: #666; font-size: ${isMobile ? '0.8rem' : '0.7rem'};">${this.formatCompactCurrency(segment.amount)}</div>
+          <div style="text-align: right; flex-shrink: 0; min-width: ${isMobile ? '85px' : '70px'}; max-width: ${isMobile ? '120px' : '100px'}; white-space: nowrap; overflow: visible;">
+            <div style="font-weight: bold; color: #333; font-size: ${isMobile ? '0.85rem' : '0.75rem'}; line-height: 1.2; margin-bottom: 2px;">${segment.percentage.toFixed(1)}%</div>
+            <div style="color: #666; font-size: ${isMobile ? '0.75rem' : '0.7rem'}; line-height: 1.1;">${this.formatCompactCurrency(segment.amount)}</div>
           </div>
         </div>
       `;
