@@ -549,6 +549,28 @@ class FinancialPlannerApp {
     try {
       const formData = this.getFormData();
       this.updateInvestmentSummary(); // Update investment summary
+      
+      // On mobile, check if user is actively filling forms - if so, delay calculations
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        const activeElement = document.activeElement;
+        const isInputFocused = activeElement && (
+          activeElement.tagName === 'INPUT' || 
+          activeElement.tagName === 'TEXTAREA' || 
+          activeElement.tagName === 'SELECT'
+        );
+        
+        // If user is actively typing, delay the calculation to avoid interrupting
+        if (isInputFocused) {
+          // Use a longer delay to avoid triggering while user is still typing
+          clearTimeout(this.calculationDelayTimer);
+          this.calculationDelayTimer = setTimeout(() => {
+            this.updateProgressiveResults(formData);
+          }, 1500); // Wait 1.5 seconds after user stops typing
+          return;
+        }
+      }
+      
       this.updateProgressiveResults(formData);
     } catch (error) {
       console.error('Calculation error:', error);
@@ -2035,60 +2057,9 @@ Generated with Advanced Goal Alignment Calculator`;
       canvas.width = 1080;
       canvas.height = 1080;
       
-      // Modern gradient background
-      const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      bgGradient.addColorStop(0, '#667eea');
-      bgGradient.addColorStop(0.5, '#764ba2');
-      bgGradient.addColorStop(1, '#f093fb');
-      ctx.fillStyle = bgGradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      // Add subtle pattern overlay
-      ctx.globalAlpha = 0.1;
-      for (let i = 0; i < canvas.width; i += 40) {
-        for (let j = 0; j < canvas.height; j += 40) {
-          ctx.fillStyle = '#ffffff';
-          ctx.beginPath();
-          ctx.arc(i, j, 2, 0, 2 * Math.PI);
-          ctx.fill();
-        }
-      }
-      ctx.globalAlpha = 1;
-      
-      // Main content container with glass morphism effect
-      const containerPadding = 40;
-      const containerX = containerPadding;
-      const containerY = 60;
-      const containerWidth = canvas.width - (containerPadding * 2);
-      const containerHeight = canvas.height - 120;
-      
-      // Glass background
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
-      ctx.beginPath();
-      ctx.roundRect(containerX, containerY, containerWidth, containerHeight, 20);
-      ctx.fill();
-      
-      // Glass border
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.roundRect(containerX, containerY, containerWidth, containerHeight, 20);
-      ctx.stroke();
-      
-      // Header Section
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 42px system-ui, -apple-system, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('💰 FINANCIAL DASHBOARD', canvas.width / 2, containerY + 50);
-      
-      ctx.font = '20px system-ui, -apple-system, sans-serif';
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-      const currentDate = new Date().toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-      });
-      ctx.fillText(currentDate, canvas.width / 2, containerY + 80);
+      // Choose random design variation
+      const designs = ['modern', 'corporate', 'minimalist', 'gradient', 'dashboard'];
+      const selectedDesign = designs[Math.floor(Math.random() * designs.length)];
       
       // Get financial data
       const totalCost = document.getElementById('total-cost')?.textContent || '₹0';
@@ -2098,204 +2069,789 @@ Generated with Advanced Goal Alignment Calculator`;
       const healthValue = document.getElementById('financial-health-value')?.textContent || '0%';
       const balanceStatus = document.getElementById('balance-status')?.textContent || 'Calculate your balance';
       
-      // Main metrics cards in circular design
-      const centerX = canvas.width / 2;
-      const centerY = containerY + 320;
-      const radius = 140;
-      
-      const metrics = [
-        { 
-          label: 'TOTAL GOALS', 
-          value: totalCost, 
-          icon: '🎯', 
-          color: '#ff6b6b',
-          angle: 0
-        },
-        { 
-          label: 'MONTHLY SIP', 
-          value: monthlyNeeded, 
-          icon: '💰', 
-          color: '#4ecdc4',
-          angle: Math.PI / 2
-        },
-        { 
-          label: 'TIME FRAME', 
-          value: timeRequired, 
-          icon: '⏰', 
-          color: '#45b7d1',
-          angle: Math.PI
-        },
-        { 
-          label: 'SAVINGS RATE', 
-          value: savingsRate, 
-          icon: '📈', 
-          color: '#f9ca24',
-          angle: (3 * Math.PI) / 2
-        }
-      ];
-      
-      // Draw circular metric cards
-      metrics.forEach((metric, index) => {
-        const x = centerX + Math.cos(metric.angle) * radius;
-        const y = centerY + Math.sin(metric.angle) * radius;
-        const cardSize = 120;
-        
-        // Card background with shadow
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-        ctx.beginPath();
-        ctx.roundRect(x - cardSize/2 + 3, y - cardSize/2 + 3, cardSize, cardSize, 15);
-        ctx.fill();
-        
-        // Main card
-        ctx.fillStyle = metric.color;
-        ctx.beginPath();
-        ctx.roundRect(x - cardSize/2, y - cardSize/2, cardSize, cardSize, 15);
-        ctx.fill();
-        
-        // Icon
-        ctx.font = '32px system-ui';
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText(metric.icon, x, y - 15);
-        
-        // Value
-        ctx.font = 'bold 16px system-ui';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText(metric.value, x, y + 10);
-        
-        // Label
-        ctx.font = '10px system-ui';
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-        ctx.fillText(metric.label, x, y + 25);
-      });
-      
-      // Central health score circle
-      const healthRadius = 80;
-      
-      // Health score background
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, healthRadius, 0, 2 * Math.PI);
-      ctx.fill();
-      
-      // Health score border
-      ctx.strokeStyle = '#10b981';
-      ctx.lineWidth = 6;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, healthRadius - 3, 0, 2 * Math.PI);
-      ctx.stroke();
-      
-      // Health score value
-      ctx.fillStyle = '#10b981';
-      ctx.font = 'bold 28px system-ui';
-      ctx.textAlign = 'center';
-      ctx.fillText(healthValue, centerX, centerY - 5);
-      
-      ctx.font = '12px system-ui';
-      ctx.fillStyle = '#64748b';
-      ctx.fillText('HEALTH SCORE', centerX, centerY + 15);
-      
-      // Balance status bar at bottom
-      const statusBarY = containerY + containerHeight - 120;
-      const statusBarWidth = containerWidth - 80;
-      const statusBarX = containerX + 40;
-      const statusBarHeight = 50;
-      
-      // Status background
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-      ctx.beginPath();
-      ctx.roundRect(statusBarX, statusBarY, statusBarWidth, statusBarHeight, 25);
-      ctx.fill();
-      
-      // Status text
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 18px system-ui';
-      ctx.textAlign = 'center';
-      ctx.fillText('⚖️ ' + balanceStatus, canvas.width / 2, statusBarY + 32);
-      
-      // Work-Life Balance Meter
-      const meterY = statusBarY + 70;
-      const meterWidth = statusBarWidth - 100;
-      const meterHeight = 8;
-      const meterX = statusBarX + 50;
-      
-      // Meter background
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-      ctx.beginPath();
-      ctx.roundRect(meterX, meterY, meterWidth, meterHeight, 4);
-      ctx.fill();
-      
-      // Meter gradient
-      const meterGradient = ctx.createLinearGradient(meterX, meterY, meterX + meterWidth, meterY);
-      meterGradient.addColorStop(0, '#ef4444');
-      meterGradient.addColorStop(0.5, '#f59e0b');
-      meterGradient.addColorStop(1, '#10b981');
-      
-      ctx.fillStyle = meterGradient;
-      ctx.beginPath();
-      ctx.roundRect(meterX, meterY, meterWidth, meterHeight, 4);
-      ctx.fill();
-      
-      // Balance indicator
-      const balanceIndicator = document.getElementById('balance-indicator');
-      let balancePosition = 50;
-      if (balanceIndicator && balanceIndicator.style.left) {
-        const leftStyle = balanceIndicator.style.left;
-        if (leftStyle && leftStyle !== '50%') {
-          balancePosition = parseInt(leftStyle.replace('%', ''));
-        }
+      if (selectedDesign === 'modern') {
+        this.drawModernDesign(ctx, canvas, {totalCost, monthlyNeeded, timeRequired, savingsRate, healthValue, balanceStatus});
+      } else if (selectedDesign === 'corporate') {
+        this.drawCorporateDesign(ctx, canvas, {totalCost, monthlyNeeded, timeRequired, savingsRate, healthValue, balanceStatus});
+      } else if (selectedDesign === 'minimalist') {
+        this.drawMinimalistDesign(ctx, canvas, {totalCost, monthlyNeeded, timeRequired, savingsRate, healthValue, balanceStatus});
+      } else if (selectedDesign === 'gradient') {
+        this.drawGradientDesign(ctx, canvas, {totalCost, monthlyNeeded, timeRequired, savingsRate, healthValue, balanceStatus});
+      } else if (selectedDesign === 'dashboard') {
+        this.drawDashboardDesign(ctx, canvas, {totalCost, monthlyNeeded, timeRequired, savingsRate, healthValue, balanceStatus});
       }
-      
-      const indicatorX = meterX + (meterWidth * balancePosition / 100);
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.arc(indicatorX, meterY + meterHeight/2, 8, 0, 2 * Math.PI);
-      ctx.fill();
-      ctx.strokeStyle = '#374151';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      
-      // Footer branding
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-      ctx.font = '14px system-ui';
-      ctx.textAlign = 'center';
-      ctx.fillText('Advanced Goal Alignment Calculator', canvas.width / 2, canvas.height - 30);
-      
-      // Decorative elements
-      // Top left corner decoration
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-      ctx.beginPath();
-      ctx.arc(80, 80, 30, 0, 2 * Math.PI);
-      ctx.fill();
-      
-      // Top right corner decoration
-      ctx.beginPath();
-      ctx.arc(canvas.width - 80, 80, 20, 0, 2 * Math.PI);
-      ctx.fill();
-      
-      // Bottom left corner decoration
-      ctx.beginPath();
-      ctx.arc(80, canvas.height - 80, 25, 0, 2 * Math.PI);
-      ctx.fill();
       
       // Download the image
       canvas.toBlob((blob) => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `financial-dashboard-infographic-${new Date().toISOString().split('T')[0]}.png`;
+        a.download = `financial-dashboard-${selectedDesign}-${new Date().toISOString().split('T')[0]}.png`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
         
-        this.uiManager.showToast('Beautiful infographic generated! 🎨✨', 'success');
+        this.uiManager.showToast(`${selectedDesign.charAt(0).toUpperCase() + selectedDesign.slice(1)} infographic generated! 🎨✨`, 'success');
       }, 'image/png', 0.95);
       
     } catch (error) {
       console.error('Error generating share image:', error);
       this.uiManager.showToast('Error generating infographic: ' + error.message, 'error');
     }
+  }
+
+  drawModernDesign(ctx, canvas, data) {
+    // Modern glass morphism design
+    const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    bgGradient.addColorStop(0, '#667eea');
+    bgGradient.addColorStop(0.5, '#764ba2');
+    bgGradient.addColorStop(1, '#f093fb');
+    ctx.fillStyle = bgGradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Dot pattern overlay
+    ctx.globalAlpha = 0.1;
+    for (let i = 0; i < canvas.width; i += 40) {
+      for (let j = 0; j < canvas.height; j += 40) {
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(i, j, 2, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+    
+    this.drawModernContent(ctx, canvas, data);
+  }
+
+  drawCorporateDesign(ctx, canvas, data) {
+    // Professional corporate design
+    ctx.fillStyle = '#1e293b';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Subtle grid pattern
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= canvas.width; i += 30) {
+      ctx.beginPath();
+      ctx.moveTo(i, 0);
+      ctx.lineTo(i, canvas.height);
+      ctx.stroke();
+    }
+    for (let j = 0; j <= canvas.height; j += 30) {
+      ctx.beginPath();
+      ctx.moveTo(0, j);
+      ctx.lineTo(canvas.width, j);
+      ctx.stroke();
+    }
+    
+    this.drawCorporateContent(ctx, canvas, data);
+  }
+
+  drawMinimalistDesign(ctx, canvas, data) {
+    // Clean minimalist design
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Subtle geometric lines
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.lineWidth = 2;
+    
+    // Diagonal lines
+    for (let i = -canvas.width; i < canvas.width * 2; i += 100) {
+      ctx.beginPath();
+      ctx.moveTo(i, 0);
+      ctx.lineTo(i + canvas.width, canvas.height);
+      ctx.stroke();
+    }
+    
+    this.drawMinimalistContent(ctx, canvas, data);
+  }
+
+  drawGradientDesign(ctx, canvas, data) {
+    // Dynamic gradient design
+    const gradients = [
+      ['#ff9a9e', '#fecfef', '#fecfef'],
+      ['#a8edea', '#fed6e3', '#d299c2'],
+      ['#ffecd2', '#fcb69f', '#ff8c94'],
+      ['#89f7fe', '#66a6ff', '#667eea']
+    ];
+    
+    const selectedGradient = gradients[Math.floor(Math.random() * gradients.length)];
+    
+    const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    bgGradient.addColorStop(0, selectedGradient[0]);
+    bgGradient.addColorStop(0.5, selectedGradient[1]);
+    bgGradient.addColorStop(1, selectedGradient[2]);
+    ctx.fillStyle = bgGradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Floating circles
+    ctx.globalAlpha = 0.1;
+    const circles = [
+      {x: 150, y: 200, r: 80},
+      {x: 900, y: 150, r: 120},
+      {x: 200, y: 800, r: 100},
+      {x: 850, y: 750, r: 90},
+      {x: 500, y: 100, r: 60}
+    ];
+    
+    circles.forEach(circle => {
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    
+    this.drawGradientContent(ctx, canvas, data);
+  }
+
+  drawDashboardDesign(ctx, canvas, data) {
+    // Clean dashboard design like the reference
+    ctx.fillStyle = '#f8fafc';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    this.drawDashboardContent(ctx, canvas, data);
+  }
+
+  drawModernContent(ctx, canvas, data) {
+    const containerPadding = 40;
+    const containerX = containerPadding;
+    const containerY = 60;
+    const containerWidth = canvas.width - (containerPadding * 2);
+    const containerHeight = canvas.height - 120;
+    
+    // Glass container
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+    ctx.beginPath();
+    ctx.roundRect(containerX, containerY, containerWidth, containerHeight, 20);
+    ctx.fill();
+    
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(containerX, containerY, containerWidth, containerHeight, 20);
+    ctx.stroke();
+    
+    // Header
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 42px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('💰 FINANCIAL DASHBOARD', canvas.width / 2, containerY + 50);
+    
+    // Circular metrics layout
+    this.drawCircularMetrics(ctx, canvas, data, containerY);
+    
+    // Balance meter
+    this.drawBalanceMeter(ctx, canvas, data, containerY + containerHeight - 120, 'rgba(255, 255, 255, 0.3)');
+    
+    // Footer
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.font = '14px system-ui';
+    ctx.fillText('Advanced Goal Alignment Calculator', canvas.width / 2, canvas.height - 30);
+  }
+
+  drawCorporateContent(ctx, canvas, data) {
+    // Professional layout with cards
+    const cardPadding = 60;
+    
+    // Header
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 36px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('FINANCIAL PERFORMANCE REPORT', canvas.width / 2, 80);
+    
+    ctx.font = '18px system-ui';
+    ctx.fillStyle = '#94a3b8';
+    const currentDate = new Date().toLocaleDateString('en-US', { 
+      year: 'numeric', month: 'long', day: 'numeric' 
+    });
+    ctx.fillText(currentDate, canvas.width / 2, 110);
+    
+    // Draw professional metric cards
+    const metrics = [
+      {label: 'Total Goals', value: data.totalCost, color: '#3b82f6', x: cardPadding, y: 160},
+      {label: 'Monthly Investment', value: data.monthlyNeeded, color: '#10b981', x: canvas.width - 300 - cardPadding, y: 160},
+      {label: 'Time Required', value: data.timeRequired, color: '#8b5cf6', x: cardPadding, y: 320},
+      {label: 'Savings Rate', value: data.savingsRate, color: '#f59e0b', x: canvas.width - 300 - cardPadding, y: 320}
+    ];
+    
+    metrics.forEach(metric => {
+      // Card background
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.beginPath();
+      ctx.roundRect(metric.x, metric.y, 300, 120, 12);
+      ctx.fill();
+      
+      // Left accent
+      ctx.fillStyle = metric.color;
+      ctx.fillRect(metric.x, metric.y, 4, 120);
+      
+      // Value
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 32px system-ui';
+      ctx.textAlign = 'left';
+      ctx.fillText(metric.value, metric.x + 20, metric.y + 55);
+      
+      // Label
+      ctx.font = '16px system-ui';
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText(metric.label, metric.x + 20, metric.y + 80);
+    });
+    
+    // Health score section
+    const healthY = 500;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.beginPath();
+    ctx.roundRect(cardPadding, healthY, canvas.width - (cardPadding * 2), 100, 12);
+    ctx.fill();
+    
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 48px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText(data.healthValue, canvas.width / 2, healthY + 60);
+    
+    ctx.font = '18px system-ui';
+    ctx.fillStyle = '#94a3b8';
+    ctx.fillText('FINANCIAL HEALTH SCORE', canvas.width / 2, healthY + 85);
+    
+    // Balance status
+    this.drawBalanceMeter(ctx, canvas, data, healthY + 140, 'rgba(255, 255, 255, 0.1)');
+  }
+
+  drawMinimalistContent(ctx, canvas, data) {
+    // Clean, typography-focused design
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 48px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('Financial Overview', canvas.width / 2, 100);
+    
+    // Simple metric rows
+    const metrics = [
+      {label: 'Total Goals', value: data.totalCost, y: 200},
+      {label: 'Monthly Investment', value: data.monthlyNeeded, y: 280},
+      {label: 'Time Required', value: data.timeRequired, y: 360},
+      {label: 'Savings Rate', value: data.savingsRate, y: 440}
+    ];
+    
+    metrics.forEach(metric => {
+      // Label
+      ctx.font = '20px system-ui';
+      ctx.fillStyle = '#64748b';
+      ctx.textAlign = 'left';
+      ctx.fillText(metric.label, 100, metric.y);
+      
+      // Value
+      ctx.font = 'bold 32px system-ui';
+      ctx.fillStyle = '#1e293b';
+      ctx.textAlign = 'right';
+      ctx.fillText(metric.value, canvas.width - 100, metric.y);
+      
+      // Divider line
+      ctx.strokeStyle = '#e2e8f0';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(100, metric.y + 20);
+      ctx.lineTo(canvas.width - 100, metric.y + 20);
+      ctx.stroke();
+    });
+    
+    // Health score highlight
+    ctx.fillStyle = '#10b981';
+    ctx.beginPath();
+    ctx.roundRect(100, 520, canvas.width - 200, 120, 8);
+    ctx.fill();
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 42px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText(data.healthValue + ' Health Score', canvas.width / 2, 590);
+    
+    // Simple balance indicator
+    ctx.fillStyle = '#64748b';
+    ctx.font = '18px system-ui';
+    ctx.fillText(data.balanceStatus, canvas.width / 2, 720);
+  }
+
+  drawGradientContent(ctx, canvas, data) {
+    // Colorful, modern design
+    const containerPadding = 50;
+    const containerY = 80;
+    
+    // Semi-transparent overlay
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.beginPath();
+    ctx.roundRect(containerPadding, containerY, canvas.width - (containerPadding * 2), canvas.height - 160, 25);
+    ctx.fill();
+    
+    // Header with shadow
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    ctx.font = 'bold 44px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('Financial Dashboard', canvas.width / 2 + 2, containerY + 52);
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('Financial Dashboard', canvas.width / 2, containerY + 50);
+    
+    // Colorful metric cards in grid
+    const cardSize = 180;
+    const spacing = 50;
+    const startX = (canvas.width - (cardSize * 2 + spacing)) / 2;
+    const startY = containerY + 120;
+    
+    const metrics = [
+      {label: 'Goals', value: data.totalCost, color: '#ff6b6b', x: startX, y: startY},
+      {label: 'Monthly', value: data.monthlyNeeded, color: '#4ecdc4', x: startX + cardSize + spacing, y: startY},
+      {label: 'Timeline', value: data.timeRequired, color: '#45b7d1', x: startX, y: startY + cardSize + spacing},
+      {label: 'Rate', value: data.savingsRate, color: '#f9ca24', x: startX + cardSize + spacing, y: startY + cardSize + spacing}
+    ];
+    
+    metrics.forEach(metric => {
+      // Shadow
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.beginPath();
+      ctx.roundRect(metric.x + 5, metric.y + 5, cardSize, cardSize, 20);
+      ctx.fill();
+      
+      // Card
+      ctx.fillStyle = metric.color;
+      ctx.beginPath();
+      ctx.roundRect(metric.x, metric.y, cardSize, cardSize, 20);
+      ctx.fill();
+      
+      // Value
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 24px system-ui';
+      ctx.textAlign = 'center';
+      ctx.fillText(metric.value, metric.x + cardSize/2, metric.y + cardSize/2 - 10);
+      
+      // Label
+      ctx.font = '16px system-ui';
+      ctx.fillText(metric.label, metric.x + cardSize/2, metric.y + cardSize/2 + 15);
+    });
+    
+    // Health score at center
+    const centerX = canvas.width / 2;
+    const centerY = startY + cardSize/2 + spacing/2;
+    
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, 60, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 24px system-ui';
+    ctx.fillText(data.healthValue, centerX, centerY - 5);
+    
+    ctx.font = '12px system-ui';
+    ctx.fillStyle = '#64748b';
+    ctx.fillText('Health', centerX, centerY + 15);
+  }
+
+  drawCircularMetrics(ctx, canvas, data, containerY) {
+    const centerX = canvas.width / 2;
+    const centerY = containerY + 320;
+    const radius = 140;
+    
+    const metrics = [
+      {label: 'TOTAL GOALS', value: data.totalCost, icon: '🎯', color: '#ff6b6b', angle: 0},
+      {label: 'MONTHLY SIP', value: data.monthlyNeeded, icon: '💰', color: '#4ecdc4', angle: Math.PI / 2},
+      {label: 'TIME FRAME', value: data.timeRequired, icon: '⏰', color: '#45b7d1', angle: Math.PI},
+      {label: 'SAVINGS RATE', value: data.savingsRate, icon: '📈', color: '#f9ca24', angle: (3 * Math.PI) / 2}
+    ];
+    
+    metrics.forEach(metric => {
+      const x = centerX + Math.cos(metric.angle) * radius;
+      const y = centerY + Math.sin(metric.angle) * radius;
+      const cardSize = 120;
+      
+      // Card shadow
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.beginPath();
+      ctx.roundRect(x - cardSize/2 + 3, y - cardSize/2 + 3, cardSize, cardSize, 15);
+      ctx.fill();
+      
+      // Card
+      ctx.fillStyle = metric.color;
+      ctx.beginPath();
+      ctx.roundRect(x - cardSize/2, y - cardSize/2, cardSize, cardSize, 15);
+      ctx.fill();
+      
+      // Content
+      ctx.font = '32px system-ui';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(metric.icon, x, y - 15);
+      
+      ctx.font = 'bold 16px system-ui';
+      ctx.fillText(metric.value, x, y + 10);
+      
+      ctx.font = '10px system-ui';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fillText(metric.label, x, y + 25);
+    });
+    
+    // Central health score
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, 80, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, 77, 0, 2 * Math.PI);
+    ctx.stroke();
+    
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 28px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText(data.healthValue, centerX, centerY - 5);
+    
+    ctx.font = '12px system-ui';
+    ctx.fillStyle = '#64748b';
+    ctx.fillText('HEALTH SCORE', centerX, centerY + 15);
+  }
+
+  drawDashboardContent(ctx, canvas, data) {
+    const padding = 50;
+    
+    // Header section with title and health badge
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 32px system-ui';
+    ctx.textAlign = 'left';
+    ctx.fillText('💰 FINANCIAL DASHBOARD', padding, 70);
+    
+    // Health score badge (top right)
+    const badgeWidth = 260;
+    const badgeHeight = 45;
+    const badgeX = canvas.width - badgeWidth - padding;
+    const badgeY = 35;
+    
+    const healthPercent = parseFloat(data.healthValue.replace('%', '')) || 0;
+    let badgeColor = '#10b981';
+    if (healthPercent < 50) badgeColor = '#ef4444';
+    else if (healthPercent < 75) badgeColor = '#f59e0b';
+    
+    ctx.fillStyle = badgeColor;
+    ctx.beginPath();
+    ctx.roundRect(badgeX, badgeY, badgeWidth, badgeHeight, 22);
+    ctx.fill();
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 16px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText(`+${data.healthValue} Financial Health`, badgeX + badgeWidth/2, badgeY + 28);
+    
+    // Subtitle
+    ctx.fillStyle = '#64748b';
+    ctx.font = '15px system-ui';
+    ctx.textAlign = 'left';
+    const currentDate = new Date().toLocaleDateString('en-US', { 
+      year: 'numeric', month: 'long', day: 'numeric' 
+    });
+    ctx.fillText(`${currentDate} | Complete Financial Analysis & Life Balance Assessment`, padding, 95);
+    
+    // === WORK ↔ LIFE BALANCE SECTION ===
+    const balanceY = 130;
+    const balanceWidth = 500;
+    const balanceHeight = 100;
+    
+    // Balance card background
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.roundRect(padding, balanceY, balanceWidth, balanceHeight, 15);
+    ctx.fill();
+    ctx.strokeStyle = '#e2e8f0';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    
+    // Balance title
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 18px system-ui';
+    ctx.textAlign = 'left';
+    ctx.fillText('⚖️ Work ↔ Life Balance', padding + 20, balanceY + 30);
+    
+    // Balance meter
+    const meterX = padding + 20;
+    const meterY = balanceY + 45;
+    const meterWidth = balanceWidth - 40;
+    const meterHeight = 8;
+    
+    // Meter gradient
+    const meterGradient = ctx.createLinearGradient(meterX, meterY, meterX + meterWidth, meterY);
+    meterGradient.addColorStop(0, '#ef4444');
+    meterGradient.addColorStop(0.5, '#f59e0b');
+    meterGradient.addColorStop(1, '#10b981');
+    
+    ctx.fillStyle = meterGradient;
+    ctx.beginPath();
+    ctx.roundRect(meterX, meterY, meterWidth, meterHeight, 4);
+    ctx.fill();
+    
+    // Balance indicator
+    const balanceIndicator = document.getElementById('balance-indicator');
+    let balancePosition = 50;
+    if (balanceIndicator && balanceIndicator.style.left) {
+      const leftStyle = balanceIndicator.style.left;
+      if (leftStyle && leftStyle !== '50%') {
+        balancePosition = parseInt(leftStyle.replace('%', ''));
+      }
+    }
+    
+    const indicatorX = meterX + (meterWidth * balancePosition / 100);
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(indicatorX, meterY + meterHeight/2, 8, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.strokeStyle = '#374151';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+    // Balance status
+    ctx.fillStyle = '#64748b';
+    ctx.font = '14px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText(data.balanceStatus, meterX + meterWidth/2, meterY + 30);
+    
+    // === KEY METRICS SECTION ===
+    const metricsY = balanceY + balanceHeight + 30;
+    
+    // Key Metrics title
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 20px system-ui';
+    ctx.textAlign = 'left';
+    ctx.fillText('📊 Key Metrics', padding, metricsY);
+    
+    // Four key metric cards in a row
+    const metricCardWidth = (canvas.width - (padding * 2) - 60) / 4;
+    const metricCardHeight = 90;
+    const metricSpacing = 20;
+    const metricY = metricsY + 30;
+    
+    const keyMetrics = [
+      {label: 'Total Goal Cost', value: data.totalCost, color: '#3b82f6', icon: '🎯'},
+      {label: 'Monthly Needed', value: data.monthlyNeeded, color: '#10b981', icon: '💰'},
+      {label: 'Time Required', value: data.timeRequired, color: '#8b5cf6', icon: '⏰'},
+      {label: 'Savings Rate', value: data.savingsRate, color: '#f59e0b', icon: '📈'}
+    ];
+    
+    keyMetrics.forEach((metric, index) => {
+      const metricX = padding + (metricCardWidth + metricSpacing) * index;
+      
+      // Card background
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.roundRect(metricX, metricY, metricCardWidth, metricCardHeight, 12);
+      ctx.fill();
+      ctx.strokeStyle = '#e2e8f0';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      
+      // Left colored accent
+      ctx.fillStyle = metric.color;
+      ctx.fillRect(metricX, metricY, 4, metricCardHeight);
+      
+      // Icon
+      ctx.font = '20px system-ui';
+      ctx.textAlign = 'left';
+      ctx.fillText(metric.icon, metricX + 15, metricY + 30);
+      
+      // Value
+      ctx.fillStyle = metric.color;
+      ctx.font = 'bold 18px system-ui';
+      ctx.textAlign = 'center';
+      ctx.fillText(metric.value, metricX + metricCardWidth/2, metricY + 35);
+      
+      // Label
+      ctx.font = '11px system-ui';
+      ctx.fillStyle = '#64748b';
+      ctx.fillText(metric.label, metricX + metricCardWidth/2, metricY + 55);
+    });
+    
+    // === FINANCIAL HEALTH SECTION ===
+    const healthSectionY = metricY + metricCardHeight + 30;
+    const healthSectionWidth = canvas.width - (padding * 2);
+    const healthSectionHeight = 110;
+    
+    // Health section background
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.roundRect(padding, healthSectionY, healthSectionWidth, healthSectionHeight, 15);
+    ctx.fill();
+    ctx.strokeStyle = '#e2e8f0';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    
+    // Health title
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 20px system-ui';
+    ctx.textAlign = 'left';
+    ctx.fillText('🏆 Financial Health', padding + 20, healthSectionY + 30);
+    
+    // Health score circle (centered)
+    const healthCircleX = padding + healthSectionWidth/2;
+    const healthCircleY = healthSectionY + 65;
+    const healthRadius = 35;
+    
+    // Health circle background
+    ctx.fillStyle = '#f8fafc';
+    ctx.beginPath();
+    ctx.arc(healthCircleX, healthCircleY, healthRadius, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Health circle border
+    ctx.strokeStyle = badgeColor;
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(healthCircleX, healthCircleY, healthRadius - 2, 0, 2 * Math.PI);
+    ctx.stroke();
+    
+    // Health percentage
+    ctx.fillStyle = badgeColor;
+    ctx.font = 'bold 20px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText(data.healthValue, healthCircleX, healthCircleY + 5);
+    
+    // Health progress bar
+    const healthBarY = healthSectionY + 45;
+    const healthBarWidth = healthSectionWidth - 200;
+    const healthBarX = padding + 100;
+    const healthBarHeight = 6;
+    
+    // Progress bar background
+    ctx.fillStyle = '#e2e8f0';
+    ctx.beginPath();
+    ctx.roundRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight, 3);
+    ctx.fill();
+    
+    // Progress bar fill
+    const healthProgress = healthPercent / 100;
+    ctx.fillStyle = badgeColor;
+    ctx.beginPath();
+    ctx.roundRect(healthBarX, healthBarY, healthBarWidth * healthProgress, healthBarHeight, 3);
+    ctx.fill();
+    
+    // === SUMMARY HIGHLIGHT SECTION ===
+    const summaryY = healthSectionY + healthSectionHeight + 25;
+    const summaryHeight = 70;
+    
+    ctx.fillStyle = '#8b5cf6';
+    ctx.beginPath();
+    ctx.roundRect(padding, summaryY, healthSectionWidth, summaryHeight, 15);
+    ctx.fill();
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 28px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText(data.totalCost, canvas.width/2, summaryY + 30);
+    
+    ctx.font = '14px system-ui';
+    ctx.fillText('Total Financial Goals - Your Investment Journey Starts Here!', canvas.width/2, summaryY + 50);
+    
+    // === RIGHT SIDE PROGRESS INDICATORS ===
+    const rightX = padding + 520;
+    const rightWidth = canvas.width - rightX - padding;
+    
+    // Progress title
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 16px system-ui';
+    ctx.textAlign = 'left';
+    ctx.fillText('📈 Monthly Progress', rightX, balanceY + 25);
+    
+    // Create small progress boxes
+    const progressBoxes = [
+      {label: 'Health', value: data.healthValue, color: badgeColor},
+      {label: 'Balance', value: balancePosition > 60 ? 'Good' : 'Moderate', color: '#3b82f6'},
+      {label: 'Goals', value: 'Active', color: '#10b981'},
+      {label: 'Track', value: '✓', color: '#8b5cf6'}
+    ];
+    
+    const progressBoxSize = (rightWidth - 15) / 2;
+    const progressSpacing = 15;
+    
+    progressBoxes.forEach((box, index) => {
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      const boxX = rightX + col * (progressBoxSize + progressSpacing);
+      const boxY = balanceY + 45 + row * (progressBoxSize + progressSpacing);
+      
+      ctx.fillStyle = box.color;
+      ctx.beginPath();
+      ctx.roundRect(boxX, boxY, progressBoxSize, progressBoxSize, 12);
+      ctx.fill();
+      
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 16px system-ui';
+      ctx.textAlign = 'center';
+      ctx.fillText(box.value, boxX + progressBoxSize/2, boxY + progressBoxSize/2 - 5);
+      
+      ctx.font = '10px system-ui';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fillText(box.label, boxX + progressBoxSize/2, boxY + progressBoxSize/2 + 10);
+    });
+    
+    // Footer branding
+    ctx.fillStyle = '#64748b';
+    ctx.font = '12px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('Advanced Goal Alignment Calculator - Complete Financial Dashboard', canvas.width/2, canvas.height - 25);
+  }
+
+  drawBalanceMeter(ctx, canvas, data, y, bgColor) {
+    const statusBarWidth = canvas.width - 160;
+    const statusBarX = 80;
+    const statusBarHeight = 50;
+    
+    // Status background
+    ctx.fillStyle = bgColor;
+    ctx.beginPath();
+    ctx.roundRect(statusBarX, y, statusBarWidth, statusBarHeight, 25);
+    ctx.fill();
+    
+    // Status text
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 18px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('⚖️ ' + data.balanceStatus, canvas.width / 2, y + 32);
+    
+    // Meter
+    const meterY = y + 70;
+    const meterWidth = statusBarWidth - 100;
+    const meterHeight = 8;
+    const meterX = statusBarX + 50;
+    
+    // Meter gradient
+    const meterGradient = ctx.createLinearGradient(meterX, meterY, meterX + meterWidth, meterY);
+    meterGradient.addColorStop(0, '#ef4444');
+    meterGradient.addColorStop(0.5, '#f59e0b');
+    meterGradient.addColorStop(1, '#10b981');
+    
+    ctx.fillStyle = meterGradient;
+    ctx.beginPath();
+    ctx.roundRect(meterX, meterY, meterWidth, meterHeight, 4);
+    ctx.fill();
+    
+    // Balance indicator
+    const balanceIndicator = document.getElementById('balance-indicator');
+    let balancePosition = 50;
+    if (balanceIndicator && balanceIndicator.style.left) {
+      const leftStyle = balanceIndicator.style.left;
+      if (leftStyle && leftStyle !== '50%') {
+        balancePosition = parseInt(leftStyle.replace('%', ''));
+      }
+    }
+    
+    const indicatorX = meterX + (meterWidth * balancePosition / 100);
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(indicatorX, meterY + meterHeight/2, 8, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.strokeStyle = '#374151';
+    ctx.lineWidth = 2;
+    ctx.stroke();
   }
 
   // Helper function to wrap text for canvas

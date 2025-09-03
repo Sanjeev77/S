@@ -196,9 +196,23 @@ class UIManager {
       this.activeTab = tabName;
     }
 
-    // On mobile, ensure we're on the home section before scrolling
+    // On mobile, check if user is actively filling forms before doing any navigation
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {
+      const activeElement = document.activeElement;
+      const isInputFocused = activeElement && (
+        activeElement.tagName === 'INPUT' || 
+        activeElement.tagName === 'TEXTAREA' || 
+        activeElement.tagName === 'SELECT'
+      );
+      
+      // If user is actively typing, don't do any section switching or scrolling
+      if (isInputFocused) {
+        // Just show a gentle toast without disrupting the user
+        this.showToast(`Tab switched to ${tabName} - continue filling the form`, 'info');
+        return;
+      }
+      
       // Make sure home section is visible on mobile
       const homeSection = document.getElementById('home-section');
       const resultsSection = document.getElementById('results-section');
@@ -214,23 +228,11 @@ class UIManager {
           homeMobileNav.classList.add('active');
         }
       }
-    }
-
-    // Add delay for mobile to ensure section switching is complete, but only if user isn't actively filling forms
-    if (isMobile) {
-      const activeElement = document.activeElement;
-      const isInputFocused = activeElement && (
-        activeElement.tagName === 'INPUT' || 
-        activeElement.tagName === 'TEXTAREA' || 
-        activeElement.tagName === 'SELECT'
-      );
       
-      // Only auto-scroll if user isn't actively typing
-      if (!isInputFocused) {
-        setTimeout(() => {
-          this.scrollToSection(tabName);
-        }, 100);
-      }
+      // Add delay for mobile to ensure section switching is complete
+      setTimeout(() => {
+        this.scrollToSection(tabName);
+      }, 100);
     } else {
       this.scrollToSection(tabName);
     }
