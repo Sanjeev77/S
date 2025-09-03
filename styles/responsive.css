@@ -1100,33 +1100,12 @@
     font-size: 14px !important;
   }
   
-  /* PIE CHART METRICS MOBILE FIXES - Simplified approach */
-  .pie-chart-wrapper {
+  /* Minimal Goal Chart Mobile Fixes - Only essential constraints */
+  #goal-chart,
+  .goal-chart-container {
     max-width: 100% !important;
-    overflow: visible !important;
+    overflow-x: hidden !important;
     box-sizing: border-box !important;
-  }
-  
-  .pie-chart-metrics {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow: visible !important;
-    box-sizing: border-box !important;
-  }
-  
-  /* Focus only on the container width and spacing issues */
-  #goal-chart .pie-chart-metrics,
-  .goal-chart-container .pie-chart-metrics {
-    width: 100% !important;
-    max-width: calc(100vw - 30px) !important;
-    overflow: visible !important;
-    padding: 0 !important;
-  }
-  
-  /* Only target the most critical spacing issues */
-  #goal-chart [style*="margin-bottom"][style*="6px"],
-  .goal-chart-container [style*="margin-bottom"][style*="6px"] {
-    margin-bottom: 4px !important;
   }
   
   /* GOAL SLIDER MOBILE FIXES - Fix clipping of blue circles */
