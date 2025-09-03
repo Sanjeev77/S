@@ -940,14 +940,14 @@ class UIManager {
 
     visibleGoals.forEach(segment => {
       html += `
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: ${isMobile ? '8px 10px' : '4px 8px'}; margin-bottom: ${isMobile ? '6px' : '3px'}; background: #f8f9fa; border-radius: 6px; border-left: 3px solid ${segment.color}; width: 100%; max-width: 100%; box-sizing: border-box; overflow: visible;">
-          <div style="display: flex; align-items: center; min-width: 0; flex: 1; margin-right: ${isMobile ? '10px' : '8px'}; overflow: visible;">
-            <i class="${segment.icon}" style="margin-right: ${isMobile ? '8px' : '6px'}; color: ${segment.color}; width: ${isMobile ? '14px' : '12px'}; font-size: ${isMobile ? '0.9rem' : '0.8rem'}; flex-shrink: 0;"></i>
-            <span style="font-weight: 600; color: #333; font-size: ${isMobile ? '0.85rem' : '0.75rem'}; ${isMobile ? 'word-wrap: break-word; overflow-wrap: break-word; line-height: 1.2;' : 'white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'}">${segment.title}</span>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: ${isMobile ? '6px 8px' : '4px 8px'}; margin-bottom: ${isMobile ? '4px' : '3px'}; background: #f8f9fa; border-radius: 6px; border-left: 3px solid ${segment.color};">
+          <div style="display: flex; align-items: center; flex: 1; min-width: 0; margin-right: ${isMobile ? '8px' : '6px'};">
+            <i class="${segment.icon}" style="margin-right: ${isMobile ? '6px' : '4px'}; color: ${segment.color}; font-size: ${isMobile ? '0.9rem' : '0.8rem'}; flex-shrink: 0;"></i>
+            <span style="font-weight: 600; color: #333; font-size: ${isMobile ? '0.8rem' : '0.75rem'}; line-height: 1.3; flex: 1; min-width: 0; ${isMobile ? '' : 'white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'}">${segment.title}</span>
           </div>
-          <div style="text-align: right; flex-shrink: 0; min-width: ${isMobile ? '85px' : '70px'}; max-width: ${isMobile ? '120px' : '100px'}; white-space: nowrap; overflow: visible;">
-            <div style="font-weight: bold; color: #333; font-size: ${isMobile ? '0.85rem' : '0.75rem'}; line-height: 1.2; margin-bottom: 2px;">${segment.percentage.toFixed(1)}%</div>
-            <div style="color: #666; font-size: ${isMobile ? '0.75rem' : '0.7rem'}; line-height: 1.1;">${this.formatCompactCurrency(segment.amount)}</div>
+          <div style="text-align: right; flex-shrink: 0; min-width: ${isMobile ? '75px' : '65px'};">
+            <div style="font-weight: bold; color: #333; font-size: ${isMobile ? '0.8rem' : '0.75rem'}; line-height: 1.2;">${segment.percentage.toFixed(1)}%</div>
+            <div style="color: #666; font-size: ${isMobile ? '0.7rem' : '0.65rem'}; line-height: 1.1;">${this.formatCompactCurrency(segment.amount)}</div>
           </div>
         </div>
       `;
