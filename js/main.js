@@ -144,9 +144,15 @@ class FinancialPlannerApp {
     if (section === 'home') {
       homeSection.classList.remove('mobile-hidden');
       resultsSection.classList.add('mobile-hidden');
+      // Scroll to top when switching to home
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (section === 'results') {
       homeSection.classList.add('mobile-hidden');
       resultsSection.classList.remove('mobile-hidden');
+      // Scroll to top when switching to results
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
     }
   }
 

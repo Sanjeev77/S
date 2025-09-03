@@ -13,6 +13,7 @@ class UIManager {
     this.setupModalHandlers();
     this.setupFormValidation();
     this.setupInvestmentFieldHandlers();
+    this.setupResizeHandler();
   }
 
   // NEW: Setup investment field handlers
@@ -161,6 +162,20 @@ class UIManager {
     }
   }
 
+  // NEW: Setup window resize handler for responsive chart
+  setupResizeHandler() {
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        // Re-render chart if it exists to handle mobile/desktop switching
+        if (window.lastGoalsData) {
+          this.updateVisualization(window.lastGoalsData);
+        }
+      }, 250);
+    });
+  }
+
   setupTabNavigation() {
     const tabs = document.querySelectorAll('.tab');
     tabs.forEach(tab => {
@@ -181,7 +196,35 @@ class UIManager {
       this.activeTab = tabName;
     }
 
-    this.scrollToSection(tabName);
+    // On mobile, ensure we're on the home section before scrolling
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      // Make sure home section is visible on mobile
+      const homeSection = document.getElementById('home-section');
+      const resultsSection = document.getElementById('results-section');
+      if (homeSection && resultsSection) {
+        homeSection.classList.remove('mobile-hidden');
+        resultsSection.classList.add('mobile-hidden');
+        
+        // Update mobile nav to show home as active
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+        mobileNavItems.forEach(nav => nav.classList.remove('active'));
+        const homeMobileNav = document.querySelector('.mobile-nav-item[data-section="home"]');
+        if (homeMobileNav) {
+          homeMobileNav.classList.add('active');
+        }
+      }
+    }
+
+    // Add delay for mobile to ensure section switching is complete
+    if (isMobile) {
+      setTimeout(() => {
+        this.scrollToSection(tabName);
+      }, 100);
+    } else {
+      this.scrollToSection(tabName);
+    }
+    
     this.showToast(`Viewing ${tabName} section`, 'info');
   }
 
@@ -189,16 +232,18 @@ class UIManager {
     let targetElement = null;
     
     const sectionMap = {
-      'goals': ['goals', 'your goals', 'flag'],
-      'finances': ['finances', 'monthly finances', 'money-bill-wave'],
-      'investments': ['investment', 'assumptions', 'chart-line', 'returns'],
-      'visualization': ['visualization', 'chart-bar', 'goal visualization']
+      'goals': ['your goals', 'goals', 'flag'],
+      'finances': ['monthly finances', 'finances', 'money-bill-wave'],
+      'investments': ['investment assumptions', 'investment', 'assumptions', 'chart-line'],
+      'visualization': ['goal visualization', 'visualization', 'chart-bar']
     };
     
     const searchTerms = sectionMap[tabName] || [tabName];
     const sections = document.querySelectorAll('.section');
     
-    sections.forEach((section) => {
+    sections.forEach((section, index) => {
+      if (targetElement) return; // Stop searching once found
+      
       const sectionTitle = section.querySelector('.section-title');
       if (sectionTitle) {
         const titleText = sectionTitle.textContent.toLowerCase();
@@ -213,20 +258,20 @@ class UIManager {
     });
 
     if (targetElement) {
-      targetElement.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start',
-        inline: 'nearest'
+      
+      const isMobile = window.innerWidth <= 768;
+      const headerOffset = isMobile ? 120 : 80; // Account for mobile navigation
+      
+      // Get the target position
+      const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      
+      // Scroll to the target with proper offset
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
       });
       
-      setTimeout(() => {
-        const currentPosition = window.pageYOffset;
-        window.scrollTo({
-          top: currentPosition - 50,
-          behavior: 'smooth'
-        });
-      }, 100);
-      
+      // Highlight the section
       targetElement.style.transition = 'background-color 0.5s ease';
       targetElement.style.backgroundColor = 'rgba(102, 126, 234, 0.1)';
       
@@ -235,7 +280,12 @@ class UIManager {
       }, 2000);
       
     } else {
-      this.fallbackScroll(tabName);
+      // Fallback: scroll to top of page if section not found
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      this.showToast(`Section "${tabName}" not found`, 'error');
     }
   }
   
@@ -754,6 +804,9 @@ class UIManager {
     const chartContainer = document.getElementById('goal-chart');
     if (!chartContainer) return;
 
+    // Store goals data for resize handling
+    window.lastGoalsData = goalsData;
+
     const activeGoals = Object.keys(goalsData).filter(goalId => goalsData[goalId].enabled);
     const totalValue = activeGoals.reduce((sum, goalId) => sum + goalsData[goalId].amount, 0);
 
@@ -782,15 +835,16 @@ class UIManager {
 
   // ENHANCED: Pie chart with investment context
   renderEnhancedPieChart(container, data, totalValue) {
-    const size = 180;
+    const isMobile = window.innerWidth <= 768;
+    const size = isMobile ? 200 : 180; // Larger size on mobile
     const center = size / 2;
     const radius = size * 0.4;
     const innerRadius = radius * 0.5;
 
     let html = `
-      <div style="display: flex; align-items: flex-start; justify-content: space-between; padding: 10px; gap: 15px;">
-        <div style="flex-shrink: 0;">
-          <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+      <div class="pie-chart-wrapper" style="display: flex; ${isMobile ? 'flex-direction: column; align-items: center;' : 'align-items: flex-start; justify-content: space-between;'} padding: ${isMobile ? '15px 10px' : '10px'}; gap: ${isMobile ? '20px' : '15px'};">
+        <div class="pie-chart-svg" style="${isMobile ? 'flex-shrink: 0;' : 'flex-shrink: 0;'}">
+          <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="max-width: 100%; height: auto;">
     `;
 
     let currentAngle = 0;
@@ -844,11 +898,11 @@ class UIManager {
       <text x="${center}" y="${center + 10}" text-anchor="middle" font-size="11" fill="#666">
         ${UTILS.formatCurrency(totalValue)}
       </text>
-      </svg>
-    </div>
-    
-    <div style="flex: 1; min-width: 0; max-height: 180px; overflow-y: auto;">
-      <div style="margin-bottom: 10px;">
+          </svg>
+        </div>
+        
+        <div class="pie-chart-metrics" style="${isMobile ? 'width: 100%; max-width: 400px;' : 'flex: 1; min-width: 0;'} ${isMobile ? '' : 'max-height: 180px; overflow-y: auto;'}">
+          <div style="margin-bottom: ${isMobile ? '15px' : '10px'};">
     `;
 
     const visibleGoals = data.slice(0, 4);
@@ -856,14 +910,14 @@ class UIManager {
 
     visibleGoals.forEach(segment => {
       html += `
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 4px 8px; margin-bottom: 3px; background: #f8f9fa; border-radius: 6px; border-left: 3px solid ${segment.color};">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: ${isMobile ? '8px 12px' : '4px 8px'}; margin-bottom: ${isMobile ? '6px' : '3px'}; background: #f8f9fa; border-radius: 6px; border-left: 3px solid ${segment.color};">
           <div style="display: flex; align-items: center; min-width: 0; flex: 1;">
-            <i class="${segment.icon}" style="margin-right: 6px; color: ${segment.color}; width: 12px; font-size: 0.8rem;"></i>
-            <span style="font-weight: 600; color: #333; font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${segment.title}</span>
+            <i class="${segment.icon}" style="margin-right: ${isMobile ? '10px' : '6px'}; color: ${segment.color}; width: ${isMobile ? '16px' : '12px'}; font-size: ${isMobile ? '1rem' : '0.8rem'};"></i>
+            <span style="font-weight: 600; color: #333; font-size: ${isMobile ? '0.9rem' : '0.75rem'}; ${isMobile ? '' : 'white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'}">${segment.title}</span>
           </div>
-          <div style="text-align: right; flex-shrink: 0; margin-left: 8px;">
-            <div style="font-weight: bold; color: #333; font-size: 0.75rem;">${segment.percentage.toFixed(1)}%</div>
-            <div style="color: #666; font-size: 0.7rem;">${this.formatCompactCurrency(segment.amount)}</div>
+          <div style="text-align: right; flex-shrink: 0; margin-left: ${isMobile ? '12px' : '8px'};">
+            <div style="font-weight: bold; color: #333; font-size: ${isMobile ? '0.9rem' : '0.75rem'};">${segment.percentage.toFixed(1)}%</div>
+            <div style="color: #666; font-size: ${isMobile ? '0.8rem' : '0.7rem'};">${this.formatCompactCurrency(segment.amount)}</div>
           </div>
         </div>
       `;
@@ -874,14 +928,14 @@ class UIManager {
       const hiddenPercentage = hiddenGoals.reduce((sum, goal) => sum + goal.percentage, 0);
       
       html += `
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 4px 8px; margin-bottom: 3px; background: #e9ecef; border-radius: 6px; border-left: 3px solid #6c757d;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: ${isMobile ? '8px 12px' : '4px 8px'}; margin-bottom: ${isMobile ? '6px' : '3px'}; background: #e9ecef; border-radius: 6px; border-left: 3px solid #6c757d;">
           <div style="display: flex; align-items: center;">
-            <i class="fas fa-ellipsis-h" style="margin-right: 6px; color: #6c757d; width: 12px; font-size: 0.8rem;"></i>
-            <span style="font-weight: 600; color: #666; font-size: 0.75rem;">+${hiddenGoals.length} more</span>
+            <i class="fas fa-ellipsis-h" style="margin-right: ${isMobile ? '10px' : '6px'}; color: #6c757d; width: ${isMobile ? '16px' : '12px'}; font-size: ${isMobile ? '1rem' : '0.8rem'};"></i>
+            <span style="font-weight: 600; color: #666; font-size: ${isMobile ? '0.9rem' : '0.75rem'};">+${hiddenGoals.length} more</span>
           </div>
           <div style="text-align: right;">
-            <div style="font-weight: bold; color: #666; font-size: 0.75rem;">${hiddenPercentage.toFixed(1)}%</div>
-            <div style="color: #888; font-size: 0.7rem;">${this.formatCompactCurrency(hiddenTotal)}</div>
+            <div style="font-weight: bold; color: #666; font-size: ${isMobile ? '0.9rem' : '0.75rem'};">${hiddenPercentage.toFixed(1)}%</div>
+            <div style="color: #888; font-size: ${isMobile ? '0.8rem' : '0.7rem'};">${this.formatCompactCurrency(hiddenTotal)}</div>
           </div>
         </div>
       `;
@@ -890,14 +944,14 @@ class UIManager {
     html += `
           </div>
           
-          <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 6px; padding: 8px; font-size: 0.75rem;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-              <span><i class="fas fa-coins" style="margin-right: 4px; font-size: 0.7rem;"></i>Total</span>
+          <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 6px; padding: ${isMobile ? '12px' : '8px'}; font-size: ${isMobile ? '0.9rem' : '0.75rem'}; ${isMobile ? 'margin-top: 15px;' : ''}">
+            <div style="display: flex; justify-content: space-between; margin-bottom: ${isMobile ? '6px' : '4px'};">
+              <span><i class="fas fa-coins" style="margin-right: ${isMobile ? '6px' : '4px'}; font-size: ${isMobile ? '0.85rem' : '0.7rem'};"></i>Total</span>
               <span style="font-weight: bold;">${this.formatCompactCurrency(totalValue)}</span>
             </div>
             <div style="display: flex; justify-content: space-between;">
-              <span><i class="fas fa-chart-line" style="margin-right: 4px; font-size: 0.7rem;"></i>Top</span>
-              <span style="font-weight: bold;">${data[0].title.length > 8 ? data[0].title.substring(0, 8) + '...' : data[0].title}</span>
+              <span><i class="fas fa-chart-line" style="margin-right: ${isMobile ? '6px' : '4px'}; font-size: ${isMobile ? '0.85rem' : '0.7rem'};"></i>Top</span>
+              <span style="font-weight: bold;">${isMobile && data[0].title.length > 12 ? data[0].title.substring(0, 12) + '...' : data[0].title.length > 8 ? data[0].title.substring(0, 8) + '...' : data[0].title}</span>
             </div>
           </div>
         </div>
@@ -908,11 +962,12 @@ class UIManager {
   }
 
   showEmptyChart(container) {
+    const isMobile = window.innerWidth <= 768;
     container.innerHTML = `
-      <div style="text-align: center; padding: 40px 20px; color: #6c757d;">
-        <i class="fas fa-chart-pie" style="font-size: 4rem; margin-bottom: 15px; opacity: 0.3;"></i>
-        <p style="font-size: 1.1rem; margin-bottom: 8px;">No active goals</p>
-        <p style="font-size: 0.9rem;">Enable goals above to see visualization</p>
+      <div style="text-align: center; padding: ${isMobile ? '30px 15px' : '40px 20px'}; color: #6c757d;">
+        <i class="fas fa-chart-pie" style="font-size: ${isMobile ? '3rem' : '4rem'}; margin-bottom: 15px; opacity: 0.3;"></i>
+        <p style="font-size: ${isMobile ? '1rem' : '1.1rem'}; margin-bottom: 8px;">No active goals</p>
+        <p style="font-size: ${isMobile ? '0.85rem' : '0.9rem'};">Enable goals above to see visualization</p>
       </div>
     `;
   }

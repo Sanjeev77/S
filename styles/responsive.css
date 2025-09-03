@@ -100,15 +100,73 @@
   
   .tab {
     white-space: nowrap;
-    padding: 10px 15px;
+    padding: 12px 16px;
     min-width: 120px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .tab:active {
+    background-color: rgba(102, 126, 234, 0.1);
+    transform: scale(0.98);
+    transition: all 0.1s ease;
   }
   
   .section-title {
-    font-size: 1.2rem;
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
+    font-size: 1.2rem !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+    text-align: left !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    display: flex !important;
+  }
+  
+  .section-title span {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  .section-title .info-icon {
+    flex-shrink: 0 !important;
+    margin-left: 8px !important;
+    margin-right: 0 !important;
+    font-size: 1rem !important;
+    padding: 4px !important;
+    border-radius: 50% !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  .section-title .info-icon:hover {
+    background-color: rgba(102, 126, 234, 0.1) !important;
+    transform: scale(1.1) !important;
+  }
+  
+  .section-title .info-icon:active {
+    transform: scale(0.95) !important;
+  }
+  
+  /* Ensure section titles are properly inline on mobile */
+  .section .section-title {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  .section .section-title span {
+    order: 1 !important;
+  }
+  
+  .section .section-title .info-icon {
+    order: 2 !important;
   }
   
   .card {
@@ -152,11 +210,12 @@
   }
   
   .go-to-top {
-    bottom: 20px;
+    bottom: 90px; /* Position above mobile navigation */
     right: 20px;
     width: 45px;
     height: 45px;
     font-size: 16px;
+    z-index: 1040; /* Below mobile nav but above other content */
   }
 }
 
@@ -268,11 +327,12 @@
   }
   
   .go-to-top {
-    bottom: 15px;
+    bottom: 85px; /* Position above mobile navigation */
     right: 15px;
     width: 40px;
     height: 40px;
     font-size: 14px;
+    z-index: 1040; /* Below mobile nav but above other content */
   }
 }
 
@@ -419,7 +479,7 @@
   right: 0;
   background: white;
   border-top: 1px solid #dee2e6;
-  z-index: 1000;
+  z-index: 1050;
   box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
   justify-content: center;
   padding: 8px 0;
@@ -487,7 +547,7 @@
   }
   
   body {
-    padding-bottom: 80px; /* Space for fixed bottom nav */
+    padding-bottom: 200px; /* Space for fixed bottom nav + banner ads */
     padding-top: 0;
   }
   
@@ -543,6 +603,19 @@
   .ad-container.sidebar {
     margin: 15px 0;
     min-height: 100px;
+  }
+  
+  /* Ensure bottom banner ads don't overlap with mobile navigation */
+  .left-panel .ad-container.banner:last-child,
+  .right-panel .ad-container.banner:last-child,
+  .ad-container.banner:has(p:contains("Bottom Banner")) {
+    margin-bottom: 120px !important; /* Extra space above mobile nav */
+  }
+  
+  /* Additional safety for any ads at the end of content */
+  .left-panel > .ad-container:last-of-type,
+  .right-panel > .ad-container:last-of-type {
+    margin-bottom: 120px !important;
   }
   
   /* Add mobile ad between sections */
@@ -644,6 +717,13 @@
     min-height: 100px;
     margin: 10px 0;
   }
+  
+  /* Override for last banner ads to prevent mobile nav overlap */
+  .left-panel > .ad-container.banner:last-of-type,
+  .right-panel > .ad-container.banner:last-of-type,
+  .ad-container.banner:last-child {
+    margin-bottom: 120px !important;
+  }
 }
 
 /* Large screens */
@@ -735,9 +815,11 @@
   
   .section-title {
     font-size: 1.2rem;
-    flex-direction: column;
+    flex-direction: row !important;
     gap: 10px;
-    text-align: center;
+    text-align: left !important;
+    align-items: center !important;
+    justify-content: space-between !important;
   }
   
   .card {

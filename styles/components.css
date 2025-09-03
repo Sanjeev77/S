@@ -802,3 +802,52 @@
 .star.active {
   color: #ffc107;
 }
+
+/* Goal Chart Container - Responsive Layout */
+.goal-chart-container {
+  height: 200px;
+  overflow: hidden;
+}
+
+/* Mobile responsive goal chart */
+@media (max-width: 768px) {
+  .goal-chart-container {
+    height: auto;
+    min-height: 350px;
+    padding: 15px;
+    overflow: visible;
+  }
+  
+  /* Ensure visualization section has proper spacing */
+  .visualization {
+    margin: 20px 0 50px 0; /* Increased bottom margin */
+    padding: 20px;
+  }
+  
+  /* Add spacing before ads to prevent overlap */
+  .section:has(.visualization) {
+    margin-bottom: 60px; /* Increased from 40px */
+  }
+  
+  /* Improved pie chart mobile styles */
+  .pie-chart-wrapper {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 25px !important;
+  }
+  
+  .pie-chart-svg {
+    text-align: center;
+  }
+  
+  .pie-chart-metrics {
+    width: 100% !important;
+    max-width: 450px !important;
+  }
+  
+  /* Better spacing for goal visualization section on mobile */
+  .section:nth-child(4) { /* Assuming visualization is 4th section */
+    margin-bottom: 80px !important;
+    padding-bottom: 30px;
+  }
+}
