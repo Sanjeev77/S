@@ -1078,9 +1078,61 @@
     box-sizing: border-box !important;
   }
   
-  /* Fix Remaining Tenure field layout on mobile */
+  /* Ensure loan container itself is properly constrained */
+  .loan-details-container {
+    padding: 15px !important;
+    margin: 10px 0 !important;
+  }
+  
+  .loan-item {
+    padding: 15px !important;
+    margin-bottom: 15px !important;
+    border-radius: 8px !important;
+  }
+  
+  /* Comprehensive Loan Fields Mobile Layout Fix */
+  .loan-fields {
+    display: block !important; /* Override grid on mobile */
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 0 15px 0 !important;
+    overflow: hidden !important;
+  }
+  
   .loan-fields .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 15px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* All loan input fields mobile sizing */
+  .loan-fields .form-control,
+  .loan-type,
+  .loan-principal,
+  .loan-rate,
+  .loan-emi,
+  .loan-tenure-years,
+  .loan-tenure-months {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 6px !important;
+  }
+  
+  /* Form labels in loan sections */
+  .loan-fields label {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 8px !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
   }
   
   /* Adjust the grid for Years/Months inputs - more specific targeting */
@@ -1127,14 +1179,45 @@
   
   /* Specific tenure grid mobile fixes */
   .tenure-grid {
-    grid-template-columns: minmax(120px, 1.4fr) minmax(100px, 1fr) !important;
+    grid-template-columns: minmax(110px, 1.4fr) minmax(90px, 1fr) !important;
     gap: 10px !important;
-    max-width: calc(100vw - 80px) !important;
+    max-width: 100% !important;
+    width: 100% !important;
     overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Additional safety for small input elements */
+  .loan-fields input[type="number"],
+  .loan-fields select {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: textfield !important;
+  }
+  
+  .loan-fields select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e") !important;
+    background-position: right 8px center !important;
+    background-repeat: no-repeat !important;
+    background-size: 16px 12px !important;
+    padding-right: 32px !important;
   }
   
   /* Responsive adjustments for very small screens */
   @media (max-width: 360px) {
+    .loan-details-container {
+      padding: 10px !important;
+    }
+    
+    .loan-item {
+      padding: 12px !important;
+    }
+    
+    .loan-fields .form-control {
+      padding: 8px 10px !important;
+      font-size: 13px !important;
+    }
+    
     .tenure-grid {
       grid-template-columns: 1.2fr 1fr !important;
       gap: 8px !important;
@@ -1147,6 +1230,10 @@
     .loan-tenure-months {
       min-width: 60px !important;
       font-size: 13px !important;
+    }
+    
+    .loan-fields label {
+      font-size: 0.85rem !important;
     }
   }
   
