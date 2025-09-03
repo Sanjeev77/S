@@ -1066,6 +1066,105 @@
     transform: translateY(0);
   }
   
+  /* GOAL ALLOCATION MOBILE FIXES */
+  /* Fix Goal Controls Layout to prevent right-side trimming */
+  .goal-controls {
+    display: grid !important;
+    grid-template-columns: 1fr minmax(120px, auto) !important;
+    gap: 12px !important;
+    align-items: center !important;
+    margin-bottom: 12px !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+  
+  /* Amount display needs more space for percentage + currency */
+  .amount-display {
+    text-align: right !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--primary) !important;
+    white-space: nowrap !important;
+    min-width: 100px !important;
+    flex-shrink: 0 !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* Goal input field sizing */
+  .goal-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 8px 10px !important;
+    font-size: 14px !important;
+  }
+  
+  /* GOAL SLIDER MOBILE FIXES - Fix clipping of blue circles */
+  .slider {
+    width: 100% !important;
+    height: 6px !important;
+    margin: 10px 0 !important;
+    padding: 0 10px !important;
+    box-sizing: content-box !important;
+    background: transparent !important;
+    overflow: visible !important;
+  }
+  
+  /* Create the track background */
+  .slider:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    right: 10px;
+    height: 6px;
+    background: #dee2e6;
+    border-radius: 3px;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+  
+  /* Ensure slider thumb has proper space and doesn't get clipped */
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    width: 18px !important;
+    height: 18px !important;
+    border-radius: 50% !important;
+    background: var(--primary) !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+    transition: all 0.3s !important;
+    position: relative !important;
+    z-index: 2 !important;
+    margin-top: -6px !important;
+  }
+  
+  .slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1) !important;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3) !important;
+  }
+  
+  /* Firefox slider fixes */
+  .slider::-moz-range-thumb {
+    width: 18px !important;
+    height: 18px !important;
+    border-radius: 50% !important;
+    background: var(--primary) !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+    border: none !important;
+    margin-top: -6px !important;
+  }
+  
+  .slider::-moz-range-track {
+    height: 6px !important;
+    background: #dee2e6 !important;
+    border-radius: 3px !important;
+    border: none !important;
+  }
+  
   /* Loan Details Mobile Fixes */
   .loan-details-container,
   .loan-item,
