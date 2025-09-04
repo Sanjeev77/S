@@ -791,15 +791,6 @@ input[type="range"].slider:disabled,
 .toast.warning { border-left: 4px solid var(--warning); }
 .toast.info { border-left: 4px solid var(--info); }
 
-/* Balance Meter Gradient - UPDATED */
-.meter-container {
-  position: relative;
-  height: 14px;
-  background: linear-gradient(to right, #ef4444, #f59e0b, #10b981);
-  border-radius: 7px;
-  margin: 15px 0;
-  overflow: hidden;
-}
 
 /* Feedback Section */
 .feedback-card {
