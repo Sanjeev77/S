@@ -727,6 +727,17 @@
     display: flex !important;
   }
   
+  /* Prevent unwanted scroll behaviors on mobile */
+  html {
+    scroll-behavior: auto !important; /* Disable smooth scrolling on mobile */
+  }
+  
+  body {
+    scroll-behavior: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain; /* Prevent bounce scrolling */
+  }
+  
   .mobile-ad-container {
     display: block;
   }

@@ -216,14 +216,11 @@ class UIManager {
       }
     }
 
-    // Add delay for mobile to ensure section switching is complete
-    if (isMobile) {
-      setTimeout(() => {
-        this.scrollToSection(tabName);
-      }, 100);
-    } else {
+    // Only scroll to sections on desktop - preserve scroll position on mobile
+    if (!isMobile) {
       this.scrollToSection(tabName);
     }
+    // On mobile, let users maintain their current scroll position
     
     this.showToast(`Viewing ${tabName} section`, 'info');
   }
@@ -260,12 +257,18 @@ class UIManager {
     if (targetElement) {
       
       const isMobile = window.innerWidth <= 768;
-      const headerOffset = isMobile ? 120 : 80; // Account for mobile navigation
+      
+      // Skip scrolling on mobile to preserve user's scroll position
+      if (isMobile) {
+        return;
+      }
+      
+      const headerOffset = 80; // Desktop header offset
       
       // Get the target position
       const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
       
-      // Scroll to the target with proper offset
+      // Scroll to the target with proper offset (desktop only)
       window.scrollTo({
         top: targetPosition,
         behavior: 'smooth'
@@ -308,18 +311,23 @@ class UIManager {
     }
     
     if (fallbackElement) {
-      fallbackElement.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start'
-      });
+      const isMobile = window.innerWidth <= 768;
       
-      setTimeout(() => {
-        const currentPosition = window.pageYOffset;
-        window.scrollTo({
-          top: currentPosition - 50,
-          behavior: 'smooth'
+      // Skip scrolling on mobile to preserve user's scroll position
+      if (!isMobile) {
+        fallbackElement.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start'
         });
-      }, 100);
+        
+        setTimeout(() => {
+          const currentPosition = window.pageYOffset;
+          window.scrollTo({
+            top: currentPosition - 50,
+            behavior: 'smooth'
+          });
+        }, 100);
+      }
       
       fallbackElement.style.border = '3px solid var(--primary)';
       fallbackElement.style.borderRadius = '8px';
