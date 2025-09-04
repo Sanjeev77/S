@@ -149,10 +149,10 @@ class FinancialPlannerApp {
     } else if (section === 'results') {
       homeSection.classList.add('mobile-hidden');
       resultsSection.classList.remove('mobile-hidden');
-      // Remove automatic scroll-to-top - preserve user's scroll position  
-      // setTimeout(() => {
-      //   window.scrollTo({ top: 0, behavior: 'smooth' });
-      // }, 100);
+      // Scroll to top when showing results section
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
     }
   }
 
