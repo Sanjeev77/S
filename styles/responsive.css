@@ -955,6 +955,32 @@
     padding: 10px;
   }
   
+  /* Loan summary responsive improvements for tablets */
+  .loan-summary-item {
+    flex-direction: column;
+    align-items: flex-start !important;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(190, 229, 235, 0.3);
+  }
+  
+  .loan-summary-item:last-child {
+    border-bottom: none;
+  }
+  
+  .loan-summary-item span:first-child {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 4px;
+    padding-right: 0;
+  }
+  
+  .loan-summary-item span:last-child {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    text-align: left;
+  }
+  
   .container {
     border-radius: 10px;
     min-height: 95vh;
@@ -1071,6 +1097,60 @@
     padding: 15px !important;
     max-width: 100% !important;
     overflow: hidden !important;
+  }
+  
+  /* Mobile loan summary specific improvements */
+  .loan-summary {
+    margin: 15px 0 !important;
+    padding: 12px !important;
+    border-radius: 8px;
+  }
+  
+  .loan-summary-item {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 6px 0 !important;
+    margin-bottom: 10px !important;
+    border-bottom: 1px solid rgba(190, 229, 235, 0.4) !important;
+  }
+  
+  .loan-summary-item:last-child {
+    border-bottom: none !important;
+    margin-bottom: 0 !important;
+    font-weight: bold !important;
+    padding-top: 8px !important;
+    border-top: 2px solid #bee5eb !important;
+  }
+  
+  .loan-summary-item span:first-child {
+    font-size: 0.8rem !important;
+    color: #6c757d !important;
+    margin-bottom: 3px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  
+  .loan-summary-item span:last-child {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    text-align: left !important;
+  }
+  
+  /* EMI scenario improvements for mobile */
+  .emi-scenario {
+    margin-top: 15px !important;
+    padding: 12px !important;
+    background: rgba(40, 167, 69, 0.05) !important;
+    border-radius: 6px !important;
+    border: 1px solid rgba(40, 167, 69, 0.2) !important;
+    border-top: 3px solid #28a745 !important;
+  }
+  
+  .scenario-header {
+    font-size: 0.9rem !important;
+    margin-bottom: 10px !important;
+    color: #28a745 !important;
   }
   
   /* Single column KPI layout for very small screens */

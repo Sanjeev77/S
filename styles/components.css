@@ -559,6 +559,52 @@ input[type="range"].slider:disabled,
     max-width: 100% !important;
     box-sizing: border-box !important;
   }
+  
+  /* Mobile loan summary alignment fixes */
+  .loan-summary {
+    padding: 10px !important;
+    margin: 10px 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+  
+  .loan-summary-item {
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    padding: 3px 0 !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .loan-summary-item span {
+    display: block !important;
+    min-width: 0 !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+  
+  .loan-summary-item span:first-child {
+    font-size: 0.85rem !important;
+    color: #6c757d !important;
+    margin-bottom: 2px !important;
+  }
+  
+  .loan-summary-item span:last-child {
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    color: #333 !important;
+  }
+  
+  /* Fix for EMI scenario section on mobile */
+  .emi-scenario {
+    padding: 10px !important;
+    margin-top: 10px !important;
+    border-top: 1px solid #dee2e6 !important;
+  }
+  
+  .scenario-header {
+    font-size: 0.9rem !important;
+    margin-bottom: 8px !important;
+  }
 }
 
 .loan-summary {
@@ -567,6 +613,8 @@ input[type="range"].slider:disabled,
   padding: 12px;
   margin-top: 10px;
   border-left: 4px solid var(--info);
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .loan-summary-item {
@@ -574,6 +622,8 @@ input[type="range"].slider:disabled,
   justify-content: space-between;
   margin-bottom: 5px;
   font-size: 0.9rem;
+  align-items: center;
+  min-height: 24px;
 }
 
 .loan-summary-item:last-child {
@@ -581,6 +631,16 @@ input[type="range"].slider:disabled,
   font-weight: bold;
   border-top: 1px solid #bee5eb;
   padding-top: 5px;
+}
+
+.loan-summary-item span:first-child {
+  flex: 1;
+  padding-right: 10px;
+}
+
+.loan-summary-item span:last-child {
+  flex-shrink: 0;
+  text-align: right;
 }
 .achievement-badge {
   display: inline-flex;
