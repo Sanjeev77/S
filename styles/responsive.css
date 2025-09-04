@@ -1,7 +1,7 @@
 /* Large screens */
 @media (min-width: 1400px) {
   .container {
-    max-width: 100%;
+    max-width: 2000px;
     grid-template-columns: 200px 1.2fr 0.8fr 200px;
   }
   
@@ -24,9 +24,7 @@
   .container { 
     grid-template-columns: 1fr;
     grid-template-rows: auto;
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
+    width: 100vw;
   }
   
   .ad-sidebar {
@@ -56,26 +54,32 @@
 /* Tablet styles */
 @media (max-width: 768px) {
   body {
-    padding: 0;
-    width: 100%;
-    max-width: 100vw;
-    overflow-x: hidden;
+    padding: 0; /* Keep zero padding for full width */
   }
+  
+  /* Fix goal slider thumb clipping on tablets */
+  .goal-item input[type="range"].slider,
+  .goal-item .slider {
+    margin: 18px 0 !important;
+    padding: 0 !important;
+    height: 6px !important;
+    border: none !important;
+    background: #dee2e6 !important;
+    border-radius: 3px !important;
+    overflow: visible !important;
+    box-sizing: content-box !important;
+    -webkit-appearance: none !important;
+  }
+  
+  /* Ensure goal items don't clip slider thumbs on tablets */
+  .goal-item {
+    overflow: visible !important;
+  }
+  
   
   .container {
-    width: 100%;
-    max-width: 100%;
-    grid-template-columns: 1fr !important;
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Override container pseudo-element */
-  .container::before {
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
+    width: 100vw;
+    grid-template-columns: 1fr;
   }
   
   .ad-sidebar {
@@ -105,12 +109,9 @@
   
   .tabs {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    width: 100%;
-    max-width: 100%;
-    display: flex;
-    flex-wrap: nowrap;
   }
   
   .tabs::-webkit-scrollbar {
@@ -119,9 +120,8 @@
   
   .tab {
     white-space: nowrap;
-    padding: 8px 12px;
-    min-width: 100px;
-    max-width: calc(25vw - 10px);
+    padding: 12px 16px;
+    min-width: 120px;
     min-height: 44px;
     display: flex;
     align-items: center;
@@ -129,8 +129,6 @@
     touch-action: manipulation;
     user-select: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
-    font-size: 14px;
-    flex-shrink: 1;
   }
   
   .tab:active {
@@ -245,6 +243,58 @@
 @media (max-width: 480px) {
   body {
     padding: 5px;
+  }
+  
+  /* Fix mobile goal slider thumb clipping */
+  .goal-item input[type="range"].slider,
+  .goal-item .slider {
+    margin: 20px 0 !important;
+    padding: 0 !important;
+    height: 6px !important;
+    border: none !important;
+    background: #dee2e6 !important;
+    border-radius: 3px !important;
+    overflow: visible !important;
+    box-sizing: content-box !important;
+    position: relative !important;
+    -webkit-appearance: none !important;
+  }
+  
+  /* Mobile goal slider track - keep it visible */
+  .goal-item input[type="range"].slider::-webkit-slider-track,
+  .goal-item .slider::-webkit-slider-track {
+    height: 6px !important;
+    background: #dee2e6 !important;
+    border-radius: 3px !important;
+    border: none !important;
+    -webkit-appearance: none !important;
+  }
+  
+  /* Mobile goal slider thumb - with proper spacing */
+  .goal-item input[type="range"].slider::-webkit-slider-thumb,
+  .goal-item .slider::-webkit-slider-thumb {
+    margin-top: -6px !important;
+    height: 18px !important;
+    width: 18px !important;
+    border-radius: 50% !important;
+    background: var(--primary) !important;
+    cursor: pointer !important;
+    -webkit-appearance: none !important;
+    border: none !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+    position: relative !important;
+    z-index: 100 !important;
+  }
+  
+  /* Ensure goal items don't clip slider thumbs but keep normal size */
+  .goal-item {
+    overflow: visible !important;
+    padding: 15px !important;
+  }
+  
+  .balance-meter {
+    width: 100% !important;
+    overflow: visible !important;
   }
   
   .left-panel {
@@ -571,45 +621,6 @@
   body {
     padding-bottom: 200px; /* Space for fixed bottom nav + banner ads */
     padding-top: 0;
-    width: 100%;
-    max-width: 100vw;
-    overflow-x: hidden;
-  }
-  
-  /* Force all elements to respect viewport width */
-  * {
-    max-width: 100vw !important;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    box-sizing: border-box !important;
-    /* Prevent iOS scroll behaviors */
-    -webkit-overflow-scrolling: auto !important;
-    scroll-behavior: auto !important;
-    overscroll-behavior: none !important;
-  }
-  
-  /* Specifically target potential overflow elements */
-  .tabs, .tab, .kpi-grid, .kpi-card, .goal-item, 
-  .goal-controls, .form-row, .form-group, .card, 
-  .section, .balance-meter, .scenario, .plan-option,
-  .export-buttons, .insight, .header, .section-title {
-    max-width: 100vw !important;
-    width: 100% !important;
-    overflow-x: hidden !important;
-  }
-  
-  /* Prevent form elements from overflowing */
-  input, textarea, select, button {
-    max-width: 100%;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  /* Prevent text overflow */
-  .kpi-value, .goal-title, .section-title, .header h1 {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
   }
   
   /* Hide desktop sidebars */
@@ -621,16 +632,11 @@
     grid-template-columns: 1fr !important;
     position: relative;
     min-height: auto;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
   }
   
   .container::before {
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
+    left: 0;
+    right: 0;
     height: 150px;
   }
   
@@ -719,133 +725,17 @@
   .form-control {
     min-height: 48px;
     font-size: 16px; /* Prevent zoom on iOS */
-    width: 100% !important;
-    max-width: 100% !important;
   }
   
   /* Mobile KPI grid optimization */
   .kpi-grid {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    width: 100%;
-    max-width: 100%;
   }
   
   .kpi-card {
     padding: 16px 12px;
     min-height: 80px;
-    width: 100%;
-    max-width: 100%;
-  }
-  
-  /* Ensure grid containers don't overflow */
-  .goal-controls, .form-row, .scenario-metrics, .plan-metrics, .export-buttons {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-  
-  /* Mobile container specific fixes */
-  .left-panel, .right-panel {
-    width: 100%;
-    max-width: 100%;
-    padding-left: 15px;
-    padding-right: 15px;
-    overflow-x: hidden;
-  }
-  
-  .header {
-    width: 100%;
-    max-width: 100%;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-  
-  /* Fix balance meter potential overflow */
-  /* Work ↔ Life Balance Slider Mobile Fixes */
-  .balance-container, .balance-meter, .balance-track {
-    width: 100% !important;
-    max-width: calc(100vw - 40px) !important;
-    overflow: hidden !important;
-  }
-  
-  .balance-meter {
-    padding: 15px !important;
-    margin: 10px 0 !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-  }
-  
-  .meter-container {
-    position: relative !important;
-    height: 12px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 15px 0 !important;
-    overflow: visible !important;
-    box-sizing: border-box !important;
-  }
-  
-  .meter-indicator {
-    position: absolute !important;
-    top: -7px !important;
-    width: 24px !important;
-    height: 24px !important;
-    border: 2px solid #333 !important;
-    transform: translateX(-50%) !important;
-    box-sizing: border-box !important;
-  }
-  
-  .meter-labels {
-    display: flex !important;
-    justify-content: space-between !important;
-    font-size: 0.75rem !important;
-    margin-top: 8px !important;
-    padding: 0 12px !important;
-    box-sizing: border-box !important;
-  }
-  
-  .meter-labels span {
-    flex: 1 1 33.33% !important;
-    text-align: center !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-  }
-  
-  .meter-labels span:first-child {
-    text-align: left !important;
-  }
-  
-  .meter-labels span:last-child {
-    text-align: right !important;
-  }
-  
-  .balance-status {
-    text-align: center !important;
-    margin-top: 10px !important;
-    font-size: 0.9rem !important;
-    padding: 6px !important;
-    word-wrap: break-word !important;
-  }
-  
-  .balance-indicator {
-    max-width: none !important;
-  }
-  
-  /* Ensure timeline doesn't overflow */
-  .timeline-container {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-  }
-  
-  /* Make sure all grid layouts are contained */
-  [style*="display: grid"], [class*="grid"] {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: hidden !important;
   }
 }
 
@@ -908,21 +798,148 @@
   }
 }
 
+/* Large screens */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 2000px;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Medium to Large screens */
+@media (max-width: 1200px) {
+  .container { 
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  
+  .right-panel {
+    position: static;
+    max-height: none;
+    border-left: none;
+    border-top: 1px solid #dee2e6;
+  }
+  
+  .form-row { 
+    grid-template-columns: 1fr; 
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Tablet styles */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  
+  .container {
+    border-radius: 10px;
+    min-height: 95vh;
+  }
+  
+  .left-panel {
+    padding: 20px;
+  }
+  
+  .right-panel {
+    padding: 20px;
+  }
+  
+  .header {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .header p {
+    font-size: 0.9rem;
+  }
+  
+  .tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .tab {
+    white-space: nowrap;
+    padding: 10px 15px;
+    min-width: 120px;
+  }
+  
+  .section-title {
+    font-size: 1.2rem;
+    flex-direction: row !important;
+    gap: 10px;
+    text-align: left !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+  
+  .card {
+    padding: 20px;
+  }
+  
+  .goal-controls {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .amount-display {
+    text-align: left;
+    margin-bottom: 10px;
+  }
+  
+  .kpi-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .kpi-card {
+    padding: 12px;
+  }
+  
+  .kpi-value {
+    font-size: 1.1rem;
+  }
+  
+  .export-buttons {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .scenario-metrics {
+    grid-template-columns: 1fr;
+  }
+  
+  .plan-metrics {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* Mobile styles */
 @media (max-width: 480px) {
   body {
     padding: 5px;
     padding-bottom: 85px; /* Extra space for nav */
-    width: 100%;
-    max-width: 100vw;
-    overflow-x: hidden;
-  }
-  
-  .container {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
   }
   
   /* Single column KPI layout for very small screens */
@@ -1064,350 +1081,6 @@
   
   .toast.show {
     transform: translateY(0);
-  }
-  
-  /* GOAL ALLOCATION MOBILE FIXES */
-  /* Fix Goal Controls Layout to prevent right-side trimming */
-  .goal-controls {
-    display: grid !important;
-    grid-template-columns: 1fr minmax(120px, auto) !important;
-    gap: 12px !important;
-    align-items: center !important;
-    margin-bottom: 12px !important;
-    max-width: 100% !important;
-    overflow: visible !important;
-  }
-  
-  /* Amount display needs more space for percentage + currency */
-  .amount-display {
-    text-align: right !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    color: var(--primary) !important;
-    white-space: nowrap !important;
-    min-width: 100px !important;
-    flex-shrink: 0 !important;
-    line-height: 1.2 !important;
-  }
-  
-  /* Goal input field sizing */
-  .goal-input {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-    padding: 8px 10px !important;
-    font-size: 14px !important;
-  }
-  
-  /* Minimal Goal Chart Mobile Fixes - Only essential constraints */
-  #goal-chart,
-  .goal-chart-container {
-    max-width: 100% !important;
-    overflow-x: hidden !important;
-    box-sizing: border-box !important;
-  }
-  
-  /* GOAL SLIDER MOBILE FIXES - Fix clipping of blue circles */
-  .slider {
-    width: 100% !important;
-    height: 6px !important;
-    margin: 10px 0 !important;
-    padding: 0 10px !important;
-    box-sizing: content-box !important;
-    background: transparent !important;
-    overflow: visible !important;
-  }
-  
-  /* Create the track background */
-  .slider:before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    right: 10px;
-    height: 6px;
-    background: #dee2e6;
-    border-radius: 3px;
-    transform: translateY(-50%);
-    z-index: 1;
-  }
-  
-  /* Ensure slider thumb has proper space and doesn't get clipped */
-  .slider::-webkit-slider-thumb {
-    -webkit-appearance: none !important;
-    appearance: none !important;
-    width: 18px !important;
-    height: 18px !important;
-    border-radius: 50% !important;
-    background: var(--primary) !important;
-    cursor: pointer !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
-    transition: all 0.3s !important;
-    position: relative !important;
-    z-index: 2 !important;
-    margin-top: -6px !important;
-  }
-  
-  .slider::-webkit-slider-thumb:hover {
-    transform: scale(1.1) !important;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.3) !important;
-  }
-  
-  /* Firefox slider fixes */
-  .slider::-moz-range-thumb {
-    width: 18px !important;
-    height: 18px !important;
-    border-radius: 50% !important;
-    background: var(--primary) !important;
-    cursor: pointer !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
-    border: none !important;
-    margin-top: -6px !important;
-  }
-  
-  .slider::-moz-range-track {
-    height: 6px !important;
-    background: #dee2e6 !important;
-    border-radius: 3px !important;
-    border: none !important;
-  }
-  
-  /* Loan Details Mobile Fixes */
-  .loan-details-container,
-  .loan-item,
-  .loan-fields,
-  .loan-summary,
-  .loan-summary-item {
-    max-width: 100vw !important;
-    width: 100% !important;
-    overflow-x: hidden !important;
-    box-sizing: border-box !important;
-  }
-  
-  /* Ensure loan container itself is properly constrained */
-  .loan-details-container {
-    padding: 15px !important;
-    margin: 10px 0 !important;
-  }
-  
-  .loan-item {
-    padding: 15px !important;
-    margin-bottom: 15px !important;
-    border-radius: 8px !important;
-  }
-  
-  /* Comprehensive Loan Fields Mobile Layout Fix */
-  .loan-fields {
-    display: block !important; /* Override grid on mobile */
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 0 !important;
-    margin: 0 0 15px 0 !important;
-    overflow: hidden !important;
-  }
-  
-  .loan-fields .form-group {
-    margin-bottom: 15px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    display: block !important;
-    box-sizing: border-box !important;
-  }
-  
-  /* All loan input fields mobile sizing */
-  .loan-fields .form-control,
-  .loan-type,
-  .loan-principal,
-  .loan-rate,
-  .loan-emi,
-  .loan-tenure-years,
-  .loan-tenure-months {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-    padding: 10px 12px !important;
-    font-size: 14px !important;
-    border: 1px solid #ced4da !important;
-    border-radius: 6px !important;
-  }
-  
-  /* Form labels in loan sections */
-  .loan-fields label {
-    display: block !important;
-    width: 100% !important;
-    margin-bottom: 8px !important;
-    font-size: 0.9rem !important;
-    font-weight: 500 !important;
-  }
-  
-  /* Adjust the grid for Years/Months inputs - more specific targeting */
-  .loan-item .form-group div[style*="grid-template-columns: 1fr 1fr"],
-  .form-group div[style*="grid-template-columns: 1fr 1fr"] {
-    display: grid !important;
-    grid-template-columns: minmax(140px, 1.2fr) minmax(120px, 0.8fr) !important;
-    gap: 10px !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-  }
-  
-  /* Target the specific Remaining Tenure field more aggressively */
-  .loan-item .form-group:has(.loan-tenure-years) div,
-  .form-group:has(.loan-tenure-years) div {
-    display: grid !important;
-    grid-template-columns: 1.4fr 1fr !important;
-    gap: 12px !important;
-    max-width: calc(100vw - 60px) !important;
-  }
-  
-  /* Ensure input fields don't overflow - more aggressive */
-  .loan-tenure-years,
-  .loan-tenure-months {
-    min-width: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    font-size: 14px !important;
-    box-sizing: border-box !important;
-    padding: 8px 10px !important;
-  }
-  
-  /* Make sure Months input specifically gets enough space */
-  .loan-tenure-months {
-    min-width: 80px !important;
-  }
-  
-  /* Alternative approach - target all grid containers in loan sections */
-  .loan-item div[style*="grid"] {
-    grid-template-columns: 1.5fr 1fr !important;
-    gap: 12px !important;
-    max-width: 100% !important;
-  }
-  
-  /* Specific tenure grid mobile fixes */
-  .tenure-grid {
-    grid-template-columns: minmax(110px, 1.4fr) minmax(90px, 1fr) !important;
-    gap: 10px !important;
-    max-width: 100% !important;
-    width: 100% !important;
-    overflow: hidden !important;
-    box-sizing: border-box !important;
-  }
-  
-  /* Additional safety for small input elements */
-  .loan-fields input[type="number"],
-  .loan-fields select {
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: textfield !important;
-  }
-  
-  .loan-fields select {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e") !important;
-    background-position: right 8px center !important;
-    background-repeat: no-repeat !important;
-    background-size: 16px 12px !important;
-    padding-right: 32px !important;
-  }
-  
-  /* Responsive adjustments for very small screens */
-  @media (max-width: 360px) {
-    .loan-details-container {
-      padding: 10px !important;
-    }
-    
-    .loan-item {
-      padding: 12px !important;
-    }
-    
-    .loan-fields .form-control {
-      padding: 8px 10px !important;
-      font-size: 13px !important;
-    }
-    
-    .tenure-grid {
-      grid-template-columns: 1.2fr 1fr !important;
-      gap: 8px !important;
-    }
-    
-    .loan-tenure-years {
-      min-width: 70px !important;
-    }
-    
-    .loan-tenure-months {
-      min-width: 60px !important;
-      font-size: 13px !important;
-    }
-    
-    .loan-fields label {
-      font-size: 0.85rem !important;
-    }
-  }
-  
-  /* Fix loan summary alignment and text overflow */
-  .loan-summary-item {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: flex-start !important;
-    margin-bottom: 8px !important;
-    flex-wrap: nowrap !important;
-    min-height: 20px;
-  }
-  
-  .loan-summary-item span:first-child {
-    flex: 1 1 60% !important;
-    margin-right: 8px !important;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    line-height: 1.3;
-  }
-  
-  .loan-summary-item span:last-child {
-    flex: 0 0 35% !important;
-    text-align: right !important;
-    font-weight: 600 !important;
-    min-width: 0 !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    line-height: 1.3;
-  }
-  
-  /* Ensure EMI scenario section is properly contained */
-  .emi-scenario {
-    max-width: 100% !important;
-    overflow-x: hidden !important;
-  }
-  
-  /* Make sure currency values don't get cut off */
-  .loan-summary-item span[id*="_emi"],
-  .loan-summary-item span[id*="_interest"],
-  .loan-summary-item span[id*="_amount"],
-  .loan-summary-item span[id*="_saved"] {
-    font-size: 13px !important;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-  }
-  
-  /* For very long numbers, allow them to wrap */
-  @media (max-width: 320px) {
-    .loan-summary-item span[id*="_emi"],
-    .loan-summary-item span[id*="_interest"],
-    .loan-summary-item span[id*="_amount"],
-    .loan-summary-item span[id*="_saved"] {
-      white-space: normal !important;
-      word-break: break-all;
-      font-size: 12px !important;
-    }
-    
-    .loan-summary-item span:last-child {
-      flex: 0 0 40% !important;
-    }
-    
-    .loan-summary-item span:first-child {
-      flex: 1 1 55% !important;
-    }
   }
 }
 

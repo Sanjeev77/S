@@ -18,6 +18,22 @@
   max-width: 100%;
 }
 
+/* Override reset for range inputs */
+input[type="range"] {
+  margin: 10px 0 !important;
+  padding: 0 !important;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  margin-top: -6px !important;
+  padding: 0 !important;
+}
+
+input[type="range"]::-moz-range-thumb {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 /* Prevent horizontal overflow on all elements */
 html {
   overflow-x: hidden;
@@ -102,7 +118,8 @@ body {
   background: white; 
   min-height: 100vh;
   border-radius: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
   box-shadow: none;
   display: grid;
   grid-template-columns: 180px 1fr 0.8fr 180px; /* Back to original 4-column layout */

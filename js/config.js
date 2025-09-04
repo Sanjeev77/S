@@ -37,7 +37,7 @@ const CONFIG = {
       priority: 4
     },
     emergency: { 
-      title: 'Unexpected Expenses', 
+      title: 'Emergency Fund', 
       icon: 'fas fa-shield-alt', 
       description: 'Emergency fund for unexpected expenses',
       priority: 5

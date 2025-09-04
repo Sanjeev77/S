@@ -196,23 +196,9 @@ class UIManager {
       this.activeTab = tabName;
     }
 
-    // On mobile, check if user is actively filling forms before doing any navigation
+    // On mobile, ensure we're on the home section before scrolling
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {
-      const activeElement = document.activeElement;
-      const isInputFocused = activeElement && (
-        activeElement.tagName === 'INPUT' || 
-        activeElement.tagName === 'TEXTAREA' || 
-        activeElement.tagName === 'SELECT'
-      );
-      
-      // If user is actively typing, don't do any section switching or scrolling
-      if (isInputFocused) {
-        // Just show a gentle toast without disrupting the user
-        this.showToast(`Tab switched to ${tabName} - continue filling the form`, 'info');
-        return;
-      }
-      
       // Make sure home section is visible on mobile
       const homeSection = document.getElementById('home-section');
       const resultsSection = document.getElementById('results-section');
@@ -228,8 +214,10 @@ class UIManager {
           homeMobileNav.classList.add('active');
         }
       }
-      
-      // Add delay for mobile to ensure section switching is complete
+    }
+
+    // Add delay for mobile to ensure section switching is complete
+    if (isMobile) {
       setTimeout(() => {
         this.scrollToSection(tabName);
       }, 100);
@@ -241,22 +229,6 @@ class UIManager {
   }
 
   scrollToSection(tabName) {
-    // Prevent auto-scrolling on mobile when user is actively filling forms
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-      const activeElement = document.activeElement;
-      const isInputFocused = activeElement && (
-        activeElement.tagName === 'INPUT' || 
-        activeElement.tagName === 'TEXTAREA' || 
-        activeElement.tagName === 'SELECT'
-      );
-      
-      // If user is actively typing in an input field, don't scroll
-      if (isInputFocused) {
-        return;
-      }
-    }
-    
     let targetElement = null;
     
     const sectionMap = {
@@ -286,16 +258,17 @@ class UIManager {
     });
 
     if (targetElement) {
+      
+      const isMobile = window.innerWidth <= 768;
       const headerOffset = isMobile ? 120 : 80; // Account for mobile navigation
       
       // Get the target position
       const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
       
-      // Scroll to the target with proper offset - disable smooth on mobile to prevent auto-scroll issues
-      const isMobile = window.innerWidth <= 768;
+      // Scroll to the target with proper offset
       window.scrollTo({
         top: targetPosition,
-        behavior: isMobile ? 'auto' : 'smooth'
+        behavior: 'smooth'
       });
       
       // Highlight the section
@@ -307,14 +280,12 @@ class UIManager {
       }, 2000);
       
     } else {
-      // On mobile, don't scroll to top automatically unless explicitly requested
-      if (!isMobile) {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      }
-      this.showToast(`Section "${tabName}" not found`, 'warning');
+      // Fallback: scroll to top of page if section not found
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      this.showToast(`Section "${tabName}" not found`, 'error');
     }
   }
   
@@ -341,9 +312,8 @@ class UIManager {
     }
     
     if (fallbackElement) {
-      const isMobile = window.innerWidth <= 768;
       fallbackElement.scrollIntoView({ 
-        behavior: isMobile ? 'auto' : 'smooth', 
+        behavior: 'smooth', 
         block: 'start'
       });
       
@@ -351,7 +321,7 @@ class UIManager {
         const currentPosition = window.pageYOffset;
         window.scrollTo({
           top: currentPosition - 50,
-          behavior: isMobile ? 'auto' : 'smooth'
+          behavior: 'smooth'
         });
       }, 100);
       
@@ -845,22 +815,49 @@ class UIManager {
       return;
     }
 
+    // Simple, direct goal metadata without complex CONFIG dependencies
+    const goalInfo = {
+      house: { title: 'Housing', icon: 'fas fa-home', color: '#667eea' },
+      vehicle: { title: 'Vehicle', icon: 'fas fa-car', color: '#764ba2' },
+      travel: { title: 'Travel', icon: 'fas fa-plane', color: '#f093fb' },
+      education: { title: 'Education', icon: 'fas fa-graduation-cap', color: '#4facfe' },
+      emergency: { title: 'Emergency Fund', icon: 'fas fa-shield-alt', color: '#43e97b' },
+      other: { title: 'Other Goals', icon: 'fas fa-star', color: '#ffecd2' }
+    };
+
     const chartData = activeGoals.map(goalId => {
       const goal = goalsData[goalId];
-      const meta = CONFIG.goalMeta[goalId];
       const percentage = (goal.amount / totalValue) * 100;
+      const info = goalInfo[goalId] || { title: goalId, icon: 'fas fa-star', color: '#95a5a6' };
       
       return {
         id: goalId,
-        title: meta.title,
-        icon: meta.icon,
+        title: info.title,
+        icon: info.icon,
         amount: goal.amount,
         percentage: percentage,
-        color: this.getGoalColor(goalId)
+        color: info.color
       };
     }).sort((a, b) => b.amount - a.amount);
 
     this.renderEnhancedPieChart(chartContainer, chartData, totalValue);
+    
+    // Fallback: if chart didn't render, show simple list
+    setTimeout(() => {
+      if (chartContainer.children.length === 0) {
+        chartContainer.innerHTML = `
+          <div style="padding: 20px; text-align: center;">
+            <h4>Active Goals</h4>
+            ${chartData.map(item => `
+              <div style="margin: 10px 0; padding: 8px; background: #f8f9fa; border-radius: 4px; display: flex; align-items: center;">
+                <i class="${item.icon}" style="margin-right: 10px; color: ${item.color};"></i>
+                <span>${item.title}: ${item.percentage.toFixed(1)}% (${UTILS.formatCurrency(item.amount)})</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+    }, 100);
   }
 
   // ENHANCED: Pie chart with investment context
@@ -931,23 +928,24 @@ class UIManager {
           </svg>
         </div>
         
-        <div class="pie-chart-metrics" style="${isMobile ? 'width: 100%; max-width: 400px;' : 'flex: 1; min-width: 0;'} ${isMobile ? '' : 'max-height: 180px; overflow-y: auto;'}">
+        <div class="pie-chart-metrics" style="${isMobile ? 'width: 100%; max-width: 400px;' : 'flex: 1; min-width: 0;'} ${isMobile ? '' : 'max-height: 350px; overflow-y: auto; padding-bottom: 10px;'}">
           <div style="margin-bottom: ${isMobile ? '15px' : '10px'};">
     `;
 
-    const visibleGoals = data.slice(0, 4);
-    const hiddenGoals = data.slice(4);
+    // Show all goals on both mobile and desktop
+    const visibleGoals = data;
+    const hiddenGoals = [];
 
     visibleGoals.forEach(segment => {
       html += `
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: ${isMobile ? '8px 12px' : '4px 8px'}; margin-bottom: ${isMobile ? '6px' : '3px'}; background: #f8f9fa; border-radius: 6px; border-left: 3px solid ${segment.color};">
-          <div style="display: flex; align-items: center; min-width: 0; flex: 1;">
-            <i class="${segment.icon}" style="margin-right: ${isMobile ? '10px' : '6px'}; color: ${segment.color}; width: ${isMobile ? '16px' : '12px'}; font-size: ${isMobile ? '1rem' : '0.8rem'};"></i>
-            <span style="font-weight: 600; color: #333; font-size: ${isMobile ? '0.9rem' : '0.75rem'}; ${isMobile ? '' : 'white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'}">${segment.title}</span>
+        <div class="pie-chart-metric-row ${isMobile ? 'mobile' : 'desktop'}" style="display: flex; align-items: center; justify-content: space-between; padding: ${isMobile ? '8px 12px' : '4px 8px'}; margin-bottom: ${isMobile ? '6px' : '3px'}; background: #f8f9fa; border-radius: 6px; border-left: 3px solid ${segment.color};">
+          <div class="pie-chart-metric-left" style="display: flex; align-items: center; min-width: 0; flex: 1;">
+            <i class="pie-chart-metric-icon ${segment.icon}" style="margin-right: ${isMobile ? '10px' : '6px'}; color: ${segment.color}; width: ${isMobile ? '18px' : '12px'}; font-size: ${isMobile ? '1.1rem' : '0.8rem'}; flex-shrink: 0;"></i>
+            <span class="pie-chart-metric-title" style="font-weight: 600; color: #333; font-size: ${isMobile ? '0.9rem' : '0.75rem'}; ${isMobile ? 'flex: 1; display: block;' : 'white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'}">${segment.title}</span>
           </div>
-          <div style="text-align: right; flex-shrink: 0; margin-left: ${isMobile ? '12px' : '8px'};">
-            <div style="font-weight: bold; color: #333; font-size: ${isMobile ? '0.9rem' : '0.75rem'};">${segment.percentage.toFixed(1)}%</div>
-            <div style="color: #666; font-size: ${isMobile ? '0.8rem' : '0.7rem'};">${this.formatCompactCurrency(segment.amount)}</div>
+          <div class="pie-chart-metric-right" style="text-align: right; flex-shrink: 0; margin-left: ${isMobile ? '12px' : '8px'};">
+            <div class="pie-chart-metric-percentage" style="font-weight: bold; color: #333; font-size: ${isMobile ? '0.9rem' : '0.75rem'};">${segment.percentage.toFixed(1)}%</div>
+            <div class="pie-chart-metric-amount" style="color: #666; font-size: ${isMobile ? '0.8rem' : '0.7rem'};">${this.formatCompactCurrency(segment.amount)}</div>
           </div>
         </div>
       `;
@@ -959,11 +957,11 @@ class UIManager {
       
       html += `
         <div style="display: flex; align-items: center; justify-content: space-between; padding: ${isMobile ? '8px 12px' : '4px 8px'}; margin-bottom: ${isMobile ? '6px' : '3px'}; background: #e9ecef; border-radius: 6px; border-left: 3px solid #6c757d;">
-          <div style="display: flex; align-items: center;">
-            <i class="fas fa-ellipsis-h" style="margin-right: ${isMobile ? '10px' : '6px'}; color: #6c757d; width: ${isMobile ? '16px' : '12px'}; font-size: ${isMobile ? '1rem' : '0.8rem'};"></i>
-            <span style="font-weight: 600; color: #666; font-size: ${isMobile ? '0.9rem' : '0.75rem'};">+${hiddenGoals.length} more</span>
+          <div style="display: flex; align-items: center; min-width: 0; flex: 1;">
+            <i class="fas fa-ellipsis-h" style="margin-right: ${isMobile ? '10px' : '6px'}; color: #6c757d; width: ${isMobile ? '18px' : '12px'}; font-size: ${isMobile ? '1.1rem' : '0.8rem'}; flex-shrink: 0;"></i>
+            <span style="font-weight: 600; color: #666; font-size: ${isMobile ? '0.9rem' : '0.75rem'}; ${isMobile ? 'flex: 1; display: block;' : ''}">+${hiddenGoals.length} more</span>
           </div>
-          <div style="text-align: right;">
+          <div style="text-align: right; flex-shrink: 0; margin-left: ${isMobile ? '12px' : '8px'};">
             <div style="font-weight: bold; color: #666; font-size: ${isMobile ? '0.9rem' : '0.75rem'};">${hiddenPercentage.toFixed(1)}%</div>
             <div style="color: #888; font-size: ${isMobile ? '0.8rem' : '0.7rem'};">${this.formatCompactCurrency(hiddenTotal)}</div>
           </div>
@@ -976,12 +974,12 @@ class UIManager {
           
           <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 6px; padding: ${isMobile ? '12px' : '8px'}; font-size: ${isMobile ? '0.9rem' : '0.75rem'}; ${isMobile ? 'margin-top: 15px;' : ''}">
             <div style="display: flex; justify-content: space-between; margin-bottom: ${isMobile ? '6px' : '4px'};">
-              <span><i class="fas fa-coins" style="margin-right: ${isMobile ? '6px' : '4px'}; font-size: ${isMobile ? '0.85rem' : '0.7rem'};"></i>Total</span>
-              <span style="font-weight: bold;">${this.formatCompactCurrency(totalValue)}</span>
+              <span style="display: flex; align-items: center; min-width: 0; flex: 1;"><i class="fas fa-coins" style="margin-right: ${isMobile ? '6px' : '4px'}; font-size: ${isMobile ? '0.85rem' : '0.7rem'}; flex-shrink: 0;"></i>Total</span>
+              <span style="font-weight: bold; flex-shrink: 0; margin-left: ${isMobile ? '8px' : '6px'};">${this.formatCompactCurrency(totalValue)}</span>
             </div>
             <div style="display: flex; justify-content: space-between;">
-              <span><i class="fas fa-chart-line" style="margin-right: ${isMobile ? '6px' : '4px'}; font-size: ${isMobile ? '0.85rem' : '0.7rem'};"></i>Top</span>
-              <span style="font-weight: bold;">${isMobile && data[0].title.length > 12 ? data[0].title.substring(0, 12) + '...' : data[0].title.length > 8 ? data[0].title.substring(0, 8) + '...' : data[0].title}</span>
+              <span style="display: flex; align-items: center; min-width: 0; flex: 1;"><i class="fas fa-chart-line" style="margin-right: ${isMobile ? '6px' : '4px'}; font-size: ${isMobile ? '0.85rem' : '0.7rem'}; flex-shrink: 0;"></i>Top</span>
+              <span style="font-weight: bold; flex-shrink: 0; margin-left: ${isMobile ? '8px' : '6px'};">${data[0].title}</span>
             </div>
           </div>
         </div>
