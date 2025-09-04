@@ -280,12 +280,8 @@ class UIManager {
       }, 2000);
       
     } else {
-      // Fallback: scroll to top of page if section not found
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-      this.showToast(`Section "${tabName}" not found`, 'error');
+      // Fallback: preserve scroll position if section not found
+      this.showToast(`Section "${tabName}" not found. Scroll position preserved.`, 'warning');
     }
   }
   
