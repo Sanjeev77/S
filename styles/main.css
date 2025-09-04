@@ -46,7 +46,8 @@ html {
 .kpi-grid, .kpi-card, .goal-item, .goal-controls,
 .tabs, .tab, .section, .section-title,
 .modal-content, .toast, .scenario, .insight,
-.plan-option, .export-buttons, .balance-meter {
+.plan-option, .export-buttons, .balance-meter,
+.loan-details-container, .loan-item, .loan-fields {
   max-width: 100%;
   box-sizing: border-box;
 }

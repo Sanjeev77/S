@@ -1055,6 +1055,24 @@
     padding-bottom: 85px; /* Extra space for nav */
   }
   
+  /* Ensure loan details are properly contained on mobile */
+  .loan-details-container {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+  
+  .loan-item {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 15px !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+  
   /* Single column KPI layout for very small screens */
   .kpi-grid {
     grid-template-columns: 1fr !important;
