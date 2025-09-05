@@ -144,12 +144,29 @@
   .tabs {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    scrollbar-width: thin;
+    -ms-overflow-style: auto;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
   }
   
   .tabs::-webkit-scrollbar {
-    display: none;
+    display: block;
+    height: 3px;
+  }
+  
+  .tabs::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+  
+  .tabs::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+  }
+  
+  .tabs::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
   }
   
   .tab {
@@ -1098,12 +1115,29 @@
   .tabs {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    scrollbar-width: thin;
+    -ms-overflow-style: auto;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
   }
   
   .tabs::-webkit-scrollbar {
-    display: none;
+    display: block;
+    height: 3px;
+  }
+  
+  .tabs::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+  
+  .tabs::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+  }
+  
+  .tabs::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
   }
   
   .tab {
