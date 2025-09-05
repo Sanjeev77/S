@@ -201,6 +201,11 @@ class FinancialPlannerApp {
               type === 'normal' ? 200 : CONFIG.ui.debounceDelay);
           
           input.addEventListener('input', handler);
+          
+          // Add age validation for specific fields
+          if (['age', 'timeline', 'life-expectancy'].includes(id)) {
+            input.addEventListener('blur', () => this.validateAgeFields());
+          }
         }
       });
     });
@@ -556,9 +561,8 @@ class FinancialPlannerApp {
       
       // Removed timeline visualization
       
-      if (formData.income > 0 && formData.expenses > 0) {
-        this.updateEnhancedFinancialHealth(formData, loanData);
-      }
+      // FIXED: Always update balance meter, even with partial data
+      this.updateEnhancedFinancialHealth(formData, loanData);
       
       this.updateEnhancedLoanBasedInsights(formData, loanData);
       
@@ -595,7 +599,8 @@ class FinancialPlannerApp {
 
   // ENHANCED: Financial health calculation with investment context
   updateEnhancedFinancialHealth(formData, loanData) {
-    const expenseRatio = (formData.expenses / formData.income) * 100;
+    // FIXED: Handle cases where income might be 0 or empty
+    const expenseRatio = formData.income > 0 ? (formData.expenses / formData.income) * 100 : 0;
     const totalEmi = formData.existingEmi || 0;
     const disposableIncome = formData.income - formData.expenses - totalEmi;
     
@@ -604,20 +609,24 @@ class FinancialPlannerApp {
     
     let healthScore = 50;
     
-    // Standard financial factors (60% weight)
-    const factors = [
-      { 
-        value: expenseRatio,
-        thresholds: [40, 50, 60, 70, 80, 90],
-        scores: [15, 10, 5, 0, -10, -20, -25]
-      },
-      { 
-        value: totalEmi > 0 ? (totalEmi / formData.income) * 100 : 0,
-        thresholds: [15, 25, 35, 45],
-        scores: [5, 0, -10, -20, -25],
-        condition: totalEmi > 0
-      }
-    ];
+    // Standard financial factors (60% weight) - Only calculate if income > 0
+    const factors = [];
+    
+    if (formData.income > 0) {
+      factors.push(
+        { 
+          value: expenseRatio,
+          thresholds: [40, 50, 60, 70, 80, 90],
+          scores: [15, 10, 5, 0, -10, -20, -25]
+        },
+        { 
+          value: totalEmi > 0 ? (totalEmi / formData.income) * 100 : 0,
+          thresholds: [15, 25, 35, 45],
+          scores: [5, 0, -10, -20, -25],
+          condition: totalEmi > 0
+        }
+      );
+    }
 
     factors.forEach(factor => {
       if (factor.condition !== false) {
@@ -657,7 +666,7 @@ class FinancialPlannerApp {
     this.uiManager.updateElement('expense-ratio', UTILS.formatPercentage(expenseRatio));
     this.uiManager.updateProgressBar('expense-progress', expenseRatio);
     
-    const savingsRate = disposableIncome > 0 ? (disposableIncome / formData.income) * 100 : 0;
+    const savingsRate = (disposableIncome > 0 && formData.income > 0) ? (disposableIncome / formData.income) * 100 : 0;
     this.uiManager.updateElement('savings-rate', UTILS.formatPercentage(Math.max(0, savingsRate)));
     
     this.updateEnhancedWorkLifeBalance(formData, loanData, healthScore, investmentStrength);
@@ -2018,79 +2027,176 @@ Generated with Advanced Goal Alignment Calculator`;
         return;
       }
       
-      // Create canvas matching the exact screenshot layout
+      // Call the new clean share image function
+      await this.createCleanShareImage();
+    } catch (error) {
+      console.error('Error generating share image:', error);
+      this.uiManager.showToast('Error generating image: ' + error.message, 'error');
+    }
+  }
+
+  async createCleanShareImage() {
+    try {
+      // Create canvas for clean, professional share image
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       
-      // Set canvas dimensions to 1080x1080 for social media
+      // Set canvas dimensions - optimized for social sharing (Instagram square 1:1)
       canvas.width = 1080;
       canvas.height = 1080;
       
-      // Gradient background with specified colors
-      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, '#667eea');
-      gradient.addColorStop(1, '#764ba2');
+      // Blue and purple gradient background like earlier
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      gradient.addColorStop(0, '#4f46e5');  // Indigo
+      gradient.addColorStop(0.5, '#7c3aed'); // Purple
+      gradient.addColorStop(1, '#2563eb');   // Blue
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Main title
-      ctx.font = 'bold 48px system-ui, -apple-system, sans-serif';
-      ctx.fillStyle = '#000000';
+      // Add subtle pattern overlay
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+      for (let i = 0; i < canvas.width; i += 60) {
+        for (let j = 0; j < canvas.height; j += 60) {
+          ctx.beginPath();
+          ctx.arc(i, j, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      
+      // Main title with shadow effect
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+      ctx.shadowBlur = 10;
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 2;
+      
+      ctx.font = 'bold 42px system-ui, -apple-system, sans-serif';
+      ctx.fillStyle = '#ffffff';
       ctx.textAlign = 'center';
-      ctx.fillText('My Financial Goals and Health', canvas.width / 2, 80);
+      ctx.fillText('💰 My Financial Plan Summary', canvas.width / 2, 70);
       
-      let currentY = 150;
-      const padding = 60;
+      // Reset shadow
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
       
-      // Helper function to draw card with shadow
-      const drawCard = (y, height, content) => {
-        const cardX = padding;
-        const cardWidth = canvas.width - (padding * 2);
+      // Layout setup for stacked vertical layout (1080x1080)
+      const topSection = { x: 50, y: 100, width: 980, height: 320 };
+      const middleSection = { x: 50, y: 440, width: 980, height: 200 };
+      const bottomSection = { x: 50, y: 660, width: 980, height: 320 };
+      
+      // Helper function to draw glass effect card
+      const drawGlassCard = (x, y, width, height, content) => {
+        // Glass effect card with transparency
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 8;
         
-        // Card shadow
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
         ctx.beginPath();
-        ctx.roundRect(cardX + 2, y + 2, cardWidth, height, 12);
+        ctx.roundRect(x, y, width, height, 20);
         ctx.fill();
         
-        // Card background
-        ctx.fillStyle = '#ffffff';
-        ctx.beginPath();
-        ctx.roundRect(cardX, y, cardWidth, height, 12);
-        ctx.fill();
+        // Glass border highlight
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
         
-        content(cardX, y, cardWidth, height);
+        // Reset shadow
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        
+        content(x, y, width, height);
       };
 
-      // === 1. WORK ↔ LIFE BALANCE SECTION ===
-      drawCard(currentY, 220, (x, y, w, h) => {
-        // Title with icon (closer to reference)
-        ctx.font = '600 24px system-ui, -apple-system, sans-serif';
-        ctx.fillStyle = '#64748b';
+      // === TOP SECTION: KEY METRICS ===
+      drawGlassCard(topSection.x, topSection.y, topSection.width, topSection.height, (x, y, w, h) => {
+        // Title with emoji icon like reference
+        ctx.font = 'bold 28px system-ui, -apple-system, sans-serif';
+        ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        ctx.fillText('⚖ Work ↔ Life Balance', canvas.width / 2, y + 35);
+        ctx.fillText('📊 Key Financial Metrics', x + w/2, y + 45);
 
-        // Balance meter (positioned like reference)
-        const meterY = y + 65;
-        const meterWidth = w - 120;
-        const meterHeight = 12;
-        const meterX = x + 60;
+        // Get key metrics data
+        const totalCost = document.getElementById('total-cost')?.textContent || '₹0';
+        const monthlyNeeded = document.getElementById('monthly-needed')?.textContent || '₹0';
+        const timeRequired = document.getElementById('time-required')?.textContent || '0y';
+        const savingsRate = document.getElementById('savings-rate')?.textContent || '0%';
         
-        // Meter gradient (red to orange to green)
-        const meterGradient = ctx.createLinearGradient(meterX, meterY, meterX + meterWidth, meterY);
-        meterGradient.addColorStop(0, '#ef4444');
-        meterGradient.addColorStop(0.5, '#f59e0b');
-        meterGradient.addColorStop(1, '#10b981');
+        // Metrics array with colorful emojis like reference
+        const metrics = [
+          { label: 'Total Goal Cost', value: totalCost, icon: '🎯' },
+          { label: 'Monthly Needed', value: monthlyNeeded, icon: '💰' },
+          { label: 'Time Required', value: timeRequired, icon: '⏰' },
+          { label: 'Savings Rate', value: savingsRate, icon: '📈' }
+        ];
         
-        ctx.fillStyle = meterGradient;
-        ctx.beginPath();
-        ctx.roundRect(meterX, meterY, meterWidth, meterHeight, 4);
-        ctx.fill();
+        // Draw metrics in 2x2 grid like the reference image
+        const gridCols = 2;
+        const metricWidth = (w - 80) / gridCols;
+        const metricHeight = 100;
+        const spacing = 20;
         
-        // Get balance position from app (dynamic)
+        metrics.forEach((metric, index) => {
+          const col = index % gridCols;
+          const row = Math.floor(index / gridCols);
+          
+          const metricX = x + 30 + col * (metricWidth + spacing);
+          const metricY = y + 80 + row * (metricHeight + spacing);
+          
+          // Metric background with glass effect like reference
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+          ctx.beginPath();
+          ctx.roundRect(metricX, metricY, metricWidth, metricHeight, 16);
+          ctx.fill();
+          
+          // Make sure icon is drawn ON TOP of background
+          ctx.save(); // Save current state
+          
+          // Icon (centered at top) - Vibrant emojis on top
+          ctx.font = '38px system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji"';
+          ctx.textAlign = 'center';
+          ctx.globalCompositeOperation = 'source-over'; // Ensure icon draws on top
+          
+          // Add shadow to make emojis pop more
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+          ctx.shadowBlur = 6;
+          ctx.shadowOffsetX = 2;
+          ctx.shadowOffsetY = 2;
+          
+          ctx.fillStyle = '#ffffff'; // Ensure white fill for emojis
+          ctx.fillText(metric.icon, metricX + metricWidth/2 - 60, metricY + 60);
+          
+          ctx.restore(); // Restore previous state
+          
+          // Label
+          ctx.font = '16px system-ui, -apple-system, sans-serif';
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+          ctx.textAlign = 'left';
+          ctx.fillText(metric.label, metricX + metricWidth/2 - 20, metricY + 40);
+          
+          // Value
+          ctx.font = 'bold 24px system-ui, -apple-system, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'left';
+          ctx.fillText(metric.value, metricX + metricWidth/2 - 20, metricY + 70);
+        });
+      });
+      
+      // === MIDDLE SECTION: WORK-LIFE BALANCE ===
+      drawGlassCard(middleSection.x, middleSection.y, middleSection.width, middleSection.height, (x, y, w, h) => {
+        // Title with emoji like reference
+        ctx.font = 'bold 24px system-ui, -apple-system, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.fillText('⚖️ Work-Life Balance', x + w/2, y + 40);
+        
+        // Get balance data
         const balanceIndicator = document.getElementById('balance-indicator');
-        let balancePosition = 50; // Default center if no data
-        
+        let balancePosition = 50;
         if (balanceIndicator && balanceIndicator.style.left) {
           const leftStyle = balanceIndicator.style.left;
           if (leftStyle && leftStyle !== '50%') {
@@ -2098,233 +2204,178 @@ Generated with Advanced Goal Alignment Calculator`;
           }
         }
         
-        // White circle indicator (larger like reference)
+        const balanceStatus = document.getElementById('balance-status')?.textContent || 'Calculating...';
+        
+        // Balance meter
+        const meterY = y + 70;
+        const meterWidth = w - 120;
+        const meterHeight = 14;
+        const meterX = x + 60;
+        
+        // Meter gradient
+        const meterGradient = ctx.createLinearGradient(meterX, meterY, meterX + meterWidth, meterY);
+        meterGradient.addColorStop(0, '#ef4444');
+        meterGradient.addColorStop(0.5, '#f59e0b');
+        meterGradient.addColorStop(1, '#10b981');
+        
+        ctx.fillStyle = meterGradient;
+        ctx.beginPath();
+        ctx.roundRect(meterX, meterY, meterWidth, meterHeight, 6);
+        ctx.fill();
+        
+        // Balance indicator
         const indicatorX = meterX + (meterWidth * balancePosition / 100);
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
-        ctx.arc(indicatorX, meterY + meterHeight/2, 10, 0, 2 * Math.PI);
+        ctx.arc(indicatorX, meterY + meterHeight/2, 8, 0, 2 * Math.PI);
         ctx.fill();
         ctx.strokeStyle = '#374151';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2;
         ctx.stroke();
         
-        // Labels below meter (matching reference spacing)
-        ctx.font = '16px system-ui, -apple-system, sans-serif';
-        ctx.fillStyle = '#64748b';
-        
+        // Balance labels with emojis like reference
+        ctx.font = '14px system-ui';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
         ctx.textAlign = 'left';
-        ctx.fillText('💼 Bad', meterX, meterY + 35);
+        ctx.fillText('💼 Overworked', meterX, meterY + 40);
         
         ctx.textAlign = 'center';
-        ctx.fillText('⚖ Balanced', canvas.width / 2, meterY + 35);
+        ctx.fillText('⚖️ Balanced', x + w/2, meterY + 40);
         
         ctx.textAlign = 'right';
-        ctx.fillText('♥ Good', meterX + meterWidth, meterY + 35);
+        ctx.fillText('❤️ Relaxed', meterX + meterWidth, meterY + 40);
         
-        // Status box (dynamic colors based on balance status)
-        const statusY = y + 135;
-        const statusHeight = 40;
-        const statusWidth = w - 120;
-        const statusX = x + 60;
-        
-        // Status text (dynamic with color coding)
-        const balanceStatus = document.getElementById('balance-status')?.textContent || 'Enter your financial details';
-        
-        // Dynamic status box color based on status
-        let statusBgColor = '#bfdbfe';
-        let statusTextColor = '#1e40af';
-        
-        if (balanceStatus.includes('Excellent') || balanceStatus.includes('Great')) {
-          statusBgColor = '#dcfce7';
-          statusTextColor = '#16a34a';
-        } else if (balanceStatus.includes('Poor') || balanceStatus.includes('Bad')) {
-          statusBgColor = '#fecaca';
-          statusTextColor = '#dc2626';
-        } else if (balanceStatus.includes('Good')) {
-          statusBgColor = '#ddd6fe';
-          statusTextColor = '#7c3aed';
-        }
-        
-        // Draw status box with dynamic color
-        ctx.fillStyle = statusBgColor;
+        // Status box with glass effect like reference
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
         ctx.beginPath();
-        ctx.roundRect(statusX, statusY, statusWidth, statusHeight, 8);
+        ctx.roundRect(x + 60, y + 125, w - 120, 50, 16);
         ctx.fill();
         
-        // Status text
-        ctx.font = '600 18px system-ui, -apple-system, sans-serif';
-        ctx.fillStyle = statusTextColor;
+        ctx.font = 'bold 18px system-ui';
+        ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        ctx.fillText(balanceStatus, canvas.width / 2, statusY + 26);
+        ctx.fillText(balanceStatus, x + w/2, y + 155);
       });
       
-      currentY += 260;
-      
-      // === 2. KEY METRICS SECTION ===
-      drawCard(currentY, 180, (x, y, w, h) => {
-        // Section title (inside card like reference)
-        ctx.font = '600 24px system-ui, -apple-system, sans-serif';
-        ctx.fillStyle = '#64748b';
+      // === BOTTOM SECTION: FINANCIAL HEALTH & ACHIEVEMENTS ===
+      drawGlassCard(bottomSection.x, bottomSection.y, bottomSection.width, bottomSection.height, (x, y, w, h) => {
+        // Title with emoji like reference
+        ctx.font = 'bold 24px system-ui, -apple-system, sans-serif';
+        ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        ctx.fillText('📊 Key Metrics', canvas.width / 2, y + 35);
         
-        // Get metrics from app (dynamic values only)
-        const totalCost = document.getElementById('total-cost')?.textContent || '₹0';
-        const monthlyNeeded = document.getElementById('monthly-needed')?.textContent || '₹0';
-        const timeRequired = document.getElementById('time-required')?.textContent || '0y';
-        const savingsRate = document.getElementById('savings-rate')?.textContent || '0%';
+        // Get health data
+        const healthValue = document.getElementById('financial-health-value')?.textContent || '0%';
+        const healthPercentage = parseFloat(healthValue) || 0;
         
-        // KPI Data
-        const kpiData = [
-          { value: totalCost, label: 'Total Goal Cost' },
-          { value: monthlyNeeded, label: 'Monthly\nInvestment\nNeeded' },
-          { value: timeRequired, label: 'Time Required' },
-          { value: savingsRate, label: 'Savings Rate' }
-        ];
+        // Left side: Health score circle
+        const leftCenterX = x + 200;
+        const centerY = y + 150;
+        const radius = 75;
         
-        // Draw KPI cards in a 4-column layout within the main card
-        const kpiCardWidth = (w - 100) / 4; // 4 columns with spacing
-        const kpiCardHeight = 90;
-        const kpiSpacing = 15;
-        const kpiStartX = x + 30;
-        const kpiStartY = y + 60;
+        // Background circle
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.lineWidth = 8;
+        ctx.beginPath();
+        ctx.arc(leftCenterX, centerY, radius, 0, 2 * Math.PI);
+        ctx.stroke();
         
-        kpiData.forEach((kpi, index) => {
-          const kpiX = kpiStartX + index * (kpiCardWidth + kpiSpacing);
-          const kpiY = kpiStartY;
-          
-          // Individual KPI card background (light gray)
-          ctx.fillStyle = '#f8fafc';
-          ctx.beginPath();
-          ctx.roundRect(kpiX, kpiY, kpiCardWidth, kpiCardHeight, 12);
-          ctx.fill();
-          
-          // KPI Value (blue)
-          ctx.font = '700 22px system-ui, -apple-system, sans-serif';
-          ctx.fillStyle = '#3b82f6';
-          ctx.textAlign = 'center';
-          ctx.fillText(kpi.value, kpiX + kpiCardWidth/2, kpiY + 35);
-          
-          // KPI Label (gray)
-          ctx.font = '400 14px system-ui, -apple-system, sans-serif';
-          ctx.fillStyle = '#64748b';
-          
-          // Handle multi-line labels
-          const labelLines = kpi.label.split('\n');
-          const labelStartY = kpiY + 50;
-          labelLines.forEach((line, lineIndex) => {
-            ctx.fillText(line, kpiX + kpiCardWidth/2, labelStartY + (lineIndex * 16));
-          });
-        });
-      });
-      
-      currentY += 220;
-      
-      // === 3. FINANCIAL HEALTH SECTION ===
-      drawCard(currentY, 160, (x, y, w, h) => {
-        // Title with icon
-        ctx.font = '600 24px system-ui, -apple-system, sans-serif';
-        ctx.fillStyle = '#64748b';
+        // Progress circle
+        const progressAngle = (healthPercentage / 100) * 2 * Math.PI;
+        ctx.strokeStyle = '#10b981';
+        ctx.lineWidth = 8;
+        ctx.beginPath();
+        ctx.arc(leftCenterX, centerY, radius, -Math.PI/2, -Math.PI/2 + progressAngle);
+        ctx.stroke();
+        
+        // Health percentage text
+        ctx.font = 'bold 32px system-ui';
+        ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        ctx.fillText('🏆 Financial Health', canvas.width / 2, y + 35);
+        ctx.fillText(healthValue, leftCenterX, centerY + 10);
         
-        // Dynamic Achievement badges (check if they exist)
+        // Health status
+        ctx.font = '18px system-ui';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.fillText('Overall Health', leftCenterX, centerY + 100);
+        
+        // Right side: Achievements
+        const rightSideX = x + 400;
+        const rightSideW = 500;
+        
+        // Achievements title with emoji like reference
+        ctx.font = 'bold 20px system-ui';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'left';
+        ctx.fillText('🎯 Achievements', rightSideX, y + 50);
+        
+        // Get achievements
         const achievementsContainer = document.getElementById('achievements-container');
         const achievementBadges = achievementsContainer ? achievementsContainer.querySelectorAll('.achievement-badge') : [];
         
         if (achievementBadges.length > 0) {
-          const badgeY = y + 60;
-          const badgeWidth = 130;
-          const badgeHeight = 30;
-          const badgeSpacing = 20;
-          const totalBadgesWidth = Math.min(achievementBadges.length, 2) * badgeWidth + (Math.min(achievementBadges.length, 2) - 1) * badgeSpacing;
-          const startX = (w - totalBadgesWidth) / 2 + x;
-          
-          // Show up to 2 badges
-          Array.from(achievementBadges).slice(0, 2).forEach((badge, index) => {
-            const badgeX = startX + index * (badgeWidth + badgeSpacing);
+          // Show first 5 achievements
+          Array.from(achievementBadges).slice(0, 5).forEach((badge, index) => {
+            const badgeY = y + 80 + (index * 45);
             const badgeText = badge.textContent || '';
             
-            // Determine badge color based on content
-            let bgColor = '#f3f4f6';
-            let textColor = '#374151';
-            
-            if (badgeText.includes('Financial Wellness') || badgeText.includes('♥')) {
-              bgColor = '#dcfce7';
-              textColor = '#16a34a';
-            } else if (badgeText.includes('Life Balance') || badgeText.includes('⚖')) {
-              bgColor = '#ddd6fe';
-              textColor = '#7c3aed';
-            } else if (badgeText.includes('Investment') || badgeText.includes('🏆')) {
-              bgColor = '#fef3c7';
-              textColor = '#d97706';
-            }
-            
-            // Badge background
-            ctx.fillStyle = bgColor;
+            // Badge background with glass effect like reference
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
             ctx.beginPath();
-            ctx.roundRect(badgeX, badgeY, badgeWidth, badgeHeight, 15);
+            ctx.roundRect(rightSideX, badgeY, rightSideW, 35, 12);
             ctx.fill();
             
             // Badge text
-            ctx.font = '500 14px system-ui, -apple-system, sans-serif';
-            ctx.fillStyle = textColor;
-            ctx.textAlign = 'center';
-            ctx.fillText(badgeText, badgeX + badgeWidth/2, badgeY + 20);
+            ctx.font = '16px system-ui';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+            ctx.fillText(badgeText, rightSideX + 15, badgeY + 23);
           });
         } else {
-          // No achievements message
-          ctx.font = '400 16px system-ui, -apple-system, sans-serif';
-          ctx.fillStyle = '#9ca3af';
-          ctx.textAlign = 'center';
-          ctx.fillText('Complete your profile to see achievements', canvas.width / 2, y + 75);
-        }
-        
-        // Progress section (positioned like reference)
-        const healthValue = document.getElementById('financial-health-value')?.textContent || '0%';
-        const healthPercentage = parseFloat(healthValue) || 0;
-        
-        // Progress label
-        ctx.font = '400 16px system-ui, -apple-system, sans-serif';
-        ctx.fillStyle = '#374151';
-        ctx.textAlign = 'left';
-        ctx.fillText('Overall Financial Health', x + 40, y + 120);
-        
-        ctx.textAlign = 'right';
-        ctx.fillText(healthValue, x + w - 40, y + 120);
-        
-        // Progress bar background
-        const progressY = y + 135;
-        const progressWidth = w - 80;
-        const progressHeight = 10;
-        
-        ctx.fillStyle = '#e5e7eb';
-        ctx.beginPath();
-        ctx.roundRect(x + 40, progressY, progressWidth, progressHeight, 5);
-        ctx.fill();
-        
-        // Progress bar fill (green like reference)
-        if (healthPercentage > 0) {
-          const progressFillWidth = (progressWidth * healthPercentage / 100);
-          ctx.fillStyle = '#10b981';
-          ctx.beginPath();
-          ctx.roundRect(x + 40, progressY, progressFillWidth, progressHeight, 5);
-          ctx.fill();
+          // Default achievement badges
+          const defaultBadges = ['Strong Investor', 'SIP Champion', 'Long-term Investor', 'Goal Focused', 'Financial Planner'];
+          defaultBadges.forEach((badge, index) => {
+            const badgeY = y + 80 + (index * 45);
+            
+            // Badge background with glass effect like reference
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.beginPath();
+            ctx.roundRect(rightSideX, badgeY, rightSideW, 35, 12);
+            ctx.fill();
+            
+            // Badge text
+            ctx.font = '16px system-ui';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+            ctx.fillText(badge, rightSideX + 15, badgeY + 23);
+          });
         }
       });
       
-      // Download the image
+      // Add branding/watermark
+      ctx.font = '14px system-ui, -apple-system, sans-serif';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+      ctx.textAlign = 'center';
+      ctx.fillText('Generated with Advanced Goal Alignment Calculator', canvas.width / 2, canvas.height - 25);
+      
+      // Add timestamp
+      const now = new Date();
+      ctx.font = '12px system-ui';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+      ctx.fillText(now.toLocaleDateString(), canvas.width / 2, canvas.height - 8);
+      
+      // Download the clean image
       canvas.toBlob((blob) => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `my-financial-goals-and-health-${new Date().toISOString().split('T')[0]}.png`;
+        a.download = `financial-plan-summary-${new Date().toISOString().split('T')[0]}.png`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
         
-        this.uiManager.showToast('Financial goals and health image generated! 📊', 'success');
+        this.uiManager.showToast('Clean financial summary image generated! \ud83c\udf86', 'success');
       }, 'image/png', 0.95);
       
     } catch (error) {
@@ -2366,6 +2417,53 @@ Generated with Advanced Goal Alignment Calculator`;
       }
     });
   }
+
+  // Age validation function
+  validateAgeFields() {
+    const age = parseInt(document.getElementById('age')?.value) || 0;
+    const timeline = parseInt(document.getElementById('timeline')?.value) || 0;
+    const lifeExpectancy = parseInt(document.getElementById('life-expectancy')?.value) || 0;
+    
+    let hasError = false;
+    
+    // Clear any existing validation styles
+    ['age', 'timeline', 'life-expectancy'].forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.style.borderColor = '';
+        element.style.backgroundColor = '';
+      }
+    });
+    
+    // Validation 1: Current Age should not be more than Life Expectancy
+    if (age > 0 && lifeExpectancy > 0 && age > lifeExpectancy) {
+      this.showValidationError('age', 'Current age cannot be more than life expectancy');
+      this.showValidationError('life-expectancy', 'Life expectancy must be more than current age');
+      hasError = true;
+    }
+    
+    // Validation 2: Life Expectancy should not be less than Current Age + Goal Timeline
+    if (age > 0 && timeline > 0 && lifeExpectancy > 0 && lifeExpectancy < (age + timeline)) {
+      this.showValidationError('life-expectancy', `Life expectancy must be at least ${age + timeline} years (current age + timeline)`);
+      this.showValidationError('timeline', `Timeline too long for life expectancy. Maximum: ${Math.max(0, lifeExpectancy - age)} years`);
+      hasError = true;
+    }
+    
+    // Show success message if all validations pass
+    if (!hasError && age > 0 && timeline > 0 && lifeExpectancy > 0) {
+      this.uiManager.showToast('Age validation passed ✓', 'success');
+    }
+  }
+  
+  // Helper function to show validation errors
+  showValidationError(fieldId, message) {
+    const element = document.getElementById(fieldId);
+    if (element) {
+      element.style.borderColor = '#dc3545';
+      element.style.backgroundColor = '#fff5f5';
+    }
+    this.uiManager.showToast(message, 'error');
+  }
 }
 
 // Initialize the application when DOM is loaded
@@ -2406,4 +2504,5 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }, 100);
+
 });

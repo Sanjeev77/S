@@ -1,4 +1,4 @@
-/* CRITICAL FIX: Balance meter circle stretching - Global override */
+/* CRITICAL FIX: Balance meter circle - Allow JavaScript control */
 .balance-meter .meter-container .meter-indicator,
 .meter-container .meter-indicator,
 #balance-indicator {
@@ -11,7 +11,8 @@
   border-radius: 50% !important;
   position: absolute !important;
   top: -6px !important;
-  left: 50% !important;
+  /* JavaScript can override this initial position */
+  left: 50%;
   transform: translateX(-50%) !important;
   background: white !important;
   border: 3px solid #333 !important;
@@ -292,26 +293,7 @@
     z-index: 1040; /* Below mobile nav but above other content */
   }
 
-  /* Fix balance meter slider circle stretching on tablets/mobile */
-  .balance-meter .meter-container .meter-indicator,
-  .meter-container .meter-indicator,
-  #balance-indicator {
-    width: 26px !important;
-    height: 26px !important;
-    min-width: 26px !important;
-    min-height: 26px !important;
-    max-width: 26px !important;
-    max-height: 26px !important;
-    border-radius: 50% !important;
-    position: absolute !important;
-    top: -6px !important;
-    transform: translateX(-50%) !important;
-    background: white !important;
-    border: 3px solid #333 !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
-    z-index: 2 !important;
-    box-sizing: border-box !important;
-  }
+  /* REMOVED: Duplicate rule - already exists at top of file */
 
   .meter-container {
     overflow: visible !important;
@@ -344,33 +326,7 @@
     -webkit-appearance: none !important;
   }
   
-  /* Fix balance meter slider circle stretching on mobile - Force circular shape */
-  .balance-meter .meter-container .meter-indicator,
-  .meter-container .meter-indicator,
-  #balance-indicator {
-    width: 26px !important;
-    height: 26px !important;
-    min-width: 26px !important;
-    min-height: 26px !important;
-    max-width: 26px !important;
-    max-height: 26px !important;
-    flex-shrink: 0 !important;
-    flex-grow: 0 !important;
-    flex-basis: 26px !important;
-    border-radius: 13px !important; /* Force perfect circle */
-    position: absolute !important;
-    top: -6px !important;
-    transform: translateX(-50%) !important;
-    display: block !important;
-    float: none !important;
-    box-sizing: border-box !important;
-    background: white !important;
-    border: 3px solid #333 !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
-    z-index: 2 !important;
-    aspect-ratio: 1 / 1 !important;
-    content: "" !important;
-  }
+  /* REMOVED: Another duplicate rule - consolidating at top of file */
   
   /* Mobile goal slider track - keep it visible */
   .goal-item input[type="range"].slider::-webkit-slider-track,
