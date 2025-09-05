@@ -674,12 +674,7 @@ class FinancialCalculator {
     console.log('Calculator results:', this.results);
     
     if (!this.results) {
-      console.error('Calculator results not available, running calculation first');
-      this.calculateResults(data);
-    }
-    
-    if (!this.results) {
-      console.error('Still no calculator results after running calculation');
+      console.error('Calculator results not available - calculations must be run first');
       return [];
     }
     
