@@ -212,23 +212,25 @@ class FinancialPlannerApp {
 
     const balanceButton = document.getElementById('balance-button');
     if (balanceButton) {
-      // Simple test function first
-      const testButtonClick = () => {
-        alert('Balance button clicked! Modal should show now.');
-        console.log('Balance button test clicked'); // Debug log
-        this.showBalanceOptions();
-      };
-      
       // Add multiple event listeners for better mobile compatibility
-      balanceButton.addEventListener('click', testButtonClick);
-      balanceButton.addEventListener('touchend', (e) => {
+      balanceButton.addEventListener('click', (e) => {
         e.preventDefault();
-        testButtonClick();
+        e.stopPropagation();
+        console.log('Balance button clicked');
+        this.showBalanceOptions();
       });
       
-      console.log('Balance button event listeners attached'); // Debug log
+      // Add touch events for mobile
+      balanceButton.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Balance button touched');
+        this.showBalanceOptions();
+      });
+      
+      console.log('Balance button event listeners attached');
     } else {
-      console.error('Balance button not found'); // Debug log
+      console.error('Balance button not found');
     }
 
     this.setupActionButtons();
@@ -1637,46 +1639,27 @@ class FinancialPlannerApp {
 
   showBalanceOptions() {
     try {
-      console.log('showBalanceOptions called'); // Debug log
+      console.log('showBalanceOptions called');
+      const formData = this.getFormData();
+      console.log('Form data:', formData);
       
-      // Simple test modal first
-      const modal = document.getElementById('balance-modal');
-      const planOptions = document.getElementById('plan-options');
-      
-      if (!modal || !planOptions) {
-        alert('Modal elements not found!');
-        console.error('Modal elements not found');
+      if (!formData) {
+        console.error('No form data available');
         return;
       }
       
-      // Show simple test content
-      planOptions.innerHTML = `
-        <div style="padding: 20px; text-align: center;">
-          <h3>🎉 Modal is Working!</h3>
-          <p>The balance button click is working correctly.</p>
-          <button onclick="closeModal()" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
-            Close Modal
-          </button>
-        </div>
-      `;
+      const plans = this.calculator.generateBalancePlans(formData);
+      console.log('Generated plans:', plans);
       
-      // Force show modal with all possible methods
-      modal.style.display = 'flex';
-      modal.style.visibility = 'visible';
-      modal.style.opacity = '1';
-      modal.style.zIndex = '99999';
-      modal.style.position = 'fixed';
-      modal.style.top = '0';
-      modal.style.left = '0';
-      modal.style.width = '100vw';
-      modal.style.height = '100vh';
-      modal.style.background = 'rgba(0,0,0,0.8)';
+      if (!plans || plans.length === 0) {
+        console.error('No plans generated');
+        return;
+      }
       
-      console.log('Test modal should be visible now'); // Debug log
-      
+      this.uiManager.showBalanceModal(plans);
+      console.log('Modal should be shown now');
     } catch (error) {
       console.error('Error in showBalanceOptions:', error);
-      alert('Error: ' + error.message);
     }
   }
 
