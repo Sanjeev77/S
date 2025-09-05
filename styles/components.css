@@ -69,36 +69,20 @@
   
   .tab {
     flex: 1 1 calc(25% - 4px);
-    min-width: 70px;
-    max-width: 90px;
-    padding: 10px 2px;
+    min-width: 75px;
+    max-width: 95px;
+    padding: 10px 3px;
     text-align: center;
     font-weight: 500;
     margin: 0 1px;
     font-size: 13px;
     border-radius: 4px 4px 0 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: visible;
     white-space: nowrap;
-  }
-  
-  /* Show abbreviated text on mobile - reordered */
-  .tab[data-tab="finances"]:after { content: "Finance"; }
-  .tab[data-tab="investments"]:after { content: "Invest"; }
-  .tab[data-tab="goals"]:after { content: "Goals"; }
-  .tab[data-tab="visualization"]:after { content: "Visual"; }
-  
-  .tab {
-    color: transparent;
-  }
-  
-  .tab:after {
     color: #6c757d;
-    font-size: 13px;
-    font-weight: 500;
   }
   
-  .tab.active:after {
+  .tab.active {
     color: var(--primary);
     font-weight: bold;
   }
@@ -121,34 +105,20 @@
   
   .tab {
     flex: 1 1 calc(25% - 2px);
-    min-width: 65px;
-    max-width: 80px;
-    padding: 8px 1px;
+    min-width: 70px;
+    max-width: 85px;
+    padding: 8px 2px;
     font-size: 12px;
     margin: 0 1px;
     border-radius: 4px 4px 0 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: visible;
     white-space: nowrap;
-  }
-  
-  /* Even shorter text for small mobile - reordered */
-  .tab[data-tab="finances"]:after { content: "Money"; }
-  .tab[data-tab="investments"]:after { content: "Invest"; }
-  .tab[data-tab="goals"]:after { content: "Goals"; }
-  .tab[data-tab="visualization"]:after { content: "Chart"; }
-  
-  .tab {
-    color: transparent;
-  }
-  
-  .tab:after {
-    color: #6c757d;
-    font-size: 12px;
+    text-align: center;
     font-weight: 500;
+    color: #6c757d;
   }
   
-  .tab.active:after {
+  .tab.active {
     color: var(--primary);
     font-weight: bold;
   }
