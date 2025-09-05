@@ -732,10 +732,16 @@ class UIManager {
 
   // ENHANCED: Balance modal with investment-aware plans
   showBalanceModal(plans) {
+    console.log('showBalanceModal called with:', plans);
     const modal = document.getElementById('balance-modal');
     const planOptions = document.getElementById('plan-options');
     
-    if (!modal || !planOptions) return;
+    if (!modal || !planOptions) {
+      console.error('Modal elements not found');
+      return;
+    }
+    
+    console.log('About to generate HTML for', plans.length, 'plans');
 
     let html = `
       <div style="padding-bottom: 15px; border-bottom: 1px solid #e9ecef; margin-bottom: 15px;">
@@ -807,7 +813,10 @@ class UIManager {
       </div>
     `;
 
+    console.log('Setting planOptions innerHTML');
+    console.log('HTML length:', html.length);
     planOptions.innerHTML = html;
+    console.log('planOptions innerHTML set, content:', planOptions.innerHTML.substring(0, 200) + '...');
     modal.style.display = 'flex';
     modal.style.visibility = 'visible';
     modal.style.opacity = '1';

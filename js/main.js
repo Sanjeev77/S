@@ -1645,21 +1645,28 @@ class FinancialPlannerApp {
       
       if (!formData) {
         console.error('No form data available');
+        alert('Please fill in your financial details first');
         return;
       }
       
       const plans = this.calculator.generateBalancePlans(formData);
       console.log('Generated plans:', plans);
+      console.log('Number of plans:', plans ? plans.length : 0);
       
       if (!plans || plans.length === 0) {
         console.error('No plans generated');
+        alert('No balance plans could be generated. Please check your financial data.');
         return;
       }
       
+      // Show first few plans in console for debugging
+      console.log('First plan:', plans[0]);
+      
       this.uiManager.showBalanceModal(plans);
-      console.log('Modal should be shown now');
+      console.log('Modal should be shown with', plans.length, 'plans');
     } catch (error) {
       console.error('Error in showBalanceOptions:', error);
+      alert('Error generating plans: ' + error.message);
     }
   }
 
