@@ -1649,6 +1649,15 @@ class FinancialPlannerApp {
         return;
       }
       
+      // Ensure calculator has run calculations first
+      console.log('Calculator results before generating plans:', this.calculator.results);
+      
+      if (!this.calculator.results) {
+        console.log('No calculator results found, running calculations first');
+        this.calculator.calculateResults(formData);
+        console.log('Calculator results after calculation:', this.calculator.results);
+      }
+      
       const plans = this.calculator.generateBalancePlans(formData);
       console.log('Generated plans:', plans);
       console.log('Number of plans:', plans ? plans.length : 0);

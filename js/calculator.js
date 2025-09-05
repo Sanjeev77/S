@@ -670,16 +670,45 @@ class FinancialCalculator {
 
   // Enhanced balance plans with investment considerations
   generateBalancePlans(data) {
+    console.log('generateBalancePlans called with data:', data);
+    console.log('Calculator results:', this.results);
+    
+    if (!this.results) {
+      console.error('Calculator results not available, running calculation first');
+      this.calculateResults(data);
+    }
+    
+    if (!this.results) {
+      console.error('Still no calculator results after running calculation');
+      return [];
+    }
+    
     const age = data.age || 30;
     const lifeStage = this.determineLifeStage(age);
-    const { monthlyInvestment, investmentData } = this.results;
+    const { monthlyInvestment = 0, investmentData = {} } = this.results;
+    
+    // Ensure investmentData has all required properties with defaults
+    const safeInvestmentData = {
+      existingInvestments: 0,
+      currentSip: 0,
+      sipDuration: 0,
+      projectedValue: 0,
+      investmentPortfolioStrength: 0,
+      projectedSipValue: 0,
+      remainingSipMonths: 0,
+      ...investmentData
+    };
+    
+    const totalGoals = data.goals ? Object.values(data.goals)
+      .filter(goal => goal && goal.enabled)
+      .reduce((sum, goal) => sum + (goal.amount || 0), 0) : 0;
+    
+    console.log('Calculated values:', { age, lifeStage, monthlyInvestment, totalGoals, safeInvestmentData });
     
     return this.generateLifeStageSpecificPlans(lifeStage, data, {
       monthlyInvestment,
-      investmentData,
-      totalGoals: Object.values(data.goals)
-        .filter(goal => goal.enabled)
-        .reduce((sum, goal) => sum + goal.amount, 0)
+      investmentData: safeInvestmentData,
+      totalGoals
     });
   }
 
