@@ -124,8 +124,8 @@ class FinancialPlannerApp {
         mobileNavItems.forEach(nav => nav.classList.remove('active'));
         item.classList.add('active');
         
-        // Show selected section
-        this.showMobileSection(section);
+        // Show selected section with scroll
+        this.showMobileSection(section, true);
         
         // Show appropriate toast message
         const sectionName = section === 'home' ? 'Input Form' : 'Results Dashboard';
@@ -134,7 +134,7 @@ class FinancialPlannerApp {
     });
   }
 
-  showMobileSection(section) {
+  showMobileSection(section, shouldScroll = false) {
     const homeSection = document.getElementById('home-section');
     const resultsSection = document.getElementById('results-section');
     const isMobile = window.innerWidth <= 768;
@@ -149,11 +149,13 @@ class FinancialPlannerApp {
     } else if (section === 'results') {
       homeSection.classList.add('mobile-hidden');
       resultsSection.classList.remove('mobile-hidden');
-      // Scroll to top of results section when switching to it
-      setTimeout(() => {
-        const resultsTop = resultsSection.offsetTop;
-        window.scrollTo({ top: resultsTop, behavior: 'smooth' });
-      }, 100);
+      // Only scroll when explicitly requested (user clicked nav, not resize)
+      if (shouldScroll) {
+        setTimeout(() => {
+          const resultsTop = resultsSection.offsetTop;
+          window.scrollTo({ top: resultsTop, behavior: 'smooth' });
+        }, 100);
+      }
     }
   }
 
