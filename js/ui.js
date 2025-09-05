@@ -867,13 +867,13 @@ class UIManager {
   // ENHANCED: Pie chart with investment context
   renderEnhancedPieChart(container, data, totalValue) {
     const isMobile = window.innerWidth <= 768;
-    const size = isMobile ? 200 : 180; // Larger size on mobile
+    const size = isMobile ? 160 : 180; // Compact size on mobile
     const center = size / 2;
     const radius = size * 0.4;
     const innerRadius = radius * 0.5;
 
     let html = `
-      <div class="pie-chart-wrapper" style="display: flex; ${isMobile ? 'flex-direction: column; align-items: center;' : 'align-items: flex-start; justify-content: space-between;'} padding: ${isMobile ? '15px 10px' : '10px'}; gap: ${isMobile ? '20px' : '15px'};">
+      <div class="pie-chart-wrapper" style="display: flex; ${isMobile ? 'flex-direction: column; align-items: center;' : 'align-items: flex-start; justify-content: space-between;'} padding: ${isMobile ? '8px 5px' : '10px'}; gap: ${isMobile ? '12px' : '15px'};">
         <div class="pie-chart-svg" style="${isMobile ? 'flex-shrink: 0;' : 'flex-shrink: 0;'}">
           <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="max-width: 100%; height: auto;">
     `;
@@ -932,8 +932,8 @@ class UIManager {
           </svg>
         </div>
         
-        <div class="pie-chart-metrics" style="${isMobile ? 'width: 100%; max-width: 400px;' : 'flex: 1; min-width: 0;'} ${isMobile ? '' : 'max-height: 350px; overflow-y: auto; padding-bottom: 10px;'}">
-          <div style="margin-bottom: ${isMobile ? '15px' : '10px'};">
+        <div class="pie-chart-metrics" style="${isMobile ? 'width: 100%; max-width: 350px;' : 'flex: 1; min-width: 0;'} ${isMobile ? '' : 'max-height: 350px; overflow-y: auto; padding-bottom: 10px;'}">
+          <div style="margin-bottom: ${isMobile ? '8px' : '10px'};">
     `;
 
     // Show all goals on both mobile and desktop
@@ -942,14 +942,14 @@ class UIManager {
 
     visibleGoals.forEach(segment => {
       html += `
-        <div class="pie-chart-metric-row ${isMobile ? 'mobile' : 'desktop'}" style="display: flex; align-items: center; justify-content: space-between; padding: ${isMobile ? '8px 12px' : '4px 8px'}; margin-bottom: ${isMobile ? '6px' : '3px'}; background: #f8f9fa; border-radius: 6px; border-left: 3px solid ${segment.color};">
+        <div class="pie-chart-metric-row ${isMobile ? 'mobile' : 'desktop'}" style="display: flex; align-items: center; justify-content: space-between; padding: ${isMobile ? '10px 12px' : '4px 8px'}; margin-bottom: ${isMobile ? '8px' : '3px'}; background: #f8f9fa; border-radius: 8px; border-left: 3px solid ${segment.color};">
           <div class="pie-chart-metric-left" style="display: flex; align-items: center; min-width: 0; flex: 1;">
-            <i class="pie-chart-metric-icon ${segment.icon}" style="margin-right: ${isMobile ? '10px' : '6px'}; color: ${segment.color}; width: ${isMobile ? '18px' : '12px'}; font-size: ${isMobile ? '1.1rem' : '0.8rem'}; flex-shrink: 0;"></i>
-            <span class="pie-chart-metric-title" style="font-weight: 600; color: #333; font-size: ${isMobile ? '0.9rem' : '0.75rem'}; ${isMobile ? 'flex: 1; display: block;' : 'white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'}">${segment.title}</span>
+            <i class="pie-chart-metric-icon ${segment.icon}" style="margin-right: ${isMobile ? '10px' : '6px'}; color: ${segment.color}; width: ${isMobile ? '16px' : '12px'}; font-size: ${isMobile ? '1rem' : '0.8rem'}; flex-shrink: 0;"></i>
+            <span class="pie-chart-metric-title" style="font-weight: 600; color: #333; font-size: ${isMobile ? '0.9rem' : '0.75rem'}; ${isMobile ? 'flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;' : 'white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'}">${segment.title}</span>
           </div>
-          <div class="pie-chart-metric-right" style="text-align: right; flex-shrink: 0; margin-left: ${isMobile ? '12px' : '8px'};">
-            <div class="pie-chart-metric-percentage" style="font-weight: bold; color: #333; font-size: ${isMobile ? '0.9rem' : '0.75rem'};">${segment.percentage.toFixed(1)}%</div>
-            <div class="pie-chart-metric-amount" style="color: #666; font-size: ${isMobile ? '0.8rem' : '0.7rem'};">${this.formatCompactCurrency(segment.amount)}</div>
+          <div class="pie-chart-metric-right" style="text-align: right; flex-shrink: 0; margin-left: ${isMobile ? '10px' : '8px'}; display: flex; flex-direction: column; align-items: flex-end;">
+            <div class="pie-chart-metric-percentage" style="font-weight: bold; color: var(--primary); font-size: ${isMobile ? '1rem' : '0.75rem'}; line-height: 1.1;">${segment.percentage.toFixed(1)}%</div>
+            <div class="pie-chart-metric-amount" style="color: #666; font-size: ${isMobile ? '0.8rem' : '0.7rem'}; line-height: 1.1;">${this.formatCompactCurrency(segment.amount)}</div>
           </div>
         </div>
       `;
