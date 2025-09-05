@@ -1262,87 +1262,124 @@
     overflow: visible !important;
   }
   
-  /* Mobile Goal Allocation - Optimized compact layout */
-  .pie-chart-metric-row.mobile {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 8px 10px !important;
-    margin-bottom: 6px !important;
-    background: #f8f9fa !important;
-    border-radius: 8px !important;
-    border: none !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.08) !important;
-    overflow: visible !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    min-height: 40px !important;
-  }
-  
-  /* Left side: Icon and Title - Compact layout */
-  .pie-chart-metric-row.mobile .pie-chart-metric-left {
-    display: flex !important;
-    align-items: center !important;
-    flex: 1 !important;
-    margin-bottom: 0 !important;
-    overflow: visible !important;
-    min-width: 0 !important;
-  }
-  
-  .pie-chart-metric-row.mobile .pie-chart-metric-icon {
-    font-size: 1.1rem !important;
-    width: 24px !important;
-    height: 24px !important;
-    margin-right: 10px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: rgba(255,255,255,0.8) !important;
-    border-radius: 6px !important;
-    flex-shrink: 0 !important;
-  }
-  
-  .pie-chart-metric-row.mobile .pie-chart-metric-title {
-    font-size: 0.95rem !important;
-    font-weight: 600 !important;
-    color: #2c3e50 !important;
-    text-transform: none !important;
-    line-height: 1.2 !important;
-    flex: 1 !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-  }
-  
-  /* Right side: Percentage and Amount - Compact vertical layout */
-  .pie-chart-metric-row.mobile .pie-chart-metric-right {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-end !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    margin-left: 10px !important;
-    min-width: 60px !important;
-    background: none !important;
-    border: none !important;
-    padding: 0 !important;
-  }
-  
-  .pie-chart-metric-row.mobile .pie-chart-metric-percentage {
-    font-size: 1rem !important;
-    font-weight: bold !important;
-    color: var(--primary) !important;
-    margin: 0 0 2px 0 !important;
-    line-height: 1.1 !important;
-  }
-  
-  .pie-chart-metric-row.mobile .pie-chart-metric-amount {
-    font-size: 0.8rem !important;
-    font-weight: 500 !important;
-    color: #666 !important;
-    margin: 0 !important;
-    text-align: right !important;
-    line-height: 1.1 !important;
+  /* FORCE OVERRIDE: Mobile Goal Allocation - Optimized compact layout */
+  @media (max-width: 768px) {
+    .pie-chart-metric-row.mobile {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding: 8px 10px !important;
+      margin-bottom: 6px !important;
+      background: #f8f9fa !important;
+      border-radius: 8px !important;
+      border: none !important;
+      border-left: 3px solid var(--primary) !important;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08) !important;
+      overflow: visible !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      min-height: 40px !important;
+    }
+    
+    /* Left side: Icon and Title - Compact layout */
+    .pie-chart-metric-row.mobile .pie-chart-metric-left {
+      display: flex !important;
+      align-items: center !important;
+      flex: 1 !important;
+      margin-bottom: 0 !important;
+      overflow: visible !important;
+      min-width: 0 !important;
+      width: auto !important;
+    }
+    
+    .pie-chart-metric-row.mobile .pie-chart-metric-icon {
+      font-size: 1rem !important;
+      width: 20px !important;
+      height: 20px !important;
+      margin-right: 10px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: none !important;
+      border-radius: 0 !important;
+      flex-shrink: 0 !important;
+    }
+    
+    .pie-chart-metric-row.mobile .pie-chart-metric-title {
+      font-size: 0.9rem !important;
+      font-weight: 600 !important;
+      color: #2c3e50 !important;
+      text-transform: none !important;
+      line-height: 1.2 !important;
+      flex: 1 !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      display: block !important;
+      word-wrap: normal !important;
+    }
+    
+    /* Right side: Percentage and Amount - Compact vertical layout */
+    .pie-chart-metric-row.mobile .pie-chart-metric-right {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-end !important;
+      justify-content: center !important;
+      flex-shrink: 0 !important;
+      margin-left: 10px !important;
+      min-width: 60px !important;
+      background: none !important;
+      border: none !important;
+      padding: 0 !important;
+      width: auto !important;
+    }
+    
+    .pie-chart-metric-row.mobile .pie-chart-metric-percentage {
+      font-size: 1rem !important;
+      font-weight: bold !important;
+      color: var(--primary) !important;
+      margin: 0 0 2px 0 !important;
+      line-height: 1.1 !important;
+      display: block !important;
+    }
+    
+    .pie-chart-metric-row.mobile .pie-chart-metric-amount {
+      font-size: 0.8rem !important;
+      font-weight: 500 !important;
+      color: #666 !important;
+      margin: 0 !important;
+      text-align: right !important;
+      line-height: 1.1 !important;
+      display: block !important;
+    }
+    
+    /* FORCE: Remove scroll and height limits */
+    .pie-chart-metrics {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 0 !important;
+      max-height: none !important;
+      overflow: visible !important;
+      height: auto !important;
+    }
+    
+    .goal-chart-container {
+      padding: 8px !important;
+      margin: 10px 0 !important;
+      max-height: none !important;
+      overflow: visible !important;
+      height: auto !important;
+    }
+    
+    .pie-chart-wrapper {
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 15px !important;
+      padding: 8px 5px !important;
+      max-height: none !important;
+      overflow: visible !important;
+      height: auto !important;
+    }
   }
   
   /* Single column KPI layout for very small screens */
