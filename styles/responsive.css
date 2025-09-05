@@ -1258,6 +1258,8 @@
     width: 100% !important;
     max-width: 100% !important;
     padding: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
   }
   
   /* Mobile Goal Allocation - Optimized compact layout */
@@ -1265,8 +1267,8 @@
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    padding: 10px 12px !important;
-    margin-bottom: 8px !important;
+    padding: 8px 10px !important;
+    margin-bottom: 6px !important;
     background: #f8f9fa !important;
     border-radius: 8px !important;
     border: none !important;
@@ -1274,7 +1276,7 @@
     overflow: visible !important;
     width: 100% !important;
     box-sizing: border-box !important;
-    min-height: 48px !important;
+    min-height: 40px !important;
   }
   
   /* Left side: Icon and Title - Compact layout */
@@ -1321,6 +1323,9 @@
     flex-shrink: 0 !important;
     margin-left: 10px !important;
     min-width: 60px !important;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
   }
   
   .pie-chart-metric-row.mobile .pie-chart-metric-percentage {
