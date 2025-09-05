@@ -732,10 +732,17 @@ class UIManager {
 
   // ENHANCED: Balance modal with investment-aware plans
   showBalanceModal(plans) {
+    console.log('showBalanceModal called with plans:', plans); // Debug log
     const modal = document.getElementById('balance-modal');
     const planOptions = document.getElementById('plan-options');
     
-    if (!modal || !planOptions) return;
+    console.log('Modal element:', modal); // Debug log
+    console.log('Plan options element:', planOptions); // Debug log
+    
+    if (!modal || !planOptions) {
+      console.error('Modal or plan options element not found');
+      return;
+    }
 
     let html = `
       <div style="padding-bottom: 15px; border-bottom: 1px solid #e9ecef; margin-bottom: 15px;">
@@ -808,7 +815,25 @@ class UIManager {
     `;
 
     planOptions.innerHTML = html;
+    console.log('Setting modal display to flex'); // Debug log
     modal.style.display = 'flex';
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
+    modal.classList.add('show');
+    console.log('Modal display style after setting:', modal.style.display); // Debug log
+    console.log('Modal computed style:', getComputedStyle(modal).display); // Debug log
+    
+    // Force modal to appear above everything on mobile
+    if (window.innerWidth <= 768) {
+      modal.style.position = 'fixed';
+      modal.style.top = '0';
+      modal.style.left = '0';
+      modal.style.width = '100vw';
+      modal.style.height = '100vh';
+      modal.style.zIndex = '9999';
+      modal.style.background = 'rgba(0,0,0,0.5)';
+      console.log('Applied mobile-specific modal styles'); // Debug log
+    }
     
     updateSelectionSummary();
   }
@@ -817,6 +842,17 @@ class UIManager {
     const modals = document.querySelectorAll('.modal');
     modals.forEach(modal => {
       modal.style.display = 'none';
+      modal.style.visibility = 'hidden';
+      modal.style.opacity = '0';
+      modal.classList.remove('show');
+      // Reset mobile-specific styles
+      modal.style.position = '';
+      modal.style.top = '';
+      modal.style.left = '';
+      modal.style.width = '';
+      modal.style.height = '';
+      modal.style.zIndex = '';
+      modal.style.background = '';
     });
   }
 

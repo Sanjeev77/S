@@ -212,7 +212,25 @@ class FinancialPlannerApp {
 
     const balanceButton = document.getElementById('balance-button');
     if (balanceButton) {
-      balanceButton.addEventListener('click', () => this.showBalanceOptions());
+      // Add multiple event listeners for better mobile compatibility
+      balanceButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Balance button clicked'); // Debug log
+        this.showBalanceOptions();
+      });
+      
+      // Add touch events for mobile
+      balanceButton.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Balance button touched'); // Debug log
+        this.showBalanceOptions();
+      });
+      
+      console.log('Balance button event listeners attached'); // Debug log
+    } else {
+      console.error('Balance button not found'); // Debug log
     }
 
     this.setupActionButtons();
@@ -1620,9 +1638,29 @@ class FinancialPlannerApp {
   }
 
   showBalanceOptions() {
-    const formData = this.getFormData();
-    const plans = this.calculator.generateBalancePlans(formData);
-    this.uiManager.showBalanceModal(plans);
+    try {
+      console.log('showBalanceOptions called'); // Debug log
+      const formData = this.getFormData();
+      console.log('Form data:', formData); // Debug log
+      
+      if (!formData) {
+        console.error('No form data available');
+        return;
+      }
+      
+      const plans = this.calculator.generateBalancePlans(formData);
+      console.log('Generated plans:', plans); // Debug log
+      
+      if (!plans || plans.length === 0) {
+        console.error('No plans generated');
+        return;
+      }
+      
+      this.uiManager.showBalanceModal(plans);
+      console.log('Modal should be shown now'); // Debug log
+    } catch (error) {
+      console.error('Error in showBalanceOptions:', error);
+    }
   }
 
   applyBalancePlan() {
