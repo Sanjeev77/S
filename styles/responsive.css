@@ -1262,46 +1262,71 @@
     overflow: visible !important;
   }
   
-  /* FORCE OVERRIDE: Mobile Goal Allocation - Optimized compact layout */
+  /* NEW MOBILE LAYOUT: Icon/Name top, %/Amount bottom - COMPLETE OVERRIDE */
   @media (max-width: 768px) {
-    .pie-chart-metric-row.mobile {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: space-between !important;
-      padding: 8px 10px !important;
-      margin-bottom: 6px !important;
-      background: #f8f9fa !important;
-      border-radius: 8px !important;
-      border: none !important;
-      border-left: 3px solid var(--primary) !important;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.08) !important;
+    
+    /* Container overrides - NO SCROLL */
+    .goal-chart-container,
+    .pie-chart-wrapper,
+    .pie-chart-metrics,
+    .pie-chart-metrics > div {
+      max-height: none !important;
       overflow: visible !important;
-      width: 100% !important;
-      box-sizing: border-box !important;
-      min-height: 40px !important;
+      height: auto !important;
     }
     
-    /* Left side: Icon and Title - Compact layout */
+    .goal-chart-container {
+      padding: 5px !important;
+      margin: 8px 0 !important;
+    }
+    
+    .pie-chart-wrapper {
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 10px !important;
+      padding: 5px !important;
+    }
+    
+    .pie-chart-metrics {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 0 !important;
+    }
+    
+    /* MOBILE METRIC ROW - New 2-row structure */
+    .pie-chart-metric-row.mobile {
+      display: block !important;
+      padding: 10px !important;
+      margin-bottom: 8px !important;
+      background: #f8f9fa !important;
+      border-radius: 8px !important;
+      border-left: 3px solid var(--primary) !important;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06) !important;
+      min-height: auto !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    
+    /* TOP ROW: Icon and Name centered */
     .pie-chart-metric-row.mobile .pie-chart-metric-left {
       display: flex !important;
       align-items: center !important;
-      flex: 1 !important;
-      margin-bottom: 0 !important;
-      overflow: visible !important;
-      min-width: 0 !important;
-      width: auto !important;
+      justify-content: center !important;
+      width: 100% !important;
+      margin-bottom: 8px !important;
+      text-align: center !important;
     }
     
     .pie-chart-metric-row.mobile .pie-chart-metric-icon {
-      font-size: 1rem !important;
-      width: 20px !important;
-      height: 20px !important;
-      margin-right: 10px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
+      font-size: 1.2rem !important;
+      margin-right: 8px !important;
+      margin-bottom: 0 !important;
+      width: auto !important;
+      height: auto !important;
+      display: inline !important;
       background: none !important;
-      border-radius: 0 !important;
+      border: none !important;
+      padding: 0 !important;
       flex-shrink: 0 !important;
     }
     
@@ -1309,76 +1334,51 @@
       font-size: 0.9rem !important;
       font-weight: 600 !important;
       color: #2c3e50 !important;
-      text-transform: none !important;
-      line-height: 1.2 !important;
-      flex: 1 !important;
-      white-space: nowrap !important;
-      overflow: hidden !important;
-      text-overflow: ellipsis !important;
-      display: block !important;
-      word-wrap: normal !important;
-    }
-    
-    /* Right side: Percentage and Amount - Compact vertical layout */
-    .pie-chart-metric-row.mobile .pie-chart-metric-right {
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: flex-end !important;
-      justify-content: center !important;
-      flex-shrink: 0 !important;
-      margin-left: 10px !important;
-      min-width: 60px !important;
+      margin: 0 !important;
+      padding: 0 !important;
       background: none !important;
       border: none !important;
+      text-align: center !important;
+      line-height: 1.2 !important;
+      display: inline !important;
+      white-space: nowrap !important;
+      overflow: visible !important;
+    }
+    
+    /* BOTTOM ROW: Percentage and Amount side by side */
+    .pie-chart-metric-row.mobile .pie-chart-metric-right {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      width: 100% !important;
+      margin: 0 !important;
       padding: 0 !important;
-      width: auto !important;
+      background: none !important;
+      border: none !important;
     }
     
     .pie-chart-metric-row.mobile .pie-chart-metric-percentage {
       font-size: 1rem !important;
       font-weight: bold !important;
       color: var(--primary) !important;
-      margin: 0 0 2px 0 !important;
-      line-height: 1.1 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      background: none !important;
+      border: none !important;
       display: block !important;
+      text-align: left !important;
     }
     
     .pie-chart-metric-row.mobile .pie-chart-metric-amount {
-      font-size: 0.8rem !important;
+      font-size: 0.85rem !important;
       font-weight: 500 !important;
       color: #666 !important;
       margin: 0 !important;
-      text-align: right !important;
-      line-height: 1.1 !important;
-      display: block !important;
-    }
-    
-    /* FORCE: Remove scroll and height limits */
-    .pie-chart-metrics {
-      width: 100% !important;
-      max-width: 100% !important;
       padding: 0 !important;
-      max-height: none !important;
-      overflow: visible !important;
-      height: auto !important;
-    }
-    
-    .goal-chart-container {
-      padding: 8px !important;
-      margin: 10px 0 !important;
-      max-height: none !important;
-      overflow: visible !important;
-      height: auto !important;
-    }
-    
-    .pie-chart-wrapper {
-      flex-direction: column !important;
-      align-items: center !important;
-      gap: 15px !important;
-      padding: 8px 5px !important;
-      max-height: none !important;
-      overflow: visible !important;
-      height: auto !important;
+      background: none !important;
+      border: none !important;
+      display: block !important;
+      text-align: right !important;
     }
   }
   
@@ -1643,5 +1643,81 @@
   
   .goal-item.active {
     transform: none;
+  }
+}
+
+/* FINAL OVERRIDE: Force new mobile Goal Allocation layout */
+@media screen and (max-width: 768px) {
+  /* Kill all components.css overrides */
+  .pie-chart-metric-row.mobile,
+  .pie-chart-metric-row.mobile .pie-chart-metric-left,
+  .pie-chart-metric-row.mobile .pie-chart-metric-right,
+  .pie-chart-metric-row.mobile .pie-chart-metric-icon,
+  .pie-chart-metric-row.mobile .pie-chart-metric-title,
+  .pie-chart-metric-row.mobile .pie-chart-metric-percentage,
+  .pie-chart-metric-row.mobile .pie-chart-metric-amount {
+    all: unset !important;
+  }
+  
+  /* Apply new structure */
+  .pie-chart-metric-row.mobile {
+    display: block !important;
+    padding: 10px !important;
+    margin-bottom: 8px !important;
+    background: #f8f9fa !important;
+    border-radius: 8px !important;
+    border-left: 3px solid currentColor !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  .pie-chart-metric-row.mobile .pie-chart-metric-left {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .pie-chart-metric-row.mobile .pie-chart-metric-icon {
+    font-size: 1.2rem !important;
+    margin-right: 8px !important;
+    display: inline-block !important;
+  }
+  
+  .pie-chart-metric-row.mobile .pie-chart-metric-title {
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+    display: inline-block !important;
+  }
+  
+  .pie-chart-metric-row.mobile .pie-chart-metric-right {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  
+  .pie-chart-metric-row.mobile .pie-chart-metric-percentage {
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    color: var(--primary) !important;
+  }
+  
+  .pie-chart-metric-row.mobile .pie-chart-metric-amount {
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    color: #666 !important;
+  }
+  
+  /* Force no scroll containers */
+  .goal-chart-container,
+  .pie-chart-wrapper,
+  .pie-chart-metrics {
+    max-height: none !important;
+    overflow: visible !important;
+    height: auto !important;
   }
 }
