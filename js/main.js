@@ -1639,75 +1639,61 @@ class FinancialPlannerApp {
 
   showBalanceOptions() {
     try {
-      console.log('showBalanceOptions called');
-      const formData = this.getFormData();
-      console.log('Form data:', formData);
+      console.log('showBalanceOptions called - using simple approach');
       
-      if (!formData) {
-        console.error('No form data available');
-        alert('Please fill in your financial details first');
-        return;
-      }
-      
-      // Ensure calculator has run calculations first
-      console.log('Calculator results before generating plans:', this.calculator.results);
-      
-      if (!this.calculator.results) {
-        console.log('No calculator results found, running calculations first');
-        this.calculateResults(); // Call the main app's calculateResults method
-        console.log('Calculator results after calculation:', this.calculator.results);
-      }
-      
-      let plans = this.calculator.generateBalancePlans(formData);
-      console.log('Generated plans:', plans);
-      console.log('Number of plans:', plans ? plans.length : 0);
-      
-      if (!plans || plans.length === 0) {
-        console.warn('No plans generated from calculator, creating fallback plans');
-        // Create simple fallback plans for testing
-        plans = [
-          {
-            id: 'reduce-expenses',
-            title: 'Reduce Monthly Expenses',
-            description: 'Cut down unnecessary expenses to improve your work-life balance budget.',
-            icon: 'fas fa-cut',
-            impact: {
-              savings: '₹5,000',
-              timeline: '3 months',
-              stress: 'Low'
-            }
-          },
-          {
-            id: 'increase-income',
-            title: 'Increase Income Sources',
-            description: 'Explore side income or skill upgrades to boost your earning potential.',
-            icon: 'fas fa-arrow-up',
-            impact: {
-              income: '₹10,000',
-              timeline: '6 months',
-              effort: 'Medium'
-            }
-          },
-          {
-            id: 'emergency-fund',
-            title: 'Build Emergency Fund',
-            description: 'Create a safety net of 6 months expenses for better financial security.',
-            icon: 'fas fa-shield-alt',
-            impact: {
-              security: '6 months',
-              peace: 'High',
-              priority: 'High'
-            }
+      // Skip complex plan generation and use simple hardcoded plans
+      const plans = [
+        {
+          id: 'reduce-expenses',
+          title: 'Reduce Monthly Expenses',
+          description: 'Cut down unnecessary expenses to improve your work-life balance budget.',
+          icon: 'fas fa-cut',
+          impact: {
+            savings: '₹5,000',
+            timeline: '3 months',
+            stress: 'Low'
           }
-        ];
-        console.log('Using fallback plans:', plans);
-      }
+        },
+        {
+          id: 'increase-income',
+          title: 'Increase Income Sources',
+          description: 'Explore side income or skill upgrades to boost your earning potential.',
+          icon: 'fas fa-arrow-up',
+          impact: {
+            income: '₹10,000',
+            timeline: '6 months',
+            effort: 'Medium'
+          }
+        },
+        {
+          id: 'emergency-fund',
+          title: 'Build Emergency Fund',
+          description: 'Create a safety net of 6 months expenses for better financial security.',
+          icon: 'fas fa-shield-alt',
+          impact: {
+            security: '6 months',
+            peace: 'High',
+            priority: 'High'
+          }
+        },
+        {
+          id: 'investment-start',
+          title: 'Start Investment Journey',
+          description: 'Begin systematic investment planning to grow your wealth over time.',
+          icon: 'fas fa-chart-line',
+          impact: {
+            growth: '12-15%',
+            timeline: '1 year',
+            risk: 'Moderate'
+          }
+        }
+      ];
       
-      // Show first few plans in console for debugging
-      console.log('First plan:', plans[0]);
+      console.log('Using simple hardcoded plans:', plans);
       
       this.uiManager.showBalanceModal(plans);
       console.log('Modal should be shown with', plans.length, 'plans');
+      
     } catch (error) {
       console.error('Error in showBalanceOptions:', error);
       alert('Error generating plans: ' + error.message);
