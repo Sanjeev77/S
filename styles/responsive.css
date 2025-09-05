@@ -871,11 +871,24 @@
     touch-action: manipulation !important;
     user-select: none !important;
     font-size: 14px !important;
+    display: block !important; /* Force visible for testing */
+    background: #ff6b35 !important; /* Make it very visible */
+    color: white !important;
+    border: 3px solid #333 !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    position: relative !important;
+    z-index: 1000 !important;
   }
 
   #balance-button:active {
     transform: scale(0.98) !important;
     transition: transform 0.1s ease !important;
+    background: #e55a2b !important;
+  }
+
+  #balance-button:hover {
+    background: #e55a2b !important;
   }
   
   .mobile-nav-item {
