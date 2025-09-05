@@ -49,6 +49,8 @@
     flex-wrap: nowrap;
     scrollbar-width: thin;
     scrollbar-color: #c1c1c1 #f1f1f1;
+    gap: 0;
+    padding: 0 5px;
   }
   
   .tabs::-webkit-scrollbar {
@@ -66,11 +68,39 @@
   }
   
   .tab {
-    flex: 0 0 auto;
-    min-width: 130px;
-    padding: 12px 18px;
+    flex: 1 1 calc(25% - 4px);
+    min-width: 70px;
+    max-width: 90px;
+    padding: 10px 2px;
     text-align: center;
     font-weight: 500;
+    margin: 0 1px;
+    font-size: 13px;
+    border-radius: 4px 4px 0 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* Show abbreviated text on mobile - reordered */
+  .tab[data-tab="finances"]:after { content: "Finance"; }
+  .tab[data-tab="investments"]:after { content: "Invest"; }
+  .tab[data-tab="goals"]:after { content: "Goals"; }
+  .tab[data-tab="visualization"]:after { content: "Visual"; }
+  
+  .tab {
+    color: transparent;
+  }
+  
+  .tab:after {
+    color: #6c757d;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  .tab.active:after {
+    color: var(--primary);
+    font-weight: bold;
   }
 }
 
@@ -90,9 +120,37 @@
   }
   
   .tab {
-    min-width: 120px;
-    padding: 10px 16px;
-    font-size: 14px;
+    flex: 1 1 calc(25% - 2px);
+    min-width: 65px;
+    max-width: 80px;
+    padding: 8px 1px;
+    font-size: 12px;
+    margin: 0 1px;
+    border-radius: 4px 4px 0 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* Even shorter text for small mobile - reordered */
+  .tab[data-tab="finances"]:after { content: "Money"; }
+  .tab[data-tab="investments"]:after { content: "Invest"; }
+  .tab[data-tab="goals"]:after { content: "Goals"; }
+  .tab[data-tab="visualization"]:after { content: "Chart"; }
+  
+  .tab {
+    color: transparent;
+  }
+  
+  .tab:after {
+    color: #6c757d;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .tab.active:after {
+    color: var(--primary);
+    font-weight: bold;
   }
 }
 
@@ -106,13 +164,15 @@
 }
 
 .tab {
-  padding: 10px 20px;
+  padding: 10px 6px;
   cursor: pointer;
   border-bottom: 3px solid transparent;
   transition: all 0.3s;
   flex-shrink: 0;
   white-space: nowrap;
-  min-width: 120px;
+  min-width: 55px;
+  max-width: 85px;
+  font-size: 13px;
 }
 
 .tab.active {
