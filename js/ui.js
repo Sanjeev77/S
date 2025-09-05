@@ -554,9 +554,19 @@ class UIManager {
 
     if (!indicator || !status || !button) return;
 
+    // Check if we have valid financial data
+    if (!results || !results.hasValidData || !results.income || results.income <= 0) {
+      status.textContent = 'Enter your financial details';
+      status.style.backgroundColor = '#f8f9fa';
+      status.style.color = '#6c757d';
+      button.style.display = 'none';
+      indicator.style.left = '50%';
+      return;
+    }
+
     const investmentData = results.investmentData || {};
     const portfolioStrength = investmentData.investmentPortfolioStrength || 0;
-    const balanceScore = results.balanceScore || 50;
+    const balanceScore = results.balanceScore || 0;
     
     // Adjust balance score based on investment strength
     const investmentAdjustedScore = Math.min(100, balanceScore + (portfolioStrength * 0.2));

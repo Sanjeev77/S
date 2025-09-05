@@ -732,6 +732,18 @@ class FinancialPlannerApp {
     
     if (!elements.indicator || !elements.status || !elements.button) return;
     
+    // Check if we have valid financial data before showing suggestions
+    const hasValidData = formData && formData.income > 0 && formData.expenses > 0;
+    
+    if (!hasValidData) {
+      elements.status.textContent = 'Enter your financial details';
+      elements.status.style.backgroundColor = '#f8f9fa';
+      elements.status.style.color = '#6c757d';
+      elements.button.style.display = 'none';
+      elements.indicator.style.left = '50%';
+      return;
+    }
+    
     const age = formData.age || 30;
     const lifeStage = this.determineLifeStage(age);
     const balanceAnalysis = this.calculateInvestmentAwareBalance(formData, loanData, lifeStage, investmentStrength);
@@ -1640,6 +1652,13 @@ class FinancialPlannerApp {
   showBalanceOptions() {
     try {
       console.log('showBalanceOptions called - using simple approach');
+      
+      // Check if user has entered basic financial data
+      const formData = this.getFormData();
+      if (!formData || !formData.income || !formData.expenses || formData.income <= 0) {
+        alert('Please enter your basic financial details (income and expenses) first before getting balance suggestions.');
+        return;
+      }
       
       // Skip complex plan generation and use simple hardcoded plans
       const plans = [
