@@ -1328,6 +1328,11 @@
       border: none !important;
       padding: 0 !important;
       flex-shrink: 0 !important;
+      font-family: "Font Awesome 6 Free" !important;
+      font-weight: 900 !important;
+      line-height: 1 !important;
+      text-rendering: auto !important;
+      -webkit-font-smoothing: antialiased !important;
     }
     
     .pie-chart-metric-row.mobile .pie-chart-metric-title {
@@ -1648,15 +1653,32 @@
 
 /* FINAL OVERRIDE: Force new mobile Goal Allocation layout */
 @media screen and (max-width: 768px) {
-  /* Kill all components.css overrides */
+  /* Kill all components.css overrides - EXCEPT icon font properties */
   .pie-chart-metric-row.mobile,
   .pie-chart-metric-row.mobile .pie-chart-metric-left,
   .pie-chart-metric-row.mobile .pie-chart-metric-right,
-  .pie-chart-metric-row.mobile .pie-chart-metric-icon,
   .pie-chart-metric-row.mobile .pie-chart-metric-title,
   .pie-chart-metric-row.mobile .pie-chart-metric-percentage,
   .pie-chart-metric-row.mobile .pie-chart-metric-amount {
     all: unset !important;
+  }
+  
+  /* DON'T reset icon font properties */
+  .pie-chart-metric-row.mobile .pie-chart-metric-icon {
+    /* Reset most properties but keep font essentials */
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: none !important;
+    /* BUT preserve font properties for icons */
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    font-style: normal !important;
+    font-variant: normal !important;
+    text-rendering: auto !important;
+    line-height: 1 !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
   }
   
   /* Apply new structure */
@@ -1684,6 +1706,13 @@
     font-size: 1.2rem !important;
     margin-right: 8px !important;
     display: inline-block !important;
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    width: auto !important;
+    height: auto !important;
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased !important;
   }
   
   .pie-chart-metric-row.mobile .pie-chart-metric-title {

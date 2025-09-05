@@ -196,7 +196,7 @@ class UIManager {
       this.activeTab = tabName;
     }
 
-    // On mobile, ensure we're on the home section before scrolling
+    // Ensure proper section navigation on both mobile and desktop
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {
       // Make sure home section is visible on mobile
@@ -216,11 +216,8 @@ class UIManager {
       }
     }
 
-    // Only scroll to sections on desktop - preserve scroll position on mobile
-    if (!isMobile) {
-      this.scrollToSection(tabName);
-    }
-    // On mobile, let users maintain their current scroll position
+    // Scroll to sections on both mobile and desktop
+    this.scrollToSection(tabName);
     
     this.showToast(`Viewing ${tabName} section`, 'info');
   }
@@ -228,51 +225,54 @@ class UIManager {
   scrollToSection(tabName) {
     let targetElement = null;
     
-    const sectionMap = {
-      'goals': ['your goals', 'goals', 'flag'],
-      'finances': ['monthly finances', 'finances', 'money-bill-wave'],
-      'investments': ['investment assumptions', 'investment', 'assumptions', 'chart-line'],
-      'visualization': ['goal visualization', 'visualization', 'chart-bar']
-    };
+    // First try to find section by data attribute (most reliable)
+    targetElement = document.querySelector(`[data-section="${tabName}"]`);
     
-    const searchTerms = sectionMap[tabName] || [tabName];
-    const sections = document.querySelectorAll('.section');
-    
-    sections.forEach((section, index) => {
-      if (targetElement) return; // Stop searching once found
+    // If not found, fallback to text/icon matching
+    if (!targetElement) {
+      const sections = document.querySelectorAll('.section');
       
-      const sectionTitle = section.querySelector('.section-title');
-      if (sectionTitle) {
-        const titleText = sectionTitle.textContent.toLowerCase();
+      sections.forEach((section, index) => {
+        if (targetElement) return; // Stop searching once found
         
-        for (let term of searchTerms) {
-          if (titleText.includes(term.toLowerCase())) {
-            targetElement = section;
-            break;
+        const sectionTitle = section.querySelector('.section-title');
+        if (sectionTitle) {
+          const titleText = sectionTitle.textContent.toLowerCase();
+          const iconElement = sectionTitle.querySelector('i');
+          const iconClass = iconElement ? iconElement.className : '';
+          
+          // Check by tab name and content
+          switch(tabName) {
+            case 'goals':
+              if (titleText.includes('goals') || titleText.includes('goal') || iconClass.includes('flag')) {
+                targetElement = section;
+              }
+              break;
+            case 'finances':
+              if (titleText.includes('finances') || titleText.includes('financial') || iconClass.includes('money') || iconClass.includes('dollar')) {
+                targetElement = section;
+              }
+              break;
+            case 'investments':
+              if (titleText.includes('investment') || titleText.includes('assumptions') || iconClass.includes('chart-line')) {
+                targetElement = section;
+              }
+              break;
+            case 'visualization':
+              if (titleText.includes('visualization') || titleText.includes('visual') || iconClass.includes('chart-bar')) {
+                targetElement = section;
+              }
+              break;
           }
         }
-      }
-    });
+      });
+    }
 
     if (targetElement) {
-      
       const isMobile = window.innerWidth <= 768;
       
-      // Skip scrolling on mobile to preserve user's scroll position
-      if (isMobile) {
-        return;
-      }
-      
-      const headerOffset = 80; // Desktop header offset
-      
-      // Get the target position
-      const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-      
-      // Scroll to the target with proper offset (desktop only)
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
+      // Try different scroll approaches
+      this.performScroll(targetElement, isMobile);
       
       // Highlight the section
       targetElement.style.transition = 'background-color 0.5s ease';
@@ -286,6 +286,40 @@ class UIManager {
       // Fallback: preserve scroll position if section not found
       this.showToast(`Section "${tabName}" not found. Scroll position preserved.`, 'warning');
     }
+  }
+
+  performScroll(targetElement, isMobile) {
+    const leftPanel = document.querySelector('.left-panel');
+    const headerOffset = isMobile ? 120 : 80;
+    
+    // Method 1: Try scrolling the left panel if it's scrollable
+    if (leftPanel && leftPanel.scrollHeight > leftPanel.clientHeight) {
+      const panelRect = leftPanel.getBoundingClientRect();
+      const targetRect = targetElement.getBoundingClientRect();
+      const targetPosition = leftPanel.scrollTop + (targetRect.top - panelRect.top) - 20;
+      
+      leftPanel.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+      return;
+    }
+    
+    // Method 2: Scroll the window (for mobile or when left panel isn't scrollable)
+    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+    window.scrollTo({
+      top: targetPosition,
+      behavior: 'smooth'
+    });
+    
+    // Method 3: Fallback using element.scrollIntoView
+    setTimeout(() => {
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest'
+      });
+    }, 100);
   }
   
   fallbackScroll(tabName) {
