@@ -632,6 +632,20 @@ class FinancialPlannerApp {
       
       this.updateEnhancedLoanBasedInsights(formData, loanData);
       
+      // Always update investment achievements regardless of goals
+      if (formData.income > 0) {
+        const mockResults = {
+          financialHealth: 0, // Will be calculated separately
+          investmentData: {
+            investmentPortfolioStrength: this.calculateInvestmentStrength(formData),
+            existingInvestments: formData.existingInvestments || 0,
+            currentSip: formData.currentSip || 0,
+            sipDuration: formData.sipDuration || 0
+          }
+        };
+        this.uiManager.updateInvestmentAchievements(mockResults);
+      }
+      
       const hasActiveGoals = Object.values(formData.goals).some(goal => goal.enabled && goal.amount > 0);
       
       if (hasActiveGoals && formData.income > 0 && formData.expenses > 0) {
@@ -646,6 +660,10 @@ class FinancialPlannerApp {
           this.enhanceInsightsWithInvestmentData(formData, loanData, insights, results);
           this.uiManager.updateScenarios(scenarios);
           this.updateEnhancedActionPlans(results);
+          
+          // IMPORTANT: Recalculate enhanced financial health after goals update
+          // This ensures our emergency fund logic isn't overwritten by calculator's basic logic
+          this.updateEnhancedFinancialHealth(formData, loanData);
           
           this.previousResults = { ...results };
         } catch (goalError) {
@@ -715,13 +733,26 @@ class FinancialPlannerApp {
     else if (investmentStrength >= 20) healthScore += 10;
     else if (investmentStrength > 0) healthScore += 5;
     
-    // Emergency fund factor
+    // Enhanced emergency fund factor - massive funds provide strong protection
     if (formData.savings > 0 && formData.expenses > 0) {
       const emergencyMonths = formData.savings / formData.expenses;
-      if (emergencyMonths >= 12) healthScore += 15;
-      else if (emergencyMonths >= 6) healthScore += 10;
-      else if (emergencyMonths >= 3) healthScore += 5;
-      else if (emergencyMonths < 1) healthScore -= 5;
+      const totalMonthlyOutflow = formData.expenses + totalEmi;
+      const sustainabilityMonths = totalMonthlyOutflow > 0 ? formData.savings / totalMonthlyOutflow : 0;
+      
+      console.log('💰 Emergency Fund Analysis:', {
+        emergencyMonths: emergencyMonths,
+        sustainabilityMonths: sustainabilityMonths,
+        totalMonthlyOutflow: totalMonthlyOutflow
+      });
+      
+      // Massive emergency fund provides substantial health boost
+      if (sustainabilityMonths >= 120) healthScore += 35; // 10+ years sustainability
+      else if (sustainabilityMonths >= 60) healthScore += 30; // 5+ years sustainability  
+      else if (sustainabilityMonths >= 24) healthScore += 25; // 2+ years sustainability
+      else if (emergencyMonths >= 12) healthScore += 15; // 1+ year emergency coverage
+      else if (emergencyMonths >= 6) healthScore += 10;  // 6+ months emergency coverage
+      else if (emergencyMonths >= 3) healthScore += 5;   // 3+ months emergency coverage
+      else if (emergencyMonths < 1) healthScore -= 5;    // Less than 1 month
     }
     
     healthScore = Math.max(0, Math.min(100, healthScore));
@@ -1580,19 +1611,19 @@ class FinancialPlannerApp {
         
         <div id="${loanId}_emi_scenario" class="emi-scenario" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 2px solid #e9ecef;">
           <div class="scenario-header" style="font-weight: 600; color: #495057; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-            <i class="fas fa-rocket" style="color: #28a745;"></i>
+            <i id="${loanId}_scenario_icon" class="fas fa-rocket" style="color: #28a745;"></i>
             <span>With Your EMI Amount:</span>
           </div>
           <div class="loan-summary-item">
-            <span>Early Completion:</span>
+            <span id="${loanId}_completion_label">Early Completion:</span>
             <span id="${loanId}_emi_completion" style="color: #28a745; font-weight: 500;">-</span>
           </div>
           <div class="loan-summary-item">
-            <span>Time Saved:</span>
+            <span id="${loanId}_time_label">Time Saved:</span>
             <span id="${loanId}_time_saved" style="color: #007bff; font-weight: 500;">-</span>
           </div>
           <div class="loan-summary-item">
-            <span>Interest Saved:</span>
+            <span id="${loanId}_interest_label">Interest Saved:</span>
             <span id="${loanId}_interest_saved" style="color: #28a745; font-weight: 600;">-</span>
           </div>
         </div>
@@ -1691,7 +1722,8 @@ class FinancialPlannerApp {
 
     let emiBasedCompletion = null;
     let emiBasedMonths = null;
-    let earlyCompletionSavings = 0;
+    let completionSavings = 0;
+    let completionType = 'standard'; // 'early', 'delayed', or 'standard'
     
     if (loanData.emi > 0 && Math.abs(loanData.emi - calculatedEmi) > 10 && monthlyRate > 0) {
       const principal = loanData.principal;
@@ -1709,13 +1741,41 @@ class FinancialPlannerApp {
           
           const emiBasedTotalPayment = userEmi * emiBasedMonths;
           const emiBasedInterest = emiBasedTotalPayment - principal;
-          earlyCompletionSavings = totalInterestBasedOnLoan - emiBasedInterest;
+          completionSavings = totalInterestBasedOnLoan - emiBasedInterest;
+          
+          // Determine completion type
+          if (userEmi > calculatedEmi) {
+            completionType = 'early';
+          } else if (userEmi < calculatedEmi) {
+            completionType = 'delayed';
+          } else {
+            completionType = 'standard';
+          }
           
         } catch (error) {
           console.error('EMI calculation error:', error);
           emiBasedCompletion = null;
         }
+      } else {
+        // User EMI is less than minimum required, this will extend the loan
+        completionType = 'delayed';
+        // Calculate delayed completion (simplified approach)
+        if (userEmi > 0) {
+          emiBasedMonths = Math.ceil(principal / userEmi); // Very simplified
+          emiBasedCompletion = new Date();
+          emiBasedCompletion.setMonth(emiBasedCompletion.getMonth() + emiBasedMonths);
+          
+          const delayedTotalPayment = userEmi * emiBasedMonths;
+          const delayedInterest = delayedTotalPayment - principal;
+          completionSavings = totalInterestBasedOnLoan - delayedInterest; // Will be negative (additional cost)
+        }
       }
+    } else if (loanData.emi > 0 && Math.abs(loanData.emi - calculatedEmi) <= 10) {
+      // EMI is very close to calculated EMI
+      completionType = 'standard';
+      emiBasedCompletion = standardCompletionDate;
+      emiBasedMonths = totalMonths;
+      completionSavings = 0;
     }
 
     return {
@@ -1727,8 +1787,9 @@ class FinancialPlannerApp {
       totalMonths,
       emiBasedCompletion,
       emiBasedMonths,
-      earlyCompletionSavings: Math.round(earlyCompletionSavings * 100) / 100,
-      showEmiScenario: emiBasedCompletion !== null
+      completionSavings: Math.round(completionSavings * 100) / 100,
+      completionType,
+      showEmiScenario: emiBasedCompletion !== null && loanData.emi > 0
     };
   }
 
@@ -1763,21 +1824,85 @@ class FinancialPlannerApp {
         const yearsSaved = Math.floor(monthsSaved / 12);
         const remainingMonths = monthsSaved % 12;
         
+        // Update labels and styling based on completion type
+        const completionLabelElement = document.getElementById(`${loanId}_completion_label`);
+        const timeLabelElement = document.getElementById(`${loanId}_time_label`);
+        const interestLabelElement = document.getElementById(`${loanId}_interest_label`);
+        const scenarioIconElement = document.getElementById(`${loanId}_scenario_icon`);
+        const completionDateElement = document.getElementById(`${loanId}_emi_completion`);
+        const timeSavedElement = document.getElementById(`${loanId}_time_saved`);
+        const interestSavedElement = document.getElementById(`${loanId}_interest_saved`);
+        
         let timeSavedText = '';
-        if (monthsSaved <= 0) {
-          timeSavedText = 'No time saved';
-        } else if (yearsSaved > 0 && remainingMonths > 0) {
-          timeSavedText = `${yearsSaved}y ${remainingMonths}m`;
-        } else if (yearsSaved > 0) {
-          timeSavedText = `${yearsSaved} year${yearsSaved > 1 ? 's' : ''}`;
+        
+        if (calculations.completionType === 'early') {
+          // Early completion
+          if (completionLabelElement) completionLabelElement.textContent = 'Early Completion:';
+          if (timeLabelElement) timeLabelElement.textContent = 'Time Saved:';
+          if (interestLabelElement) interestLabelElement.textContent = 'Interest Saved:';
+          if (scenarioIconElement) {
+            scenarioIconElement.className = 'fas fa-rocket';
+            scenarioIconElement.style.color = '#28a745';
+          }
+          if (completionDateElement) completionDateElement.style.color = '#28a745';
+          if (timeSavedElement) timeSavedElement.style.color = '#28a745';
+          if (interestSavedElement) interestSavedElement.style.color = '#28a745';
+          
+          if (monthsSaved <= 0) {
+            timeSavedText = 'No time saved';
+          } else if (yearsSaved > 0 && remainingMonths > 0) {
+            timeSavedText = `${yearsSaved}y ${remainingMonths}m`;
+          } else if (yearsSaved > 0) {
+            timeSavedText = `${yearsSaved} year${yearsSaved > 1 ? 's' : ''}`;
+          } else {
+            timeSavedText = `${remainingMonths} month${remainingMonths > 1 ? 's' : ''}`;
+          }
+        } else if (calculations.completionType === 'delayed') {
+          // Delayed completion
+          if (completionLabelElement) completionLabelElement.textContent = 'Delayed Completion:';
+          if (timeLabelElement) timeLabelElement.textContent = 'Additional Time:';
+          if (interestLabelElement) interestLabelElement.textContent = 'Additional Interest:';
+          if (scenarioIconElement) {
+            scenarioIconElement.className = 'fas fa-clock';
+            scenarioIconElement.style.color = '#dc3545';
+          }
+          if (completionDateElement) completionDateElement.style.color = '#dc3545';
+          if (timeSavedElement) timeSavedElement.style.color = '#dc3545';
+          if (interestSavedElement) interestSavedElement.style.color = '#dc3545';
+          
+          const monthsDelayed = Math.abs(monthsSaved);
+          const yearsDelayed = Math.floor(monthsDelayed / 12);
+          const remainingDelayedMonths = monthsDelayed % 12;
+          
+          if (monthsDelayed <= 0) {
+            timeSavedText = 'No time difference';
+          } else if (yearsDelayed > 0 && remainingDelayedMonths > 0) {
+            timeSavedText = `+${yearsDelayed}y ${remainingDelayedMonths}m`;
+          } else if (yearsDelayed > 0) {
+            timeSavedText = `+${yearsDelayed} year${yearsDelayed > 1 ? 's' : ''}`;
+          } else {
+            timeSavedText = `+${remainingDelayedMonths} month${remainingDelayedMonths > 1 ? 's' : ''}`;
+          }
         } else {
-          timeSavedText = `${remainingMonths} month${remainingMonths > 1 ? 's' : ''}`;
+          // Standard completion
+          if (completionLabelElement) completionLabelElement.textContent = 'Standard Completion:';
+          if (timeLabelElement) timeLabelElement.textContent = 'Time Difference:';
+          if (interestLabelElement) interestLabelElement.textContent = 'Interest Difference:';
+          if (scenarioIconElement) {
+            scenarioIconElement.className = 'fas fa-equals';
+            scenarioIconElement.style.color = '#007bff';
+          }
+          if (completionDateElement) completionDateElement.style.color = '#007bff';
+          if (timeSavedElement) timeSavedElement.style.color = '#007bff';
+          if (interestSavedElement) interestSavedElement.style.color = '#007bff';
+          
+          timeSavedText = 'No time difference';
         }
         
         const emiScenarioUpdates = [
           { id: `${loanId}_emi_completion`, value: calculations.emiBasedCompletion.toLocaleDateString('en-IN', { year: 'numeric', month: 'short' }) },
           { id: `${loanId}_time_saved`, value: timeSavedText },
-          { id: `${loanId}_interest_saved`, value: UTILS.formatCurrency(Math.max(0, calculations.earlyCompletionSavings)) }
+          { id: `${loanId}_interest_saved`, value: UTILS.formatCurrency(Math.abs(calculations.completionSavings)) }
         ];
 
         emiScenarioUpdates.forEach(update => {
