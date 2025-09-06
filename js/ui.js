@@ -561,7 +561,10 @@ class UIManager {
     // Adjust balance score based on investment strength
     const investmentAdjustedScore = Math.min(100, balanceScore + (portfolioStrength * 0.2));
     
-    indicator.style.left = investmentAdjustedScore + '%';
+    // Set position with proper transform to center the indicator
+    // Note: Position is now set by main.js calculateWorkLifeBalance() to avoid conflicts
+    // indicator.style.left = investmentAdjustedScore + '%';
+    // indicator.style.transform = 'translateX(-50%)';
 
     // Enhanced status text with investment context
     if (investmentAdjustedScore >= 80) {
