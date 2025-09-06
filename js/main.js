@@ -1836,6 +1836,7 @@ Generated with Advanced Goal Alignment Calculator`;
   downloadResults() {
     const results = this.previousResults || {};
     const formData = this.getFormData();
+    const loanData = this.collectAndStoreLoanData();
     
     const data = {
       summary: {
@@ -1848,6 +1849,7 @@ Generated with Advanced Goal Alignment Calculator`;
       personalDetails: {
         age: formData.age,
         timeline: formData.timeline,
+        lifeExpectancy: formData.lifeExpectancy,
         income: formData.income,
         expenses: formData.expenses,
         savings: formData.savings
@@ -1860,6 +1862,15 @@ Generated with Advanced Goal Alignment Calculator`;
         inflation: formData.inflation,
         portfolioStrength: results.investmentData?.investmentPortfolioStrength || 0,
         projectedValue: results.investmentData?.projectedValue || 0
+      },
+      loanDetails: {
+        totalOutstanding: loanData.totalOutstanding,
+        totalCalculatedEmi: loanData.totalCalculatedEmi,
+        totalInterestBurden: loanData.totalInterestBurden,
+        weightedAvgRate: loanData.weightedAvgRate,
+        maxTenure: loanData.maxTenure,
+        loanCount: loanData.loanCount,
+        individualLoans: this.collectIndividualLoans()
       },
       goals: this.goalsManager.exportGoals(),
       timestamp: new Date().toISOString()
@@ -2013,10 +2024,16 @@ Generated with Advanced Goal Alignment Calculator`;
 
   // NEW: Download financial data as JSON
   downloadJSON() {
+    const loanSummary = this.collectAndStoreLoanData();
+    const individualLoans = this.collectIndividualLoans();
     const planData = {
       formData: this.getFormData(),
       results: this.previousResults,
       goals: this.goalsManager.exportGoals(),
+      loanData: {
+        ...loanSummary,
+        individualLoans: individualLoans
+      },
       timestamp: new Date().toISOString(),
       appVersion: "1.0",
       description: "Advanced Goal Alignment Calculator Data"
@@ -2065,14 +2082,30 @@ Generated with Advanced Goal Alignment Calculator`;
           throw new Error('Invalid financial plan file format');
         }
 
+        // On mobile, ensure home section is visible for form loading
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+          this.showMobileSection('home');
+        }
+        
         // Load form data
         this.setFormData(planData.formData);
         
         // Load goals
         this.goalsManager.importGoals(planData.goals);
         
-        // Recalculate results
-        this.calculateResults();
+        // Check if we're on mobile and add delay if needed
+        const delay = isMobile ? 500 : 0; // Increased delay for mobile
+        
+        setTimeout(() => {
+          // Load loan data if available
+          if (planData.loanData || planData.loanDetails) {
+            this.restoreLoanData(planData.loanData || planData.loanDetails);
+          }
+          
+          // Recalculate results
+          this.calculateResults();
+        }, delay);
         
         this.uiManager.showToast('Financial plan loaded successfully!', 'success');
         
@@ -2479,15 +2512,161 @@ Generated with Advanced Goal Alignment Calculator`;
   }
 
   // Helper method to set form data
-  setFormData(formData) {
+  setFormData(formData, retryCount = 0) {
+    // Map of formData keys to actual HTML element IDs
+    const keyMapping = {
+      'lifeExpectancy': 'life-expectancy',
+      'existingEmi': 'existing-emi',
+      'existingInvestments': 'existing-investments',
+      'currentSip': 'current-sip',
+      'sipDuration': 'sip-duration'
+    };
+
+    console.log(`Setting form data (attempt ${retryCount + 1}):`, formData);
+
+    let missingElements = [];
+
     Object.keys(formData).forEach(key => {
-      const element = document.getElementById(key);
+      // Skip the goals object as it's handled separately
+      if (key === 'goals') return;
+      
+      // Use mapped element ID or original key
+      const elementId = keyMapping[key] || key;
+      const element = document.getElementById(elementId);
+      
       if (element) {
+        console.log(`Setting ${elementId} = ${formData[key]}`);
         element.value = formData[key];
         // Trigger input event to update calculations
         element.dispatchEvent(new Event('input', { bubbles: true }));
+      } else {
+        console.warn(`Element not found: ${elementId} for key: ${key}`);
+        missingElements.push({key, elementId});
       }
     });
+
+    // If we have missing elements and haven't retried too much, try again
+    const isMobile = window.innerWidth <= 768;
+    if (missingElements.length > 0 && retryCount < 2 && isMobile) {
+      console.log(`Missing ${missingElements.length} elements on mobile, retrying in 200ms...`);
+      setTimeout(() => {
+        this.setFormData(formData, retryCount + 1);
+      }, 200);
+    }
+  }
+
+  // Collect individual loan entries for export
+  collectIndividualLoans() {
+    const loanItems = document.querySelectorAll('.loan-item');
+    const loans = [];
+    
+    loanItems.forEach(loanItem => {
+      const loanId = loanItem.id;
+      const loanType = loanItem.querySelector('.loan-type')?.value || '';
+      const principal = parseFloat(loanItem.querySelector('.loan-principal')?.value) || 0;
+      const rate = parseFloat(loanItem.querySelector('.loan-rate')?.value) || 0;
+      const tenureYears = parseFloat(loanItem.querySelector('.loan-tenure-years')?.value) || 0;
+      const tenureMonths = parseFloat(loanItem.querySelector('.loan-tenure-months')?.value) || 0;
+      const emi = parseFloat(loanItem.querySelector('.loan-emi')?.value) || 0;
+      
+      if (loanType || principal > 0 || rate > 0 || tenureYears > 0 || tenureMonths > 0 || emi > 0) {
+        loans.push({
+          id: loanId,
+          loanType: loanType,
+          principal: principal,
+          rate: rate,
+          tenureYears: tenureYears,
+          tenureMonths: tenureMonths,
+          emi: emi
+        });
+      }
+    });
+    
+    return loans;
+  }
+
+  // Restore individual loan entries from JSON data
+  restoreLoanData(loanData) {
+    console.log('Restoring loan data from JSON:', loanData);
+    
+    // Handle both old format (summary only) and new format (with individual loans)
+    if (loanData && loanData.individualLoans && Array.isArray(loanData.individualLoans)) {
+      console.log(`Restoring ${loanData.individualLoans.length} individual loans`);
+      
+      // Clear existing loans first
+      const loanContainer = document.getElementById('loan-list');
+      if (loanContainer) {
+        console.log('Found loan container, clearing existing loans...');
+        
+        // Remove existing loan items
+        const existingLoans = loanContainer.querySelectorAll('.loan-item');
+        existingLoans.forEach(loan => loan.remove());
+        
+        // Restore each loan
+        loanData.individualLoans.forEach((loanEntry, index) => {
+          console.log(`Restoring loan ${index + 1}:`, loanEntry);
+          
+          this.addLoan(); // Add a new loan slot
+          
+          // Find the most recently added loan item
+          const loanItems = loanContainer.querySelectorAll('.loan-item');
+          const newLoanItem = loanItems[loanItems.length - 1];
+          
+          if (newLoanItem) {
+            console.log(`Found new loan item: ${newLoanItem.id}`);
+            
+            // Fill in the loan data
+            const loanTypeSelect = newLoanItem.querySelector('.loan-type');
+            const principalInput = newLoanItem.querySelector('.loan-principal');
+            const rateInput = newLoanItem.querySelector('.loan-rate');
+            const tenureYearsInput = newLoanItem.querySelector('.loan-tenure-years');
+            const tenureMonthsInput = newLoanItem.querySelector('.loan-tenure-months');
+            const emiInput = newLoanItem.querySelector('.loan-emi');
+            
+            // Debug element existence
+            console.log('Loan form elements found:', {
+              loanType: !!loanTypeSelect,
+              principal: !!principalInput,
+              rate: !!rateInput,
+              tenureYears: !!tenureYearsInput,
+              tenureMonths: !!tenureMonthsInput,
+              emi: !!emiInput
+            });
+            
+            if (loanTypeSelect) loanTypeSelect.value = loanEntry.loanType || '';
+            if (principalInput) principalInput.value = loanEntry.principal || 0;
+            if (rateInput) rateInput.value = loanEntry.rate || 0;
+            if (tenureYearsInput) tenureYearsInput.value = loanEntry.tenureYears || 0;
+            if (tenureMonthsInput) tenureMonthsInput.value = loanEntry.tenureMonths || 0;
+            if (emiInput) emiInput.value = loanEntry.emi || 0;
+            
+            console.log(`Restored loan values - Type: ${loanEntry.loanType}, Principal: ${loanEntry.principal}, Rate: ${loanEntry.rate}`);
+            
+            // Trigger calculation for this loan
+            if (newLoanItem.id) {
+              this.calculateLoanSummary(newLoanItem.id);
+            }
+          } else {
+            console.error('Failed to find newly added loan item');
+          }
+        });
+        
+        // Show loan container if we restored any loans
+        if (loanData.individualLoans.length > 0) {
+          console.log('Showing loan container...');
+          loanContainer.style.display = 'block';
+        }
+      } else {
+        console.error('Loan container not found!');
+      }
+    } else {
+      console.log('No individual loans found in data or invalid format');
+    }
+    
+    // Log summary for debugging
+    if (loanData && loanData.totalOutstanding > 0) {
+      console.log(`Restored loan summary: ${loanData.loanCount || 0} loans, total outstanding: ₹${loanData.totalOutstanding.toLocaleString()}`);
+    }
   }
 
   // Age validation function
