@@ -1437,21 +1437,22 @@
     padding: 10px;
   }
   
-  /* Extra small screen fixes for checkboxes */
+  /* Extra small screen fixes for checkboxes - left side */
   .modal .plan-option {
-    padding: 12px 40px 12px 12px !important;
+    padding: 12px 12px 12px 45px !important; /* Left padding for checkbox */
   }
   
   .modal .plan-checkbox {
     top: 12px !important;
-    right: 12px !important;
+    left: 12px !important; /* Left side positioning */
     transform: scale(1.2) !important;
     width: 16px !important;
     height: 16px !important;
   }
   
   .modal .plan-title {
-    padding-right: 45px !important;
+    padding-left: 8px !important; /* Space from left checkbox */
+    padding-right: 15px !important;
     font-size: 0.9rem !important;
   }
   
@@ -1817,10 +1818,10 @@
     -webkit-overflow-scrolling: touch !important;
   }
   
-  /* Fix checkbox visibility in mobile modal */
+  /* Fix checkbox visibility in mobile modal - move to left side */
   .modal .plan-option {
     position: relative !important;
-    padding: 15px 45px 15px 15px !important; /* Extra right padding for checkbox */
+    padding: 15px 15px 15px 50px !important; /* Extra left padding for checkbox */
     margin-bottom: 10px !important;
     overflow: visible !important;
   }
@@ -1828,7 +1829,7 @@
   .modal .plan-checkbox {
     position: absolute !important;
     top: 15px !important;
-    right: 15px !important;
+    left: 15px !important; /* Move to left side */
     transform: scale(1.3) !important;
     z-index: 10 !important;
     width: 18px !important;
@@ -1845,7 +1846,13 @@
   }
   
   .modal .plan-title {
-    padding-right: 50px !important; /* More space for checkbox */
-    margin-right: 0 !important;
+    padding-left: 10px !important; /* Space from left checkbox */
+    padding-right: 15px !important;
+    margin-left: 0 !important;
+  }
+  
+  /* Hide investment badge on very small screens to make room */
+  .modal .plan-option div[style*="INVESTMENT"] {
+    display: none !important;
   }
 }
