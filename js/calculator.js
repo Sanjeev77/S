@@ -672,14 +672,30 @@ class FinancialCalculator {
   generateBalancePlans(data) {
     const age = data.age || 30;
     const lifeStage = this.determineLifeStage(age);
-    const { monthlyInvestment, investmentData } = this.results;
+    
+    // Ensure results exist and have proper data structure
+    if (!this.results || typeof this.results !== 'object') {
+      console.warn('Results not available, running calculation first...');
+      // Run a basic calculation to populate results
+      this.calculate(data);
+    }
+    
+    const monthlyInvestment = this.results.monthlyInvestment || 0;
+    const investmentData = this.results.investmentData || {
+      existingValue: 0,
+      monthlyAmount: 0,
+      expectedReturns: 12,
+      projectedValue: 0,
+      investmentPortfolioStrength: 0,
+      riskLevel: 'moderate'
+    };
     
     return this.generateLifeStageSpecificPlans(lifeStage, data, {
       monthlyInvestment,
       investmentData,
-      totalGoals: Object.values(data.goals)
-        .filter(goal => goal.enabled)
-        .reduce((sum, goal) => sum + goal.amount, 0)
+      totalGoals: Object.values(data.goals || {})
+        .filter(goal => goal && goal.enabled)
+        .reduce((sum, goal) => sum + (goal.amount || 0), 0)
     });
   }
 

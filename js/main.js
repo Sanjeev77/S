@@ -264,10 +264,6 @@ class FinancialPlannerApp {
 
     Object.assign(window, globalFunctions);
     
-    // Add a direct global function as backup
-    window.testBalanceFunction = function() {
-      alert('Direct global function works!');
-    };
     
     // Add global mobile section switching function
     window.switchMobileSection = (section) => {
@@ -285,17 +281,6 @@ class FinancialPlannerApp {
       }
     };
     
-    // Ensure showBalanceOptions is directly available
-    if (!window.showBalanceOptions) {
-      window.showBalanceOptions = () => {
-        alert('Direct showBalanceOptions called!');
-        if (window.financialPlannerApp) {
-          window.financialPlannerApp.showBalanceOptions();
-        } else {
-          alert('Financial planner app not found!');
-        }
-      };
-    }
   }
 
   submitFeedback() {
@@ -1672,7 +1657,6 @@ class FinancialPlannerApp {
   }
 
   showBalanceOptions() {
-    alert('showBalanceOptions function called!');
     console.log('showBalanceOptions called');
     
     try {
