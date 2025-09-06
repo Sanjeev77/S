@@ -814,6 +814,25 @@
   .btn {
     min-height: 44px;
     padding: 12px 20px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    user-select: none;
+  }
+  
+  /* Specific fix for Work ↔ Life Balance button */
+  #balance-button {
+    position: relative !important;
+    z-index: 10 !important;
+    min-height: 48px !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: rgba(255, 193, 7, 0.3) !important;
+    cursor: pointer !important;
+  }
+  
+  #balance-button:active {
+    background-color: #e0a800 !important;
+    transform: scale(0.98) !important;
+    transition: all 0.1s ease !important;
   }
   
   .mobile-nav-item {
@@ -1744,5 +1763,32 @@
     max-height: none !important;
     overflow: visible !important;
     height: auto !important;
+  }
+}
+
+/* Mobile-specific fixes for Work ↔ Life Balance button and modal */
+@media (max-width: 768px) {
+  /* Enhanced modal button interactions on mobile */
+  .modal .plan-option {
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: rgba(102, 126, 234, 0.2) !important;
+    min-height: 48px !important;
+    cursor: pointer !important;
+  }
+  
+  .modal .plan-option:active {
+    background-color: rgba(102, 126, 234, 0.1) !important;
+    transform: scale(0.98) !important;
+    transition: all 0.1s ease !important;
+  }
+  
+  #balance-modal {
+    z-index: 1055 !important; /* Above mobile nav */
+  }
+  
+  .modal-content {
+    max-height: 85vh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 }

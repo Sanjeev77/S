@@ -213,6 +213,11 @@ class FinancialPlannerApp {
     const balanceButton = document.getElementById('balance-button');
     if (balanceButton) {
       balanceButton.addEventListener('click', () => this.showBalanceOptions());
+      // Enhanced mobile support - add touch events
+      balanceButton.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        this.showBalanceOptions();
+      });
     }
 
     this.setupActionButtons();
