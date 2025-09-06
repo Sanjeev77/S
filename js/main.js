@@ -212,12 +212,26 @@ class FinancialPlannerApp {
 
     const balanceButton = document.getElementById('balance-button');
     if (balanceButton) {
-      balanceButton.addEventListener('click', () => this.showBalanceOptions());
-      // Enhanced mobile support - add touch events
-      balanceButton.addEventListener('touchend', (e) => {
+      console.log('Balance button found, adding event listeners');
+      balanceButton.addEventListener('click', (e) => {
+        console.log('Balance button clicked!');
         e.preventDefault();
+        e.stopPropagation();
         this.showBalanceOptions();
       });
+      // Enhanced mobile support - add touch events
+      balanceButton.addEventListener('touchend', (e) => {
+        console.log('Balance button touched!');
+        e.preventDefault();
+        e.stopPropagation();
+        this.showBalanceOptions();
+      });
+      // Force button to be visible for debugging
+      balanceButton.style.display = 'block';
+      balanceButton.style.visibility = 'visible';
+      balanceButton.style.opacity = '1';
+    } else {
+      console.error('Balance button not found!');
     }
 
     this.setupActionButtons();
@@ -1626,6 +1640,14 @@ class FinancialPlannerApp {
 
   showBalanceOptions() {
     console.log('showBalanceOptions called');
+    
+    // Ensure results section is visible on mobile
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      console.log('Mobile detected, switching to results section');
+      this.switchSection('results', true);
+    }
+    
     const formData = this.getFormData();
     console.log('Form data:', formData);
     const plans = this.calculator.generateBalancePlans(formData);
