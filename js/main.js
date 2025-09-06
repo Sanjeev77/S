@@ -263,6 +263,23 @@ class FinancialPlannerApp {
     };
 
     Object.assign(window, globalFunctions);
+    
+    // Add a direct global function as backup
+    window.testBalanceFunction = function() {
+      alert('Direct global function works!');
+    };
+    
+    // Ensure showBalanceOptions is directly available
+    if (!window.showBalanceOptions) {
+      window.showBalanceOptions = () => {
+        alert('Direct showBalanceOptions called!');
+        if (window.financialPlannerApp) {
+          window.financialPlannerApp.showBalanceOptions();
+        } else {
+          alert('Financial planner app not found!');
+        }
+      };
+    }
   }
 
   submitFeedback() {
@@ -1639,21 +1656,40 @@ class FinancialPlannerApp {
   }
 
   showBalanceOptions() {
+    alert('showBalanceOptions function called!');
     console.log('showBalanceOptions called');
     
-    // Ensure results section is visible on mobile
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-      console.log('Mobile detected, switching to results section');
-      this.switchSection('results', true);
+    try {
+      // Ensure results section is visible on mobile
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        console.log('Mobile detected, switching to results section');
+        this.switchSection('results', true);
+      }
+      
+      const formData = this.getFormData();
+      console.log('Form data:', formData);
+      
+      if (!this.calculator) {
+        alert('Calculator not found!');
+        return;
+      }
+      
+      const plans = this.calculator.generateBalancePlans(formData);
+      console.log('Generated plans:', plans);
+      
+      if (!this.uiManager) {
+        alert('UI Manager not found!');
+        return;
+      }
+      
+      console.log('Calling showBalanceModal');
+      this.uiManager.showBalanceModal(plans);
+      
+    } catch (error) {
+      alert('Error in showBalanceOptions: ' + error.message);
+      console.error('Error:', error);
     }
-    
-    const formData = this.getFormData();
-    console.log('Form data:', formData);
-    const plans = this.calculator.generateBalancePlans(formData);
-    console.log('Generated plans:', plans);
-    console.log('Calling showBalanceModal');
-    this.uiManager.showBalanceModal(plans);
   }
 
   applyBalancePlan() {
