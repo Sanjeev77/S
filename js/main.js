@@ -212,25 +212,7 @@ class FinancialPlannerApp {
 
     const balanceButton = document.getElementById('balance-button');
     if (balanceButton) {
-      // Add multiple event listeners for better mobile compatibility
-      balanceButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('Balance button clicked');
-        this.showBalanceOptions();
-      });
-      
-      // Add touch events for mobile
-      balanceButton.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('Balance button touched');
-        this.showBalanceOptions();
-      });
-      
-      console.log('Balance button event listeners attached');
-    } else {
-      console.error('Balance button not found');
+      balanceButton.addEventListener('click', () => this.showBalanceOptions());
     }
 
     this.setupActionButtons();
@@ -731,18 +713,6 @@ class FinancialPlannerApp {
     };
     
     if (!elements.indicator || !elements.status || !elements.button) return;
-    
-    // Check if we have valid financial data before showing suggestions
-    const hasValidData = formData && formData.income > 0 && formData.expenses > 0;
-    
-    if (!hasValidData) {
-      elements.status.textContent = 'Enter your financial details';
-      elements.status.style.backgroundColor = '#f8f9fa';
-      elements.status.style.color = '#6c757d';
-      elements.button.style.display = 'none';
-      elements.indicator.style.left = '50%';
-      return;
-    }
     
     const age = formData.age || 30;
     const lifeStage = this.determineLifeStage(age);
@@ -1650,73 +1620,9 @@ class FinancialPlannerApp {
   }
 
   showBalanceOptions() {
-    try {
-      console.log('showBalanceOptions called - using simple approach');
-      
-      // Check if user has entered basic financial data
-      const formData = this.getFormData();
-      if (!formData || !formData.income || !formData.expenses || formData.income <= 0) {
-        alert('Please enter your basic financial details (income and expenses) first before getting balance suggestions.');
-        return;
-      }
-      
-      // Skip complex plan generation and use simple hardcoded plans
-      const plans = [
-        {
-          id: 'reduce-expenses',
-          title: 'Reduce Monthly Expenses',
-          description: 'Cut down unnecessary expenses to improve your work-life balance budget.',
-          icon: 'fas fa-cut',
-          impact: {
-            savings: '₹5,000',
-            timeline: '3 months',
-            stress: 'Low'
-          }
-        },
-        {
-          id: 'increase-income',
-          title: 'Increase Income Sources',
-          description: 'Explore side income or skill upgrades to boost your earning potential.',
-          icon: 'fas fa-arrow-up',
-          impact: {
-            income: '₹10,000',
-            timeline: '6 months',
-            effort: 'Medium'
-          }
-        },
-        {
-          id: 'emergency-fund',
-          title: 'Build Emergency Fund',
-          description: 'Create a safety net of 6 months expenses for better financial security.',
-          icon: 'fas fa-shield-alt',
-          impact: {
-            security: '6 months',
-            peace: 'High',
-            priority: 'High'
-          }
-        },
-        {
-          id: 'investment-start',
-          title: 'Start Investment Journey',
-          description: 'Begin systematic investment planning to grow your wealth over time.',
-          icon: 'fas fa-chart-line',
-          impact: {
-            growth: '12-15%',
-            timeline: '1 year',
-            risk: 'Moderate'
-          }
-        }
-      ];
-      
-      console.log('Using simple hardcoded plans:', plans);
-      
-      this.uiManager.showBalanceModal(plans);
-      console.log('Modal should be shown with', plans.length, 'plans');
-      
-    } catch (error) {
-      console.error('Error in showBalanceOptions:', error);
-      alert('Error generating plans: ' + error.message);
-    }
+    const formData = this.getFormData();
+    const plans = this.calculator.generateBalancePlans(formData);
+    this.uiManager.showBalanceModal(plans);
   }
 
   applyBalancePlan() {

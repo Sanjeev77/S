@@ -554,19 +554,9 @@ class UIManager {
 
     if (!indicator || !status || !button) return;
 
-    // Check if we have valid financial data
-    if (!results || !results.hasValidData || !results.income || results.income <= 0) {
-      status.textContent = 'Enter your financial details';
-      status.style.backgroundColor = '#f8f9fa';
-      status.style.color = '#6c757d';
-      button.style.display = 'none';
-      indicator.style.left = '50%';
-      return;
-    }
-
     const investmentData = results.investmentData || {};
     const portfolioStrength = investmentData.investmentPortfolioStrength || 0;
-    const balanceScore = results.balanceScore || 0;
+    const balanceScore = results.balanceScore || 50;
     
     // Adjust balance score based on investment strength
     const investmentAdjustedScore = Math.min(100, balanceScore + (portfolioStrength * 0.2));
@@ -742,16 +732,10 @@ class UIManager {
 
   // ENHANCED: Balance modal with investment-aware plans
   showBalanceModal(plans) {
-    console.log('showBalanceModal called with:', plans);
     const modal = document.getElementById('balance-modal');
     const planOptions = document.getElementById('plan-options');
     
-    if (!modal || !planOptions) {
-      console.error('Modal elements not found');
-      return;
-    }
-    
-    console.log('About to generate HTML for', plans.length, 'plans');
+    if (!modal || !planOptions) return;
 
     let html = `
       <div style="padding-bottom: 15px; border-bottom: 1px solid #e9ecef; margin-bottom: 15px;">
@@ -823,25 +807,8 @@ class UIManager {
       </div>
     `;
 
-    console.log('Setting planOptions innerHTML');
-    console.log('HTML length:', html.length);
     planOptions.innerHTML = html;
-    console.log('planOptions innerHTML set, content:', planOptions.innerHTML.substring(0, 200) + '...');
     modal.style.display = 'flex';
-    modal.style.visibility = 'visible';
-    modal.style.opacity = '1';
-    modal.classList.add('show');
-    
-    // Force modal to appear above everything on mobile
-    if (window.innerWidth <= 768) {
-      modal.style.position = 'fixed';
-      modal.style.top = '0';
-      modal.style.left = '0';
-      modal.style.width = '100vw';
-      modal.style.height = '100vh';
-      modal.style.zIndex = '9999';
-      modal.style.background = 'rgba(0,0,0,0.5)';
-    }
     
     updateSelectionSummary();
   }
@@ -850,17 +817,6 @@ class UIManager {
     const modals = document.querySelectorAll('.modal');
     modals.forEach(modal => {
       modal.style.display = 'none';
-      modal.style.visibility = 'hidden';
-      modal.style.opacity = '0';
-      modal.classList.remove('show');
-      // Reset mobile-specific styles
-      modal.style.position = '';
-      modal.style.top = '';
-      modal.style.left = '';
-      modal.style.width = '';
-      modal.style.height = '';
-      modal.style.zIndex = '';
-      modal.style.background = '';
     });
   }
 
