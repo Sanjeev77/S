@@ -1786,6 +1786,13 @@
     z-index: 1055 !important; /* Above mobile nav */
   }
   
+  /* Force balance modal to display when shown */
+  #balance-modal[style*="display: flex"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
   .modal-content {
     max-height: 85vh !important;
     overflow-y: auto !important;

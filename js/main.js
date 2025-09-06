@@ -1625,8 +1625,12 @@ class FinancialPlannerApp {
   }
 
   showBalanceOptions() {
+    console.log('showBalanceOptions called');
     const formData = this.getFormData();
+    console.log('Form data:', formData);
     const plans = this.calculator.generateBalancePlans(formData);
+    console.log('Generated plans:', plans);
+    console.log('Calling showBalanceModal');
     this.uiManager.showBalanceModal(plans);
   }
 
