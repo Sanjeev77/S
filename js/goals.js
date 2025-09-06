@@ -79,11 +79,10 @@ class GoalsManager {
           <input type="number" 
                  class="goal-input" 
                  id="${goalId}-amount" 
-                 placeholder="Enter amount" 
+                 placeholder="Enter amount (can exceed slider max)" 
                  value="${inputValue}"
                  ${!isEnabled ? 'disabled' : ''}
                  min="${goal.min}"
-                 max="${goal.max}"
                  step="${goal.step}">
           <span class="amount-display" id="${goalId}-display">${displayValue}</span>
         </div>
@@ -193,18 +192,28 @@ class GoalsManager {
     const numericValue = UTILS.getSafeNumber(value, 0);
     const goal = this.goals[goalId];
     
-    // Clamp value to min/max
-    const clampedValue = Math.max(goal.min, Math.min(goal.max, numericValue));
+    // Allow input values beyond slider max, but keep minimum constraint
+    let finalValue;
+    if (source === 'input') {
+      // For manual input, only enforce minimum (allow beyond maximum)
+      finalValue = Math.max(goal.min, numericValue);
+    } else {
+      // For slider, clamp to slider's range
+      finalValue = Math.max(goal.min, Math.min(goal.max, numericValue));
+    }
     
-    this.goals[goalId].amount = clampedValue;
+    this.goals[goalId].amount = finalValue;
 
     // Update UI elements
     if (source === 'input') {
       const slider = document.getElementById(`${goalId}-slider`);
-      if (slider) slider.value = clampedValue;
+      if (slider) {
+        // Update slider to max if input exceeds slider range
+        slider.value = Math.min(finalValue, goal.max);
+      }
     } else if (source === 'slider') {
       const input = document.getElementById(`${goalId}-amount`);
-      if (input) input.value = clampedValue;
+      if (input) input.value = finalValue;
     }
 
     this.updateDisplay(goalId);
@@ -217,23 +226,39 @@ class GoalsManager {
     const numericValue = UTILS.getSafeNumber(value, 0);
     const goal = this.goals[goalId];
 
-    if (numericValue < goal.min || numericValue > goal.max) {
-      const clampedValue = Math.max(goal.min, Math.min(goal.max, numericValue));
+    // Only validate minimum, allow values beyond maximum for manual input
+    if (numericValue < goal.min) {
       const input = document.getElementById(`${goalId}-amount`);
       if (input) {
-        input.value = clampedValue;
-        this.updateGoalAmount(goalId, clampedValue, 'input');
+        input.value = goal.min;
+        this.updateGoalAmount(goalId, goal.min, 'input');
       }
       
       const meta = CONFIG.goalMeta[goalId];
-      window.showToast(`${meta.title} amount adjusted to valid range`, 'warning');
+      window.showToast(`${meta.title} amount adjusted to minimum value`, 'warning');
+    } else if (numericValue > goal.max) {
+      // Show info message for values beyond slider range, but don't clamp
+      const meta = CONFIG.goalMeta[goalId];
+      window.showToast(`${meta.title} amount exceeds slider range - calculation will use your entered value`, 'info');
     }
   }
 
   updateDisplay(goalId) {
     const display = document.getElementById(`${goalId}-display`);
     if (display && this.goals[goalId].enabled) {
-      display.textContent = UTILS.formatCurrency(this.goals[goalId].amount);
+      const amount = this.goals[goalId].amount;
+      const goal = this.goals[goalId];
+      
+      display.textContent = UTILS.formatCurrency(amount);
+      
+      // Add visual indicator if amount exceeds slider range
+      if (amount > goal.max) {
+        display.style.color = '#28a745'; // Green color to indicate custom amount
+        display.title = 'Custom amount beyond slider range';
+      } else {
+        display.style.color = ''; // Reset to default color
+        display.title = '';
+      }
     }
   }
 
