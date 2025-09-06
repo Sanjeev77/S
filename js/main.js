@@ -607,10 +607,82 @@ class FinancialPlannerApp {
     return formData;
   }
 
+  // NEW: Check if essential fields are completed
+  hasEssentialInputs(formData) {
+    return formData.age > 0 && 
+           formData.timeline > 0 && 
+           formData.lifeExpectancy > 0 && 
+           formData.income > 0 && 
+           formData.expenses > 0;
+  }
+
+  // NEW: Show message when essential data is incomplete
+  showIncompleteDataMessage() {
+    // Reset Key Goal Metrics
+    const elements = {
+      'total-cost': '₹--',
+      'monthly-needed': '₹--',
+      'time-required': '--',
+      'savings-rate': '--%'
+    };
+    
+    Object.entries(elements).forEach(([id, value]) => {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value;
+    });
+
+    // Reset Work-Life Balance
+    const balanceStatus = document.getElementById('balance-status');
+    const balanceIndicator = document.getElementById('balance-indicator');
+    const balanceButton = document.getElementById('balance-button');
+    
+    if (balanceStatus) {
+      balanceStatus.textContent = 'Please complete basic information to see your balance';
+      balanceStatus.className = 'balance-status';
+    }
+    if (balanceIndicator) {
+      balanceIndicator.style.left = '50%';
+      balanceIndicator.className = 'meter-indicator';
+    }
+    if (balanceButton) {
+      balanceButton.style.display = 'none';
+    }
+
+    // Reset Financial Health
+    const financialHealthValue = document.getElementById('financial-health-value');
+    const financialHealthBar = document.getElementById('financial-health-bar');
+    const achievementsContainer = document.getElementById('achievements-container');
+    
+    if (financialHealthValue) financialHealthValue.textContent = '--%';
+    if (financialHealthBar) financialHealthBar.style.width = '0%';
+    if (achievementsContainer) {
+      achievementsContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #6c757d;">Complete your basic information to see financial health insights</div>';
+    }
+
+    // Reset Insights
+    const insightsList = document.getElementById('insights-list');
+    if (insightsList) {
+      insightsList.innerHTML = '<div style="text-align: center; padding: 20px; color: #6c757d;">Enter your financial details to get personalized insights</div>';
+    }
+
+    // Reset Scenarios
+    const scenariosList = document.getElementById('scenarios-list');
+    if (scenariosList) {
+      scenariosList.innerHTML = '<div style="text-align: center; padding: 20px; color: #6c757d;">Financial scenarios will appear once you complete the basic information</div>';
+    }
+  }
+
   calculateResults() {
     try {
       const formData = this.getFormData();
       this.updateInvestmentSummary(); // Update investment summary
+      
+      // Only show results if essential fields are completed
+      if (!this.hasEssentialInputs(formData)) {
+        this.showIncompleteDataMessage();
+        return;
+      }
+      
       this.updateProgressiveResults(formData);
     } catch (error) {
       console.error('Calculation error:', error);
