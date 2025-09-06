@@ -1437,6 +1437,24 @@
     padding: 10px;
   }
   
+  /* Extra small screen fixes for checkboxes */
+  .modal .plan-option {
+    padding: 12px 40px 12px 12px !important;
+  }
+  
+  .modal .plan-checkbox {
+    top: 12px !important;
+    right: 12px !important;
+    transform: scale(1.2) !important;
+    width: 16px !important;
+    height: 16px !important;
+  }
+  
+  .modal .plan-title {
+    padding-right: 45px !important;
+    font-size: 0.9rem !important;
+  }
+  
   #results-section::before {
     height: 60px;
     background-size: 200px 24px;
@@ -1797,5 +1815,37 @@
     max-height: 85vh !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
+  }
+  
+  /* Fix checkbox visibility in mobile modal */
+  .modal .plan-option {
+    position: relative !important;
+    padding: 15px 45px 15px 15px !important; /* Extra right padding for checkbox */
+    margin-bottom: 10px !important;
+    overflow: visible !important;
+  }
+  
+  .modal .plan-checkbox {
+    position: absolute !important;
+    top: 15px !important;
+    right: 15px !important;
+    transform: scale(1.3) !important;
+    z-index: 10 !important;
+    width: 18px !important;
+    height: 18px !important;
+    cursor: pointer !important;
+    background: white !important;
+    border: 2px solid #ccc !important;
+    border-radius: 3px !important;
+  }
+  
+  .modal .plan-checkbox:checked {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+  }
+  
+  .modal .plan-title {
+    padding-right: 50px !important; /* More space for checkbox */
+    margin-right: 0 !important;
   }
 }

@@ -763,13 +763,13 @@ class UIManager {
                     cursor: pointer; transition: all 0.3s ease; position: relative;
                     ${isInvestmentPlan ? 'background: linear-gradient(135deg, #f8f9ff 0%, #e8f4f8 100%);' : ''}">
           
-          <div style="position: absolute; top: 12px; right: 12px;">
-            <input type="checkbox" class="plan-checkbox" style="transform: scale(1.2);">
+          <div style="position: absolute; top: 15px; right: 15px; z-index: 10;">
+            <input type="checkbox" class="plan-checkbox" style="transform: scale(1.2); width: 18px; height: 18px; cursor: pointer;">
           </div>
           
           ${isInvestmentPlan ? '<div style="position: absolute; top: 8px; left: 12px; background: var(--info); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold;">INVESTMENT</div>' : ''}
           
-          <div class="plan-title" style="display: flex; align-items: center; margin-bottom: 8px; padding-right: 30px; ${isInvestmentPlan ? 'margin-top: 20px;' : ''}">
+          <div class="plan-title" style="display: flex; align-items: center; margin-bottom: 8px; padding-right: 50px; ${isInvestmentPlan ? 'margin-top: 20px;' : ''}">
             <i class="${plan.icon}" style="margin-right: 10px; color: ${isInvestmentPlan ? 'var(--info)' : 'var(--primary)'}; font-size: 1.1rem;"></i>
             <span style="font-weight: 600; font-size: 1rem;">${plan.title}</span>
           </div>
