@@ -269,6 +269,22 @@ class FinancialPlannerApp {
       alert('Direct global function works!');
     };
     
+    // Add global mobile section switching function
+    window.switchMobileSection = (section) => {
+      console.log('Switching to section:', section);
+      if (window.financialPlannerApp) {
+        window.financialPlannerApp.showMobileSection(section, true);
+        
+        // Update mobile nav active state
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+        mobileNavItems.forEach(nav => nav.classList.remove('active'));
+        const targetNav = document.querySelector(`[data-section="${section}"]`);
+        if (targetNav) targetNav.classList.add('active');
+      } else {
+        alert('App not ready yet!');
+      }
+    };
+    
     // Ensure showBalanceOptions is directly available
     if (!window.showBalanceOptions) {
       window.showBalanceOptions = () => {
@@ -1664,7 +1680,12 @@ class FinancialPlannerApp {
       const isMobile = window.innerWidth <= 768;
       if (isMobile) {
         console.log('Mobile detected, switching to results section');
-        this.switchSection('results', true);
+        this.showMobileSection('results', true);
+        // Update mobile nav
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+        mobileNavItems.forEach(nav => nav.classList.remove('active'));
+        const resultsNav = document.querySelector('[data-section="results"]');
+        if (resultsNav) resultsNav.classList.add('active');
       }
       
       const formData = this.getFormData();
