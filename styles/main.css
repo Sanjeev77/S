@@ -116,7 +116,9 @@ body {
   /* EXCEPTION: Don't force width on progress bars - let JavaScript control them */
   .progress-fill, 
   #financial-health-bar, 
-  #expense-progress {
+  #expense-progress,
+  .progress-container .progress-fill,
+  .progress-bar .progress-fill {
     width: auto !important;
     max-width: none !important;
   }
