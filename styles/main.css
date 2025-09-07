@@ -112,6 +112,14 @@ body {
     scroll-behavior: auto !important;
     -webkit-overflow-scrolling: auto !important;
   }
+
+  /* EXCEPTION: Don't force width on progress bars - let JavaScript control them */
+  .progress-fill, 
+  #financial-health-bar, 
+  #expense-progress {
+    width: auto !important;
+    max-width: none !important;
+  }
   
   /* Disable smooth scrolling on mobile */
   html {
