@@ -116,6 +116,16 @@
     width: auto !important;
     max-width: none !important;
   }
+
+  /* ULTRA-SPECIFIC FIX: Force financial health bar to respect JavaScript width */
+  #financial-health-bar {
+    transition: width 0.5s ease !important;
+  }
+  
+  /* Override any background that might make it appear full */
+  .progress-bar {
+    background: #e9ecef !important;
+  }
   
   /* Ensure goal items don't clip slider thumbs on tablets */
   .goal-item {
@@ -345,6 +355,16 @@
   .progress-bar .progress-fill {
     width: auto !important;
     max-width: none !important;
+  }
+
+  /* ULTRA-SPECIFIC FIX: Force financial health bar to respect JavaScript width */
+  #financial-health-bar {
+    transition: width 0.5s ease !important;
+  }
+  
+  /* Override any background that might make it appear full */
+  .progress-bar {
+    background: #e9ecef !important;
   }
   
   /* REMOVED: Another duplicate rule - consolidating at top of file */

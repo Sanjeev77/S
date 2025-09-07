@@ -510,11 +510,13 @@ class UIManager {
     const progressBar = document.getElementById(id);
     if (progressBar) {
       const clampedPercentage = Math.min(100, Math.max(0, percentage));
-      progressBar.style.width = clampedPercentage + '%';
+      
+      // Force width override for mobile compatibility
+      progressBar.style.setProperty('width', clampedPercentage + '%', 'important');
       
       // Enhanced progress bar animation for investment metrics
       if (id.includes('financial-health') || id.includes('investment')) {
-        progressBar.style.transition = 'width 0.8s ease-in-out';
+        progressBar.style.setProperty('transition', 'width 0.8s ease-in-out', 'important');
       }
     }
   }
