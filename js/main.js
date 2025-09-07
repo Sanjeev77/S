@@ -14,7 +14,22 @@ class FinancialPlannerApp {
     this.setupGoToTop();
     this.setupInvestmentSummaryTracking();
     this.setupMobileNavigation();
+    
+    // CRITICAL: Force financial health bar to 0% on mobile startup
+    this.initializeFinancialHealthBar();
+    
     this.uiManager.showToast('Financial planner loaded successfully!', 'success');
+  }
+
+  // CRITICAL: Initialize financial health bar to 0% on startup
+  initializeFinancialHealthBar() {
+    const financialHealthBar = document.getElementById('financial-health-bar');
+    if (financialHealthBar) {
+      // Force 0% width with important flag to override any CSS
+      financialHealthBar.style.setProperty('width', '0%', 'important');
+      // Also ensure it has proper transition
+      financialHealthBar.style.setProperty('transition', 'width 0.5s ease', 'important');
+    }
   }
 
   // NEW: Setup investment summary tracking
