@@ -301,8 +301,7 @@ body {
 }
 
 .header svg {
-  margin-bottom: -55px;
-  margin-left: 222px;
+  margin: 0 auto -55px auto;  
   display: block;
 }
 

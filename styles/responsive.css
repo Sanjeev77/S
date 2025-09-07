@@ -92,6 +92,10 @@
   body {
     padding: 0; /* Keep zero padding for full width */
   }
+
+  .header svg {
+    margin: 0 auto -55px auto !important;
+  }
   
   /* Fix goal slider thumb clipping on tablets */
   .goal-item input[type="range"].slider,
@@ -330,6 +334,10 @@
 @media (max-width: 480px) {
   body {
     padding: 5px;
+  }
+
+  .header svg {
+    margin: 0 auto -55px auto !important;
   }
   
   /* Fix mobile goal slider thumb clipping */
