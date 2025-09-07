@@ -248,10 +248,7 @@ class FinancialPlannerApp {
         e.stopPropagation();
         this.showBalanceOptions();
       });
-      // Force button to be visible for debugging
-      balanceButton.style.display = 'block';
-      balanceButton.style.visibility = 'visible';
-      balanceButton.style.opacity = '1';
+      // Button visibility will be controlled by the balance score calculation
     } else {
       console.error('Balance button not found!');
     }
@@ -459,6 +456,7 @@ class FinancialPlannerApp {
       'strengthen-portfolio': () => { this.applyStrengthenPortfolio(); return 'Portfolio strengthened'; },
       'step-up-sip': () => { this.applyStepUpSip(); return 'SIP step-up applied'; },
       'optimize-portfolio': () => { this.applyOptimizePortfolio(); return 'Portfolio optimized'; },
+      'start-investing': () => { this.applyStartInvesting(); return 'Investment journey started'; },
       // Standard actions
       'reduce-housing': () => { this.applyHousingReduction(); return 'Housing goal reduced'; },
       'extend-timeline': () => { this.applyTimelineExtension(); return 'Timeline extended'; },
@@ -572,6 +570,29 @@ class FinancialPlannerApp {
     }
     
     this.uiManager.showToast('Portfolio optimized for better returns and tax efficiency', 'success');
+  }
+
+  applyStartInvesting() {
+    const currentSipInput = document.getElementById('current-sip');
+    const sipDurationInput = document.getElementById('sip-duration');
+    const returnsInput = document.getElementById('returns');
+    
+    // Set a reasonable starting SIP amount
+    if (currentSipInput) {
+      currentSipInput.value = 5000;
+    }
+    
+    // Set starting duration to indicate beginning of investment journey
+    if (sipDurationInput) {
+      sipDurationInput.value = 0.25; // 3 months to start
+    }
+    
+    // Set moderate expected returns for beginners
+    if (returnsInput) {
+      returnsInput.value = 12; // Conservative estimate for mutual funds
+    }
+    
+    this.uiManager.showToast('Investment journey started with ₹5,000 monthly SIP', 'success');
   }
 
   // ENHANCED: Get form data with investment fields
@@ -2092,6 +2113,7 @@ class FinancialPlannerApp {
       'strengthen-portfolio': () => this.applyStrengthenPortfolio(),
       'step-up-sip': () => this.applyStepUpSip(),
       'optimize-portfolio': () => this.applyOptimizePortfolio(),
+      'start-investing': () => this.applyStartInvesting(),
       // Standard plans
       'reduce-housing': () => this.applyHousingReduction(),
       'extend-timeline': () => this.applyTimelineExtension(),

@@ -775,7 +775,8 @@ class FinancialCalculator {
     const plans = [];
     const { investmentData } = metrics;
     
-    if (investmentData.investmentPortfolioStrength < 60) {
+    // Only show "strengthen portfolio" if user has SOME investment foundation (not zero)
+    if (investmentData.investmentPortfolioStrength > 0 && investmentData.investmentPortfolioStrength < 60) {
       plans.push({
         id: 'strengthen-portfolio',
         title: 'Strengthen Investment Portfolio',
@@ -785,6 +786,22 @@ class FinancialCalculator {
           portfolioStrength: `${investmentData.investmentPortfolioStrength}% → 75%+`,
           monthlyCommitment: '+₹8,000',
           goalTimeline: '-2 years'
+        },
+        priority: 1
+      });
+    }
+
+    // For users with no investment data, suggest starting investments
+    if (investmentData.investmentPortfolioStrength === 0) {
+      plans.push({
+        id: 'start-investing',
+        title: 'Start Your Investment Journey',
+        icon: 'fas fa-seedling',
+        description: 'Begin building wealth with a systematic investment plan. Start with mutual funds and gradually increase your investment.',
+        impact: {
+          startingSip: '₹5,000/month',
+          projectedWealth: '₹15-20L in 10 years',
+          riskLevel: 'Moderate to High'
         },
         priority: 1
       });
