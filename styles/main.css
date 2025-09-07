@@ -281,23 +281,12 @@ body {
   margin-bottom: 30px;
   text-align: center;
   padding: 25px;
-  background: transparent; /* Make transparent to show container gradient */
-  color: white;
-  border-radius: 12px;
-  box-shadow: none; /* Remove shadow */
-  position: relative;
-  z-index: 3; /* Above everything */
-}
-
-/* Header */
-.header {
-  margin-bottom: 30px;
-  text-align: center;
-  padding: 25px;
   background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   color: white;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+  position: relative;
+  z-index: 3;
 }
 
 .header h1 { 
@@ -307,7 +296,14 @@ body {
 
 .header p { 
   font-size: 1rem; 
-  opacity: 0.9; 
+  opacity: 0.9;
+  margin-top: -10px;
+}
+
+.header svg {
+  margin-bottom: -55px;
+  margin-left: 222px;
+  display: block;
 }
 
 /* Sections */

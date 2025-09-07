@@ -169,7 +169,7 @@
     scrollbar-width: thin;
     -ms-overflow-style: auto;
     padding-bottom: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
   
   .tabs::-webkit-scrollbar {
@@ -276,7 +276,7 @@
   
   .amount-display {
     text-align: left;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
   
   .kpi-grid {
@@ -1137,7 +1137,7 @@
     scrollbar-width: thin;
     -ms-overflow-style: auto;
     padding-bottom: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
   
   .tabs::-webkit-scrollbar {
@@ -1188,7 +1188,7 @@
   
   .amount-display {
     text-align: left;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
   
   .kpi-grid {
@@ -1455,7 +1455,7 @@
   }
   
   .mobile-nav-item {
-    padding: 6px 16px;
+    padding: 20px;
     min-width: 70px;
     min-height: 55px;
   }
