@@ -108,7 +108,7 @@
   }
   
   .support-button {
-    margin-top: 3px;
+    margin-top: 10px;
     padding: 6px 8px;
     min-width: 60px;
     flex-shrink: 0;
@@ -362,7 +362,7 @@
   }
 
   .header svg {
-    margin: 0 auto -30px auto !important;
+    margin: 0 auto -50px auto !important;
   }
   
   /* Fix mobile goal slider thumb clipping */
@@ -483,7 +483,7 @@
   }
   
   .support-button {
-    margin-top: 2px;
+    margin-top: 10px;
     padding: 4px 6px;
     min-width: 50px;
   }
@@ -1577,7 +1577,7 @@
   }
   
   .support-button {
-    margin-top: 2px;
+    margin-top: 10px;
     padding: 4px 6px;
     min-width: 50px;
   }

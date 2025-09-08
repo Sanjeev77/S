@@ -65,7 +65,7 @@ class GoalsManager {
     const displayValue = isEnabled && goal.amount > 0 ? UTILS.formatCurrency(goal.amount) : '—';
     const progressPercent = progress.percentage || 0;
     const sliderValue = isEnabled && goal.amount > 0 ? goal.amount : goal.min;
-    const inputValue = isEnabled && goal.amount > 0 ? goal.amount : '';
+    const inputValue = isEnabled && goal.amount > 0 ? UTILS.formatNumberWithCommas(goal.amount) : '';
 
     return `
       <div class="goal-item ${isEnabled ? 'active' : ''}" id="goal-${goalId}">
@@ -76,14 +76,13 @@ class GoalsManager {
           </span>
         </div>
         <div class="goal-controls">
-          <input type="number" 
+          <input type="text" 
                  class="goal-input" 
                  id="${goalId}-amount" 
                  placeholder="Enter amount (can exceed slider max)" 
                  value="${inputValue}"
                  ${!isEnabled ? 'disabled' : ''}
-                 min="${goal.min}"
-                 step="${goal.step}">
+                 inputmode="numeric">
           <span class="amount-display" id="${goalId}-display">${displayValue}</span>
         </div>
         <input type="range" 
@@ -125,12 +124,15 @@ class GoalsManager {
       // Amount input listeners
       const amountInput = document.getElementById(`${goalId}-amount`);
       if (amountInput) {
+        // Setup comma formatting for goal input
+        this.setupGoalCommaFormatting(amountInput);
+        
         amountInput.addEventListener('input', UTILS.debounce((e) => {
-          this.updateGoalAmount(goalId, e.target.value, 'input');
+          this.updateGoalAmount(goalId, UTILS.removeCommas(e.target.value), 'input');
         }, CONFIG.ui.debounceDelay));
 
         amountInput.addEventListener('blur', (e) => {
-          this.validateAndFixInput(goalId, e.target.value);
+          this.validateAndFixInput(goalId, UTILS.removeCommas(e.target.value));
         });
       }
 
@@ -144,6 +146,44 @@ class GoalsManager {
             window.calculateResults();
           }
         });
+      }
+    });
+  }
+
+  // NEW: Setup comma formatting for goal amount inputs
+  setupGoalCommaFormatting(inputElement) {
+    if (!inputElement) return;
+
+    // Prevent invalid characters from being entered
+    inputElement.addEventListener('keypress', function(e) {
+      // Allow backspace, delete, tab, escape, enter
+      if ([8, 9, 27, 13, 46].indexOf(e.keyCode) !== -1 ||
+          // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+          (e.keyCode === 65 && e.ctrlKey === true) ||
+          (e.keyCode === 67 && e.ctrlKey === true) ||
+          (e.keyCode === 86 && e.ctrlKey === true) ||
+          (e.keyCode === 88 && e.ctrlKey === true)) {
+        return;
+      }
+      
+      // Ensure that it is a number or decimal point and stop the keypress
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode !== 190 && e.keyCode !== 110)) {
+        e.preventDefault();
+      }
+    });
+
+    // Format on input (while typing)
+    inputElement.addEventListener('input', function(e) {
+      const cursorPosition = e.target.selectionStart;
+      const oldValue = e.target.value;
+      const newValue = UTILS.formatNumberWithCommas(oldValue);
+      
+      // Only update if formatting actually changed the value
+      if (newValue !== oldValue) {
+        e.target.value = newValue;
+        
+        // Place cursor at end for simplicity
+        e.target.setSelectionRange(newValue.length, newValue.length);
       }
     });
   }
@@ -165,7 +205,7 @@ class GoalsManager {
         if (!amountInput.value || amountInput.value === '0') {
           const defaultValue = CONFIG.defaultGoals[goalId].value;
           this.goals[goalId].amount = defaultValue;
-          amountInput.value = defaultValue;
+          amountInput.value = UTILS.formatNumberWithCommas(defaultValue);
           slider.value = defaultValue;
         }
         this.updateDisplay(goalId);
@@ -213,7 +253,7 @@ class GoalsManager {
       }
     } else if (source === 'slider') {
       const input = document.getElementById(`${goalId}-amount`);
-      if (input) input.value = finalValue;
+      if (input) input.value = UTILS.formatNumberWithCommas(finalValue);
     }
 
     this.updateDisplay(goalId);
@@ -230,7 +270,7 @@ class GoalsManager {
     if (numericValue < goal.min) {
       const input = document.getElementById(`${goalId}-amount`);
       if (input) {
-        input.value = goal.min;
+        input.value = UTILS.formatNumberWithCommas(goal.min);
         this.updateGoalAmount(goalId, goal.min, 'input');
       }
       

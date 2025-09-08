@@ -147,6 +147,26 @@ body {
   box-sizing: border-box;
 }
 
+/* Ensure desktop layout is enforced on larger screens */
+@media (min-width: 769px) {
+  .container {
+    grid-template-columns: 180px 1fr 0.8fr 180px !important;
+    display: grid !important;
+  }
+  
+  .ad-sidebar {
+    display: block !important;
+  }
+  
+  .mobile-nav {
+    display: none !important;
+  }
+  
+  .mobile-ad-container {
+    display: none !important;
+  }
+}
+
 /* Keep gradient background only for main content header area */
 .container::before {
   content: '';

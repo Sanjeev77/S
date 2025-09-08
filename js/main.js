@@ -14,6 +14,7 @@ class FinancialPlannerApp {
     this.setupGoToTop();
     this.setupInvestmentSummaryTracking();
     this.setupMobileNavigation();
+    this.setupCommaFormattingForAmounts();
     
     // CRITICAL: Force financial health bar to 0% on mobile startup
     this.initializeFinancialHealthBar();
@@ -46,10 +47,43 @@ class FinancialPlannerApp {
     });
   }
 
+  // NEW: Setup comma formatting for all amount input fields
+  setupCommaFormattingForAmounts() {
+    const amountFields = [
+      // Financial inputs
+      'income',
+      'expenses', 
+      'savings',
+      'existing-emi',
+      // Investment inputs
+      'existing-investments',
+      'current-sip',
+      // Goal inputs (will be handled dynamically as goals are created)
+      // Loan inputs (will be handled when loans are added)
+    ];
+
+    amountFields.forEach(fieldId => {
+      UTILS.setupCommaFormatting(fieldId);
+    });
+
+    // Also setup for any existing goal inputs
+    this.setupGoalCommaFormatting();
+    
+    console.log('Comma formatting initialized for amount input fields');
+  }
+
+  // NEW: Setup comma formatting for goal inputs
+  setupGoalCommaFormatting() {
+    const goalTypes = Object.keys(CONFIG.goalMeta);
+    goalTypes.forEach(goalType => {
+      UTILS.setupCommaFormatting(`${goalType}-amount`);
+    });
+  }
+
   // NEW: Update investment summary display
   updateInvestmentSummary() {
-    const existingInvestments = parseFloat(document.getElementById('existing-investments')?.value) || 0;
-    const currentSip = parseFloat(document.getElementById('current-sip')?.value) || 0;
+    const existingInvestments = UTILS.getNumericValue('existing-investments');
+    const currentSip = UTILS.getNumericValue('current-sip');
     const sipDuration = parseFloat(document.getElementById('sip-duration')?.value) || 0;
     const returns = parseFloat(document.getElementById('returns')?.value) || 12;
     const timeline = parseFloat(document.getElementById('timeline')?.value) || 15;
@@ -201,8 +235,8 @@ class FinancialPlannerApp {
   setupEventListeners() {
     // Enhanced input configurations with investment fields
     const inputConfigs = {
-      immediate: ['returns', 'inflation', 'existing-investments', 'current-sip', 'sip-duration'],
-      debounced: ['income', 'expenses', 'savings', 'existing-emi'],
+      immediate: ['income', 'expenses', 'savings', 'returns', 'inflation', 'existing-investments', 'current-sip', 'sip-duration'],
+      debounced: ['existing-emi'],
       normal: ['age', 'timeline', 'life-expectancy']
     };
 
@@ -487,9 +521,9 @@ class FinancialPlannerApp {
   applyStartSipEarly() {
     const currentSipInput = document.getElementById('current-sip');
     if (currentSipInput) {
-      const currentSip = parseFloat(currentSipInput.value) || 0;
+      const currentSip = UTILS.getNumericValue('current-sip');
       const enhancedSip = Math.max(5000, currentSip + 5000);
-      currentSipInput.value = enhancedSip;
+      currentSipInput.value = UTILS.formatNumberWithCommas(enhancedSip);
       this.uiManager.showToast(`SIP increased to ${UTILS.formatCurrency(enhancedSip)} for early wealth building`, 'success');
     }
   }
@@ -499,15 +533,15 @@ class FinancialPlannerApp {
     const currentSipInput = document.getElementById('current-sip');
     
     if (existingInvestmentsInput) {
-      const current = parseFloat(existingInvestmentsInput.value) || 0;
+      const current = UTILS.getNumericValue('existing-investments');
       const enhanced = current + 100000; // Add 1L to investment base
-      existingInvestmentsInput.value = enhanced;
+      existingInvestmentsInput.value = UTILS.formatNumberWithCommas(enhanced);
     }
     
     if (currentSipInput) {
-      const currentSip = parseFloat(currentSipInput.value) || 0;
+      const currentSip = UTILS.getNumericValue('current-sip');
       const enhancedSip = Math.max(3000, currentSip + 2000);
-      currentSipInput.value = enhancedSip;
+      currentSipInput.value = UTILS.formatNumberWithCommas(enhancedSip);
     }
     
     this.uiManager.showToast('Investment foundation strengthened with base amount and SIP', 'success');
@@ -518,9 +552,9 @@ class FinancialPlannerApp {
     const returnsInput = document.getElementById('returns');
     
     if (currentSipInput) {
-      const currentSip = parseFloat(currentSipInput.value) || 0;
+      const currentSip = UTILS.getNumericValue('current-sip');
       const strengthenedSip = Math.round(currentSip * 1.5); // 50% increase
-      currentSipInput.value = strengthenedSip;
+      currentSipInput.value = UTILS.formatNumberWithCommas(strengthenedSip);
     }
     
     if (returnsInput) {
@@ -537,9 +571,9 @@ class FinancialPlannerApp {
     const sipDurationInput = document.getElementById('sip-duration');
     
     if (currentSipInput) {
-      const currentSip = parseFloat(currentSipInput.value) || 0;
+      const currentSip = UTILS.getNumericValue('current-sip');
       const steppedUpSip = Math.round(currentSip * 1.15); // 15% annual step-up simulation
-      currentSipInput.value = steppedUpSip;
+      currentSipInput.value = UTILS.formatNumberWithCommas(steppedUpSip);
     }
     
     if (sipDurationInput) {
@@ -562,10 +596,10 @@ class FinancialPlannerApp {
     }
     
     if (existingInvestmentsInput) {
-      const current = parseFloat(existingInvestmentsInput.value) || 0;
+      const current = UTILS.getNumericValue('existing-investments');
       if (current > 0) {
         const optimized = Math.round(current * 1.1); // 10% optimization through rebalancing
-        existingInvestmentsInput.value = optimized;
+        existingInvestmentsInput.value = UTILS.formatNumberWithCommas(optimized);
       }
     }
     
@@ -579,7 +613,7 @@ class FinancialPlannerApp {
     
     // Set a reasonable starting SIP amount
     if (currentSipInput) {
-      currentSipInput.value = 5000;
+      currentSipInput.value = UTILS.formatNumberWithCommas(5000);
     }
     
     // Set starting duration to indicate beginning of investment journey
@@ -599,7 +633,16 @@ class FinancialPlannerApp {
   getFormData() {
     const getData = (id) => {
       const element = document.getElementById(id);
-      const value = element ? parseFloat(element.value) : 0;
+      if (!element) return 0;
+      
+      // For amount fields that may have comma formatting, use UTILS.getNumericValue
+      const amountFields = ['income', 'expenses', 'savings', 'existing-emi', 'existing-investments', 'current-sip'];
+      if (amountFields.includes(id)) {
+        return UTILS.getNumericValue(id);
+      }
+      
+      // For other fields, use standard parsing
+      const value = parseFloat(element.value) || 0;
       const result = isNaN(value) || element.value === '' ? 0 : value;
       
       // Debug savings field specifically
@@ -1547,7 +1590,9 @@ class FinancialPlannerApp {
     let loanCount = 0;
 
     loanItems.forEach(loanItem => {
-      const principal = parseFloat(loanItem.querySelector('.loan-principal')?.value) || 0;
+      const principalInput = loanItem.querySelector('.loan-principal');
+      const principal = principalInput ? 
+        parseFloat(principalInput.getAttribute('data-numeric-value') || UTILS.removeCommas(principalInput.value)) || 0 : 0;
       const rate = parseFloat(loanItem.querySelector('.loan-rate')?.value) || 0;
       const tenureYears = parseFloat(loanItem.querySelector('.loan-tenure-years')?.value) || 0;
       const tenureMonths = parseFloat(loanItem.querySelector('.loan-tenure-months')?.value) || 0;
@@ -1635,7 +1680,79 @@ class FinancialPlannerApp {
     
     loanContainer.appendChild(loanItem);
     this.setupLoanEventListeners(loanId);
+    
+    // Setup comma formatting for loan amount inputs
+    this.setupLoanCommaFormatting(loanId);
+    
     this.uiManager.showToast('Loan details added. Enter loan parameters for analysis.', 'info');
+  }
+
+  // NEW: Setup comma formatting for loan amount inputs
+  setupLoanCommaFormatting(loanId) {
+    const loanItem = document.getElementById(loanId);
+    if (!loanItem) return;
+
+    // Add comma formatting to principal and EMI inputs
+    const principalInput = loanItem.querySelector('.loan-principal');
+    const emiInput = loanItem.querySelector('.loan-emi');
+
+    if (principalInput) {
+      this.setupInputCommaFormatting(principalInput);
+    }
+    if (emiInput) {
+      this.setupInputCommaFormatting(emiInput);
+    }
+  }
+
+  // NEW: Setup comma formatting for individual input element
+  setupInputCommaFormatting(inputElement) {
+    if (!inputElement) return;
+
+    // Prevent invalid characters from being entered
+    inputElement.addEventListener('keypress', function(e) {
+      // Allow backspace, delete, tab, escape, enter
+      if ([8, 9, 27, 13, 46].indexOf(e.keyCode) !== -1 ||
+          // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+          (e.keyCode === 65 && e.ctrlKey === true) ||
+          (e.keyCode === 67 && e.ctrlKey === true) ||
+          (e.keyCode === 86 && e.ctrlKey === true) ||
+          (e.keyCode === 88 && e.ctrlKey === true)) {
+        return;
+      }
+      
+      // Ensure that it is a number or decimal point and stop the keypress
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode !== 190 && e.keyCode !== 110)) {
+        e.preventDefault();
+      }
+    });
+
+    // Format on input (while typing)
+    inputElement.addEventListener('input', function(e) {
+      const cursorPosition = e.target.selectionStart;
+      const oldValue = e.target.value;
+      const newValue = UTILS.formatNumberWithCommas(oldValue);
+      
+      // Only update if formatting actually changed the value
+      if (newValue !== oldValue) {
+        e.target.value = newValue;
+        
+        // Simplified cursor positioning - place at end for now
+        e.target.setSelectionRange(newValue.length, newValue.length);
+        
+        // Trigger calculations if global function exists
+        if (window.calculateResults && typeof window.calculateResults === 'function') {
+          setTimeout(() => {
+            window.calculateResults();
+          }, 50);
+        }
+      }
+    });
+
+    // Clean up on blur for processing
+    inputElement.addEventListener('blur', function(e) {
+      const cleanValue = UTILS.removeCommas(e.target.value);
+      e.target.setAttribute('data-numeric-value', cleanValue);
+    });
   }
 
   createLoanItemElement(loanId) {
@@ -1666,8 +1783,7 @@ class FinancialPlannerApp {
         
         <div class="form-group">
           <label><i class="fas fa-rupee-sign"></i> Outstanding Amount</label>
-          <input type="number" class="form-control loan-principal" placeholder="Enter outstanding amount" 
-                step="10000" min="0">
+          <input type="text" class="form-control loan-principal" placeholder="Enter outstanding amount" inputmode="numeric">
         </div>
         
         <div class="form-group">
@@ -1678,8 +1794,7 @@ class FinancialPlannerApp {
         
         <div class="form-group">
           <label><i class="fas fa-credit-card"></i> Monthly EMI</label>
-          <input type="number" class="form-control loan-emi" placeholder="Enter your actual EMI" 
-                step="100" min="0">
+          <input type="text" class="form-control loan-emi" placeholder="Enter your actual EMI" inputmode="numeric">
           <small style="color: #6c757d; font-size: 0.8rem;">Enter the EMI you actually pay</small>
         </div>
         
@@ -1747,7 +1862,8 @@ class FinancialPlannerApp {
     
     loanItems.forEach(loanItem => {
       const emiInput = loanItem.querySelector('.loan-emi');
-      const emi = parseFloat(emiInput?.value) || 0;
+      const emi = emiInput ? 
+        parseFloat(emiInput.getAttribute('data-numeric-value') || UTILS.removeCommas(emiInput.value)) || 0 : 0;
       
       if (emi > 0) {
         totalEMI += emi;
@@ -1756,7 +1872,7 @@ class FinancialPlannerApp {
     
     const existingEmiInput = document.getElementById('existing-emi');
     if (existingEmiInput) {
-      existingEmiInput.value = totalEMI;
+      existingEmiInput.value = UTILS.formatNumberWithCommas(totalEMI);
     }
     
     return totalEMI;
@@ -1781,9 +1897,15 @@ class FinancialPlannerApp {
   }
 
   extractLoanData(loanItem) {
-    const principal = parseFloat(loanItem.querySelector('.loan-principal')?.value) || 0;
+    const principalInput = loanItem.querySelector('.loan-principal');
+    const emiInput = loanItem.querySelector('.loan-emi');
+    
+    const principal = principalInput ? 
+      parseFloat(principalInput.getAttribute('data-numeric-value') || UTILS.removeCommas(principalInput.value)) || 0 : 0;
+    const emi = emiInput ? 
+      parseFloat(emiInput.getAttribute('data-numeric-value') || UTILS.removeCommas(emiInput.value)) || 0 : 0;
+      
     const rate = parseFloat(loanItem.querySelector('.loan-rate')?.value) || 0;
-    const emi = parseFloat(loanItem.querySelector('.loan-emi')?.value) || 0;
     const tenureYears = parseFloat(loanItem.querySelector('.loan-tenure-years')?.value) || 0;
     const tenureMonths = parseFloat(loanItem.querySelector('.loan-tenure-months')?.value) || 0;
 
@@ -2909,7 +3031,15 @@ Generated with Advanced Goal Alignment Calculator`;
       
       if (element) {
         console.log(`Setting ${elementId} = ${formData[key]}`);
-        element.value = formData[key];
+        
+        // Format amount fields with commas when setting values
+        const amountFields = ['income', 'expenses', 'savings', 'existing-emi', 'existing-investments', 'current-sip'];
+        if (amountFields.includes(elementId)) {
+          element.value = UTILS.formatNumberWithCommas(formData[key]);
+        } else {
+          element.value = formData[key];
+        }
+        
         // Trigger input event to update calculations
         element.dispatchEvent(new Event('input', { bubbles: true }));
       } else {
@@ -2936,11 +3066,18 @@ Generated with Advanced Goal Alignment Calculator`;
     loanItems.forEach(loanItem => {
       const loanId = loanItem.id;
       const loanType = loanItem.querySelector('.loan-type')?.value || '';
-      const principal = parseFloat(loanItem.querySelector('.loan-principal')?.value) || 0;
+      
+      const principalInput = loanItem.querySelector('.loan-principal');
+      const emiInput = loanItem.querySelector('.loan-emi');
+      
+      const principal = principalInput ? 
+        parseFloat(principalInput.getAttribute('data-numeric-value') || UTILS.removeCommas(principalInput.value)) || 0 : 0;
+      const emi = emiInput ? 
+        parseFloat(emiInput.getAttribute('data-numeric-value') || UTILS.removeCommas(emiInput.value)) || 0 : 0;
+        
       const rate = parseFloat(loanItem.querySelector('.loan-rate')?.value) || 0;
       const tenureYears = parseFloat(loanItem.querySelector('.loan-tenure-years')?.value) || 0;
       const tenureMonths = parseFloat(loanItem.querySelector('.loan-tenure-months')?.value) || 0;
-      const emi = parseFloat(loanItem.querySelector('.loan-emi')?.value) || 0;
       
       if (loanType || principal > 0 || rate > 0 || tenureYears > 0 || tenureMonths > 0 || emi > 0) {
         loans.push({

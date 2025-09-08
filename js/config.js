@@ -753,6 +753,114 @@ const UTILS = {
       taxImpact: returns - postTaxReturns,
       taxRate: applicableTax * 100
     };
+  },
+
+  // NEW: Format number with commas for input fields
+  formatNumberWithCommas: (value) => {
+    if (!value || value === '') return '';
+    
+    // Convert to string and remove existing commas and non-numeric characters except decimal point
+    const cleanValue = value.toString().replace(/[^0-9.]/g, '');
+    
+    // Handle empty or invalid input
+    if (!cleanValue || cleanValue === '.' || cleanValue === '') return cleanValue;
+    
+    // Handle multiple decimal points - keep only the first one
+    const decimalParts = cleanValue.split('.');
+    let numericValue = decimalParts[0];
+    if (decimalParts.length > 1) {
+      numericValue += '.' + decimalParts.slice(1).join('');
+    }
+    
+    // Split by decimal point
+    const parts = numericValue.split('.');
+    
+    // Add commas to integer part only if it has digits
+    if (parts[0] && parts[0].length > 0) {
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+    
+    // Return formatted number (with decimal if it exists)
+    return parts.length > 1 ? parts[0] + '.' + parts[1] : parts[0];
+  },
+
+  // NEW: Remove commas from formatted number to get numeric value
+  removeCommas: (value) => {
+    if (!value) return '';
+    return value.toString().replace(/,/g, '');
+  },
+
+  // NEW: Setup real-time comma formatting for amount inputs
+  setupCommaFormatting: (inputId) => {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    
+    // Mark this input as having comma formatting to avoid conflicts
+    input.setAttribute('data-comma-formatting', 'true');
+
+    // Prevent invalid characters from being entered
+    input.addEventListener('keypress', function(e) {
+      // Allow backspace, delete, tab, escape, enter
+      if ([8, 9, 27, 13, 46].indexOf(e.keyCode) !== -1 ||
+          // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+          (e.keyCode === 65 && e.ctrlKey === true) ||
+          (e.keyCode === 67 && e.ctrlKey === true) ||
+          (e.keyCode === 86 && e.ctrlKey === true) ||
+          (e.keyCode === 88 && e.ctrlKey === true)) {
+        return;
+      }
+      
+      // Ensure that it is a number or decimal point and stop the keypress
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode !== 190 && e.keyCode !== 110)) {
+        e.preventDefault();
+      }
+    });
+
+    // Format on input (while typing)
+    input.addEventListener('input', function(e) {
+      const cursorPosition = e.target.selectionStart;
+      const oldValue = e.target.value;
+      const newValue = UTILS.formatNumberWithCommas(oldValue);
+      
+      // Only update if formatting actually changed the value
+      if (newValue !== oldValue) {
+        e.target.value = newValue;
+        
+        // Simplified cursor positioning - place at end for now
+        // This avoids the complex cursor calculation issues
+        e.target.setSelectionRange(newValue.length, newValue.length);
+        
+        // Trigger calculations if global function exists
+        if (window.calculateResults && typeof window.calculateResults === 'function') {
+          // Use setTimeout to avoid potential conflicts with other event handlers
+          setTimeout(() => {
+            window.calculateResults();
+          }, 50);
+        }
+      }
+    });
+
+    // Clean up on blur for processing
+    input.addEventListener('blur', function(e) {
+      // Store the clean numeric value in a data attribute for calculations
+      const cleanValue = UTILS.removeCommas(e.target.value);
+      e.target.setAttribute('data-numeric-value', cleanValue);
+    });
+
+    // Format existing value on page load
+    if (input.value) {
+      input.value = UTILS.formatNumberWithCommas(input.value);
+      input.setAttribute('data-numeric-value', UTILS.removeCommas(input.value));
+    }
+  },
+
+  // NEW: Get numeric value from comma-formatted input
+  getNumericValue: (inputId) => {
+    const input = document.getElementById(inputId);
+    if (!input) return 0;
+    
+    const numericValue = input.getAttribute('data-numeric-value') || UTILS.removeCommas(input.value);
+    return parseFloat(numericValue) || 0;
   }
 };
 

@@ -43,7 +43,7 @@ class UIManager {
 
   // NEW: Handle investment field input
   handleInvestmentFieldInput(fieldId, value) {
-    const numValue = parseFloat(value) || 0;
+    const numValue = parseFloat(UTILS.removeCommas(value)) || 0;
     
     // Provide immediate feedback for investment fields
     switch (fieldId) {
@@ -114,7 +114,7 @@ class UIManager {
 
   // NEW: Validate investment field
   validateInvestmentField(fieldId, value) {
-    const numValue = parseFloat(value) || 0;
+    const numValue = parseFloat(UTILS.removeCommas(value)) || 0;
     const rules = CONFIG.validation[fieldId];
     
     if (rules && (numValue < rules.min || numValue > rules.max)) {
@@ -124,7 +124,7 @@ class UIManager {
     
     // Investment-specific validation
     if (fieldId === 'current-sip' && numValue > 0) {
-      const income = parseFloat(document.getElementById('income')?.value) || 0;
+      const income = UTILS.getNumericValue('income');
       if (income > 0 && (numValue * 12 / income) > 0.5) {
         this.showToast('SIP amount seems very high relative to income. Please verify.', 'warning');
       }

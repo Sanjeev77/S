@@ -8,21 +8,21 @@
   <meta name="keywords" content="financial planning, financial calculator, investment calculator, savings calculator, goal planning, retirement planning, financial advisor, money management, budget calculator, SIP calculator">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Zero Balanced">
-  <link rel="canonical" href="https://yourwebsite.com/">
+  <link rel="canonical" href="https://www.zerobalanced.com/">
   
   <!-- Open Graph Tags -->
   <meta property="og:title" content="Zero Balanced - Your Digital Financial Advisor">
   <meta property="og:description" content="Plan your financial future with Zero Balanced - a comprehensive financial planning calculator. Set goals, track investments, calculate savings, and achieve work-life balance.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yourwebsite.com/">
-  <meta property="og:image" content="https://yourwebsite.com/images/money-mentor-og.jpg">
+  <meta property="og:url" content="https://www.zerobalanced.com/">
+  <meta property="og:image" content="https://www.zerobalanced.com/images/money-mentor-og.jpg">
   <meta property="og:site_name" content="Zero Balanced">
   
   <!-- Twitter Card Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Zero Balanced - Your Digital Financial Advisor">
   <meta name="twitter:description" content="Plan your financial future with comprehensive financial planning calculator. Set goals, track investments, and achieve work-life balance.">
-  <meta name="twitter:image" content="https://yourwebsite.com/images/money-mentor-twitter.jpg">
+  <meta name="twitter:image" content="https://www.zerobalanced.com/images/money-mentor-twitter.jpg">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="styles/main.css">
@@ -47,7 +47,7 @@
     "provider": {
       "@type": "Organization",
       "name": "Zero Balanced",
-      "url": "https://yourwebsite.com"
+      "url": "https://www.zerobalanced.com"
     },
     "featureList": [
       "Financial Goal Planning",
@@ -60,7 +60,7 @@
       "Scenario Planning",
       "Data Export and Import"
     ],
-    "screenshot": "https://yourwebsite.com/images/money-mentor-screenshot.jpg",
+    "screenshot": "https://www.zerobalanced.com/images/money-mentor-screenshot.jpg",
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "4.8",
@@ -326,17 +326,17 @@
           <div class="form-row">
             <div class="form-group">
               <label for="income"><i class="fas fa-dollar-sign"></i> Monthly Income</label>
-              <input type="number" id="income" class="form-control" value="" step="1000" placeholder="Enter monthly income">
+              <input type="text" id="income" class="form-control" value="" placeholder="Enter monthly income" inputmode="numeric">
             </div>
             <div class="form-group">
               <label for="expenses"><i class="fas fa-receipt"></i> Monthly Expenses</label>
-              <input type="number" id="expenses" class="form-control" value="" step="1000" placeholder="Enter monthly expenses">
+              <input type="text" id="expenses" class="form-control" value="" placeholder="Enter monthly expenses" inputmode="numeric">
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label for="savings"><i class="fas fa-piggy-bank"></i> Current Savings</label>
-              <input type="number" id="savings" class="form-control" value="" step="10000" placeholder="Enter current savings">
+              <input type="text" id="savings" class="form-control" value="" placeholder="Enter current savings" inputmode="numeric">
             </div>
             <!-- Monthly EMI field removed -->
           </div>
@@ -376,12 +376,12 @@
           <div class="form-row">
             <div class="form-group">
               <label for="existing-investments"><i class="fas fa-chart-area"></i> Existing Investment Value</label>
-              <input type="number" id="existing-investments" class="form-control" value="" step="10000" min="0" placeholder="Current portfolio value">
+              <input type="text" id="existing-investments" class="form-control" value="" placeholder="Current portfolio value" inputmode="numeric">
               <small style="color: #6c757d; font-size: 0.8rem;">Total value of all your current investments</small>
             </div>
             <div class="form-group">
               <label for="current-sip"><i class="fas fa-calendar-check"></i> Monthly SIP Amount</label>
-              <input type="number" id="current-sip" class="form-control" value="" step="500" min="0" placeholder="Current monthly SIP">
+              <input type="text" id="current-sip" class="form-control" value="" placeholder="Current monthly SIP" inputmode="numeric">
               <small style="color: #6c757d; font-size: 0.8rem;">Amount you currently invest monthly via SIP</small>
             </div>
             <div class="form-group">
