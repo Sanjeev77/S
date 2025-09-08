@@ -151,6 +151,16 @@
   font-weight: bold;
 }
 
+/* Desktop tabs enhancement */
+@media (min-width: 769px) {
+  .tab {
+    padding: 15px 20px;
+    font-size: 16px;
+    min-width: 80px;
+    max-width: 120px;
+  }
+}
+
 /* Goal Items */
 .goal-item { 
   background: white; 

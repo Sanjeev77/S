@@ -94,7 +94,32 @@
   }
 
   .header svg {
-    margin: 0 auto -55px auto !important;
+    margin: 0 0 -35px 0 !important;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .header-content {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: nowrap;
+  }
+  
+  .support-button {
+    margin-top: 3px;
+    padding: 6px 8px;
+    min-width: 60px;
+    flex-shrink: 0;
+  }
+  
+  .support-button i {
+    font-size: 0.9rem;
+  }
+  
+  .support-button span {
+    font-size: 0.7rem;
   }
   
   /* Fix goal slider thumb clipping on tablets */
@@ -155,7 +180,7 @@
   }
   
   .header {
-    padding: 20px;
+    padding: 10px 20px 20px 20px;
     margin-bottom: 20px;
   }
   
@@ -337,7 +362,7 @@
   }
 
   .header svg {
-    margin: 0 auto -55px auto !important;
+    margin: 0 auto -30px auto !important;
   }
   
   /* Fix mobile goal slider thumb clipping */
@@ -444,7 +469,7 @@
   }
   
   .header {
-    padding: 15px;
+    padding: 5px 15px 15px 15px !important;
   }
   
   .header h1 {
@@ -454,6 +479,21 @@
   
   .header p {
     font-size: 0.85rem;
+    margin-top: 15px;
+  }
+  
+  .support-button {
+    margin-top: 2px;
+    padding: 4px 6px;
+    min-width: 50px;
+  }
+  
+  .support-button i {
+    font-size: 0.8rem;
+  }
+  
+  .support-button span {
+    font-size: 0.65rem;
   }
   
   .form-group label {
@@ -1523,7 +1563,7 @@
   }
   
   .header {
-    padding: 15px;
+    padding: 5px 15px 15px 15px !important;
   }
   
   .header h1 {
@@ -1533,6 +1573,21 @@
   
   .header p {
     font-size: 0.85rem;
+    margin-top: 15px;
+  }
+  
+  .support-button {
+    margin-top: 2px;
+    padding: 4px 6px;
+    min-width: 50px;
+  }
+  
+  .support-button i {
+    font-size: 0.8rem;
+  }
+  
+  .support-button span {
+    font-size: 0.65rem;
   }
   
   .form-group label {
