@@ -3,101 +3,6 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  
-  <!-- Cache Control Meta Tags -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  
-  <!-- Critical CSS to fix layout issues immediately -->
-  <style>
-    /* CRITICAL: Ensure container grid layout works immediately */
-    .container {
-      display: grid !important;
-      grid-template-columns: 180px 1fr 0.8fr 180px !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      position: relative !important;
-      overflow-x: hidden !important;
-      box-sizing: border-box !important;
-    }
-    
-    /* CRITICAL: Prevent sidebar overlap and ensure visibility */
-    .ad-sidebar.left-ad { 
-      grid-column: 1 !important; 
-      width: 180px !important;
-      max-width: 180px !important;
-      min-width: 180px !important;
-      display: block !important;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-      min-height: 100vh !important;
-      position: sticky !important;
-      top: 0 !important;
-      z-index: 2 !important;
-      padding: 20px 10px !important;
-      box-sizing: border-box !important;
-    }
-    .left-panel { 
-      grid-column: 2 !important; 
-    }
-    .right-panel { 
-      grid-column: 3 !important; 
-    }
-    .ad-sidebar.right-ad { 
-      grid-column: 4 !important; 
-      width: 180px !important;
-      max-width: 180px !important;
-      min-width: 180px !important;
-      display: block !important;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-      min-height: 100vh !important;
-      position: sticky !important;
-      top: 0 !important;
-      z-index: 2 !important;
-      padding: 20px 10px !important;
-      box-sizing: border-box !important;
-    }
-    
-    /* CRITICAL: Force ad containers to display */
-    .ad-container {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      background: rgba(255, 255, 255, 0.9) !important;
-      border: 1px solid rgba(255, 255, 255, 0.3) !important;
-      border-radius: 8px !important;
-      padding: 20px !important;
-      text-align: center !important;
-      margin: 20px 0 !important;
-      color: #6c757d !important;
-      font-size: 0.85rem !important;
-      min-height: 250px !important;
-      transition: all 0.3s ease !important;
-      backdrop-filter: blur(10px) !important;
-    }
-    
-    .ad-container.vertical {
-      min-height: 600px !important;
-      width: 160px !important;
-      margin: 10px 0 !important;
-    }
-    
-    /* CRITICAL: Force box-sizing on all elements */
-    *, *:before, *:after {
-      box-sizing: border-box !important;
-    }
-    
-    /* Mobile responsive override */
-    @media (max-width: 768px) {
-      .container {
-        grid-template-columns: 1fr !important;
-      }
-      .ad-sidebar {
-        display: none !important;
-      }
-    }
-  </style>
-  
   <title>Zero Balanced - Your Digital Financial Advisor</title>
   <meta name="description" content="Plan your financial future with Zero Balanced - a comprehensive financial planning calculator. Set goals, track investments, calculate savings, and achieve work-life balance with detailed scenarios and insights.">
   <meta name="keywords" content="financial planning, financial calculator, investment calculator, savings calculator, goal planning, retirement planning, financial advisor, money management, budget calculator, SIP calculator">
@@ -120,9 +25,9 @@
   <meta name="twitter:image" content="https://www.zerobalanced.com/images/money-mentor-twitter.jpg">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="styles/main.css?v=2024091102">
-  <link rel="stylesheet" href="styles/components.css?v=2024091102">
-  <link rel="stylesheet" href="styles/responsive.css?v=2024091102">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/responsive.css">
   
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5970109164913530"
@@ -1027,11 +932,11 @@
   <script>
     emailjs.init('Tk8koJt9URiM4StA1'); // Your EmailJS public key
   </script>
-  <script src="js/config.js?v=2024091102"></script>
-  <script src="js/calculator.js?v=2024091102"></script>
-  <script src="js/ui.js?v=2024091102"></script>
-  <script src="js/goals.js?v=2024091102"></script>
-  <script src="js/main.js?v=2024091102"></script>
-  <script src="js/legal-pages.js?v=2024091102"></script>
+  <script src="js/config.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/goals.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/legal-pages.js"></script>
 </body>
 </html>

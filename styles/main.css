@@ -1,4 +1,4 @@
-/* CSS Variables with fallbacks for older browsers */
+/* CSS Variables */
 :root {
   --primary: #667eea;
   --secondary: #764ba2;
@@ -8,19 +8,6 @@
   --info: #17a2b8;
   --light: #f8f9fa;
   --dark: #343a40;
-}
-
-/* Browser compatibility and critical layout fixes */
-html {
-  box-sizing: border-box !important;
-  -webkit-box-sizing: border-box !important;
-  -moz-box-sizing: border-box !important;
-}
-
-*, *:before, *:after {
-  box-sizing: inherit !important;
-  -webkit-box-sizing: inherit !important;
-  -moz-box-sizing: inherit !important;
 }
 
 /* Base Styles */
@@ -142,45 +129,22 @@ body {
   }
 }
 
-/* Container with sidebars and extended header background - CSS Grid with fallbacks */
+/* Container with sidebars and extended header background */
 .container { 
-  max-width: 100% !important;
-  width: 100% !important;
-  margin: 0 !important;
-  background: white !important; 
-  min-height: 100vh !important;
-  border-radius: 0 !important;
-  overflow-x: hidden !important;
-  overflow-y: visible !important;
-  box-shadow: none !important;
-  position: relative !important;
-  box-sizing: border-box !important;
-  
-  /* Default flexbox fallback for older browsers */
-  display: -webkit-box !important;
-  display: -moz-box !important;
-  display: -ms-flexbox !important;
-  display: -webkit-flex !important;
-  display: flex !important;
-  -webkit-flex-direction: row !important;
-  flex-direction: row !important;
-}
-
-/* CSS Grid support - modern browsers */
-@supports (display: grid) {
-  .container {
-    display: grid !important;
-    grid-template-columns: 180px 1fr 0.8fr 180px !important;
-    gap: 0 !important;
-  }
-}
-
-/* IE11 Grid support */
-@supports (display: -ms-grid) {
-  .container {
-    display: -ms-grid !important;
-    -ms-grid-columns: 180px 1fr 0.8fr 180px !important;
-  }
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  background: white; 
+  min-height: 100vh;
+  border-radius: 0;
+  overflow-x: hidden;
+  overflow-y: visible;
+  box-shadow: none;
+  display: grid;
+  grid-template-columns: 180px 1fr 0.8fr 180px; /* Back to original 4-column layout */
+  gap: 0;
+  position: relative;
+  box-sizing: border-box;
 }
 
 /* Ensure desktop layout is enforced on larger screens */
@@ -215,74 +179,44 @@ body {
   z-index: 1;
 }
 
-/* Ad Sidebars - MAXIMUM STRENGTH OVERRIDE - Force visibility */
-.ad-sidebar,
-div.ad-sidebar,
-.container .ad-sidebar,
-.container > .ad-sidebar {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  background-color: #667eea !important; /* Fallback */
-  padding: 20px 10px !important;
-  min-height: 100vh !important;
-  height: 100vh !important;
-  position: sticky !important;
-  top: 0 !important;
-  width: 180px !important;
-  max-width: 180px !important;
-  min-width: 180px !important;
-  z-index: 2 !important;
-  box-sizing: border-box !important;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-  align-self: start !important;
-  flex: 0 0 180px !important;
-  /* Prevent any CSS reset or normalization */
-  all: revert !important;
-  /* Then re-apply our styles */
-  display: block !important;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+/* Ad Sidebars - Sticky within their grid area */
+.ad-sidebar {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  padding: 20px 10px;
+  min-height: 100vh; /* Use min-height instead of fixed height */
+  position: sticky; /* Sticky position instead of fixed */
+  top: 0; /* Stick to top of viewport */
+  width: 180px;
+  z-index: 2;
+  box-sizing: border-box;
+  overflow-x: hidden; /* Hide horizontal scrollbars */
+  overflow-y: auto; /* Allow vertical scrolling if needed */
+  align-self: start; /* Align to start of grid area */
 }
 
 .left-ad {
-  border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
-  grid-column: 1 !important; /* Explicitly place in 1st grid column */
-  -ms-grid-column: 1 !important; /* IE11 fallback */
-  order: 1 !important; /* Flexbox fallback - first in order */
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .right-ad {
-  border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
-  grid-column: 4 !important; /* Explicitly place in 4th grid column */
-  -ms-grid-column: 4 !important; /* IE11 fallback */
-  order: 4 !important; /* Flexbox fallback - last in order */
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Ad Containers - MAXIMUM STRENGTH OVERRIDE */
-.ad-container,
-div.ad-container,
-.ad-sidebar .ad-container,
-.ad-sidebar > .ad-container {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  background: rgba(255, 255, 255, 0.9) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  border-radius: 8px !important;
-  padding: 20px !important;
-  text-align: center !important;
-  margin: 20px 0 !important;
-  color: #6c757d !important;
-  font-size: 0.85rem !important;
-  min-height: 250px !important;
-  align-items: center !important;
-  justify-content: center !important;
-  transition: all 0.3s ease !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  box-sizing: border-box !important;
+.ad-container {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  margin: 20px 0;
+  color: #6c757d;
+  font-size: 0.85rem;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .ad-container:hover {
@@ -336,38 +270,30 @@ div.ad-container,
   transform: translateY(0);
 }
 
-/* Panels - STRENGTHENED */
+/* Panels */
 .left-panel {
-  padding: 30px !important;
-  overflow-y: auto !important; /* Independent vertical scrolling */
-  overflow-x: hidden !important; /* Hide horizontal scrollbars */
-  height: 100vh !important; /* Fixed height to enable independent scrolling */
-  position: sticky !important;
-  top: 0 !important;
-  background: #fafbff !important;
-  z-index: 2 !important;
-  box-sizing: border-box !important;
-  grid-column: 2 !important; /* Explicitly place in 2nd grid column */
-  -ms-grid-column: 2 !important; /* IE11 fallback */
-  flex: 1 1 auto !important; /* Flexbox fallback - grow as needed */
-  order: 2 !important; /* Flexbox fallback - second in order */
+  padding: 30px;
+  overflow-y: auto; /* Independent vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scrollbars */
+  height: 100vh; /* Fixed height to enable independent scrolling */
+  position: sticky;
+  top: 0;
+  background: #fafbff;
+  z-index: 2;
+  box-sizing: border-box;
 }
 
 .right-panel {
-  background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%) !important;
-  padding: 25px !important;
-  border-left: 1px solid #dee2e6 !important;
-  overflow-y: auto !important; /* Independent vertical scrolling */
-  overflow-x: hidden !important; /* Hide horizontal scrollbars */
-  height: 100vh !important; /* Fixed height to enable independent scrolling */
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 2 !important;
-  box-sizing: border-box !important;
-  grid-column: 3 !important; /* Explicitly place in 3rd grid column */
-  -ms-grid-column: 3 !important; /* IE11 fallback */
-  flex: 0 0 auto !important; /* Flexbox fallback - don't grow/shrink */
-  order: 3 !important; /* Flexbox fallback - third in order */
+  background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 25px;
+  border-left: 1px solid #dee2e6;
+  overflow-y: auto; /* Independent vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scrollbars */
+  height: 100vh; /* Fixed height to enable independent scrolling */
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  box-sizing: border-box;
 }
 
 /* Header */
