@@ -8,7 +8,6 @@
   <meta name="keywords" content="financial planning, financial calculator, investment calculator, savings calculator, goal planning, retirement planning, financial advisor, money management, budget calculator, SIP calculator">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Zero Balanced">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://api.emailjs.com;">
   <link rel="canonical" href="https://www.zerobalanced.com/">
   
   <!-- Open Graph Tags -->
@@ -30,11 +29,11 @@
   <link rel="stylesheet" href="styles/components.css?v=1.0">
   <link rel="stylesheet" href="styles/responsive.css?v=1.0">
   
-  <!-- Google AdSense - Temporarily disabled for debugging -->
-  <!--script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5970109164913530"
-     crossorigin="anonymous"></script-->
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5970109164913530"
+     crossorigin="anonymous"></script>
   
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <!--script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script-->
   
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
@@ -97,9 +96,9 @@
            data-ad-slot="1234567890"
            data-ad-format="auto"
            data-full-width-responsive="true"></ins>
-      <!--script>
+      <script>
            (adsbygoogle = window.adsbygoogle || []).push({});
-      </script-->
+      </script>
     </div>
   </div>
 
@@ -113,9 +112,9 @@
              data-ad-slot="1234567891"
              data-ad-format="vertical"
              data-full-width-responsive="false"></ins>
-        <!--script>
+        <script>
              (adsbygoogle = window.adsbygoogle || []).push({});
-        </script-->
+        </script>
       </div>
     </div>
 
@@ -464,8 +463,8 @@
 
       <!-- Tabs for different sections -->
       <div class="tabs">
-        <div class="tab active" data-tab="finances">Finance</div>
-        <div class="tab" data-tab="investments">Invest</div>
+        <div class="tab active" data-tab="finances">Finances</div>
+        <div class="tab" data-tab="investments">Investment</div>
         <div class="tab" data-tab="goals">Goals</div>
         <div class="tab" data-tab="visualization">Visual</div>
       </div>
@@ -632,9 +631,9 @@
              data-ad-format="fluid"
              data-ad-client="ca-pub-5970109164913530"
              data-ad-slot="1234567892"></ins>
-        <!--script>
+        <script>
              (adsbygoogle = window.adsbygoogle || []).push({});
-        </script-->
+        </script>
       </div>
 
       <!-- Visualization Section -->
@@ -667,9 +666,9 @@
              data-ad-slot="1234567893"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <!--script>
+        <script>
              (adsbygoogle = window.adsbygoogle || []).push({});
-        </script-->
+        </script>
       </div>
 
       <!-- About & Legal Information -->
@@ -817,9 +816,9 @@
              data-ad-slot="1234567894"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <!--script>
+        <script>
              (adsbygoogle = window.adsbygoogle || []).push({});
-        </script-->
+        </script>
       </div>
 
 
@@ -831,9 +830,9 @@
              data-ad-client="ca-pub-5970109164913530"
              data-ad-slot="1234567895"
              data-ad-format="rectangle"></ins>
-        <!--script>
+        <script>
              (adsbygoogle = window.adsbygoogle || []).push({});
-        </script-->
+        </script>
       </div>
 
       <!-- Export & Share -->
@@ -898,9 +897,9 @@
              data-ad-slot="1234567896"
              data-ad-format="vertical"
              data-full-width-responsive="false"></ins>
-        <!--script>
+        <script>
              (adsbygoogle = window.adsbygoogle || []).push({});
-        </script-->
+        </script>
       </div>
     </div>
   </div>
@@ -929,15 +928,166 @@
     </div>
   </div>
 
+  <!-- Ad Blocker Detection -->
+  <div id="adblock-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; backdrop-filter: blur(0px);">
+    <div class="modal-content" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 10px; text-align: center; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+      <div style="color: #dc3545; font-size: 48px; margin-bottom: 20px;">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <h3 style="color: #343a40; margin-bottom: 15px;">Ad Blocker Detected</h3>
+      <p style="color: #6c757d; margin-bottom: 25px; line-height: 1.5;">
+        <strong>Access Blocked:</strong> We rely on ads to keep this financial calculator free for everyone. 
+        You must disable your ad blocker to access our tools.
+      </p>
+      <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 6px; margin-bottom: 20px; text-align: left;">
+        <strong style="color: #856404;">How to disable ad blocker:</strong><br>
+        <span style="color: #856404; font-size: 14px;">
+          1. Click your ad blocker icon in browser toolbar<br>
+          2. Select "Disable on this site" or similar option<br>
+          3. Refresh this page
+        </span>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <strong style="color: #28a745;">✓ Free Financial Planning Tools</strong><br>
+        <strong style="color: #28a745;">✓ No Registration Required</strong><br>
+        <strong style="color: #28a745;">✓ Privacy Focused</strong>
+      </div>
+      <button onclick="location.reload()" style="background: #667eea; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px;">
+        I've Disabled Ad Blocker - Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Ad Blocker Detection Script -->
+  <div id="adblock-detector" style="height: 1px; width: 1px; position: absolute; left: -999px; top: -999px;">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" style="display: block; height: 1px; width: 1px;"></script>
+  </div>
+
   <!-- Scripts -->
-  <script>
+  <!--script>
     emailjs.init('Tk8koJt9URiM4StA1'); // Your EmailJS public key
-  </script>
+  </script-->
   <script src="js/config.js?v=1.0"></script>
   <script src="js/calculator.js?v=1.0"></script>
   <script src="js/ui.js?v=1.0"></script>
   <script src="js/goals.js?v=1.0"></script>
   <script src="js/main.js?v=1.0"></script>
   <script src="js/legal-pages.js?v=1.0"></script>
+
+  <!-- Ad Blocker Detection Logic -->
+  <script>
+    let adBlockDetected = false;
+    
+    // Check if ads are blocked after page loads
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        const adBlockModal = document.getElementById('adblock-modal');
+        
+        // Check if AdSense script failed to load (blocked by ad blocker)
+        if (!window.adsbygoogle || window.adsbygoogle.loaded !== true) {
+          adBlockDetected = true;
+          if (adBlockModal) {
+            adBlockModal.style.display = 'block';
+            
+            // Blur only the background content, not the modal
+            const mainContent = document.querySelector('.container');
+            if (mainContent) {
+              mainContent.style.filter = 'blur(5px)';
+              mainContent.style.pointerEvents = 'none';
+              mainContent.style.userSelect = 'none';
+            }
+            
+            // Also blur the mobile nav if it exists
+            const mobileNav = document.querySelector('.mobile-nav');
+            if (mobileNav) {
+              mobileNav.style.filter = 'blur(5px)';
+              mobileNav.style.pointerEvents = 'none';
+            }
+            
+            // Keep modal interactive
+            adBlockModal.style.pointerEvents = 'all';
+            adBlockModal.style.filter = 'none';
+            
+            // Disable all interactive elements
+            disableAllInteractions();
+          }
+        }
+      }, 2000); // Give AdSense 2 seconds to load
+    });
+
+    // Disable all interactions on the page
+    function disableAllInteractions() {
+      // Disable all input fields
+      const inputs = document.querySelectorAll('input, textarea, select, button');
+      inputs.forEach(input => {
+        if (!input.closest('#adblock-modal')) {
+          input.disabled = true;
+          input.style.pointerEvents = 'none';
+        }
+      });
+      
+      // Disable all links
+      const links = document.querySelectorAll('a');
+      links.forEach(link => {
+        if (!link.closest('#adblock-modal')) {
+          link.style.pointerEvents = 'none';
+          link.onclick = function(e) { e.preventDefault(); return false; };
+        }
+      });
+      
+      // Disable scrolling
+      document.body.style.overflow = 'hidden';
+      
+      // Block right-click context menu
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+      });
+      
+      // Block keyboard shortcuts
+      document.addEventListener('keydown', function(e) {
+        // Block F12, Ctrl+Shift+I, Ctrl+U, etc.
+        if (e.key === 'F12' || 
+            (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+            (e.ctrlKey && e.key === 'u') ||
+            (e.ctrlKey && e.shiftKey && e.key === 'C')) {
+          e.preventDefault();
+          return false;
+        }
+      });
+    }
+
+    // Continuous monitoring to prevent bypass attempts
+    setInterval(function() {
+      if (adBlockDetected && (!window.adsbygoogle || window.adsbygoogle.loaded !== true)) {
+        const modal = document.getElementById('adblock-modal');
+        const mainContent = document.querySelector('.container');
+        
+        if (modal && modal.style.display === 'none') {
+          // Re-show modal if someone tries to hide it
+          modal.style.display = 'block';
+        }
+        
+        if (mainContent && mainContent.style.display !== 'none') {
+          // Re-hide main content if someone tries to show it
+          mainContent.style.display = 'none';
+        }
+        
+        // Re-apply restrictions only to content, not modal
+        if (mainContent) {
+          mainContent.style.filter = 'blur(5px)';
+          mainContent.style.pointerEvents = 'none';
+        }
+        
+        const mobileNav = document.querySelector('.mobile-nav');
+        if (mobileNav) {
+          mobileNav.style.filter = 'blur(5px)';
+          mobileNav.style.pointerEvents = 'none';
+        }
+        
+        document.body.style.overflow = 'hidden';
+      }
+    }, 1000); // Check every second
+  </script>
 </body>
 </html>
