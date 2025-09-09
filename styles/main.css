@@ -215,22 +215,35 @@ body {
   z-index: 1;
 }
 
-/* Ad Sidebars - Sticky within their grid area - STRENGTHENED */
-.ad-sidebar {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%) !important;
+/* Ad Sidebars - MAXIMUM STRENGTH OVERRIDE - Force visibility */
+.ad-sidebar,
+div.ad-sidebar,
+.container .ad-sidebar,
+.container > .ad-sidebar {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background-color: #667eea !important; /* Fallback */
   padding: 20px 10px !important;
-  min-height: 100vh !important; /* Use min-height instead of fixed height */
-  position: sticky !important; /* Sticky position instead of fixed */
-  top: 0 !important; /* Stick to top of viewport */
+  min-height: 100vh !important;
+  height: 100vh !important;
+  position: sticky !important;
+  top: 0 !important;
   width: 180px !important;
   max-width: 180px !important;
   min-width: 180px !important;
   z-index: 2 !important;
   box-sizing: border-box !important;
-  overflow-x: hidden !important; /* Hide horizontal scrollbars */
-  overflow-y: auto !important; /* Allow vertical scrolling if needed */
-  align-self: start !important; /* Align to start of grid area */
-  flex: 0 0 180px !important; /* Flexbox fallback - don't grow/shrink, fixed 180px */
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  align-self: start !important;
+  flex: 0 0 180px !important;
+  /* Prevent any CSS reset or normalization */
+  all: revert !important;
+  /* Then re-apply our styles */
+  display: block !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
 }
 
 .left-ad {
@@ -247,21 +260,29 @@ body {
   order: 4 !important; /* Flexbox fallback - last in order */
 }
 
-.ad-container {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 8px;
-  padding: 20px;
-  text-align: center;
-  margin: 20px 0;
-  color: #6c757d;
-  font-size: 0.85rem;
-  min-height: 250px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+/* Ad Containers - MAXIMUM STRENGTH OVERRIDE */
+.ad-container,
+div.ad-container,
+.ad-sidebar .ad-container,
+.ad-sidebar > .ad-container {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 8px !important;
+  padding: 20px !important;
+  text-align: center !important;
+  margin: 20px 0 !important;
+  color: #6c757d !important;
+  font-size: 0.85rem !important;
+  min-height: 250px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.3s ease !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  box-sizing: border-box !important;
 }
 
 .ad-container:hover {

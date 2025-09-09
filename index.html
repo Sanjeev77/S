@@ -22,11 +22,20 @@
       box-sizing: border-box !important;
     }
     
-    /* CRITICAL: Prevent sidebar overlap */
-    .left-ad { 
+    /* CRITICAL: Prevent sidebar overlap and ensure visibility */
+    .ad-sidebar.left-ad { 
       grid-column: 1 !important; 
       width: 180px !important;
       max-width: 180px !important;
+      min-width: 180px !important;
+      display: block !important;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      min-height: 100vh !important;
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 2 !important;
+      padding: 20px 10px !important;
+      box-sizing: border-box !important;
     }
     .left-panel { 
       grid-column: 2 !important; 
@@ -34,10 +43,43 @@
     .right-panel { 
       grid-column: 3 !important; 
     }
-    .right-ad { 
+    .ad-sidebar.right-ad { 
       grid-column: 4 !important; 
       width: 180px !important;
       max-width: 180px !important;
+      min-width: 180px !important;
+      display: block !important;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      min-height: 100vh !important;
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 2 !important;
+      padding: 20px 10px !important;
+      box-sizing: border-box !important;
+    }
+    
+    /* CRITICAL: Force ad containers to display */
+    .ad-container {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: rgba(255, 255, 255, 0.9) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      border-radius: 8px !important;
+      padding: 20px !important;
+      text-align: center !important;
+      margin: 20px 0 !important;
+      color: #6c757d !important;
+      font-size: 0.85rem !important;
+      min-height: 250px !important;
+      transition: all 0.3s ease !important;
+      backdrop-filter: blur(10px) !important;
+    }
+    
+    .ad-container.vertical {
+      min-height: 600px !important;
+      width: 160px !important;
+      margin: 10px 0 !important;
     }
     
     /* CRITICAL: Force box-sizing on all elements */
@@ -78,9 +120,9 @@
   <meta name="twitter:image" content="https://www.zerobalanced.com/images/money-mentor-twitter.jpg">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="styles/main.css?v=2024091101">
-  <link rel="stylesheet" href="styles/components.css?v=2024091101">
-  <link rel="stylesheet" href="styles/responsive.css?v=2024091101">
+  <link rel="stylesheet" href="styles/main.css?v=2024091102">
+  <link rel="stylesheet" href="styles/components.css?v=2024091102">
+  <link rel="stylesheet" href="styles/responsive.css?v=2024091102">
   
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5970109164913530"
@@ -985,11 +1027,11 @@
   <script>
     emailjs.init('Tk8koJt9URiM4StA1'); // Your EmailJS public key
   </script>
-  <script src="js/config.js?v=2024091101"></script>
-  <script src="js/calculator.js?v=2024091101"></script>
-  <script src="js/ui.js?v=2024091101"></script>
-  <script src="js/goals.js?v=2024091101"></script>
-  <script src="js/main.js?v=2024091101"></script>
-  <script src="js/legal-pages.js?v=2024091101"></script>
+  <script src="js/config.js?v=2024091102"></script>
+  <script src="js/calculator.js?v=2024091102"></script>
+  <script src="js/ui.js?v=2024091102"></script>
+  <script src="js/goals.js?v=2024091102"></script>
+  <script src="js/main.js?v=2024091102"></script>
+  <script src="js/legal-pages.js?v=2024091102"></script>
 </body>
 </html>
