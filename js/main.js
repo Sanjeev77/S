@@ -9,6 +9,9 @@ class FinancialPlannerApp {
   }
 
   init() {
+    // FIRST: Initialize localStorage and clear any corrupted data
+    this.initializeStorage();
+    
     this.setupEventListeners();
     this.uiManager.addCustomStyles();
     this.setupGoToTop();
@@ -20,6 +23,41 @@ class FinancialPlannerApp {
     this.initializeFinancialHealthBar();
     
     this.uiManager.showToast('Financial planner loaded successfully!', 'success');
+  }
+
+  // NEW: Initialize storage and handle any corrupted data
+  initializeStorage() {
+    try {
+      // Test localStorage availability
+      if (typeof Storage === 'undefined') {
+        console.warn('localStorage not available');
+        return;
+      }
+
+      // Test if we can write to localStorage
+      const testKey = 'localStorage_test';
+      localStorage.setItem(testKey, 'test');
+      localStorage.removeItem(testKey);
+
+      // Try to load any existing saved data and validate it
+      const savedPlan = this.loadSavedPlan();
+      if (savedPlan) {
+        console.log('Found valid saved plan from:', savedPlan.timestamp);
+      } else {
+        console.log('No valid saved plan found');
+      }
+
+    } catch (error) {
+      console.error('localStorage initialization error:', error);
+      
+      // Clear any problematic data
+      try {
+        localStorage.clear();
+        console.log('Cleared localStorage due to initialization error');
+      } catch (clearError) {
+        console.error('Could not clear localStorage:', clearError);
+      }
+    }
   }
 
   // CRITICAL: Initialize financial health bar to 0% on startup
@@ -2498,15 +2536,93 @@ Generated with Advanced Goal Alignment Calculator`;
   }
 
   savePlan() {
-    const planData = {
-      formData: this.getFormData(),
-      results: this.previousResults,
-      goals: this.goalsManager.exportGoals(),
-      timestamp: new Date().toISOString()
-    };
+    try {
+      const planData = {
+        formData: this.getFormData(),
+        results: this.previousResults,
+        goals: this.goalsManager.exportGoals(),
+        timestamp: new Date().toISOString(),
+        version: '1.0' // Add version for future compatibility
+      };
 
-    localStorage.setItem('financialPlan', JSON.stringify(planData));
-    this.uiManager.showToast('Financial plan saved successfully!', 'success');
+      // Validate data before saving
+      if (!planData.formData || typeof planData.formData !== 'object') {
+        throw new Error('Invalid form data');
+      }
+
+      // Try to save to localStorage with error handling
+      const dataString = JSON.stringify(planData);
+      
+      // Check if localStorage is available and has space
+      if (typeof Storage === 'undefined') {
+        throw new Error('localStorage not supported');
+      }
+      
+      localStorage.setItem('financialPlan', dataString);
+      this.uiManager.showToast('Financial plan saved successfully!', 'success');
+      
+    } catch (error) {
+      console.error('Error saving financial plan:', error);
+      
+      // Try to clear corrupted data and retry once
+      if (error.name === 'QuotaExceededError' || error.message.includes('quota')) {
+        try {
+          this.clearSavedPlan();
+          localStorage.setItem('financialPlan', JSON.stringify({
+            formData: this.getFormData(),
+            timestamp: new Date().toISOString(),
+            version: '1.0'
+          }));
+          this.uiManager.showToast('Plan saved (storage cleared first)', 'warning');
+        } catch (retryError) {
+          this.uiManager.showToast('Unable to save plan - storage full', 'error');
+        }
+      } else {
+        this.uiManager.showToast('Error saving plan: ' + error.message, 'error');
+      }
+    }
+  }
+
+  // NEW: Load saved plan with error handling
+  loadSavedPlan() {
+    try {
+      const savedData = localStorage.getItem('financialPlan');
+      if (!savedData) {
+        return null;
+      }
+
+      const planData = JSON.parse(savedData);
+      
+      // Validate loaded data
+      if (!planData || typeof planData !== 'object') {
+        throw new Error('Invalid saved data format');
+      }
+
+      // Check version compatibility (future-proofing)
+      if (planData.version && planData.version !== '1.0') {
+        console.warn('Loading plan from different version:', planData.version);
+      }
+
+      return planData;
+
+    } catch (error) {
+      console.error('Error loading saved plan:', error);
+      
+      // Clear corrupted data
+      this.clearSavedPlan();
+      this.uiManager.showToast('Cleared corrupted saved data', 'warning');
+      return null;
+    }
+  }
+
+  // NEW: Clear saved plan data
+  clearSavedPlan() {
+    try {
+      localStorage.removeItem('financialPlan');
+      console.log('Cleared saved financial plan');
+    } catch (error) {
+      console.error('Error clearing saved plan:', error);
+    }
   }
 
   previewPlans() {
