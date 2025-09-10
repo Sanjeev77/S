@@ -826,9 +826,27 @@ const UTILS = {
       if (newValue !== oldValue) {
         e.target.value = newValue;
         
-        // Simplified cursor positioning - place at end for now
-        // This avoids the complex cursor calculation issues
-        e.target.setSelectionRange(newValue.length, newValue.length);
+        // Calculate proper cursor position accounting for added commas
+        const cleanOldValue = oldValue.replace(/[^0-9.]/g, '');
+        const cleanNewValue = newValue.replace(/[^0-9.]/g, '');
+        
+        // If the numeric content is the same, adjust cursor position for commas
+        if (cleanOldValue === cleanNewValue) {
+          // Count commas before cursor position in old and new values
+          const oldCommasBeforeCursor = (oldValue.substring(0, cursorPosition).match(/,/g) || []).length;
+          const newCommasBeforeCursor = (newValue.substring(0, cursorPosition).match(/,/g) || []).length;
+          
+          // Adjust cursor position based on comma difference
+          const newCursorPosition = cursorPosition + (newCommasBeforeCursor - oldCommasBeforeCursor);
+          
+          // Ensure cursor position is within bounds
+          const finalCursorPosition = Math.min(Math.max(newCursorPosition, 0), newValue.length);
+          
+          e.target.setSelectionRange(finalCursorPosition, finalCursorPosition);
+        } else {
+          // If content changed (digits added/removed), place cursor at end
+          e.target.setSelectionRange(newValue.length, newValue.length);
+        }
         
         // Trigger calculations if global function exists
         if (window.calculateResults && typeof window.calculateResults === 'function') {
@@ -845,6 +863,18 @@ const UTILS = {
       // Store the clean numeric value in a data attribute for calculations
       const cleanValue = UTILS.removeCommas(e.target.value);
       e.target.setAttribute('data-numeric-value', cleanValue);
+      
+      // Trigger calculations when user moves away from input
+      if (window.calculateResults && typeof window.calculateResults === 'function') {
+        window.calculateResults();
+      }
+    });
+
+    // Handle Enter key to trigger calculations
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.keyCode === 13) {
+        e.target.blur(); // This will trigger the blur event which includes calculations
+      }
     });
 
     // Format existing value on page load

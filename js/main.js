@@ -863,9 +863,11 @@ class FinancialPlannerApp {
       
       if (hasActiveGoals && formData.income > 0 && formData.expenses > 0) {
         try {
-          const results = this.calculator.calculate(formData);
-          const insights = this.calculator.generateInsights(formData);
-          const scenarios = this.calculator.generateScenarios(formData, results);
+          // Pass loan data to calculator for comprehensive financial health analysis
+          const dataWithLoans = { ...formData, loanData };
+          const results = this.calculator.calculate(dataWithLoans);
+          const insights = this.calculator.generateInsights(dataWithLoans);
+          const scenarios = this.calculator.generateScenarios(dataWithLoans, results);
           
           console.log('Generated scenarios:', scenarios);
           
@@ -894,81 +896,54 @@ class FinancialPlannerApp {
   }
 
 
-  // ENHANCED: Financial health calculation with investment context
+  // ENHANCED: Financial health calculation using calculator's loan-aware method
   updateEnhancedFinancialHealth(formData, loanData) {
     // FIXED: Handle cases where income might be 0 or empty
-    const expenseRatio = formData.income > 0 ? (formData.expenses / formData.income) * 100 : 0;
+    if (!formData.income || formData.income <= 0) {
+      // Set default health score for incomplete data
+      const healthScore = 0;
+      this.uiManager.updateElement('financial-health-value', UTILS.formatPercentage(healthScore));
+      this.uiManager.updateProgressBar('financial-health-bar', healthScore);
+      return healthScore;
+    }
+
+    const expenseRatio = (formData.expenses / formData.income) * 100;
     const totalEmi = formData.existingEmi || 0;
     const disposableIncome = formData.income - formData.expenses - totalEmi;
+    const savingsRate = disposableIncome > 0 ? ((disposableIncome - totalEmi) / disposableIncome) * 100 : 0;
     
-    // Calculate investment strength
+    // Calculate investment strength and data for calculator
     const investmentStrength = this.calculateInvestmentStrength(formData);
-    
-    let healthScore = 50;
-    
-    // Standard financial factors (60% weight) - Only calculate if income > 0
-    const factors = [];
-    
-    if (formData.income > 0) {
-      factors.push(
-        { 
-          value: expenseRatio,
-          thresholds: [40, 50, 60, 70, 80, 90],
-          scores: [15, 10, 5, 0, -10, -20, -25]
-        },
-        { 
-          value: totalEmi > 0 ? (totalEmi / formData.income) * 100 : 0,
-          thresholds: [15, 25, 35, 45],
-          scores: [5, 0, -10, -20, -25],
-          condition: totalEmi > 0
-        }
-      );
-    }
+    const investmentData = {
+      existingInvestments: formData.existingInvestments || 0,
+      currentSip: formData.currentSip || 0,
+      sipDuration: formData.sipDuration || 0,
+      investmentPortfolioStrength: investmentStrength
+    };
 
-    factors.forEach(factor => {
-      if (factor.condition !== false) {
-        for (let i = 0; i < factor.thresholds.length; i++) {
-          if (factor.value <= factor.thresholds[i]) {
-            healthScore += factor.scores[i];
-            break;
-          }
-        }
-        if (factor.value > factor.thresholds[factor.thresholds.length - 1]) {
-          healthScore += factor.scores[factor.scores.length - 1];
-        }
-      }
+    // Use calculator's comprehensive loan-aware financial health method
+    const healthScore = this.calculator.calculateEnhancedFinancialHealth(
+      expenseRatio,
+      savingsRate, 
+      formData.timeline || 10, // timeRequired (default to timeline)
+      formData.timeline || 10, // timeline
+      formData.savings || 0,
+      formData.expenses || 0,
+      totalEmi,
+      formData.income,
+      investmentData,
+      formData.age || 30,
+      formData.lifeExpectancy || 80,
+      loanData // Pass loan data for comprehensive analysis
+    );
+    
+    console.log('🏥 Enhanced Financial Health with Loans:', {
+      healthScore,
+      expenseRatio,
+      savingsRate,
+      totalEmi,
+      loanData: loanData || 'No loan data'
     });
-
-    // Investment strength bonus (40% weight)
-    if (investmentStrength >= 80) healthScore += 25;
-    else if (investmentStrength >= 60) healthScore += 20;
-    else if (investmentStrength >= 40) healthScore += 15;
-    else if (investmentStrength >= 20) healthScore += 10;
-    else if (investmentStrength > 0) healthScore += 5;
-    
-    // Enhanced emergency fund factor - massive funds provide strong protection
-    if (formData.savings > 0 && formData.expenses > 0) {
-      const emergencyMonths = formData.savings / formData.expenses;
-      const totalMonthlyOutflow = formData.expenses + totalEmi;
-      const sustainabilityMonths = totalMonthlyOutflow > 0 ? formData.savings / totalMonthlyOutflow : 0;
-      
-      console.log('💰 Emergency Fund Analysis:', {
-        emergencyMonths: emergencyMonths,
-        sustainabilityMonths: sustainabilityMonths,
-        totalMonthlyOutflow: totalMonthlyOutflow
-      });
-      
-      // Massive emergency fund provides substantial health boost
-      if (sustainabilityMonths >= 120) healthScore += 35; // 10+ years sustainability
-      else if (sustainabilityMonths >= 60) healthScore += 30; // 5+ years sustainability  
-      else if (sustainabilityMonths >= 24) healthScore += 25; // 2+ years sustainability
-      else if (emergencyMonths >= 12) healthScore += 15; // 1+ year emergency coverage
-      else if (emergencyMonths >= 6) healthScore += 10;  // 6+ months emergency coverage
-      else if (emergencyMonths >= 3) healthScore += 5;   // 3+ months emergency coverage
-      else if (emergencyMonths < 1) healthScore -= 5;    // Less than 1 month
-    }
-    
-    healthScore = Math.max(0, Math.min(100, healthScore));
     
     // Update UI elements
     this.uiManager.updateElement('financial-health-value', UTILS.formatPercentage(healthScore));
@@ -976,8 +951,9 @@ class FinancialPlannerApp {
     this.uiManager.updateElement('expense-ratio', UTILS.formatPercentage(expenseRatio));
     this.uiManager.updateProgressBar('expense-progress', expenseRatio);
     
-    const savingsRate = (disposableIncome > 0 && formData.income > 0) ? (disposableIncome / formData.income) * 100 : 0;
-    this.uiManager.updateElement('savings-rate', UTILS.formatPercentage(Math.max(0, savingsRate)));
+    // Calculate and update savings rate (disposable income as % of total income)
+    const actualSavingsRate = (disposableIncome > 0 && formData.income > 0) ? (disposableIncome / formData.income) * 100 : 0;
+    this.uiManager.updateElement('savings-rate', UTILS.formatPercentage(Math.max(0, actualSavingsRate)));
     
     this.updateEnhancedWorkLifeBalance(formData, loanData, healthScore, investmentStrength);
     
@@ -1267,18 +1243,39 @@ class FinancialPlannerApp {
   }
 
   analyzePeakEarningWithInvestments(formData, goalToIncomeRatio, debtBurden, investmentStrength, savingsRate, emergencyMonths) {
+    // Ultra-high income scenario - exceptional financial capacity
+    const monthlyIncome = formData.income || 0;
+    const isUltraHighIncome = monthlyIncome >= 1000000; // ₹10+ lakh monthly income
+    
+    if (isUltraHighIncome && savingsRate >= 80 && debtBurden <= 10) {
+      console.log('🚀 TRIGGERED: Ultra-High Income Peak Years');
+      return this.createBalanceAnalysis(false, 3, 'Ultra-High Income Peak Performance', '#d1ecf1', '#0c5460', 'Wealth Optimization');
+    }
+    
+    // Exceptional financial freedom - high savings rate overrides investment strength
+    if (savingsRate >= 70 && emergencyMonths >= 50 && debtBurden <= 50) {
+      console.log('💎 TRIGGERED: Exceptional Financial Freedom');
+      return this.createBalanceAnalysis(false, 3, 'Exceptional Financial Freedom', '#d1ecf1', '#0c5460', 'Legacy Planning');
+    }
+    
     // Peak years with strong investments
     if (investmentStrength >= 80 && savingsRate >= 25 && debtBurden <= 100) {
       return this.createBalanceAnalysis(false, 3, 'Peak Performance Achieved', '#d1ecf1', '#0c5460', 'Maintain Excellence');
     }
     
-    // Good peak years performance
+    // Good peak years performance - adjust for high savings rate scenarios
     if (investmentStrength >= 60 && savingsRate >= 20) {
       return this.createBalanceAnalysis(false, 2, 'Strong Peak Years Progress', '#d4edda', '#155724', 'Optimize Further');
     }
     
-    // Under-optimized peak years
-    if (investmentStrength < 60 || savingsRate < 15 || debtBurden > 200) {
+    // High savings rate can compensate for low investment strength in peak years
+    if (savingsRate >= 50 && debtBurden <= 100 && emergencyMonths >= 12) {
+      console.log('💰 TRIGGERED: High Savings Rate Peak Years');
+      return this.createBalanceAnalysis(false, 2, 'High Savings Peak Years', '#d4edda', '#155724', 'Deploy Capital Strategically');
+    }
+    
+    // Under-optimized peak years - but exclude ultra-high savers
+    if ((investmentStrength < 60 && savingsRate < 50) || savingsRate < 15 || debtBurden > 200) {
       return this.createBalanceAnalysis(true, 3, 'Peak Years Under-Optimized', '#fff3cd', '#856404', 'Maximize Peak Years');
     }
     
@@ -1692,7 +1689,8 @@ class FinancialPlannerApp {
       totalOutstanding,
       totalCalculatedEmi, 
       totalInterestBurden,
-      weightedAvgRate,
+      averageInterestRate: weightedAvgRate, // Calculator expects averageInterestRate
+      weightedAvgRate, // Keep for backward compatibility
       maxTenure,
       loanCount
     };
@@ -1798,8 +1796,27 @@ class FinancialPlannerApp {
       if (newValue !== oldValue) {
         e.target.value = newValue;
         
-        // Simplified cursor positioning - place at end for now
-        e.target.setSelectionRange(newValue.length, newValue.length);
+        // Calculate proper cursor position accounting for added commas
+        const cleanOldValue = oldValue.replace(/[^0-9.]/g, '');
+        const cleanNewValue = newValue.replace(/[^0-9.]/g, '');
+        
+        // If the numeric content is the same, adjust cursor position for commas
+        if (cleanOldValue === cleanNewValue) {
+          // Count commas before cursor position in old and new values
+          const oldCommasBeforeCursor = (oldValue.substring(0, cursorPosition).match(/,/g) || []).length;
+          const newCommasBeforeCursor = (newValue.substring(0, cursorPosition).match(/,/g) || []).length;
+          
+          // Adjust cursor position based on comma difference
+          const newCursorPosition = cursorPosition + (newCommasBeforeCursor - oldCommasBeforeCursor);
+          
+          // Ensure cursor position is within bounds
+          const finalCursorPosition = Math.min(Math.max(newCursorPosition, 0), newValue.length);
+          
+          e.target.setSelectionRange(finalCursorPosition, finalCursorPosition);
+        } else {
+          // If content changed (digits added/removed), place cursor at end
+          e.target.setSelectionRange(newValue.length, newValue.length);
+        }
         
         // Trigger calculations if global function exists
         if (window.calculateResults && typeof window.calculateResults === 'function') {
@@ -1814,6 +1831,18 @@ class FinancialPlannerApp {
     inputElement.addEventListener('blur', function(e) {
       const cleanValue = UTILS.removeCommas(e.target.value);
       e.target.setAttribute('data-numeric-value', cleanValue);
+      
+      // Trigger calculations when user moves away from input
+      if (window.calculateResults && typeof window.calculateResults === 'function') {
+        window.calculateResults();
+      }
+    });
+
+    // Handle Enter key to trigger calculations
+    inputElement.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.keyCode === 13) {
+        e.target.blur(); // This will trigger the blur event which includes calculations
+      }
     });
   }
 

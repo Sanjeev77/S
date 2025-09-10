@@ -4,12 +4,13 @@ class FinancialCalculator {
     this.results = {};
   }
 
-  // Enhanced main calculation method with investment data
+  // Enhanced main calculation method with investment data and loan details
   calculate(data) {
     const {
       age, timeline, lifeExpectancy, income, expenses, savings, 
       existingEmi, returns, inflation, goals,
-      existingInvestments, currentSip, sipDuration
+      existingInvestments, currentSip, sipDuration,
+      loanData = null
     } = data;
 
     // Calculate basic metrics
@@ -43,10 +44,10 @@ class FinancialCalculator {
       expenseRatio, savingsRate, timeRequired, timeline, investmentData
     );
     
-    // Enhanced financial health with investment factors and life expectancy
+    // Enhanced financial health with investment factors, life expectancy, and loan details
     const financialHealth = this.calculateEnhancedFinancialHealth(
       expenseRatio, savingsRate, timeRequired, timeline, savings, expenses, 
-      existingEmi, income, investmentData, age, lifeExpectancy
+      existingEmi, income, investmentData, age, lifeExpectancy, loanData
     );
 
     // NEW: Predicted Lifespan Analysis
@@ -305,11 +306,22 @@ class FinancialCalculator {
     return Math.max(0, Math.min(100, score));
   }
 
-  // Enhanced financial health calculation
-  calculateEnhancedFinancialHealth(expenseRatio, savingsRate, timeRequired, timeline, savings, expenses, existingEmi, income, investmentData, age, lifeExpectancy) {
+  // Enhanced financial health calculation with comprehensive loan analysis
+  calculateEnhancedFinancialHealth(expenseRatio, savingsRate, timeRequired, timeline, savings, expenses, existingEmi, income, investmentData, age, lifeExpectancy, loanData = null) {
     let healthScore = 60; // Start higher due to investment considerations
     
-    // Basic financial health factors (50 points)
+    // Log loan data impact for debugging
+    if (loanData && loanData.totalOutstanding > 0) {
+      console.log('🏦 Financial Health: Loan data detected', {
+        totalOutstanding: loanData.totalOutstanding,
+        emiRatio: (existingEmi / income) * 100,
+        debtBurden: (loanData.totalOutstanding / (income * 12)) * 100,
+        averageRate: loanData.averageInterestRate,
+        loanCount: loanData.loanCount
+      });
+    }
+    
+    // Basic financial health factors (40 points)
     if (expenseRatio > 70) healthScore -= 15;
     else if (expenseRatio < 50) healthScore += 10;
     
@@ -320,16 +332,92 @@ class FinancialCalculator {
     if (timeRequired <= timeline) healthScore += 10;
     else healthScore -= 10;
     
-    // Emergency fund assessment (15 points)
+    // Enhanced emergency fund assessment considering net worth (15 points)
     const emergencyMonths = savings / expenses;
-    if (emergencyMonths >= 6) healthScore += 15;
-    else if (emergencyMonths >= 3) healthScore += 8;
-    else if (emergencyMonths < 1) healthScore -= 10;
+    const totalDebt = loanData ? loanData.totalOutstanding : 0;
+    const netWorth = savings - totalDebt;
+    const netWorthRatio = totalDebt > 0 ? netWorth / totalDebt : 1;
     
-    // EMI burden (10 points)
+    // Base emergency fund score
+    let emergencyScore = 0;
+    if (emergencyMonths >= 6) emergencyScore = 15;
+    else if (emergencyMonths >= 3) emergencyScore = 8;
+    else if (emergencyMonths < 1) emergencyScore = -10;
+    
+    // Adjust emergency fund bonus based on net worth when massive debt exists
+    if (totalDebt > 0 && netWorthRatio < 0) {
+      // Negative net worth - significantly reduce emergency fund benefit
+      emergencyScore = Math.round(emergencyScore * 0.3); // 70% reduction
+      console.log('⚠️ Emergency Fund Adjusted: Negative net worth detected', {
+        savings: savings,
+        totalDebt: totalDebt,
+        netWorth: netWorth,
+        adjustedEmergencyScore: emergencyScore
+      });
+    } else if (totalDebt > 0 && netWorthRatio < 0.2) {
+      // Very low net worth - reduce emergency fund benefit
+      emergencyScore = Math.round(emergencyScore * 0.6); // 40% reduction
+    }
+    
+    healthScore += emergencyScore;
+    
+    // Enhanced EMI and Debt Analysis (20 points)
     const emiRatio = (existingEmi / income) * 100;
-    if (emiRatio > 30) healthScore -= 15;
-    else if (emiRatio < 20) healthScore += 5;
+    const totalDebtBurden = loanData ? (loanData.totalOutstanding / (income * 12)) * 100 : 0;
+    
+    // EMI to income ratio assessment
+    if (emiRatio > 40) healthScore -= 20; // Severe EMI burden
+    else if (emiRatio > 30) healthScore -= 15; // High EMI burden
+    else if (emiRatio > 20) healthScore -= 5;  // Moderate EMI burden
+    else if (emiRatio < 10) healthScore += 5;  // Low EMI burden
+    
+    // Enhanced debt to annual income ratio assessment with realistic penalties
+    if (totalDebtBurden > 3000) healthScore -= 60; // Catastrophic debt burden (>30x annual income)
+    else if (totalDebtBurden > 2000) healthScore -= 45; // Severe debt burden (>20x annual income)
+    else if (totalDebtBurden > 1000) healthScore -= 30; // Extreme debt burden (>10x annual income)
+    else if (totalDebtBurden > 500) healthScore -= 15; // Very high debt burden (>5x annual income)
+    else if (totalDebtBurden > 300) healthScore -= 10; // High debt burden (>3x annual income)
+    else if (totalDebtBurden > 200) healthScore -= 5;  // Moderate debt burden (>2x annual income)
+    else if (totalDebtBurden > 100) healthScore -= 2;  // Manageable debt burden (>1x annual income)
+    else if (totalDebtBurden > 0) healthScore += 2;    // Low debt burden
+    
+    // Loan diversity penalty (having too many loans can be risky)
+    if (loanData && loanData.loanCount > 4) healthScore -= 5;
+    else if (loanData && loanData.loanCount > 2) healthScore -= 2;
+    
+    // Interest rate efficiency bonus/penalty
+    if (loanData && loanData.averageInterestRate) {
+      if (loanData.averageInterestRate > 15) healthScore -= 8; // High interest debt
+      else if (loanData.averageInterestRate > 12) healthScore -= 5; // Moderate interest debt
+      else if (loanData.averageInterestRate < 8) healthScore += 5; // Low interest debt
+    }
+    
+    // Debt Sustainability Analysis - Critical for massive debts
+    if (loanData && loanData.totalOutstanding > 0 && loanData.averageInterestRate) {
+      const annualEMI = existingEmi * 12;
+      const annualInterestDue = (loanData.totalOutstanding * loanData.averageInterestRate) / 100;
+      const interestCoverageRatio = annualEMI > 0 ? (annualEMI / annualInterestDue) * 100 : 0;
+      
+      console.log('💀 Debt Sustainability Analysis:', {
+        totalOutstanding: loanData.totalOutstanding,
+        annualEMI: annualEMI,
+        annualInterestDue: annualInterestDue,
+        interestCoverageRatio: interestCoverageRatio.toFixed(2) + '%'
+      });
+      
+      // Interest Coverage Ratio Assessment
+      if (interestCoverageRatio < 25) healthScore -= 25; // Debt growing rapidly
+      else if (interestCoverageRatio < 50) healthScore -= 15; // Debt growing slowly
+      else if (interestCoverageRatio < 75) healthScore -= 10; // Barely sustainable
+      else if (interestCoverageRatio < 100) healthScore -= 5; // Interest covered, minimal principal
+      // Above 100% gets no penalty - sustainable debt repayment
+      
+      // Debt Growth Warning - if EMI doesn't even cover interest
+      if (interestCoverageRatio < 100) {
+        healthScore -= 15; // Additional penalty for growing debt
+        console.log('⚠️ WARNING: Debt is growing - EMI does not cover full interest');
+      }
+    }
     
     // Investment portfolio health (25 points - significant weight)
     const portfolioStrength = investmentData.investmentPortfolioStrength;

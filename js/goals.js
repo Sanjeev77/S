@@ -134,6 +134,13 @@ class GoalsManager {
         amountInput.addEventListener('blur', (e) => {
           this.validateAndFixInput(goalId, UTILS.removeCommas(e.target.value));
         });
+
+        // Handle Enter key to trigger calculations
+        amountInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.keyCode === 13) {
+            e.target.blur(); // This will trigger the blur event which includes calculations
+          }
+        });
       }
 
       // Slider listeners - immediate updates for better UX
@@ -182,8 +189,27 @@ class GoalsManager {
       if (newValue !== oldValue) {
         e.target.value = newValue;
         
-        // Place cursor at end for simplicity
-        e.target.setSelectionRange(newValue.length, newValue.length);
+        // Calculate proper cursor position accounting for added commas
+        const cleanOldValue = oldValue.replace(/[^0-9.]/g, '');
+        const cleanNewValue = newValue.replace(/[^0-9.]/g, '');
+        
+        // If the numeric content is the same, adjust cursor position for commas
+        if (cleanOldValue === cleanNewValue) {
+          // Count commas before cursor position in old and new values
+          const oldCommasBeforeCursor = (oldValue.substring(0, cursorPosition).match(/,/g) || []).length;
+          const newCommasBeforeCursor = (newValue.substring(0, cursorPosition).match(/,/g) || []).length;
+          
+          // Adjust cursor position based on comma difference
+          const newCursorPosition = cursorPosition + (newCommasBeforeCursor - oldCommasBeforeCursor);
+          
+          // Ensure cursor position is within bounds
+          const finalCursorPosition = Math.min(Math.max(newCursorPosition, 0), newValue.length);
+          
+          e.target.setSelectionRange(finalCursorPosition, finalCursorPosition);
+        } else {
+          // If content changed (digits added/removed), place cursor at end
+          e.target.setSelectionRange(newValue.length, newValue.length);
+        }
       }
     });
   }
@@ -278,8 +304,13 @@ class GoalsManager {
       window.showToast(`${meta.title} amount adjusted to minimum value`, 'warning');
     } else if (numericValue > goal.max) {
       // Show info message for values beyond slider range, but don't clamp
+      // Still update the goal amount to trigger calculations
+      this.updateGoalAmount(goalId, numericValue, 'input');
       const meta = CONFIG.goalMeta[goalId];
       window.showToast(`${meta.title} amount exceeds slider range - calculation will use your entered value`, 'info');
+    } else {
+      // For normal valid values, update the goal amount to trigger calculations
+      this.updateGoalAmount(goalId, numericValue, 'input');
     }
   }
 
