@@ -20,9 +20,9 @@ class FinancialCalculator {
     // Calculate total goal cost
     const totalGoalCost = this.calculateTotalGoalCost(goals);
     
-    // Enhanced calculation with existing investments
+    // Enhanced calculation with existing investments and savings
     const investmentData = this.calculateInvestmentProjections(
-      existingInvestments, currentSip, sipDuration, returns, timeline
+      existingInvestments, currentSip, sipDuration, returns, timeline, savings, existingEmi
     );
     
     // FIXED: Calculate monthly investment needed for USER'S TIMELINE
@@ -119,8 +119,8 @@ class FinancialCalculator {
     return Math.round((months / 12) * 10) / 10;
   }
 
-  // New method: Calculate investment projections
-  calculateInvestmentProjections(existingInvestments = 0, currentSip = 0, sipDuration = 0, returns = 12, timeline = 15) {
+  // Enhanced method: Calculate investment projections with savings and EMI data
+  calculateInvestmentProjections(existingInvestments = 0, currentSip = 0, sipDuration = 0, returns = 12, timeline = 15, currentSavings = 0, existingEmi = 0) {
     const monthlyRate = returns / 100 / 12;
     
     // Project existing investment value
@@ -153,7 +153,11 @@ class FinancialCalculator {
       projectedSipValue,
       projectedValue: totalProjectedValue,
       remainingSipMonths,
-      investmentPortfolioStrength: this.assessPortfolioStrength(existingInvestments, currentSip, sipDuration)
+      investmentPortfolioStrength: this.assessPortfolioStrength(existingInvestments, currentSip, sipDuration),
+      // Additional data for sustainability calculation
+      currentSavings: currentSavings || 0,
+      existingEmi: existingEmi || 0,
+      timeline: timeline || 5
     };
   }
 
@@ -1138,7 +1142,7 @@ class FinancialCalculator {
     return 'Capital preservation with minimal risk';
   }
 
-  // Calculate post-goal financial sustainability
+  // Calculate post-goal financial sustainability with comprehensive wealth projection
   calculatePostGoalSustainability(goalAchievementAge, lifeExpectancy, income, expenses, totalGoalCost, investmentData) {
     const postGoalYears = Math.max(0, lifeExpectancy - goalAchievementAge);
     if (postGoalYears <= 0) {
@@ -1155,9 +1159,55 @@ class FinancialCalculator {
     const postGoalMonthlyExpenses = expenses * 0.7;
     const totalPostGoalExpenses = postGoalMonthlyExpenses * 12 * postGoalYears;
     
-    // Available corpus after achieving goals
+    // FIXED: Calculate comprehensive available corpus after achieving goals  
+    // Derive timeline years from the age difference passed through the function chain
+    const timelineYears = investmentData.timeline || 5; // Default to 5 years if not available
+    
+    // 1. Project current savings growth (assuming investment returns)
+    // Get current savings from various possible sources in investmentData
+    const currentSavings = investmentData.currentSavings || 
+                         investmentData.savings || 
+                         investmentData.existingInvestments || 0;
+    
+    const expectedReturns = 0.08; // 8% default returns
+    const projectedSavingsValue = currentSavings * Math.pow(1 + expectedReturns, timelineYears);
+    
+    // 2. Calculate monthly surplus accumulation over timeline
+    const existingEMI = investmentData.monthlyEMI || investmentData.existingEmi || 0;
+    const monthlyDisposableIncome = income - expenses - existingEMI;
+    const currentSipAmount = investmentData.currentSip || 0;
+    const monthlySurplus = Math.max(0, monthlyDisposableIncome - currentSipAmount);
+    
+    // Project surplus accumulation with compound returns
+    const monthlyReturnRate = expectedReturns / 12;
+    let totalSurplusAccumulated = 0;
+    if (monthlySurplus > 0 && monthlyReturnRate > 0) {
+      // Future value of monthly SIP formula for surplus accumulation
+      const totalMonths = timelineYears * 12;
+      totalSurplusAccumulated = monthlySurplus * 
+        ((Math.pow(1 + monthlyReturnRate, totalMonths) - 1) / monthlyReturnRate);
+    } else {
+      totalSurplusAccumulated = monthlySurplus * 12 * timelineYears;
+    }
+    
+    // 3. Project investment portfolio value
     const projectedInvestmentValue = investmentData.projectedValue || 0;
-    const availableCorpusPostGoal = Math.max(0, projectedInvestmentValue - totalGoalCost);
+    
+    // Total available corpus = Projected savings + Surplus accumulation + Investment growth - Goal costs
+    const totalProjectedWealth = projectedSavingsValue + totalSurplusAccumulated + projectedInvestmentValue;
+    const availableCorpusPostGoal = Math.max(0, totalProjectedWealth - totalGoalCost);
+    
+    console.log('💰 Post-Goal Sustainability Calculation:', {
+      currentSavings,
+      projectedSavingsValue,
+      monthlySurplus,
+      totalSurplusAccumulated,
+      projectedInvestmentValue,
+      totalProjectedWealth,
+      totalGoalCost,
+      availableCorpusPostGoal,
+      timelineYears
+    });
     
     // Sustainability calculation (assuming 4% annual withdrawal rate)
     const sustainableWithdrawal = availableCorpusPostGoal * 0.04;

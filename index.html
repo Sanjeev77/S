@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5QGK66E3WD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-5QGK66E3WD');
+  </script>
+  
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Zero Balanced - Your Digital Financial Advisor</title>
@@ -847,104 +857,42 @@
           </div>
 
           <!-- Life Phases Details -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 40px;">
-            <!-- Goal Achievement Phase -->
-            <div style="background: #fff; border: 2px solid #667eea; border-radius: 15px; padding: 25px; position: relative; overflow: hidden;">
-              <div style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #667eea, #764ba2);"></div>
-              
-              <div style="text-align: center; margin-bottom: 20px;">
-                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
-                  <i class="fas fa-target" style="color: #fff; font-size: 1.3rem;"></i>
+          <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px;">
+            <!-- Goal Achievement Phase - Simple Layout -->
+            <div style="background: #fff; border: 1px solid #667eea; border-radius: 10px; padding: 16px;">
+              <div style="display: grid; grid-template-columns: 28px 1fr auto; gap: 12px; align-items: center;">
+                <div style="width: 28px; height: 28px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                  <i class="fas fa-target" style="color: #fff; font-size: 0.8rem;"></i>
                 </div>
-                <h4 style="margin: 0 0 5px 0; font-size: 1.1rem; color: #495057; font-weight: 600;" id="goal-phase-title">Goal Achievement Phase</h4>
-                <div style="font-size: 0.85rem; color: #6c757d;" id="goal-phase-age-range">35 to 40 years</div>
-              </div>
-              
-              <div style="background: #f8f9fa; border-radius: 10px; padding: 15px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                  <span style="font-size: 0.9rem; color: #6c757d;">Duration</span>
-                  <span style="font-size: 1rem; font-weight: 700; color: #667eea;" id="goal-phase-duration">5 years</span>
+                <div>
+                  <h4 style="margin: 0; font-size: 0.9rem; color: #495057; font-weight: 600;" id="goal-phase-title">Goal Phase</h4>
+                  <div style="font-size: 0.75rem; color: #6c757d;" id="goal-phase-age-range">35-40 years</div>
                 </div>
-                <div style="border-top: 1px solid #e9ecef; padding-top: 12px;">
-                  <div style="font-size: 0.85rem; color: #6c757d; margin-bottom: 5px;">Investment Strategy</div>
-                  <div style="font-size: 0.9rem; color: #495057; font-weight: 500;" id="goal-phase-focus">Balanced growth with some stability</div>
+                <div style="text-align: right;">
+                  <div style="font-size: 0.7rem; color: #6c757d; margin-bottom: 1px;">Duration</div>
+                  <div style="font-size: 0.85rem; font-weight: 700; color: #667eea;" id="goal-phase-duration">5 years</div>
                 </div>
               </div>
             </div>
 
-            <!-- Post-Goal Life Phase -->
-            <div style="background: #fff; border: 2px solid #764ba2; border-radius: 15px; padding: 25px; position: relative; overflow: hidden;">
-              <div style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #764ba2, #f093fb);"></div>
-              
-              <div style="text-align: center; margin-bottom: 20px;">
-                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #764ba2, #f093fb); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
-                  <i class="fas fa-umbrella-beach" style="color: #fff; font-size: 1.3rem;"></i>
+            <!-- Post-Goal Life Phase - Simple Layout -->
+            <div style="background: #fff; border: 1px solid #764ba2; border-radius: 10px; padding: 16px;">
+              <div style="display: grid; grid-template-columns: 28px 1fr auto; gap: 12px; align-items: center;">
+                <div style="width: 28px; height: 28px; background: linear-gradient(135deg, #764ba2, #f093fb); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                  <i class="fas fa-umbrella-beach" style="color: #fff; font-size: 0.8rem;"></i>
                 </div>
-                <h4 style="margin: 0 0 5px 0; font-size: 1.1rem; color: #495057; font-weight: 600;" id="postgoal-phase-title">Post-Goal Life Phase</h4>
-                <div style="font-size: 0.85rem; color: #6c757d;" id="postgoal-phase-age-range">40 to 60 years</div>
-              </div>
-              
-              <div style="background: #f8f9fa; border-radius: 10px; padding: 15px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                  <span style="font-size: 0.9rem; color: #6c757d;">Duration</span>
-                  <span style="font-size: 1rem; font-weight: 700; color: #764ba2;" id="postgoal-phase-duration">20 years</span>
+                <div>
+                  <h4 style="margin: 0; font-size: 0.9rem; color: #495057; font-weight: 600;" id="postgoal-phase-title">Post-Goal Life</h4>
+                  <div style="font-size: 0.75rem; color: #6c757d;" id="postgoal-phase-age-range">40-60 years</div>
                 </div>
-                <div style="border-top: 1px solid #e9ecef; padding-top: 12px;">
-                  <div style="font-size: 0.85rem; color: #6c757d; margin-bottom: 5px;">Investment Strategy</div>
-                  <div style="font-size: 0.9rem; color: #495057; font-weight: 500;" id="postgoal-phase-focus">Conservative growth with capital preservation</div>
+                <div style="text-align: right;">
+                  <div style="font-size: 0.7rem; color: #6c757d; margin-bottom: 1px;">Duration</div>
+                  <div style="font-size: 0.85rem; font-weight: 700; color: #764ba2;" id="postgoal-phase-duration">20 years</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Sustainability Analysis -->
-          <div style="background: #f8f9fa; border-radius: 10px; padding: 25px; border: 1px solid #e9ecef;">
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-              <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #17a2b8, #20c997); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-shield-alt" style="color: #fff; font-size: 1.2rem;"></i>
-              </div>
-              <div>
-                <h3 style="margin: 0; font-size: 1.1rem; color: #495057;">Financial Sustainability</h3>
-                <div style="font-size: 0.85rem; color: #6c757d;">Post-goal financial security analysis</div>
-              </div>
-              <div style="margin-left: auto;">
-                <div class="sustainability-status" style="display: flex; align-items: center; gap: 8px;">
-                  <div id="sustainability-indicator" style="width: 10px; height: 10px; border-radius: 50%; background: #28a745;"></div>
-                  <span id="sustainability-text" style="font-size: 0.9rem; font-weight: 600; color: #28a745;">Sustainable</span>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Metrics Grid -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; margin-bottom: 20px;">
-              <div style="text-align: center; padding: 15px; background: #fff; border-radius: 8px; border: 1px solid #e9ecef;">
-                <div style="font-size: 0.75rem; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">Post-Goal Years</div>
-                <div style="font-size: 1.3rem; font-weight: 700; color: #495057;" id="postgoal-years-value">20 years</div>
-              </div>
-              <div style="text-align: center; padding: 15px; background: #fff; border-radius: 8px; border: 1px solid #e9ecef;">
-                <div style="font-size: 0.75rem; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">Monthly Need</div>
-                <div style="font-size: 1.3rem; font-weight: 700; color: #495057;" id="monthly-need-value">₹10,500</div>
-              </div>
-              <div style="text-align: center; padding: 15px; background: #fff; border-radius: 8px; border: 1px solid #e9ecef;">
-                <div style="font-size: 0.75rem; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">Available Corpus</div>
-                <div style="font-size: 1.3rem; font-weight: 700; color: #495057;" id="available-corpus-value">₹0</div>
-              </div>
-              <div style="text-align: center; padding: 15px; background: #fff; border-radius: 8px; border: 1px solid #e9ecef;">
-                <div style="font-size: 0.75rem; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">Shortfall</div>
-                <div style="font-size: 1.3rem; font-weight: 700; color: #dc3545;" id="monthly-shortfall-value">₹10,500</div>
-              </div>
-            </div>
-            
-            <!-- Recommendation -->
-            <div class="sustainability-recommendation" style="padding: 15px; background: #fff; border: 1px solid #dee2e6; border-radius: 8px; border-left: 4px solid #17a2b8;">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <i class="fas fa-lightbulb" style="color: #17a2b8;"></i>
-                <div style="font-size: 0.9rem; color: #495057; font-weight: 500;" id="sustainability-recommendation">
-                  Consider increasing investments or reducing post-goal expenses
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 

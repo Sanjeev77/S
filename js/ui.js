@@ -1381,72 +1381,20 @@ class UIManager {
     
     // Update life stage details
     if (insights.lifeStages) {
-      // Goal Achievement Phase
+      // Goal Achievement Phase (mobile-friendly)
       const goalStage = insights.lifeStages.currentToGoal;
-      this.updateElement('goal-phase-title', goalStage.phase);
+      this.updateElement('goal-phase-title', 'Goal Phase'); // Shortened for mobile
       this.updateElement('goal-phase-duration', `${goalStage.duration} years`);
       this.updateElement('goal-phase-age-range', goalStage.ageRange);
-      this.updateElement('goal-phase-focus', goalStage.focus);
       
-      // Post-Goal Life Phase
+      // Post-Goal Life Phase (mobile-friendly)
       const postGoalStage = insights.lifeStages.postGoal;
-      this.updateElement('postgoal-phase-title', postGoalStage.phase);
+      this.updateElement('postgoal-phase-title', 'Post-Goal Life'); // Shortened for mobile
       this.updateElement('postgoal-phase-duration', `${postGoalStage.duration} years`);
       this.updateElement('postgoal-phase-age-range', postGoalStage.ageRange);
-      this.updateElement('postgoal-phase-focus', postGoalStage.focus);
     }
     
-    // Update sustainability analysis
-    if (insights.postGoalSustainability) {
-      const sustainability = insights.postGoalSustainability;
-      
-      // Update status indicator and text
-      const indicator = document.getElementById('sustainability-indicator');
-      const statusText = document.getElementById('sustainability-text');
-      
-      if (sustainability.sustainable) {
-        if (indicator) {
-          indicator.style.background = '#28a745';
-        }
-        if (statusText) {
-          statusText.textContent = 'Financially Sustainable';
-          statusText.style.color = '#28a745';
-        }
-      } else {
-        if (indicator) {
-          indicator.style.background = '#dc3545';
-        }
-        if (statusText) {
-          statusText.textContent = 'Needs Financial Planning';
-          statusText.style.color = '#dc3545';
-        }
-      }
-      
-      // Update sustainability details
-      this.updateElement('postgoal-years-value', `${sustainability.postGoalYears} years`);
-      this.updateElement('monthly-need-value', UTILS.formatCurrency(sustainability.monthlyNeed));
-      this.updateElement('available-corpus-value', UTILS.formatCurrency(sustainability.availableCorpus));
-      this.updateElement('monthly-shortfall-value', 
-        sustainability.monthlyShortfall > 0 ? UTILS.formatCurrency(sustainability.monthlyShortfall) : '₹0'
-      );
-      
-      // Update recommendation
-      this.updateElement('sustainability-recommendation', sustainability.recommendation);
-      
-      // Update recommendation background color based on sustainability
-      const recContainer = document.querySelector('.sustainability-recommendation');
-      if (recContainer) {
-        if (sustainability.sustainable) {
-          recContainer.style.background = '#d1ecf1';
-          recContainer.style.borderLeftColor = '#17a2b8';
-          recContainer.querySelector('div').style.color = '#0c5460';
-        } else {
-          recContainer.style.background = '#f8d7da';
-          recContainer.style.borderLeftColor = '#dc3545';
-          recContainer.querySelector('div').style.color = '#721c24';
-        }
-      }
-    }
+    // Sustainability section removed - no longer updating sustainability UI
     
     console.log('Predicted Lifespan Analysis updated successfully');
   }
