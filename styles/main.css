@@ -10,6 +10,12 @@
   --dark: #343a40;
 }
 
+/* Tagline Section */
+.tagline-section {
+  padding-bottom: 20px;
+  padding-left: 20px;
+}
+
 /* Base Styles */
 * { 
   box-sizing: border-box; 
@@ -321,13 +327,13 @@ body {
 }
 
 .header svg {
-  margin: -15px 0 -55px 0;  
+  margin: -10px 0 0 0;  
   display: block;
 }
 
 .header-content {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 20px;
 }

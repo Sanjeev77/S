@@ -94,14 +94,14 @@
   }
 
   .header svg {
-    margin: 0 0 -35px 0 !important;
+    margin: 0 !important;
     flex: 1;
     min-width: 0;
   }
   
   .header-content {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     gap: 15px;
     flex-wrap: nowrap;
@@ -362,7 +362,7 @@
   }
 
   .header svg {
-    margin: 0 auto -35px auto !important;
+    margin: 0 auto !important;
     max-width: 500px !important; /* Increased from 400px for mobile */
   }
   
@@ -485,16 +485,16 @@
   
   .support-button {
     margin-top: 10px;
-    padding: 4px 6px;
-    min-width: 50px;
+    padding: 3px 5px;
+    min-width: 45px;
   }
   
   .support-button i {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
   
   .support-button span {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
   }
   
   .form-group label {
@@ -594,7 +594,7 @@
   }
 
   .header svg {
-    margin: 0 auto -40px auto !important;
+    margin: 0 auto !important;
     max-width: 480px !important; /* Increased from 400px for small mobile */
   }
   
@@ -608,6 +608,7 @@
   
   .goal-input {
     font-size: 13px;
+    min-width: 200px; /* Ensure enough width for placeholder text */
   }
   
   .kpi-value {
@@ -1580,16 +1581,16 @@
   
   .support-button {
     margin-top: 10px;
-    padding: 4px 6px;
-    min-width: 50px;
+    padding: 3px 5px;
+    min-width: 45px;
   }
   
   .support-button i {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
   
   .support-button span {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
   }
   
   .form-group label {
@@ -1680,7 +1681,7 @@
   }
 
   .header svg {
-    margin: 0 auto -40px auto !important;
+    margin: 0 auto !important;
     max-width: 480px !important; /* Increased from 400px for small mobile */
   }
   
@@ -1694,6 +1695,7 @@
   
   .goal-input {
     font-size: 13px;
+    min-width: 200px; /* Ensure enough width for placeholder text */
   }
   
   .kpi-value {
