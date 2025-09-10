@@ -1289,4 +1289,105 @@ input[type="range"].slider:disabled,
     margin-bottom: 80px !important;
     padding-bottom: 30px;
   }
+
+/* Ad Placeholder Styles - Remove when ads are approved */
+.ad-container {
+  position: relative;
+}
+
+.ad-container:empty::before {
+  content: '';
+  display: block;
+  background: linear-gradient(45deg, #f8f9fa 25%, transparent 25%), 
+              linear-gradient(-45deg, #f8f9fa 25%, transparent 25%), 
+              linear-gradient(45deg, transparent 75%, #f8f9fa 75%), 
+              linear-gradient(-45deg, transparent 75%, #f8f9fa 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+}
+
+.ad-container.mobile-banner:empty::before {
+  height: 100px;
+  content: 'Mobile Banner Ad (320x100)';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #f8f9fa;
+}
+
+.ad-container.banner:empty::before {
+  height: 120px;
+  content: 'Banner Ad (728x90)';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #f8f9fa;
+}
+
+.ad-container.sidebar:empty::before {
+  height: 250px;
+  width: 100%;
+  content: 'Square Ad (250x250)';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #f8f9fa;
+}
+
+.ad-container.sidebar.vertical:empty::before {
+  height: 600px;
+  content: 'Vertical Ad (160x600)';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #f8f9fa;
+}
+
+.ad-container.native:empty::before {
+  height: 200px;
+  content: 'Native In-Article Ad';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #f8f9fa;
+}
+
+/* Add subtle animation to placeholders */
+.ad-container:empty::before {
+  animation: adPlaceholder 2s ease-in-out infinite alternate;
+}
+
+@keyframes adPlaceholder {
+  0% { opacity: 0.5; }
+  100% { opacity: 0.8; }
+}
+
+/* Hide placeholders when ads are loaded */
+.adsbygoogle[data-ad-status="filled"] + .ad-placeholder {
+  display: none !important;
+}
+
+/* Style for ad placeholder fallback */
+.ad-placeholder {
+  animation: adPlaceholder 2s ease-in-out infinite alternate;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  text-align: center;
+}
 }
