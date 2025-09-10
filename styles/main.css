@@ -78,12 +78,12 @@ body {
     scroll-behavior: auto !important;
   }
   
-  /* Disable pull-to-refresh and bounce scrolling */
+  /* Enable pull-to-refresh and natural scrolling */
   body {
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: auto;
+    overscroll-behavior-y: auto;
+    -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
-    overscroll-behavior: none;
+    overscroll-behavior: auto;
   }
   
   /* Nuclear option - force all elements to stay within viewport */

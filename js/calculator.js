@@ -43,10 +43,15 @@ class FinancialCalculator {
       expenseRatio, savingsRate, timeRequired, timeline, investmentData
     );
     
-    // Enhanced financial health with investment factors
+    // Enhanced financial health with investment factors and life expectancy
     const financialHealth = this.calculateEnhancedFinancialHealth(
       expenseRatio, savingsRate, timeRequired, timeline, savings, expenses, 
-      existingEmi, income, investmentData
+      existingEmi, income, investmentData, age, lifeExpectancy
+    );
+
+    // NEW: Predicted Lifespan Analysis
+    const lifeStageInsights = this.calculateLifeStageInsights(
+      age, timeline, lifeExpectancy, income, expenses, totalGoalCost, investmentData
     );
 
     this.results = {
@@ -65,7 +70,9 @@ class FinancialCalculator {
       totalMonthlySavings,
       investmentMaturity: investmentData.projectedValue,
       investmentGap: Math.max(0, totalGoalCost - investmentData.projectedValue - savings),
-      sipEfficiency: this.calculateSipEfficiency(currentSip, investmentData.projectedSipValue, sipDuration)
+      sipEfficiency: this.calculateSipEfficiency(currentSip, investmentData.projectedSipValue, sipDuration),
+      // NEW: Predicted Lifespan Insights
+      lifeStageInsights
     };
 
     return this.results;
@@ -299,7 +306,7 @@ class FinancialCalculator {
   }
 
   // Enhanced financial health calculation
-  calculateEnhancedFinancialHealth(expenseRatio, savingsRate, timeRequired, timeline, savings, expenses, existingEmi, income, investmentData) {
+  calculateEnhancedFinancialHealth(expenseRatio, savingsRate, timeRequired, timeline, savings, expenses, existingEmi, income, investmentData, age, lifeExpectancy) {
     let healthScore = 60; // Start higher due to investment considerations
     
     // Basic financial health factors (50 points)
@@ -331,6 +338,53 @@ class FinancialCalculator {
     else if (portfolioStrength >= 40) healthScore += 15;
     else if (portfolioStrength >= 20) healthScore += 10;
     else if (portfolioStrength > 0) healthScore += 5;
+    
+    // NEW: Predicted Lifespan and Life-Stage Health Assessment (15 points)
+    if (age && lifeExpectancy) {
+      const remainingYears = lifeExpectancy - age;
+      const postGoalYears = Math.max(0, lifeExpectancy - (age + timeline));
+      
+      // Life stage appropriateness
+      if (age <= 30) {
+        // Young age - bonus for having long-term thinking
+        if (lifeExpectancy >= 80) healthScore += 5;
+        if (postGoalYears >= 30) healthScore += 3; // Good long-term planning
+      } else if (age <= 50) {
+        // Mid-life - focus on realistic planning
+        if (postGoalYears >= 15 && postGoalYears <= 35) healthScore += 5; // Realistic post-goal life
+        if (lifeExpectancy >= age + 25) healthScore += 3; // Sufficient remaining life
+      } else {
+        // Pre-retirement/Senior - focus on sustainability
+        if (postGoalYears >= 5) healthScore += 5; // Has post-goal life planned
+        if (lifeExpectancy >= age + 10) healthScore += 3; // Realistic life expectancy
+      }
+      
+      // Post-goal sustainability bonus
+      const totalGoalCost = 0; // We don't have access to totalGoalCost here, so use 0 for health calculation
+      const postGoalSustainability = this.calculatePostGoalSustainability(
+        age + timeline, lifeExpectancy, income, expenses, totalGoalCost, investmentData
+      );
+      
+      if (postGoalSustainability.sustainable) {
+        healthScore += 7; // Major bonus for sustainable life plan
+      } else if (postGoalSustainability.sustainabilityRatio <= 150) {
+        healthScore += 3; // Partial credit for near-sustainability
+      } else {
+        healthScore -= 5; // Penalty for unsustainable plan
+      }
+      
+      // Timeline vs Predicted Lifespan validation
+      if (lifeExpectancy < age + timeline) {
+        healthScore -= 10; // Major penalty for unrealistic timeline
+      }
+      
+      // Remaining life years consideration
+      if (remainingYears < 20) {
+        healthScore -= 3; // Lower score for very short remaining life
+      } else if (remainingYears >= 50) {
+        healthScore += 2; // Bonus for long remaining life
+      }
+    }
     
     return Math.max(0, Math.min(100, healthScore));
   }
@@ -930,6 +984,231 @@ class FinancialCalculator {
     }
 
     return plans;
+  }
+
+  // NEW: Enhanced Predicted Lifespan Analysis
+  calculateLifeStageInsights(age, timeline, lifeExpectancy, income, expenses, totalGoalCost, investmentData) {
+    const currentYear = new Date().getFullYear();
+    const goalAchievementAge = age + timeline;
+    const remainingLifeYears = lifeExpectancy - age;
+    const postGoalYears = lifeExpectancy - goalAchievementAge;
+    
+    // Life Stage Analysis
+    const lifeStages = {
+      currentToGoal: {
+        phase: 'Goal Achievement Phase',
+        ageRange: `${age} to ${goalAchievementAge} years`,
+        duration: timeline,
+        yearRange: `${currentYear} to ${currentYear + timeline}`,
+        focus: this.getLifeStageStrategy(age, goalAchievementAge),
+        financialPriority: 'Goal-focused investing and saving'
+      },
+      postGoal: {
+        phase: 'Post-Goal Life Phase',
+        ageRange: `${goalAchievementAge} to ${lifeExpectancy} years`,
+        duration: Math.max(0, postGoalYears),
+        yearRange: `${currentYear + timeline} to ${currentYear + (lifeExpectancy - age)}`,
+        focus: this.getLifeStageStrategy(goalAchievementAge, lifeExpectancy),
+        financialPriority: 'Wealth preservation and lifestyle maintenance'
+      }
+    };
+
+    // Post-Goal Financial Sustainability
+    const postGoalSustainability = this.calculatePostGoalSustainability(
+      goalAchievementAge, lifeExpectancy, income, expenses, totalGoalCost, investmentData
+    );
+
+    // Predicted Lifespan Warnings/Insights
+    const insights = this.generatePredictedLifespanInsights(
+      age, timeline, lifeExpectancy, postGoalYears, postGoalSustainability
+    );
+
+    // Age-Appropriate Investment Strategy
+    const investmentStrategy = this.getAgeAppropriateStrategy(age, goalAchievementAge, lifeExpectancy);
+
+    return {
+      remainingLifeYears,
+      postGoalYears,
+      lifeStages,
+      postGoalSustainability,
+      insights,
+      investmentStrategy,
+      lifeExpectancyValidation: {
+        isRealistic: lifeExpectancy >= (age + timeline),
+        hasPostGoalLife: postGoalYears > 0,
+        recommendedMinLife: age + timeline + 5 // Minimum 5 years post-goal life
+      }
+    };
+  }
+
+  // Helper: Get life stage investment strategy
+  getLifeStageStrategy(startAge, endAge) {
+    const avgAge = (startAge + endAge) / 2;
+    if (avgAge < 30) return 'Aggressive growth investing';
+    if (avgAge < 45) return 'Balanced growth with some stability';
+    if (avgAge < 60) return 'Conservative growth with capital preservation';
+    return 'Capital preservation with minimal risk';
+  }
+
+  // Calculate post-goal financial sustainability
+  calculatePostGoalSustainability(goalAchievementAge, lifeExpectancy, income, expenses, totalGoalCost, investmentData) {
+    const postGoalYears = Math.max(0, lifeExpectancy - goalAchievementAge);
+    if (postGoalYears <= 0) {
+      return {
+        sustainable: false,
+        yearsSupported: 0,
+        monthlyShortfall: 0,
+        totalRequiredCorpus: 0,
+        message: 'No post-goal life years to analyze'
+      };
+    }
+
+    // Estimate post-goal expenses (assuming 70% of pre-goal expenses)
+    const postGoalMonthlyExpenses = expenses * 0.7;
+    const totalPostGoalExpenses = postGoalMonthlyExpenses * 12 * postGoalYears;
+    
+    // Available corpus after achieving goals
+    const projectedInvestmentValue = investmentData.projectedValue || 0;
+    const availableCorpusPostGoal = Math.max(0, projectedInvestmentValue - totalGoalCost);
+    
+    // Sustainability calculation (assuming 4% annual withdrawal rate)
+    const sustainableWithdrawal = availableCorpusPostGoal * 0.04;
+    const requiredAnnualIncome = postGoalMonthlyExpenses * 12;
+    
+    const isSustainable = sustainableWithdrawal >= requiredAnnualIncome;
+    const monthlyShortfall = Math.max(0, postGoalMonthlyExpenses - (sustainableWithdrawal / 12));
+    
+    return {
+      sustainable: isSustainable,
+      postGoalYears,
+      availableCorpus: availableCorpusPostGoal,
+      requiredCorpus: totalPostGoalExpenses,
+      monthlyNeed: postGoalMonthlyExpenses,
+      sustainableWithdrawal: sustainableWithdrawal / 12, // Monthly
+      monthlyShortfall,
+      sustainabilityRatio: sustainableWithdrawal > 0 ? (requiredAnnualIncome / sustainableWithdrawal) * 100 : 0,
+      recommendation: isSustainable ? 'Your plan supports your entire predicted lifespan' : 
+                     'Consider increasing investments or reducing post-goal expenses'
+    };
+  }
+
+  // Generate life expectancy insights and warnings
+  generatePredictedLifespanInsights(age, timeline, lifeExpectancy, postGoalYears, sustainability) {
+    const insights = [];
+    
+    // Age validation insights
+    if (lifeExpectancy < age + timeline) {
+      insights.push({
+        type: 'error',
+        title: 'Timeline vs Predicted Lifespan Conflict',
+        message: `Your goal timeline extends beyond your predicted lifespan. Consider shortening the timeline or increasing predicted lifespan.`,
+        priority: 'high'
+      });
+    }
+    
+    // Post-goal life insights
+    if (postGoalYears <= 5) {
+      insights.push({
+        type: 'warning',
+        title: 'Short Post-Goal Life',
+        message: `You have only ${postGoalYears} years after achieving your goals. Consider extending your life expectancy or shortening goal timeline.`,
+        priority: 'medium'
+      });
+    } else if (postGoalYears >= 30) {
+      insights.push({
+        type: 'info',
+        title: 'Long Post-Goal Life',
+        message: `You have ${postGoalYears} years after achieving goals. Ensure adequate financial planning for this extended period.`,
+        priority: 'medium'
+      });
+    }
+    
+    // Sustainability insights
+    if (!sustainability.sustainable) {
+      insights.push({
+        type: 'warning',
+        title: 'Post-Goal Financial Gap',
+        message: `Your current plan may not support your lifestyle for the entire predicted lifespan. Monthly shortfall: ${UTILS.formatCurrency(sustainability.monthlyShortfall)}`,
+        priority: 'high'
+      });
+    } else {
+      insights.push({
+        type: 'success',
+        title: 'Financially Sustainable Life Plan',
+        message: `Your financial plan can support your predicted lifespan with the current investment strategy.`,
+        priority: 'low'
+      });
+    }
+
+    // Life stage specific insights
+    if (age >= 50) {
+      insights.push({
+        type: 'info',
+        title: 'Pre-Retirement Planning',
+        message: `At ${age} years, focus on wealth preservation and gradually shift to conservative investments.`,
+        priority: 'medium'
+      });
+    } else if (age <= 30) {
+      insights.push({
+        type: 'info',
+        title: 'Youth Advantage',
+        message: `At ${age} years, you have time advantage. Consider aggressive growth investments for maximum wealth creation.`,
+        priority: 'low'
+      });
+    }
+
+    return insights.sort((a, b) => {
+      const priorityOrder = { 'high': 3, 'medium': 2, 'low': 1 };
+      return priorityOrder[b.priority] - priorityOrder[a.priority];
+    });
+  }
+
+  // Get age-appropriate investment strategy
+  getAgeAppropriateStrategy(currentAge, goalAge, lifeExpectancy) {
+    const strategies = [];
+    
+    // Current to Goal phase strategy
+    if (currentAge < 35) {
+      strategies.push({
+        phase: 'Current to Goal',
+        allocation: { equity: 80, debt: 15, gold: 5 },
+        riskLevel: 'High',
+        rationale: 'Young age allows for aggressive growth'
+      });
+    } else if (currentAge < 50) {
+      strategies.push({
+        phase: 'Current to Goal',
+        allocation: { equity: 65, debt: 30, gold: 5 },
+        riskLevel: 'Moderate to High',
+        rationale: 'Balanced approach with growth focus'
+      });
+    } else {
+      strategies.push({
+        phase: 'Current to Goal',
+        allocation: { equity: 45, debt: 50, gold: 5 },
+        riskLevel: 'Moderate',
+        rationale: 'Conservative approach due to shorter timeline'
+      });
+    }
+
+    // Post-goal phase strategy
+    if (goalAge < 60) {
+      strategies.push({
+        phase: 'Post-Goal',
+        allocation: { equity: 50, debt: 45, gold: 5 },
+        riskLevel: 'Moderate',
+        rationale: 'Balance growth and preservation'
+      });
+    } else {
+      strategies.push({
+        phase: 'Post-Goal',
+        allocation: { equity: 30, debt: 65, gold: 5 },
+        riskLevel: 'Conservative',
+        rationale: 'Focus on capital preservation and regular income'
+      });
+    }
+
+    return strategies;
   }
 }
 

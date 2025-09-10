@@ -14,6 +14,7 @@ class FinancialPlannerApp {
     this.setupGoToTop();
     this.setupInvestmentSummaryTracking();
     this.setupMobileNavigation();
+    this.setupPullToRefresh();
     this.setupCommaFormattingForAmounts();
     
     // CRITICAL: Force financial health bar to 0% on mobile startup
@@ -230,6 +231,67 @@ class FinancialPlannerApp {
         this.showMobileSection('home');
       }
     }
+  }
+
+  // Setup pull-to-refresh functionality for mobile devices
+  setupPullToRefresh() {
+    if (!('ontouchstart' in window)) return; // Only for touch devices
+    
+    let startY = 0;
+    let currentY = 0;
+    let isPulling = false;
+    const threshold = 80; // Minimum pull distance to trigger refresh
+    
+    // Track touch start position
+    document.addEventListener('touchstart', (e) => {
+      if (window.pageYOffset === 0) { // Only at top of page
+        startY = e.touches[0].clientY;
+        isPulling = true;
+      }
+    }, { passive: true });
+    
+    // Track pull distance
+    document.addEventListener('touchmove', (e) => {
+      if (!isPulling) return;
+      
+      currentY = e.touches[0].clientY;
+      const pullDistance = currentY - startY;
+      
+      // Provide visual feedback if pulling down at top of page
+      if (pullDistance > 0 && window.pageYOffset === 0) {
+        document.body.style.transform = `translateY(${Math.min(pullDistance * 0.5, 50)}px)`;
+        document.body.style.transition = 'none';
+      }
+    }, { passive: true });
+    
+    // Handle release and refresh
+    document.addEventListener('touchend', () => {
+      if (!isPulling) return;
+      
+      const pullDistance = currentY - startY;
+      
+      // Reset visual state
+      document.body.style.transform = '';
+      document.body.style.transition = 'transform 0.3s ease';
+      
+      // Trigger refresh if pulled far enough
+      if (pullDistance > threshold && window.pageYOffset === 0) {
+        this.triggerRefresh();
+      }
+      
+      // Reset tracking variables
+      startY = 0;
+      currentY = 0;
+      isPulling = false;
+    }, { passive: true });
+  }
+  
+  // Trigger page refresh
+  triggerRefresh() {
+    this.uiManager.showToast('Refreshing...', 'info');
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   }
 
   setupEventListeners() {
@@ -3196,17 +3258,17 @@ Generated with Advanced Goal Alignment Calculator`;
       }
     });
     
-    // Validation 1: Current Age should not be more than Life Expectancy
+    // Validation 1: Current Age should not be more than Predicted Lifespan
     if (age > 0 && lifeExpectancy > 0 && age > lifeExpectancy) {
-      this.showValidationError('age', 'Current age cannot be more than life expectancy');
-      this.showValidationError('life-expectancy', 'Life expectancy must be more than current age');
+      this.showValidationError('age', 'Current age cannot be more than predicted lifespan');
+      this.showValidationError('life-expectancy', 'Predicted lifespan must be more than current age');
       hasError = true;
     }
     
-    // Validation 2: Life Expectancy should not be less than Current Age + Goal Timeline
+    // Validation 2: Predicted Lifespan should not be less than Current Age + Goal Timeline
     if (age > 0 && timeline > 0 && lifeExpectancy > 0 && lifeExpectancy < (age + timeline)) {
-      this.showValidationError('life-expectancy', `Life expectancy must be at least ${age + timeline} years (current age + timeline)`);
-      this.showValidationError('timeline', `Timeline too long for life expectancy. Maximum: ${Math.max(0, lifeExpectancy - age)} years`);
+      this.showValidationError('life-expectancy', `Predicted lifespan must be at least ${age + timeline} years (current age + timeline)`);
+      this.showValidationError('timeline', `Timeline too long for predicted lifespan. Maximum: ${Math.max(0, lifeExpectancy - age)} years`);
       hasError = true;
     }
     

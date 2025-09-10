@@ -362,7 +362,8 @@
   }
 
   .header svg {
-    margin: 0 auto -50px auto !important;
+    margin: 0 auto -35px auto !important;
+    max-width: 500px !important; /* Increased from 400px for mobile */
   }
   
   /* Fix mobile goal slider thumb clipping */
@@ -593,7 +594,8 @@
   }
 
   .header svg {
-    margin: 0 auto -55px auto !important;
+    margin: 0 auto -40px auto !important;
+    max-width: 480px !important; /* Increased from 400px for small mobile */
   }
   
   .section-title {
@@ -804,7 +806,7 @@
   body {
     scroll-behavior: auto !important;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain; /* Prevent bounce scrolling */
+    overscroll-behavior: auto; /* Enable pull-to-refresh */
   }
   
   .mobile-ad-container {
@@ -1678,7 +1680,8 @@
   }
 
   .header svg {
-    margin: 0 auto -55px auto !important;
+    margin: 0 auto -40px auto !important;
+    max-width: 480px !important; /* Increased from 400px for small mobile */
   }
   
   .section-title {

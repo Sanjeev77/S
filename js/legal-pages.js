@@ -272,7 +272,7 @@ function showHowToUse(e) {
     <h4>Step 1: Personal Details</h4>
     <p>• <strong>Current Age:</strong> Your age today</p>
     <p>• <strong>Goal Timeline:</strong> How many years to achieve your goals</p>
-    <p>• <strong>Life Expectancy:</strong> Used for retirement planning calculations</p>
+    <p>• <strong>Predicted Lifespan:</strong> Used for retirement planning calculations</p>
     
     <h4>Step 2: Monthly Finances</h4>
     <p>• <strong>Monthly Income:</strong> Your total monthly income after taxes</p>

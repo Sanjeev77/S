@@ -545,6 +545,9 @@ class UIManager {
     // NEW: Update investment-specific achievements
     this.updateInvestmentAchievements(results);
     
+    // NEW: Update Predicted Lifespan Analysis
+    this.updatePredictedLifespanAnalysis(results);
+    
     console.log('All UI elements updated with investment context');
   }
 
@@ -1332,6 +1335,143 @@ class UIManager {
       }
     `;
     document.head.appendChild(style);
+  }
+
+  // NEW: Update Predicted Lifespan Analysis Section
+  updatePredictedLifespanAnalysis(results) {
+    console.log('Updating Predicted Lifespan Analysis with:', results.lifeStageInsights);
+    
+    const section = document.getElementById('life-expectancy-section');
+    if (!section || !results.lifeStageInsights) {
+      console.log('Life expectancy section or insights not available');
+      return;
+    }
+
+    const insights = results.lifeStageInsights;
+    
+    // Show the section
+    section.style.display = 'block';
+    
+    // Update timeline markers
+    const formData = this.getFormData();
+    if (formData) {
+      const age = parseInt(formData.age) || 25;
+      const timeline = parseInt(formData.timeline) || 10;
+      const lifeExpectancy = parseInt(formData.lifeExpectancy) || 80;
+      const goalAge = age + timeline;
+      
+      // Calculate percentages for timeline positioning
+      const totalLifespan = lifeExpectancy - age;
+      const goalPhasePercent = totalLifespan > 0 ? (timeline / totalLifespan) * 100 : 50;
+      
+      // Update age markers
+      this.updateElement('current-age-marker', `Age ${age}`);
+      this.updateElement('goal-age-marker', `Age ${goalAge}`);
+      this.updateElement('life-end-marker', `Age ${lifeExpectancy}`);
+      
+      // Update timeline marker positions
+      const goalMarker = document.querySelector('.timeline-marker.goal-age');
+      if (goalMarker) {
+        goalMarker.style.left = `${Math.min(90, Math.max(10, goalPhasePercent))}%`;
+      }
+      
+      // Update timeline header
+      this.updateElement('life-timeline-years', `${insights.remainingLifeYears} years remaining in your predicted lifespan`);
+    }
+    
+    // Update life stage details
+    if (insights.lifeStages) {
+      // Goal Achievement Phase
+      const goalStage = insights.lifeStages.currentToGoal;
+      this.updateElement('goal-phase-title', goalStage.phase);
+      this.updateElement('goal-phase-duration', `${goalStage.duration} years`);
+      this.updateElement('goal-phase-age-range', goalStage.ageRange);
+      this.updateElement('goal-phase-focus', goalStage.focus);
+      
+      // Post-Goal Life Phase
+      const postGoalStage = insights.lifeStages.postGoal;
+      this.updateElement('postgoal-phase-title', postGoalStage.phase);
+      this.updateElement('postgoal-phase-duration', `${postGoalStage.duration} years`);
+      this.updateElement('postgoal-phase-age-range', postGoalStage.ageRange);
+      this.updateElement('postgoal-phase-focus', postGoalStage.focus);
+    }
+    
+    // Update sustainability analysis
+    if (insights.postGoalSustainability) {
+      const sustainability = insights.postGoalSustainability;
+      
+      // Update status indicator and text
+      const indicator = document.getElementById('sustainability-indicator');
+      const statusText = document.getElementById('sustainability-text');
+      
+      if (sustainability.sustainable) {
+        if (indicator) {
+          indicator.style.background = '#28a745';
+        }
+        if (statusText) {
+          statusText.textContent = 'Financially Sustainable';
+          statusText.style.color = '#28a745';
+        }
+      } else {
+        if (indicator) {
+          indicator.style.background = '#dc3545';
+        }
+        if (statusText) {
+          statusText.textContent = 'Needs Financial Planning';
+          statusText.style.color = '#dc3545';
+        }
+      }
+      
+      // Update sustainability details
+      this.updateElement('postgoal-years-value', `${sustainability.postGoalYears} years`);
+      this.updateElement('monthly-need-value', UTILS.formatCurrency(sustainability.monthlyNeed));
+      this.updateElement('available-corpus-value', UTILS.formatCurrency(sustainability.availableCorpus));
+      this.updateElement('monthly-shortfall-value', 
+        sustainability.monthlyShortfall > 0 ? UTILS.formatCurrency(sustainability.monthlyShortfall) : '₹0'
+      );
+      
+      // Update recommendation
+      this.updateElement('sustainability-recommendation', sustainability.recommendation);
+      
+      // Update recommendation background color based on sustainability
+      const recContainer = document.querySelector('.sustainability-recommendation');
+      if (recContainer) {
+        if (sustainability.sustainable) {
+          recContainer.style.background = '#d1ecf1';
+          recContainer.style.borderLeftColor = '#17a2b8';
+          recContainer.querySelector('div').style.color = '#0c5460';
+        } else {
+          recContainer.style.background = '#f8d7da';
+          recContainer.style.borderLeftColor = '#dc3545';
+          recContainer.querySelector('div').style.color = '#721c24';
+        }
+      }
+    }
+    
+    console.log('Predicted Lifespan Analysis updated successfully');
+  }
+  
+  // Helper method to get current form data
+  getFormData() {
+    try {
+      const getData = (id) => {
+        const element = document.getElementById(id);
+        if (!element) return '';
+        return UTILS.removeCommas ? UTILS.removeCommas(element.value) : element.value;
+      };
+      
+      return {
+        age: getData('age'),
+        timeline: getData('timeline'),
+        lifeExpectancy: getData('life-expectancy'),
+        income: getData('income'),
+        expenses: getData('expenses'),
+        savings: getData('savings')
+      };
+    } catch (error) {
+      console.log('Error getting form data:', error);
+      return null;
+    }
   }
 }
 
