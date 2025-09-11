@@ -5,11 +5,13 @@ class FinancialPlannerApp {
     this.goalsManager = new GoalsManager();
     this.uiManager = new UIManager();
     this.previousResults = null;
+    this.loanCalculations = new Map(); // Store loan calculations for currency updates
     this.init();
   }
 
   init() {
     this.setupEventListeners();
+    this.setupCurrency();
     this.uiManager.addCustomStyles();
     this.setupGoToTop();
     this.setupInvestmentSummaryTracking();
@@ -34,6 +36,87 @@ class FinancialPlannerApp {
     }
   }
 
+  // NEW: Setup currency selector and handlers
+  setupCurrency() {
+    const currencySelector = document.getElementById('currency-selector');
+    if (!currencySelector) return;
+
+    // Load saved currency or use default
+    const savedCurrency = UTILS.getCurrentCurrency();
+    currencySelector.value = savedCurrency;
+
+    // Initialize default display values with currency on page load if currency is already selected
+    setTimeout(() => {
+      this.initializeCurrencyDisplays(savedCurrency);
+    }, 100);
+
+    // Handle currency change
+    currencySelector.addEventListener('change', (e) => {
+      const newCurrency = e.target.value;
+      const currencyName = CONFIG.currencies[newCurrency]?.name || newCurrency;
+      
+      // Update currency in system
+      UTILS.setCurrentCurrency(newCurrency);
+      
+      // Initialize display values for first-time currency selection
+      this.initializeCurrencyDisplays(newCurrency);
+      
+      // Update all existing loan displays with new currency
+      this.updateAllLoanDisplaysForCurrency();
+      
+      // Show toast notification
+      this.uiManager.showToast(`Currency changed to ${currencyName}`, 'success');
+      
+      // Recalculate with new currency
+      this.calculateResults();
+    });
+
+    console.log('Currency system initialized with:', savedCurrency);
+  }
+
+  // NEW: Initialize currency displays when currency is selected
+  initializeCurrencyDisplays(currency) {
+    if (!currency || currency === 'undefined') return;
+
+    const currencySymbol = CONFIG.currencies[currency]?.symbol || '';
+    
+    // Update displays that should show currency symbol with zero values
+    const currencyDisplayElements = [
+      'total-cost',
+      'monthly-needed', 
+      'summary-current-value',
+      'summary-sip-amount',
+      'summary-projected-value', 
+      'summary-additional-needed'
+    ];
+
+    currencyDisplayElements.forEach(elementId => {
+      const element = document.getElementById(elementId);
+      if (element && (element.textContent === '--' || element.textContent === '')) {
+        element.textContent = currencySymbol + '0';
+      }
+    });
+
+    // Update any visible loan EMI displays
+    const loanEmiElements = document.querySelectorAll('[id$="_user_emi"], [id$="_total_interest"], [id$="_total_amount"]');
+    loanEmiElements.forEach(element => {
+      if (element && (element.textContent === '--' || element.textContent === '')) {
+        element.textContent = currencySymbol + '0';
+      }
+    });
+
+    // Trigger display updates
+    UTILS.updateAllCurrencyDisplays();
+  }
+
+  // NEW: Update all existing loan displays when currency changes
+  updateAllLoanDisplaysForCurrency() {
+    // Re-display all stored loan calculations with new currency
+    this.loanCalculations.forEach((calculations, loanId) => {
+      this.updateLoanSummaryDisplay(loanId, calculations);
+    });
+  }
+
   // NEW: Setup investment summary tracking
   setupInvestmentSummaryTracking() {
     const investmentFields = ['existing-investments', 'current-sip', 'sip-duration'];
@@ -48,7 +131,7 @@ class FinancialPlannerApp {
     });
   }
 
-  // NEW: Setup comma formatting for all amount input fields
+  // NEW: Setup comma formatting for all amount input fields (currency-aware)
   setupCommaFormattingForAmounts() {
     const amountFields = [
       // Financial inputs
@@ -63,21 +146,23 @@ class FinancialPlannerApp {
       // Loan inputs (will be handled when loans are added)
     ];
 
+    const currentCurrency = UTILS.getCurrentCurrency();
     amountFields.forEach(fieldId => {
-      UTILS.setupCommaFormatting(fieldId);
+      UTILS.setupCommaFormatting(fieldId, currentCurrency);
     });
 
     // Also setup for any existing goal inputs
     this.setupGoalCommaFormatting();
     
-    console.log('Comma formatting initialized for amount input fields');
+    console.log('Currency-aware comma formatting initialized for amount input fields');
   }
 
-  // NEW: Setup comma formatting for goal inputs
+  // NEW: Setup comma formatting for goal inputs (currency-aware)
   setupGoalCommaFormatting() {
     const goalTypes = Object.keys(CONFIG.goalMeta);
+    const currentCurrency = UTILS.getCurrentCurrency();
     goalTypes.forEach(goalType => {
-      UTILS.setupCommaFormatting(`${goalType}-amount`);
+      UTILS.setupCommaFormatting(`${goalType}-amount`, currentCurrency);
     });
   }
 
@@ -799,8 +884,8 @@ class FinancialPlannerApp {
   showIncompleteDataMessage() {
     // Reset Key Goal Metrics
     const elements = {
-      'total-cost': '₹--',
-      'monthly-needed': '₹--',
+      'total-cost': '--',
+      'monthly-needed': '--',
       'time-required': '--',
       'savings-rate': '--%'
     };
@@ -1753,7 +1838,7 @@ class FinancialPlannerApp {
 
   clearGoalSpecificResults() {
     const elements = ['total-cost', 'monthly-needed', 'time-required'];
-    elements.forEach(id => this.uiManager.updateElement(id, id === 'time-required' ? '0y' : '₹0'));
+    elements.forEach(id => this.uiManager.updateElement(id, id === 'time-required' ? '0y' : '--'));
   }
 
   forceVisualRefresh(insightsContainer, scenariosContainer) {
@@ -1912,7 +1997,7 @@ class FinancialPlannerApp {
         
         <div class="form-group">
           <label><i class="fas fa-rupee-sign"></i> Outstanding Amount</label>
-          <input type="text" class="form-control loan-principal" placeholder="Enter outstanding amount" inputmode="numeric">
+          <input type="text" id="${loanId}_principal" class="form-control loan-principal" placeholder="Enter outstanding amount" inputmode="numeric">
         </div>
         
         <div class="form-group">
@@ -1923,7 +2008,7 @@ class FinancialPlannerApp {
         
         <div class="form-group">
           <label><i class="fas fa-credit-card"></i> Monthly EMI</label>
-          <input type="text" class="form-control loan-emi" placeholder="Enter your actual EMI" inputmode="numeric">
+          <input type="text" id="${loanId}_emi" class="form-control loan-emi" placeholder="Enter your actual EMI" inputmode="numeric">
           <small style="color: #6c757d; font-size: 0.8rem;">Enter the EMI you actually pay</small>
         </div>
         
@@ -1942,15 +2027,15 @@ class FinancialPlannerApp {
       <div class="loan-summary" id="${loanId}_summary" style="display: none;">
         <div class="loan-summary-item">
           <span>Your Monthly EMI:</span>
-          <span id="${loanId}_user_emi">₹0</span>
+          <span id="${loanId}_user_emi" data-currency-display>--</span>
         </div>
         <div class="loan-summary-item">
           <span>Total Interest (Contract):</span>
-          <span id="${loanId}_total_interest">₹0</span>
+          <span id="${loanId}_total_interest" data-currency-display>--</span>
         </div>
         <div class="loan-summary-item">
           <span>Total Amount (Contract):</span>
-          <span id="${loanId}_total_amount">₹0</span>
+          <span id="${loanId}_total_amount" data-currency-display>--</span>
         </div>
         <div class="loan-summary-item">
           <span>Standard Completion:</span>
@@ -2013,6 +2098,18 @@ class FinancialPlannerApp {
     
     const inputs = loanItem.querySelectorAll('.loan-principal, .loan-rate, .loan-tenure-years, .loan-tenure-months, .loan-emi');
     
+    // Set up comma formatting for amount fields
+    const principalInput = loanItem.querySelector('.loan-principal');
+    const emiInput = loanItem.querySelector('.loan-emi');
+    const currentCurrency = UTILS.getCurrentCurrency();
+    
+    if (principalInput) {
+      UTILS.setupCommaFormatting(`${loanId}_principal`, currentCurrency);
+    }
+    if (emiInput) {
+      UTILS.setupCommaFormatting(`${loanId}_emi`, currentCurrency);
+    }
+    
     const calculateHandler = UTILS.debounce(() => {
       this.calculateLoanSummary(loanId);
       this.updateTotalEMI();
@@ -2049,6 +2146,8 @@ class FinancialPlannerApp {
     
     if (this.isValidLoanData(loanData)) {
       const calculations = this.performLoanCalculations(loanData);
+      // Store calculations for currency updates
+      this.loanCalculations.set(loanId, calculations);
       this.updateLoanSummaryDisplay(loanId, calculations);
       this.updateTotalEMI();
     }
@@ -2281,6 +2380,8 @@ class FinancialPlannerApp {
     const loanItem = document.getElementById(loanId);
     if (loanItem) {
       loanItem.remove();
+      // Remove stored calculations for this loan
+      this.loanCalculations.delete(loanId);
       this.calculateResults();
       this.uiManager.showToast('Loan removed successfully', 'success');
       
@@ -2575,8 +2676,8 @@ Generated with Advanced Goal Alignment Calculator`;
 
   resetResultsDisplay() {
     const resultResets = [
-      { id: 'total-cost', value: '₹0' },
-      { id: 'monthly-needed', value: '₹0' },
+      { id: 'total-cost', value: '--' },
+      { id: 'monthly-needed', value: '--' },
       { id: 'time-required', value: '0y' },
       { id: 'savings-rate', value: '0%' },
       { id: 'expense-ratio', value: '0%' },
@@ -2776,7 +2877,7 @@ Generated with Advanced Goal Alignment Calculator`;
     try {
       // Check if calculations have been performed
       const totalCostEl = document.getElementById('total-cost');
-      if (!totalCostEl || totalCostEl.textContent === '₹0' || totalCostEl.textContent === '') {
+      if (!totalCostEl || totalCostEl.textContent === '--' || totalCostEl.textContent === '') {
         this.uiManager.showToast('Please complete your financial calculation first!', 'warning');
         return;
       }
@@ -2855,8 +2956,8 @@ Generated with Advanced Goal Alignment Calculator`;
         ctx.fillText('📊 Key Financial Metrics', x + w/2, y + 40);
 
         // Get key metrics data
-        const totalCost = document.getElementById('total-cost')?.textContent || '₹0';
-        const monthlyNeeded = document.getElementById('monthly-needed')?.textContent || '₹0';
+        const totalCost = document.getElementById('total-cost')?.textContent || '--';
+        const monthlyNeeded = document.getElementById('monthly-needed')?.textContent || '--';
         const timeRequired = document.getElementById('time-required')?.textContent || '0y';
         const savingsRate = document.getElementById('savings-rate')?.textContent || '0%';
         

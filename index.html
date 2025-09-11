@@ -499,9 +499,24 @@
         <div class="card">
           <div class="form-row">
             <div class="form-group">
+              <label for="currency-selector"><i class="fas fa-coins"></i> Currency</label>
+              <select id="currency-selector" class="form-control">
+                <option value="INR">₹ Indian Rupee (INR)</option>
+                <option value="USD">$ US Dollar (USD)</option>
+                <option value="EUR">€ Euro (EUR)</option>
+                <option value="GBP">£ British Pound (GBP)</option>
+                <option value="JPY">¥ Japanese Yen (JPY)</option>
+                <option value="CNY">元 Chinese Yuan (CNY)</option>
+                <option value="AED">د.إ UAE Dirham (AED)</option>
+              </select>
+              <small style="color: #6c757d; font-size: 0.8rem;">Select your preferred currency for calculations</small>
+            </div>
+            <div class="form-group">
               <label for="age"><i class="fas fa-birthday-cake"></i> Current Age</label>
               <input type="number" id="age" class="form-control" value="" min="16" max="100" placeholder="Enter your age">
             </div>
+          </div>
+          <div class="form-row">
             <div class="form-group">
               <label for="timeline"><i class="fas fa-calendar-alt"></i> Goal Timeline (years)</label>
               <input type="number" id="timeline" class="form-control" value="" min="1" max="50" placeholder="Years to achieve goals">
@@ -614,19 +629,19 @@
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.9rem;">
               <div>
                 <span style="color: #6c757d;">Current Portfolio:</span>
-                <span id="summary-current-value" style="font-weight: 500;">₹0</span>
+                <span id="summary-current-value" style="font-weight: 500;" data-currency-display>--</span>
               </div>
               <div>
                 <span style="color: #6c757d;">Monthly SIP:</span>
-                <span id="summary-sip-amount" style="font-weight: 500;">₹0</span>
+                <span id="summary-sip-amount" style="font-weight: 500;" data-currency-display>--</span>
               </div>
               <div>
                 <span style="color: #6c757d;">Projected Value:</span>
-                <span id="summary-projected-value" style="font-weight: 500; color: var(--success);">₹0</span>
+                <span id="summary-projected-value" style="font-weight: 500; color: var(--success);" data-currency-display>--</span>
               </div>
               <div>
                 <span style="color: #6c757d;">Additional Needed:</span>
-                <span id="summary-additional-needed" style="font-weight: 500; color: var(--primary);">₹0</span>
+                <span id="summary-additional-needed" style="font-weight: 500; color: var(--primary);" data-currency-display>--</span>
               </div>
             </div>
           </div>
@@ -776,11 +791,11 @@
         <div class="results-title"><i class="fas fa-chart-bar"></i> Key Goal Metrics</div>
         <div class="kpi-grid">
           <div class="kpi-card">
-            <div class="kpi-value" id="total-cost">₹0</div>
+            <div class="kpi-value" id="total-cost" data-currency-display>--</div>
             <div class="kpi-label">Total Goal Cost</div>
           </div>
           <div class="kpi-card">
-            <div class="kpi-value" id="monthly-needed">₹0</div>
+            <div class="kpi-value" id="monthly-needed" data-currency-display>--</div>
             <div class="kpi-label">Monthly Investment Needed</div>
           </div>
           <div class="kpi-card">

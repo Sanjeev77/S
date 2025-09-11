@@ -308,23 +308,200 @@ const CONFIG = {
       allocationDrift: 0.1,           // 10% allocation drift triggers rebalancing
       timeBasedMonths: 6              // 6 months triggers time-based rebalancing
     }
-  }
+  },
+
+  // NEW: Multi-currency support configuration
+  currencies: {
+    INR: {
+      code: 'INR',
+      symbol: '₹',
+      name: 'Indian Rupee',
+      locale: 'en-IN',
+      exchangeRate: 1, // Base currency
+      decimalPlaces: 0,
+      largeNumberFormat: {
+        crore: { value: 10000000, suffix: 'Cr' },
+        lakh: { value: 100000, suffix: 'L' }
+      }
+    },
+    USD: {
+      code: 'USD',
+      symbol: '$',
+      name: 'US Dollar',
+      locale: 'en-US',
+      exchangeRate: 0.012, // 1 INR = 0.012 USD (approximate)
+      decimalPlaces: 2,
+      largeNumberFormat: {
+        billion: { value: 1000000000, suffix: 'B' },
+        million: { value: 1000000, suffix: 'M' },
+        thousand: { value: 1000, suffix: 'K' }
+      }
+    },
+    EUR: {
+      code: 'EUR',
+      symbol: '€',
+      name: 'Euro',
+      locale: 'en-DE',
+      exchangeRate: 0.011, // 1 INR = 0.011 EUR (approximate)
+      decimalPlaces: 2,
+      largeNumberFormat: {
+        billion: { value: 1000000000, suffix: 'B' },
+        million: { value: 1000000, suffix: 'M' },
+        thousand: { value: 1000, suffix: 'K' }
+      }
+    },
+    GBP: {
+      code: 'GBP',
+      symbol: '£',
+      name: 'British Pound',
+      locale: 'en-GB',
+      exchangeRate: 0.0095, // 1 INR = 0.0095 GBP (approximate)
+      decimalPlaces: 2,
+      largeNumberFormat: {
+        billion: { value: 1000000000, suffix: 'B' },
+        million: { value: 1000000, suffix: 'M' },
+        thousand: { value: 1000, suffix: 'K' }
+      }
+    },
+    JPY: {
+      code: 'JPY',
+      symbol: '¥',
+      name: 'Japanese Yen',
+      locale: 'ja-JP',
+      exchangeRate: 1.8, // 1 INR = 1.8 JPY (approximate)
+      decimalPlaces: 0,
+      largeNumberFormat: {
+        oku: { value: 100000000, suffix: '億' }, // 100 million
+        man: { value: 10000, suffix: '万' }      // 10 thousand
+      }
+    },
+    CNY: {
+      code: 'CNY',
+      symbol: '元',
+      name: 'Chinese Yuan',
+      locale: 'zh-CN',
+      exchangeRate: 0.087, // 1 INR = 0.087 CNY (approximate)
+      decimalPlaces: 2,
+      largeNumberFormat: {
+        yi: { value: 100000000, suffix: '亿' },   // 100 million
+        wan: { value: 10000, suffix: '万' }       // 10 thousand
+      }
+    },
+    AED: {
+      code: 'AED',
+      symbol: 'د.إ',
+      name: 'UAE Dirham',
+      locale: 'ar-AE',
+      exchangeRate: 0.044, // 1 INR = 0.044 AED (approximate)
+      decimalPlaces: 2,
+      largeNumberFormat: {
+        million: { value: 1000000, suffix: 'M' },
+        thousand: { value: 1000, suffix: 'K' }
+      }
+    }
+  },
+
+  // Default currency (can be changed by user)
+  defaultCurrency: 'INR'
 };
 
 // ENHANCED: Utility functions with investment calculations
 const UTILS = {
-  // Format currency for display
-  formatCurrency: (amount) => {
-    const numAmount = Math.round(parseFloat(amount) || 0);
-    if (numAmount >= 10000000) {
-      return '₹' + (numAmount / 10000000).toFixed(1) + 'Cr';
-    } else if (numAmount >= 100000) {
-      return '₹' + (numAmount / 100000).toFixed(1) + 'L';
-    } else if (numAmount >= 1000) {
-      return '₹' + numAmount.toLocaleString('en-IN');
-    } else {
-      return '₹' + numAmount.toString();
+  // Get current selected currency or default
+  getCurrentCurrency: () => {
+    return localStorage.getItem('selectedCurrency') || CONFIG.defaultCurrency;
+  },
+
+  // Set current currency and save to localStorage
+  setCurrentCurrency: (currencyCode) => {
+    if (CONFIG.currencies[currencyCode]) {
+      localStorage.setItem('selectedCurrency', currencyCode);
+      // Trigger currency change event if function exists
+      if (window.onCurrencyChange && typeof window.onCurrencyChange === 'function') {
+        window.onCurrencyChange(currencyCode);
+      }
+      return true;
     }
+    return false;
+  },
+
+  // Convert amount from INR to specified currency
+  convertCurrency: (amount, fromCurrency = 'INR', toCurrency = null) => {
+    if (!toCurrency) toCurrency = UTILS.getCurrentCurrency();
+    if (fromCurrency === toCurrency) return amount;
+    
+    const fromRate = CONFIG.currencies[fromCurrency]?.exchangeRate || 1;
+    const toRate = CONFIG.currencies[toCurrency]?.exchangeRate || 1;
+    
+    // Convert to INR first, then to target currency
+    const inrAmount = amount / fromRate;
+    return inrAmount * toRate;
+  },
+
+  // Format currency for display with multi-currency support
+  formatCurrency: (amount, currencyCode = null) => {
+    const currency = currencyCode || UTILS.getCurrentCurrency();
+    const config = CONFIG.currencies[currency];
+    
+    if (!config) {
+      // Fallback to INR if currency not found
+      return UTILS.formatCurrency(amount, 'INR');
+    }
+
+    // Convert amount if not already in the target currency
+    let numAmount = Math.round(parseFloat(amount) || 0);
+    
+    // Format large numbers with appropriate suffixes
+    const largeFormat = config.largeNumberFormat;
+    
+    // Check for large number formatting
+    for (const [key, format] of Object.entries(largeFormat)) {
+      if (numAmount >= format.value) {
+        const formattedValue = (numAmount / format.value).toFixed(1);
+        return config.symbol + formattedValue + format.suffix;
+      }
+    }
+
+    // For smaller amounts, use locale-specific formatting
+    if (numAmount >= 1000) {
+      try {
+        const formatted = new Intl.NumberFormat(config.locale, {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: config.decimalPlaces
+        }).format(numAmount);
+        return config.symbol + formatted;
+      } catch (e) {
+        // Fallback if Intl is not available
+        return config.symbol + numAmount.toLocaleString();
+      }
+    } else {
+      return config.symbol + numAmount.toString();
+    }
+  },
+
+  // Format currency input (for form fields)
+  formatCurrencyInput: (amount, currencyCode = null) => {
+    const currency = currencyCode || UTILS.getCurrentCurrency();
+    const config = CONFIG.currencies[currency];
+    
+    if (!config) return amount;
+    
+    const numAmount = parseFloat(amount) || 0;
+    
+    try {
+      return new Intl.NumberFormat(config.locale, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: config.decimalPlaces
+      }).format(numAmount);
+    } catch (e) {
+      return numAmount.toLocaleString();
+    }
+  },
+
+  // Get currency symbol for current currency
+  getCurrencySymbol: (currencyCode = null) => {
+    const currency = currencyCode || UTILS.getCurrentCurrency();
+    return CONFIG.currencies[currency]?.symbol || '₹';
   },
 
   // Format percentage
@@ -891,6 +1068,51 @@ const UTILS = {
     
     const numericValue = input.getAttribute('data-numeric-value') || UTILS.removeCommas(input.value);
     return parseFloat(numericValue) || 0;
+  },
+
+  // NEW: Update all currency displays when currency changes
+  updateAllCurrencyDisplays: () => {
+    // Update all elements with currency symbols
+    const currencyElements = document.querySelectorAll('[data-currency-display]');
+    const currentSymbol = UTILS.getCurrencySymbol();
+    
+    currencyElements.forEach(element => {
+      const originalText = element.textContent;
+      // Replace any existing currency symbol with the new one
+      const currencies = Object.values(CONFIG.currencies).map(c => c.symbol);
+      let newText = originalText;
+      
+      currencies.forEach(symbol => {
+        newText = newText.replace(new RegExp(symbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), currentSymbol);
+      });
+      
+      element.textContent = newText;
+    });
+    
+    // Trigger recalculation if function exists
+    if (window.calculateResults && typeof window.calculateResults === 'function') {
+      setTimeout(() => {
+        window.calculateResults();
+      }, 100);
+    }
+  },
+
+  // NEW: Convert user input amount to INR for calculations
+  convertInputToINR: (amount, inputCurrency = null) => {
+    const currency = inputCurrency || UTILS.getCurrentCurrency();
+    if (currency === 'INR') return amount;
+    
+    const exchangeRate = CONFIG.currencies[currency]?.exchangeRate || 1;
+    return amount / exchangeRate; // Convert to INR
+  },
+
+  // NEW: Convert calculated INR amount to display currency
+  convertINRToDisplay: (inrAmount, displayCurrency = null) => {
+    const currency = displayCurrency || UTILS.getCurrentCurrency();
+    if (currency === 'INR') return inrAmount;
+    
+    const exchangeRate = CONFIG.currencies[currency]?.exchangeRate || 1;
+    return inrAmount * exchangeRate; // Convert from INR to display currency
   }
 };
 
@@ -898,4 +1120,24 @@ const UTILS = {
 if (typeof window !== 'undefined') {
   window.CONFIG = CONFIG;
   window.UTILS = UTILS;
+  
+  // Set up global currency change handler
+  window.onCurrencyChange = (newCurrency) => {
+    UTILS.updateAllCurrencyDisplays();
+    
+    // Update input field formatting
+    const inputs = document.querySelectorAll('input[data-comma-formatting="true"]');
+    inputs.forEach(input => {
+      const currentValue = UTILS.removeCommas(input.value);
+      if (currentValue) {
+        input.value = UTILS.formatNumberWithCommas(currentValue, newCurrency);
+        input.setAttribute('data-currency', newCurrency);
+      }
+    });
+    
+    // Update loan displays if app instance exists
+    if (window.financialPlannerApp && window.financialPlannerApp.updateAllLoanDisplaysForCurrency) {
+      window.financialPlannerApp.updateAllLoanDisplaysForCurrency();
+    }
+  };
 }
