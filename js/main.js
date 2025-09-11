@@ -86,40 +86,78 @@ class FinancialPlannerApp {
     const existingInvestments = UTILS.getNumericValue('existing-investments');
     const currentSip = UTILS.getNumericValue('current-sip');
     const sipDuration = parseFloat(document.getElementById('sip-duration')?.value) || 0;
-    const returns = parseFloat(document.getElementById('returns')?.value) || 12;
-    const timeline = parseFloat(document.getElementById('timeline')?.value) || 15;
+    const returnsInput = parseFloat(document.getElementById('returns')?.value);
+    const timelineInput = parseFloat(document.getElementById('timeline')?.value);
 
     const summaryDiv = document.getElementById('investment-summary');
     if (!summaryDiv) return;
 
-    // Show summary only if there's investment data
-    if (existingInvestments > 0 || currentSip > 0) {
+    // Check if user has investment data
+    const hasInvestmentData = existingInvestments > 0 || currentSip > 0;
+    
+    if (hasInvestmentData) {
       summaryDiv.style.display = 'block';
       
-      // Calculate projections
-      const projectedExisting = existingInvestments * Math.pow(1 + returns / 100, timeline);
-      const monthlyRate = returns / 100 / 12;
-      const totalMonths = timeline * 12;
-      
-      let projectedSip = 0;
-      if (currentSip > 0 && monthlyRate > 0) {
-        projectedSip = currentSip * (Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate;
+      // Check if required fields are filled for projection calculation
+      if (returnsInput > 0 && timelineInput > 0) {
+        // Use actual user inputs (no defaults)
+        const returns = returnsInput;
+        const timeline = timelineInput;
+        
+        // Calculate projections
+        const projectedExisting = existingInvestments * Math.pow(1 + returns / 100, timeline);
+        const monthlyRate = returns / 100 / 12;
+        const totalMonths = timeline * 12;
+        
+        let projectedSip = 0;
+        if (currentSip > 0 && monthlyRate > 0) {
+          projectedSip = currentSip * (Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate;
+        }
+        
+        const totalProjected = projectedExisting + projectedSip;
+        
+        // Calculate total goal cost for comparison
+        const totalGoalCost = Object.values(this.goalsManager.getGoalsData())
+          .filter(goal => goal.enabled)
+          .reduce((sum, goal) => sum + goal.amount, 0);
+        
+        // Update summary elements with calculated values
+        this.uiManager.updateElement('summary-current-value', UTILS.formatCurrency(existingInvestments));
+        this.uiManager.updateElement('summary-sip-amount', UTILS.formatCurrency(currentSip));
+        this.uiManager.updateElement('summary-projected-value', UTILS.formatCurrency(totalProjected));
+        
+        // Show additional needed only if goals are enabled
+        if (totalGoalCost > 0) {
+          const additionalNeeded = Math.max(0, totalGoalCost - totalProjected);
+          this.uiManager.updateElement('summary-additional-needed', UTILS.formatCurrency(additionalNeeded));
+        } else {
+          this.uiManager.updateElement('summary-additional-needed', 'Enable goals to see requirement');
+        }
+        
+      } else {
+        // Show current values but indicate projections need more data
+        this.uiManager.updateElement('summary-current-value', UTILS.formatCurrency(existingInvestments));
+        this.uiManager.updateElement('summary-sip-amount', UTILS.formatCurrency(currentSip));
+        
+        // Show message for missing required fields
+        const missingFields = [];
+        if (!returnsInput || returnsInput <= 0) missingFields.push('Expected Returns (%)');
+        if (!timelineInput || timelineInput <= 0) missingFields.push('Timeline');
+        
+        const message = `Enter ${missingFields.join(' and ')} to see projections`;
+        this.uiManager.updateElement('summary-projected-value', message);
+        
+        // Check if goals are enabled for additional needed message
+        const totalGoalCost = Object.values(this.goalsManager.getGoalsData())
+          .filter(goal => goal.enabled)
+          .reduce((sum, goal) => sum + goal.amount, 0);
+        
+        if (totalGoalCost > 0) {
+          this.uiManager.updateElement('summary-additional-needed', '—');
+        } else {
+          this.uiManager.updateElement('summary-additional-needed', 'Enable goals to see requirement');
+        }
       }
-      
-      const totalProjected = projectedExisting + projectedSip;
-      
-      // Calculate total goal cost for comparison
-      const totalGoalCost = Object.values(this.goalsManager.getGoalsData())
-        .filter(goal => goal.enabled)
-        .reduce((sum, goal) => sum + goal.amount, 0);
-      
-      const additionalNeeded = Math.max(0, totalGoalCost - totalProjected);
-      
-      // Update summary elements
-      this.uiManager.updateElement('summary-current-value', UTILS.formatCurrency(existingInvestments));
-      this.uiManager.updateElement('summary-sip-amount', UTILS.formatCurrency(currentSip));
-      this.uiManager.updateElement('summary-projected-value', UTILS.formatCurrency(totalProjected));
-      this.uiManager.updateElement('summary-additional-needed', UTILS.formatCurrency(additionalNeeded));
       
     } else {
       summaryDiv.style.display = 'none';
@@ -3287,17 +3325,17 @@ Generated with Advanced Goal Alignment Calculator`;
       }
     });
     
-    // Validation 1: Current Age should not be more than Predicted Lifespan
+    // Validation 1: Current Age should not be more than Life Expectancy
     if (age > 0 && lifeExpectancy > 0 && age > lifeExpectancy) {
-      this.showValidationError('age', 'Current age cannot be more than predicted lifespan');
-      this.showValidationError('life-expectancy', 'Predicted lifespan must be more than current age');
+      this.showValidationError('age', 'Current age cannot be more than life expectancy');
+      this.showValidationError('life-expectancy', 'Life expectancy must be more than current age');
       hasError = true;
     }
     
-    // Validation 2: Predicted Lifespan should not be less than Current Age + Goal Timeline
+    // Validation 2: Life Expectancy should not be less than Current Age + Goal Timeline
     if (age > 0 && timeline > 0 && lifeExpectancy > 0 && lifeExpectancy < (age + timeline)) {
-      this.showValidationError('life-expectancy', `Predicted lifespan must be at least ${age + timeline} years (current age + timeline)`);
-      this.showValidationError('timeline', `Timeline too long for predicted lifespan. Maximum: ${Math.max(0, lifeExpectancy - age)} years`);
+      this.showValidationError('life-expectancy', `Life expectancy must be at least ${age + timeline} years (current age + timeline)`);
+      this.showValidationError('timeline', `Timeline too long for life expectancy. Maximum: ${Math.max(0, lifeExpectancy - age)} years`);
       hasError = true;
     }
     

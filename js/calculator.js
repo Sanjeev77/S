@@ -1238,8 +1238,8 @@ class FinancialCalculator {
     if (lifeExpectancy < age + timeline) {
       insights.push({
         type: 'error',
-        title: 'Timeline vs Predicted Lifespan Conflict',
-        message: `Your goal timeline extends beyond your predicted lifespan. Consider shortening the timeline or increasing predicted lifespan.`,
+        title: 'Timeline vs Life Expectancy Conflict',
+        message: `Your goal timeline extends beyond your life expectancy. Consider shortening the timeline or increasing life expectancy.`,
         priority: 'high'
       });
     }
