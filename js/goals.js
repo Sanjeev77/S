@@ -333,6 +333,15 @@ class GoalsManager {
     }
   }
 
+  // Update all goal displays (useful for currency changes)
+  updateAllGoalDisplays() {
+    Object.keys(this.goals).forEach(goalId => {
+      if (this.goals[goalId].enabled) {
+        this.updateDisplay(goalId);
+      }
+    });
+  }
+
   triggerCalculationUpdate() {
     // Immediate calculation trigger - no debouncing for better responsiveness
     if (window.calculateResults) {

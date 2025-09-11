@@ -2146,6 +2146,8 @@ class FinancialPlannerApp {
     
     if (this.isValidLoanData(loanData)) {
       const calculations = this.performLoanCalculations(loanData);
+      // Store the input currency when calculations are performed
+      calculations.inputCurrency = UTILS.getCurrentCurrency();
       // Store calculations for currency updates
       this.loanCalculations.set(loanId, calculations);
       this.updateLoanSummaryDisplay(loanId, calculations);
@@ -2257,12 +2259,20 @@ class FinancialPlannerApp {
     
     summaryDiv.style.display = 'block';
     
+    // Convert calculated values to current display currency
+    const currentCurrency = UTILS.getCurrentCurrency();
+    const inputCurrency = calculations.inputCurrency || 'INR'; // Default to INR if not stored
+    
+    // Convert values from input currency to current display currency
     const displayEmi = calculations.userEmi > 0 ? calculations.userEmi : calculations.calculatedEmi;
+    const convertedDisplayEmi = UTILS.convertCurrency(displayEmi, inputCurrency, currentCurrency);
+    const convertedTotalInterest = UTILS.convertCurrency(calculations.totalInterest, inputCurrency, currentCurrency);
+    const convertedTotalAmount = UTILS.convertCurrency(calculations.totalAmount, inputCurrency, currentCurrency);
     
     const updates = [
-      { id: `${loanId}_user_emi`, value: UTILS.formatCurrency(displayEmi) },
-      { id: `${loanId}_total_interest`, value: UTILS.formatCurrency(calculations.totalInterest) },
-      { id: `${loanId}_total_amount`, value: UTILS.formatCurrency(calculations.totalAmount) },
+      { id: `${loanId}_user_emi`, value: UTILS.formatCurrency(convertedDisplayEmi) },
+      { id: `${loanId}_total_interest`, value: UTILS.formatCurrency(convertedTotalInterest) },
+      { id: `${loanId}_total_amount`, value: UTILS.formatCurrency(convertedTotalAmount) },
       { id: `${loanId}_completion_date`, value: calculations.completionDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'short' }) },
       { id: `${loanId}_remaining_months`, value: `${calculations.totalMonths} months` }
     ];
@@ -2357,10 +2367,13 @@ class FinancialPlannerApp {
           timeSavedText = 'No time difference';
         }
         
+        // Convert completion savings to current display currency
+        const convertedCompletionSavings = UTILS.convertCurrency(Math.abs(calculations.completionSavings), inputCurrency, currentCurrency);
+        
         const emiScenarioUpdates = [
           { id: `${loanId}_emi_completion`, value: calculations.emiBasedCompletion.toLocaleDateString('en-IN', { year: 'numeric', month: 'short' }) },
           { id: `${loanId}_time_saved`, value: timeSavedText },
-          { id: `${loanId}_interest_saved`, value: UTILS.formatCurrency(Math.abs(calculations.completionSavings)) }
+          { id: `${loanId}_interest_saved`, value: UTILS.formatCurrency(convertedCompletionSavings) }
         ];
 
         emiScenarioUpdates.forEach(update => {
@@ -3461,6 +3474,9 @@ Generated with Advanced Goal Alignment Calculator`;
 document.addEventListener('DOMContentLoaded', function() {
   try {
     window.financialPlannerApp = new FinancialPlannerApp();
+    
+    // Make goalsManager globally accessible for currency updates
+    window.goalsManager = window.financialPlannerApp.goalsManager;
     
     // Expose functions globally for HTML onclick attributes
     window.downloadJSON = () => window.financialPlannerApp.downloadJSON();

@@ -329,7 +329,7 @@ const CONFIG = {
       symbol: '$',
       name: 'US Dollar',
       locale: 'en-US',
-      exchangeRate: 0.012, // 1 INR = 0.012 USD (approximate)
+      exchangeRate: 0.01205, // 1 INR = 0.01205 USD (83 INR = 1 USD)
       decimalPlaces: 2,
       largeNumberFormat: {
         billion: { value: 1000000000, suffix: 'B' },
@@ -342,7 +342,7 @@ const CONFIG = {
       symbol: '€',
       name: 'Euro',
       locale: 'en-DE',
-      exchangeRate: 0.011, // 1 INR = 0.011 EUR (approximate)
+      exchangeRate: 0.01111, // 1 INR = 0.01111 EUR (90 INR = 1 EUR)
       decimalPlaces: 2,
       largeNumberFormat: {
         billion: { value: 1000000000, suffix: 'B' },
@@ -355,7 +355,7 @@ const CONFIG = {
       symbol: '£',
       name: 'British Pound',
       locale: 'en-GB',
-      exchangeRate: 0.0095, // 1 INR = 0.0095 GBP (approximate)
+      exchangeRate: 0.00952, // 1 INR = 0.00952 GBP (105 INR = 1 GBP)
       decimalPlaces: 2,
       largeNumberFormat: {
         billion: { value: 1000000000, suffix: 'B' },
@@ -368,7 +368,7 @@ const CONFIG = {
       symbol: '¥',
       name: 'Japanese Yen',
       locale: 'ja-JP',
-      exchangeRate: 1.8, // 1 INR = 1.8 JPY (approximate)
+      exchangeRate: 1.79, // 1 INR = 1.79 JPY (67 INR = 120 JPY)
       decimalPlaces: 0,
       largeNumberFormat: {
         oku: { value: 100000000, suffix: '億' }, // 100 million
@@ -380,7 +380,7 @@ const CONFIG = {
       symbol: '元',
       name: 'Chinese Yuan',
       locale: 'zh-CN',
-      exchangeRate: 0.087, // 1 INR = 0.087 CNY (approximate)
+      exchangeRate: 0.0870, // 1 INR = 0.0870 CNY (11.5 INR = 1 CNY)
       decimalPlaces: 2,
       largeNumberFormat: {
         yi: { value: 100000000, suffix: '亿' },   // 100 million
@@ -392,7 +392,7 @@ const CONFIG = {
       symbol: 'د.إ',
       name: 'UAE Dirham',
       locale: 'ar-AE',
-      exchangeRate: 0.044, // 1 INR = 0.044 AED (approximate)
+      exchangeRate: 0.0442, // 1 INR = 0.0442 AED (22.6 INR = 1 AED)
       decimalPlaces: 2,
       largeNumberFormat: {
         million: { value: 1000000, suffix: 'M' },
@@ -448,8 +448,9 @@ const UTILS = {
       return UTILS.formatCurrency(amount, 'INR');
     }
 
-    // Convert amount if not already in the target currency
-    let numAmount = Math.round(parseFloat(amount) || 0);
+    // Convert amount from INR to target currency
+    const inrAmount = parseFloat(amount) || 0;
+    let numAmount = Math.round(inrAmount * config.exchangeRate);
     
     // Format large numbers with appropriate suffixes
     const largeFormat = config.largeNumberFormat;
@@ -1134,6 +1135,11 @@ if (typeof window !== 'undefined') {
         input.setAttribute('data-currency', newCurrency);
       }
     });
+    
+    // Update goal displays when currency changes
+    if (window.goalsManager && typeof window.goalsManager.updateAllGoalDisplays === 'function') {
+      window.goalsManager.updateAllGoalDisplays();
+    }
     
     // Update loan displays if app instance exists
     if (window.financialPlannerApp && window.financialPlannerApp.updateAllLoanDisplaysForCurrency) {
