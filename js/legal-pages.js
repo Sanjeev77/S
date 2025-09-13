@@ -379,7 +379,7 @@ function showTermsAndConditions(e) {
     <p>Welcome to Zero Balanced Terms and Conditions section. Please select from the following policies and legal documents:</p>
     
     <div class="legal-links-section">
-      <div class="legal-links-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0;">
+      <div class="legal-links-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin: 20px 0;">
         <a href="#" onclick="showPrivacyPolicy(event)" class="legal-link" style="display: flex; align-items: center; padding: 15px; border: 1px solid #e9ecef; border-radius: 8px; text-decoration: none; color: inherit; transition: all 0.3s ease;">
           <i class="fas fa-user-shield" style="font-size: 2rem; margin-right: 15px; color: var(--primary);"></i>
           <div>

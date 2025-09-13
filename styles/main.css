@@ -971,9 +971,10 @@ body {
 /* Responsive legal modal */
 @media (max-width: 768px) {
   .legal-modal-content {
-    margin: 10px;
+    margin: 20px 10px;
     max-width: calc(100vw - 20px);
-    max-height: 90vh;
+    max-height: 85vh;
+    margin-top: 40px;
   }
   
   .legal-modal-body {
@@ -986,5 +987,113 @@ body {
   
   .legal-modal-body h4 {
     font-size: 1rem;
+  }
+
+  /* Ensure modal header is always visible on mobile */
+  .legal-modal-content .modal-header {
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    flex-shrink: 0;
+  }
+
+  .legal-modal-content .modal-title {
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+
+  .legal-modal-content .close-modal {
+    font-size: 1.8rem;
+    padding: 0;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .legal-modal-content .close-modal:hover,
+  .legal-modal-content .close-modal:active {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
+  }
+
+  /* Mobile responsive legal links grid */
+  .legal-links-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .legal-link {
+    padding: 12px !important;
+    min-height: 60px !important;
+  }
+
+  .legal-link i {
+    font-size: 1.4rem !important;
+    margin-right: 15px !important;
+    flex-shrink: 0 !important;
+    width: 2rem !important;
+    text-align: center !important;
+  }
+
+  .legal-link strong {
+    font-size: 0.95rem !important;
+  }
+
+  .legal-link small {
+    font-size: 0.8rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .legal-link > div {
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+}
+
+/* Extra small mobile screens - ensure modal header is never trimmed */
+@media (max-width: 480px) {
+  .legal-modal-content {
+    margin: 30px 5px;
+    max-width: calc(100vw - 10px);
+    max-height: 80vh;
+    margin-top: 50px;
+  }
+
+  .legal-modal-content .modal-header {
+    padding: 10px 0;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+  }
+
+  .legal-modal-content .modal-title {
+    font-size: 1.1rem;
+    padding-right: 10px;
+    line-height: 1.3;
+  }
+
+  .legal-modal-body {
+    padding: 10px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .legal-modal-content .close-modal {
+    font-size: 1.6rem;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-weight: normal;
+    background-color: rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+  }
+
+  .legal-modal-content .close-modal:active {
+    background-color: rgba(0, 0, 0, 0.15);
+    transform: scale(0.95);
   }
 }
