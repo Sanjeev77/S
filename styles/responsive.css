@@ -914,7 +914,7 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
     user-select: none;
   }
-  
+
   /* Specific fix for Work ↔ Life Balance button */
   #balance-button {
     position: relative !important;
@@ -924,13 +924,13 @@
     -webkit-tap-highlight-color: rgba(255, 193, 7, 0.3) !important;
     cursor: pointer !important;
   }
-  
+
   #balance-button:active {
     background-color: #e0a800 !important;
     transform: scale(0.98) !important;
     transition: all 0.1s ease !important;
   }
-  
+
   .mobile-nav-item {
     min-height: 60px;
     min-width: 80px;

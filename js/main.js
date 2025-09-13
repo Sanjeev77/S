@@ -1134,8 +1134,8 @@ class FinancialPlannerApp {
       status: document.getElementById('balance-status'),
       button: document.getElementById('balance-button')
     };
-    
-    if (!elements.indicator || !elements.status || !elements.button) {
+
+    if (!elements.indicator || !elements.status) {
       console.warn('❌ Work-Life Balance elements not found');
       return;
     }
@@ -1154,8 +1154,10 @@ class FinancialPlannerApp {
     elements.status.textContent = balanceAnalysis.statusText;
     elements.status.style.backgroundColor = balanceAnalysis.bgColor;
     elements.status.style.color = balanceAnalysis.textColor;
-    elements.button.style.display = balanceAnalysis.needsImprovement ? 'block' : 'none';
-    elements.button.textContent = balanceAnalysis.buttonText;
+    if (elements.button) {
+      elements.button.style.display = balanceAnalysis.needsImprovement ? 'block' : 'none';
+      elements.button.textContent = balanceAnalysis.buttonText;
+    }
   }
 
   // ENHANCED: Balance calculation with investment awareness

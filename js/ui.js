@@ -557,7 +557,7 @@ class UIManager {
     const status = document.getElementById('balance-status');
     const button = document.getElementById('balance-button');
 
-    if (!indicator || !status || !button) return;
+    if (!indicator || !status) return;
 
     const investmentData = results.investmentData || {};
     const portfolioStrength = investmentData.investmentPortfolioStrength || 0;
@@ -576,25 +576,31 @@ class UIManager {
       status.textContent = portfolioStrength >= 60 ? 'Excellent Balance with Strong Portfolio' : 'Excellent Balance';
       status.style.backgroundColor = '#d1ecf1';
       status.style.color = '#0c5460';
-      button.style.display = 'none';
+      if (button) button.style.display = 'none';
     } else if (investmentAdjustedScore >= 60) {
       status.textContent = portfolioStrength >= 40 ? 'Good Balance with Growing Portfolio' : 'Good Balance';
       status.style.backgroundColor = '#d4edda';
       status.style.color = '#155724';
-      button.style.display = 'block';
-      button.textContent = 'Enhance Further';
+      if (button) {
+        button.style.display = 'block';
+        button.textContent = 'Enhance Further';
+      }
     } else if (investmentAdjustedScore >= 40) {
       status.textContent = portfolioStrength < 40 ? 'Needs Investment Strategy' : 'Moderate Balance';
       status.style.backgroundColor = '#fff3cd';
       status.style.color = '#856404';
-      button.style.display = 'block';
-      button.textContent = portfolioStrength < 40 ? 'Start Investing' : 'Improve Balance';
+      if (button) {
+        button.style.display = 'block';
+        button.textContent = portfolioStrength < 40 ? 'Start Investing' : 'Improve Balance';
+      }
     } else {
       status.textContent = 'Needs Major Improvement';
       status.style.backgroundColor = '#f8d7da';
       status.style.color = '#721c24';
-      button.style.display = 'block';
-      button.textContent = 'Emergency Plan';
+      if (button) {
+        button.style.display = 'block';
+        button.textContent = 'Emergency Plan';
+      }
     }
   }
 

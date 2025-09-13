@@ -79,7 +79,7 @@ class GoalsManager {
           <input type="text" 
                  class="goal-input" 
                  id="${goalId}-amount" 
-                 placeholder="Enter amount (can exceed slider max)" 
+                 placeholder="Enter amount" 
                  value="${inputValue}"
                  ${!isEnabled ? 'disabled' : ''}
                  inputmode="numeric">
