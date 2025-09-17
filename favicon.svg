@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 1126.6 1126.6' style='enable-background:new 0 0 1126.6 1126.6;' xml:space='preserve'>
+<style type='text/css'>
+.st0{fill:url(#SVGID_1_);}
+.st1{fill:#FFFFFF;}
+</style>
+<linearGradient id='SVGID_1_' gradientUnits='userSpaceOnUse' x1='223.2316' y1='93.2973' x2='901.3171' y2='1030.472'>
+<stop offset='0' style='stop-color:#677BE6'/>
+<stop offset='1' style='stop-color:#7352AC'/>
+</linearGradient>
+<path class='st0' d='M563.3,1126.6L563.3,1126.6C252.2,1126.6,0,874.4,0,563.3v0C0,252.2,252.2,0,563.3,0h0 c311.1,0,563.3,252.2,563.3,563.3v0C1126.6,874.4,874.4,1126.6,563.3,1126.6z'/>
+<g id='Background_00000038403745403108814750000017206286513278391979_'></g>
+<g id='Background_00000165204008328998897210000015667551797008608652_'></g>
+<g>
+<circle class='st1' cx='478.3' cy='600.5' r='106'/>
+<path class='st1' d='M744.6,321.6c0,0,4,339.5-209.4,413.3c-148.6,51.4-454.6-22.2-454.6-22.2l128.9,60.1 c132,61.5,201.7,196.8,189.9,329.5c51.9,15.7,106.9,24.2,163.9,24.2h0c37.2,0,73.6-3.6,108.9-10.5 C800.8,936.1,862.6,680.8,744.6,321.6z'/>
+<path class='st1' d='M807.5,97.5c-8.7,134-15.7,141-149.7,149.7c134,8.7,141,15.7,149.7,149.7c8.7-134,15.7-141,149.7-149.7 C823.1,238.5,816.1,231.5,807.5,97.5z'/>
+</g>
+</svg>
