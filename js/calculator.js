@@ -51,9 +51,18 @@ class FinancialCalculator {
     );
 
     // NEW: Predicted Lifespan Analysis
-    const lifeStageInsights = this.calculateLifeStageInsights(
-      age, timeline, lifeExpectancy, income, expenses, totalGoalCost, investmentData
-    );
+    console.log('🔍 Calculating life stage insights with params:', {age, timeline, lifeExpectancy, income, expenses, totalGoalCost});
+
+    let lifeStageInsights = null;
+    if (age && timeline && lifeExpectancy && age > 0 && timeline > 0 && lifeExpectancy > age) {
+      lifeStageInsights = this.calculateLifeStageInsights(
+        age, timeline, lifeExpectancy, income, expenses, totalGoalCost, investmentData
+      );
+      console.log('✅ Generated life stage insights:', lifeStageInsights);
+    } else {
+      console.log('❌ Insufficient data for life stage insights. Required: age, timeline, lifeExpectancy');
+      console.log('❌ Current values:', {age, timeline, lifeExpectancy});
+    }
 
     this.results = {
       totalGoalCost,

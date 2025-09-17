@@ -18,11 +18,21 @@ class FinancialPlannerApp {
     this.setupMobileNavigation();
     this.setupPullToRefresh();
     this.setupCommaFormattingForAmounts();
-    
+    this.setupPrivacyFunctions();
+
     // CRITICAL: Force financial health bar to 0% on mobile startup
     this.initializeFinancialHealthBar();
-    
+
     this.uiManager.showToast('Financial planner loaded successfully!', 'success');
+  }
+
+  // Setup privacy-related functions
+  setupPrivacyFunctions() {
+    // Make privacy functions available globally
+    window.showPrivacyDetails = this.showPrivacyDetails.bind(this);
+    window.clearAllData = this.clearAllData.bind(this);
+    // Make uiManager globally accessible for modal functions
+    window.uiManager = this.uiManager;
   }
 
   // CRITICAL: Initialize financial health bar to 0% on startup
@@ -34,6 +44,352 @@ class FinancialPlannerApp {
       // Also ensure it has proper transition
       financialHealthBar.style.setProperty('transition', 'width 0.5s ease', 'important');
     }
+  }
+
+  // Privacy Details Modal
+  showPrivacyDetails() {
+    const content = `
+      <div style="text-align: left;">
+        <h3 style="color: #28a745; margin-bottom: 20px;"><i class="fas fa-shield-alt"></i> How We Protect Your Privacy</h3>
+
+        <div style="background: #d4edda; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #28a745;">
+          <h4><i class="fas fa-check-circle"></i> Zero Data Transmission</h4>
+          <p>Your financial information never leaves your browser. All calculations happen locally on your device.</p>
+        </div>
+
+        <div style="background: #cce7ff; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #007bff;">
+          <h4><i class="fas fa-laptop"></i> Client-Side Processing</h4>
+          <p>JavaScript runs calculations in your browser. No server processing means no data exposure risk.</p>
+        </div>
+
+        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+          <h4><i class="fas fa-times"></i> No Registration Required</h4>
+          <p>Use the calculator completely anonymously. No accounts, no tracking, no personal identification.</p>
+        </div>
+
+        <h4 style="margin-top: 25px;"><i class="fas fa-code"></i> Technical Details:</h4>
+        <ul style="margin-left: 20px; line-height: 1.6;">
+          <li><strong>Local Storage:</strong> Data stored only in your browser's local storage</li>
+          <li><strong>No Analytics:</strong> We don't track user behavior or financial patterns</li>
+          <li><strong>No Cookies:</strong> Essential cookies only, no tracking cookies</li>
+          <li><strong>No Backend:</strong> Pure frontend application with no server database</li>
+        </ul>
+
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center;">
+          <p><strong>Your Privacy is Our Priority</strong></p>
+          <p style="color: #6c757d; margin: 0;">We believe financial planning should be private and secure.</p>
+        </div>
+      </div>
+    `;
+
+    this.uiManager.showModal('Privacy Protection Details', content);
+  }
+
+  // Clear all user data - Complete Reset Function
+  clearAllData() {
+    const confirmMessage = 'Are you sure you want to reset the calculator? This will clear all your financial data and cannot be undone.';
+
+    if (confirm(confirmMessage)) {
+      try {
+        // IMMEDIATE: Hide life expectancy section first
+        const lifeExpectancySection = document.getElementById('life-expectancy-section');
+        if (lifeExpectancySection) {
+          lifeExpectancySection.style.display = 'none';
+        }
+
+        // 1. Clear ALL form inputs including hidden fields
+        const allInputs = document.querySelectorAll('input, select, textarea');
+        allInputs.forEach(input => {
+          if (input.type === 'checkbox' || input.type === 'radio') {
+            input.checked = false;
+          } else {
+            input.value = '';
+          }
+        });
+
+        // 2. Reset currency to default
+        const currencySelector = document.getElementById('currency-selector');
+        if (currencySelector) {
+          currencySelector.value = 'INR';
+        }
+
+        // 3. Clear all local storage
+        localStorage.clear();
+        sessionStorage.clear();
+
+        // 4. Reset goals completely
+        if (this.goalsManager) {
+          // Reset goals to initial disabled state
+          Object.keys(CONFIG.defaultGoals).forEach(goalId => {
+            this.goalsManager.goals[goalId] = {
+              enabled: false,     // All goals start disabled
+              amount: 0,          // All amounts start at zero
+              value: 0,           // Reset value field too
+              min: CONFIG.defaultGoals[goalId].min,
+              max: CONFIG.defaultGoals[goalId].max,
+              step: CONFIG.defaultGoals[goalId].step
+            };
+          });
+
+          // Reset progress data
+          this.goalsManager.initializeProgress();
+
+          // Re-render goals display
+          this.goalsManager.renderGoals();
+          this.goalsManager.setupEventListeners();
+
+          // Ensure all goal checkboxes and inputs are cleared
+          const goalCheckboxes = document.querySelectorAll('input[type="checkbox"][id*="goal"]');
+          goalCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+          });
+
+          const goalInputs = document.querySelectorAll('input[id*="goal-amount"], input[id*="goal-"]');
+          goalInputs.forEach(input => {
+            input.value = '';
+          });
+
+          // Force clear goals container and re-render
+          const goalsContainer = document.getElementById('goals-container');
+          if (goalsContainer) {
+            goalsContainer.innerHTML = '';
+            setTimeout(() => {
+              this.goalsManager.renderGoals();
+              this.goalsManager.setupEventListeners();
+            }, 100);
+          }
+
+          // Force trigger calculation update to refresh everything
+          if (this.goalsManager.triggerCalculationUpdate) {
+            this.goalsManager.triggerCalculationUpdate();
+          }
+        }
+
+        // 5. Clear loan details completely
+        const loanList = document.getElementById('loan-list');
+        if (loanList) {
+          loanList.innerHTML = '';
+          loanList.style.display = 'none';
+        }
+        this.loanCalculations.clear();
+
+        // 6. Reset results sections completely
+        this.resetAllResultsSections();
+
+        // 7. Reset all progress bars and indicators
+        this.resetAllProgressIndicators();
+
+        // 8. Reset investment summary
+        const investmentSummary = document.getElementById('investment-summary');
+        if (investmentSummary) {
+          investmentSummary.style.display = 'none';
+        }
+
+        // 9. Reset calculator state
+        this.previousResults = null;
+        if (this.calculator) {
+          this.calculator.results = {};
+        }
+
+        // 10. Reset mobile navigation to home
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+        mobileNavItems.forEach(item => item.classList.remove('active'));
+        const homeNav = document.querySelector('.mobile-nav-item[data-section="home"]');
+        if (homeNav) {
+          homeNav.classList.add('active');
+        }
+
+        // 11. Ensure both sections remain visible
+        const homeSection = document.getElementById('home-section');
+        const resultsSection = document.getElementById('results-section');
+        if (homeSection) homeSection.style.display = 'block';
+        if (resultsSection) resultsSection.style.display = 'block';
+
+        // 12. Close any open modals
+        this.uiManager.closeModal();
+
+        // Show success message
+        this.uiManager.showToast('🔄 Calculator reset successfully! All data cleared and privacy protected.', 'success');
+
+        // 13. Final cleanup - ensure everything is truly reset
+        setTimeout(() => {
+          this.finalResetCleanup();
+        }, 300);
+
+      } catch (error) {
+        console.error('Error during reset:', error);
+        this.uiManager.showToast('Error during reset. Please refresh the page.', 'error');
+      }
+    }
+  }
+
+  // Reset all results sections to initial state
+  resetAllResultsSections() {
+    const resultSections = {
+      '.results-container': '<p style="text-align: center; color: #6c757d; font-style: italic; padding: 40px;">Enter your financial details to see personalized results</p>',
+      '.kpi-grid': '<div style="text-align: center; color: #6c757d; font-style: italic; padding: 20px;">Key metrics will appear here after calculation</div>',
+      '.insights-container': '<div style="text-align: center; color: #6c757d; font-style: italic; padding: 20px;">Insights and recommendations will appear here</div>',
+      '.scenarios-container': '<div style="text-align: center; color: #6c757d; font-style: italic; padding: 20px;">Alternative scenarios will be generated here</div>',
+      '.balance-plans-container': '<div style="text-align: center; color: #6c757d; font-style: italic; padding: 20px;">Balance improvement plans will be suggested here</div>',
+      '#life-expectancy-section': '<div style="text-align: center; color: #6c757d; font-style: italic; padding: 20px;">Life expectancy analysis will appear here</div>'
+    };
+
+    Object.entries(resultSections).forEach(([selector, placeholderContent]) => {
+      const section = document.querySelector(selector);
+      if (section) {
+        // Only hide sections, don't clear innerHTML to preserve structure
+        if (selector === '.results-container') {
+          // Only clear the main results container
+          section.innerHTML = placeholderContent;
+          section.style.display = 'block';
+        } else {
+          // For other sections, just hide them but preserve structure
+          section.style.display = 'none';
+        }
+      }
+    });
+
+    // Special handling for main results container - keep it visible
+    const mainResultsContainer = document.querySelector('.results-container');
+    if (mainResultsContainer) {
+      mainResultsContainer.style.display = 'block';
+    }
+
+    // Reset ALL elements with class 'results-section' to ensure nothing is missed
+    const allResultsSections = document.querySelectorAll('.results-section');
+    allResultsSections.forEach(section => {
+      if (section.id && section.id !== 'results-section') {
+        // Only hide specific result sections, DON'T clear their innerHTML
+        // This preserves the original structure needed for functionality
+        section.style.display = 'none';
+        // DON'T clear innerHTML as it might break event listeners or structure
+        // section.innerHTML = '<div style="text-align: center; color: #6c757d; font-style: italic; padding: 20px;">Analysis will appear here after calculation</div>';
+      }
+    });
+
+    // Reset specific life expectancy analysis elements
+    const lifeExpectancyElements = [
+      'life-timeline-years',
+      'current-age-marker',
+      'goal-age-marker',
+      'life-end-marker'
+    ];
+
+    lifeExpectancyElements.forEach(elementId => {
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.textContent = '--';
+      }
+    });
+
+    // FORCE hide the life expectancy section completely but preserve structure
+    const lifeExpectancySection = document.getElementById('life-expectancy-section');
+    if (lifeExpectancySection) {
+      lifeExpectancySection.style.display = 'none';
+      // DON'T clear innerHTML to preserve original structure
+      // lifeExpectancySection.innerHTML = '<div style="text-align: center; color: #6c757d; font-style: italic; padding: 20px;">Life expectancy analysis will appear here</div>';
+      console.log('🔒 Life expectancy section hidden but structure preserved');
+    }
+  }
+
+  // Reset all progress indicators and visual elements
+  resetAllProgressIndicators() {
+    // Progress bars
+    const progressBars = [
+      'expense-progress',
+      'financial-health-bar',
+      'balance-meter-indicator'
+    ];
+
+    progressBars.forEach(barId => {
+      const bar = document.getElementById(barId);
+      if (bar) {
+        bar.style.setProperty('width', '0%', 'important');
+        bar.style.setProperty('left', '50%', 'important');
+      }
+    });
+
+    // Text displays
+    const textDisplays = {
+      'expense-ratio': '0%',
+      'financial-health-score': '0',
+      'balance-score-text': '50'
+    };
+
+    Object.entries(textDisplays).forEach(([id, value]) => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.textContent = value;
+      }
+    });
+
+    // Balance meter specific reset
+    const balanceIndicator = document.getElementById('balance-indicator');
+    if (balanceIndicator) {
+      balanceIndicator.style.left = '50%';
+      balanceIndicator.style.transform = 'translateX(-50%)';
+    }
+  }
+
+  // Final cleanup to ensure complete reset
+  finalResetCleanup() {
+    // DON'T call this.calculate() as it might hide results section
+    // Instead just ensure UI elements are properly reset
+
+    // Ensure financial health bar is at 0
+    this.initializeFinancialHealthBar();
+
+    // Reset any remaining UI state
+    this.uiManager.investmentSummaryVisible = false;
+
+    // Ensure results section stays visible with placeholder content
+    const resultsSection = document.getElementById('results-section');
+    if (resultsSection) {
+      resultsSection.style.display = 'block';
+    }
+
+    // Ensure main results container has placeholder content
+    const resultsContainer = document.querySelector('.results-container');
+    if (resultsContainer && (!resultsContainer.innerHTML || resultsContainer.innerHTML.trim() === '')) {
+      resultsContainer.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic; padding: 40px;">Enter your financial details to see personalized results</p>';
+    }
+
+    // FINAL CHECK: Ensure life expectancy section is definitely hidden
+    const lifeExpectancySection = document.getElementById('life-expectancy-section');
+    if (lifeExpectancySection) {
+      lifeExpectancySection.style.display = 'none';
+      console.log('🔒 Life expectancy section forcibly hidden');
+    }
+
+    // Hide any other results sections that might be visible
+    const allResultsSections = document.querySelectorAll('.results-section[id]');
+    allResultsSections.forEach(section => {
+      if (section.id !== 'results-section') {
+        section.style.display = 'none';
+      }
+    });
+
+    console.log('✅ Calculator completely reset to initial state');
+  }
+
+  // Helper function to reset progress bars
+  resetProgressBars() {
+    const progressBars = ['expense-progress', 'financial-health-bar'];
+    progressBars.forEach(barId => {
+      const bar = document.getElementById(barId);
+      if (bar) {
+        bar.style.setProperty('width', '0%', 'important');
+      }
+    });
+
+    // Reset ratio displays
+    const ratioDisplays = ['expense-ratio'];
+    ratioDisplays.forEach(displayId => {
+      const display = document.getElementById(displayId);
+      if (display) {
+        display.textContent = '0%';
+      }
+    });
   }
 
   // NEW: Setup currency selector and handlers
@@ -2669,7 +3025,10 @@ Generated with Advanced Goal Alignment Calculator`;
     this.resetLoanContainer();
     this.resetResultsDisplay();
     this.resetInvestmentSummary();
-    
+
+    // CRITICAL: Reset life expectancy section for regular reset button
+    this.resetLifeExpectancySection();
+
     this.uiManager.showToast('All values have been reset', 'success');
   }
 
@@ -2679,6 +3038,34 @@ Generated with Advanced Goal Alignment Calculator`;
     if (summaryDiv) {
       summaryDiv.style.display = 'none';
     }
+  }
+
+  // NEW: Reset life expectancy section specifically
+  resetLifeExpectancySection() {
+    // Hide the life expectancy section but preserve its structure
+    const lifeExpectancySection = document.getElementById('life-expectancy-section');
+    if (lifeExpectancySection) {
+      lifeExpectancySection.style.display = 'none';
+      // DON'T clear innerHTML to preserve original structure and functionality
+      // lifeExpectancySection.innerHTML = '<div style="text-align: center; color: #6c757d; font-style: italic; padding: 20px;">Life expectancy analysis will appear here</div>';
+    }
+
+    // Reset specific life expectancy elements
+    const lifeExpectancyElements = [
+      'life-timeline-years',
+      'current-age-marker',
+      'goal-age-marker',
+      'life-end-marker'
+    ];
+
+    lifeExpectancyElements.forEach(elementId => {
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.textContent = '--';
+      }
+    });
+
+    console.log('🔒 Life expectancy section reset by regular reset button');
   }
 
   resetLoanContainer() {

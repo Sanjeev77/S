@@ -840,6 +840,91 @@ class UIManager {
     });
   }
 
+  // Generic modal function for privacy and other content
+  showModal(title, content) {
+    // Create modal if it doesn't exist
+    let modal = document.getElementById('generic-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'generic-modal';
+      modal.className = 'modal';
+      modal.style.cssText = `
+        display: none;
+        position: fixed;
+        z-index: 1055;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.4);
+        backdrop-filter: blur(2px);
+      `;
+      document.body.appendChild(modal);
+    }
+
+    modal.innerHTML = `
+      <div class="modal-content" style="
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 0;
+        border: none;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      ">
+        <div style="
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 20px;
+          border-radius: 12px 12px 0 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        ">
+          <h2 style="margin: 0; font-size: 1.3rem; font-weight: 600;">${title}</h2>
+          <span class="close" onclick="uiManager.closeModal()" style="
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+          " onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='transparent'">&times;</span>
+        </div>
+        <div style="padding: 25px;">
+          ${content}
+        </div>
+      </div>
+    `;
+
+    modal.style.display = 'flex';
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
+
+    // Close modal when clicking outside
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        this.closeModal();
+      }
+    };
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        this.closeModal();
+      }
+    });
+  }
+
   selectPlan(element) {
     document.querySelectorAll('.plan-option').forEach(opt => {
       opt.classList.remove('selected');
@@ -1345,11 +1430,18 @@ class UIManager {
 
   // NEW: Update Predicted Lifespan Analysis Section
   updatePredictedLifespanAnalysis(results) {
-    console.log('Updating Predicted Lifespan Analysis with:', results.lifeStageInsights);
-    
+    console.log('🔍 Updating Predicted Lifespan Analysis with:', results.lifeStageInsights);
+    console.log('🔍 Full results object:', results);
+
     const section = document.getElementById('life-expectancy-section');
-    if (!section || !results.lifeStageInsights) {
-      console.log('Life expectancy section or insights not available');
+    if (!section) {
+      console.log('❌ Life expectancy section not found in DOM');
+      return;
+    }
+
+    if (!results.lifeStageInsights) {
+      console.log('❌ Life stage insights not available in results');
+      console.log('🔍 Available result keys:', Object.keys(results));
       return;
     }
 

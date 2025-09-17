@@ -1,3 +1,79 @@
+/* Privacy Banner Mobile Styles */
+@media (max-width: 768px) {
+  .privacy-banner-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .privacy-text h4 {
+    font-size: 1.1rem;
+  }
+
+  .privacy-text p {
+    font-size: 0.9rem;
+  }
+
+  .privacy-badges {
+    justify-content: center;
+  }
+
+  .privacy-badge {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+
+  .privacy-actions {
+    justify-content: center;
+  }
+
+  .privacy-info-btn, .clear-data-btn {
+    font-size: 0.85rem;
+    padding: 7px 14px;
+  }
+
+  .trust-badges-container {
+    text-align: center;
+  }
+
+  .trust-badge {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+    margin: 2px;
+  }
+
+  .privacy-hint {
+    font-size: 0.7rem !important;
+  }
+
+  .privacy-indicator {
+    font-size: 0.8rem;
+  }
+
+  /* Privacy Modal Mobile Styles */
+  #generic-modal .modal-content {
+    width: 95% !important;
+    margin: 2% auto !important;
+    max-height: 90vh !important;
+  }
+
+  #generic-modal .modal-content h2 {
+    font-size: 1.1rem !important;
+  }
+
+  #generic-modal .modal-content h4 {
+    font-size: 1rem !important;
+  }
+
+  #generic-modal .modal-content p {
+    font-size: 0.9rem !important;
+  }
+
+  #generic-modal .modal-content ul li {
+    font-size: 0.9rem !important;
+  }
+}
+
 /* CRITICAL FIX: Balance meter circle - Allow JavaScript control */
 .balance-meter .meter-container .meter-indicator,
 .meter-container .meter-indicator,

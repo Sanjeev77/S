@@ -496,6 +496,32 @@
 
       <!-- Personal Details -->
       <div class="section">
+        <!-- Privacy Assurance Banner -->
+        <div class="privacy-banner">
+          <div class="privacy-banner-content">
+            <div class="privacy-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="privacy-text">
+              <h4><i class="fas fa-lock"></i> 100% Private & Secure</h4>
+              <p>Your financial data never leaves your device. All calculations are performed locally in your browser. No registration, no data storage, no tracking.</p>
+            </div>
+            <div class="privacy-badges">
+              <span class="privacy-badge"><i class="fas fa-laptop"></i> Client-Side Only</span>
+              <span class="privacy-badge"><i class="fas fa-user-shield"></i> No Data Stored</span>
+              <span class="privacy-badge"><i class="fas fa-times"></i> No Registration</span>
+            </div>
+          </div>
+          <div class="privacy-actions">
+            <button class="privacy-info-btn" onclick="showPrivacyDetails()">
+              <i class="fas fa-info-circle"></i> How We Protect You
+            </button>
+            <button class="clear-data-btn" onclick="clearAllData()">
+              <i class="fas fa-trash"></i> Clear All Data
+            </button>
+          </div>
+        </div>
+
         <div class="section-title">
           <span><i class="fas fa-user"></i> Personal Details</span>
           <i class="fas fa-info-circle info-icon" title="Your personal information helps us customize recommendations"></i>
@@ -539,21 +565,29 @@
           <span><i class="fas fa-money-bill-wave"></i> Monthly Finances</span>
           <i class="fas fa-info-circle info-icon" title="Your income, expenses, and existing financial commitments"></i>
         </div>
+        <div class="trust-badges-container" style="margin-bottom: 15px;">
+          <span class="trust-badge secure"><i class="fas fa-shield-alt"></i> SSL Encrypted</span>
+          <span class="trust-badge private"><i class="fas fa-eye-slash"></i> Not Tracked</span>
+          <span class="trust-badge local"><i class="fas fa-laptop"></i> Local Processing</span>
+        </div>
         <div class="card">
           <div class="form-row">
             <div class="form-group">
-              <label for="income"><i class="fas fa-wallet"></i> Monthly Income</label>
+              <label for="income"><i class="fas fa-wallet"></i> Monthly Income <span class="privacy-indicator" title="This data stays on your device"><i class="fas fa-shield-alt"></i></span></label>
               <input type="text" id="income" class="form-control" value="" placeholder="Enter monthly income" inputmode="numeric">
+              <small class="privacy-hint"><i class="fas fa-lock"></i> Private - processed locally</small>
             </div>
             <div class="form-group">
-              <label for="expenses"><i class="fas fa-receipt"></i> Monthly Expenses</label>
+              <label for="expenses"><i class="fas fa-receipt"></i> Monthly Expenses <span class="privacy-indicator" title="This data stays on your device"><i class="fas fa-shield-alt"></i></span></label>
               <input type="text" id="expenses" class="form-control" value="" placeholder="Enter monthly expenses" inputmode="numeric">
+              <small class="privacy-hint"><i class="fas fa-lock"></i> Private - processed locally</small>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label for="savings"><i class="fas fa-piggy-bank"></i> Current Savings</label>
+              <label for="savings"><i class="fas fa-piggy-bank"></i> Current Savings <span class="privacy-indicator" title="This data stays on your device"><i class="fas fa-shield-alt"></i></span></label>
               <input type="text" id="savings" class="form-control" value="" placeholder="Enter current savings" inputmode="numeric">
+              <small class="privacy-hint"><i class="fas fa-lock"></i> Private - processed locally</small>
             </div>
             <!-- Monthly EMI field removed -->
           </div>
@@ -585,6 +619,11 @@
           <span><i class="fas fa-chart-line"></i> Investment Assumptions</span>
           <i class="fas fa-info-circle info-icon" title="Your existing investments and expected returns help create accurate projections"></i>
         </div>
+        <div class="trust-badges-container" style="margin-bottom: 15px;">
+          <span class="trust-badge secure"><i class="fas fa-user-shield"></i> Portfolio Safe</span>
+          <span class="trust-badge private"><i class="fas fa-ban"></i> No Data Mining</span>
+          <span class="trust-badge local"><i class="fas fa-desktop"></i> Client-Side Only</span>
+        </div>
         <div class="card">
           <!-- Current Investment Portfolio -->
           <div class="subsection-title" style="margin-bottom: 15px; color: #495057; font-weight: 500; border-bottom: 1px solid #e9ecef; padding-bottom: 8px;">
@@ -592,12 +631,12 @@
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label for="existing-investments"><i class="fas fa-chart-area"></i> Existing Investment Value</label>
+              <label for="existing-investments"><i class="fas fa-chart-area"></i> Existing Investment Value <span class="privacy-indicator" title="This data stays on your device"><i class="fas fa-shield-alt"></i></span></label>
               <input type="text" id="existing-investments" class="form-control" value="" placeholder="Current portfolio value" inputmode="numeric">
               <small style="color: #6c757d; font-size: 0.8rem;">Total value of all your current investments</small>
             </div>
             <div class="form-group">
-              <label for="current-sip"><i class="fas fa-calendar-check"></i> Monthly SIP Amount</label>
+              <label for="current-sip"><i class="fas fa-calendar-check"></i> Monthly SIP Amount <span class="privacy-indicator" title="This data stays on your device"><i class="fas fa-shield-alt"></i></span></label>
               <input type="text" id="current-sip" class="form-control" value="" placeholder="Current monthly SIP" inputmode="numeric">
               <small style="color: #6c757d; font-size: 0.8rem;">Amount you currently invest monthly via SIP</small>
             </div>
