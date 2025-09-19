@@ -3902,3 +3902,170 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 100);
 
 });
+
+// FAQ and How-to-Use section functionality
+function showHowToUse(event) {
+  if (event) event.preventDefault();
+
+  // Hide all sections first
+  document.querySelectorAll('.section[data-section]').forEach(section => {
+    section.style.display = 'none';
+  });
+
+  // Show the how-to-use section
+  const howToUseSection = document.getElementById('how-to-use-section');
+  if (howToUseSection) {
+    howToUseSection.style.display = 'block';
+
+    // Scroll to the section
+    howToUseSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Update URL hash
+    window.location.hash = 'how-to-use';
+  }
+}
+
+function hideGuideSection() {
+  // Hide the how-to-use section
+  const howToUseSection = document.getElementById('how-to-use-section');
+  if (howToUseSection) {
+    howToUseSection.style.display = 'none';
+  }
+
+  // Show the about section
+  const aboutSection = document.querySelector('.section[data-section="about"]');
+  if (aboutSection) {
+    aboutSection.style.display = 'block';
+  }
+
+  // Clear URL hash
+  if (window.location.hash === '#how-to-use') {
+    history.replaceState(null, null, ' ');
+  }
+
+  // Scroll to about section
+  if (aboutSection) {
+    aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function showFAQ(event) {
+  if (event) event.preventDefault();
+
+  // Hide all sections first
+  document.querySelectorAll('.section[data-section]').forEach(section => {
+    section.style.display = 'none';
+  });
+
+  // Show the FAQ section
+  const faqSection = document.getElementById('faq-section');
+  if (faqSection) {
+    faqSection.style.display = 'block';
+
+    // Scroll to the section
+    faqSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Update URL hash
+    window.location.hash = 'faq';
+  }
+}
+
+function hideFAQSection() {
+  // Hide the FAQ section
+  const faqSection = document.getElementById('faq-section');
+  if (faqSection) {
+    faqSection.style.display = 'none';
+  }
+
+  // Show the about section
+  const aboutSection = document.querySelector('.section[data-section="about"]');
+  if (aboutSection) {
+    aboutSection.style.display = 'block';
+  }
+
+  // Clear URL hash
+  if (window.location.hash === '#faq') {
+    history.replaceState(null, null, ' ');
+  }
+
+  // Scroll to about section
+  if (aboutSection) {
+    aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function toggleFAQ(questionElement) {
+  const faqItem = questionElement.parentElement;
+  const answer = faqItem.querySelector('.faq-answer');
+  const icon = questionElement.querySelector('i');
+
+  if (answer && icon) {
+    // Toggle the active state
+    const isOpen = faqItem.classList.toggle('active');
+
+    if (isOpen) {
+      // Expand the answer
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+      answer.style.opacity = '1';
+      icon.classList.remove('fa-chevron-down');
+      icon.classList.add('fa-chevron-up');
+    } else {
+      // Collapse the answer
+      answer.style.maxHeight = '0';
+      answer.style.opacity = '0';
+      icon.classList.remove('fa-chevron-up');
+      icon.classList.add('fa-chevron-down');
+    }
+  }
+}
+
+// Terms and Conditions function
+function showTermsAndConditions(event) {
+  if (event) event.preventDefault();
+
+  // Open terms page in new tab
+  window.open('terms.html', '_blank');
+}
+
+// About Us function
+function showAboutUs(event) {
+  if (event) event.preventDefault();
+
+  // Open about page in new tab
+  window.open('about.html', '_blank');
+}
+
+// Handle URL hash navigation
+document.addEventListener('DOMContentLoaded', function() {
+  // Check for hash in URL on page load
+  const hash = window.location.hash;
+  if (hash === '#how-to-use') {
+    setTimeout(() => showHowToUse(), 500);
+  } else if (hash === '#faq') {
+    setTimeout(() => showFAQ(), 500);
+  }
+});
+
+// Support button function
+function scrollToSupport() {
+  const supportSection = document.querySelector('.support-section');
+  if (supportSection) {
+    supportSection.scrollIntoView({ behavior: 'smooth' });
+  } else {
+    // If no support section found, scroll to the support button in the main content
+    const supportButton = document.querySelector('.donate-button, .support-button, [class*="support"]');
+    if (supportButton) {
+      supportButton.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+}
+
+// Make functions globally available
+window.showHowToUse = showHowToUse;
+window.hideGuideSection = hideGuideSection;
+window.showFAQ = showFAQ;
+window.hideFAQSection = hideFAQSection;
+window.toggleFAQ = toggleFAQ;
+window.showTermsAndConditions = showTermsAndConditions;
+window.showAboutUs = showAboutUs;
+window.scrollToSupport = scrollToSupport;

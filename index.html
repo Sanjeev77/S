@@ -21,10 +21,12 @@
   <link rel="canonical" href="https://www.zerobalanced.com/">
 
   <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="shortcut icon" href="favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon.svg">
-  <meta name="msapplication-TileImage" content="favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+  <meta name="msapplication-TileImage" content="favicon.png">
 
   <!-- Open Graph Tags -->
   <meta property="og:title" content="Zero Balanced - Find Your Financial Balance">
@@ -93,60 +95,12 @@
   </script>
 </head>
 <body>
-  <!-- Mobile Navigation -->
-  <nav class="mobile-nav">
-    <div class="mobile-nav-item active" data-section="home" onclick="switchMobileSection('home')">
-      <i class="fas fa-home"></i>
-      <span>Home</span>
-    </div>
-    <div class="mobile-nav-item" data-section="results" onclick="switchMobileSection('results')">
-      <i class="fas fa-chart-line"></i>
-      <span>Results</span>
-    </div>
-  </nav>
-
-  <!-- Mobile Ad Space -->
-  <div class="mobile-ad-container">
-    <div class="ad-container mobile-banner">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-5970109164913530"
-           data-ad-slot="1469347266"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>
-           (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-      <!-- Placeholder - will be hidden when ad loads -->
-      <div class="ad-placeholder" style="height: 100px; background-color: #f8f9fa; border: 2px dashed #dee2e6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #6c757d; font-size: 14px; font-weight: 500;">Mobile Banner Ad (320x100)</div>
-    </div>
-  </div>
-
-  <div class="container">
-    <!-- Ad Space: Left Sidebar -->
-    <div class="ad-sidebar left-ad">
-      <div class="ad-container sidebar vertical">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-5970109164913530"
-             data-ad-slot="3568950891"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-        <!-- Placeholder - will be hidden when ad loads -->
-        <div class="ad-placeholder" style="height: 600px; background-color: #f8f9fa; border: 2px dashed #dee2e6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #6c757d; font-size: 14px; font-weight: 500;">Left Vertical Ad (160x600)</div>
-      </div>
-    </div>
-
-    <!-- LEFT PANEL - INPUTS -->
-    <div class="left-panel" id="home-section">
-      <div class="header">
-        <div class="header-content">
-          <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 28.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+  <!-- Main Navigation Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-section">
+        <!-- SVG logo will be added here -->
+         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 4305.4 931.1" style="enable-background:new 0 0 4305.4 931.1; width: 100%; max-width: 400px; height: auto;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#FFFFFF;}
@@ -474,14 +428,58 @@
 	</g>
 </g>
 </svg>
-
-
-          <a href="https://ko-fi.com/sanjeeev" target="_blank" class="support-button" title="Support our work">
-            <i class="fas fa-heart"></i>
-            <span>support me</span>
-          </a>
-        </div>
       </div>
+      <nav class="main-navigation">
+        <a href="index.html" class="nav-link active">
+          <i class="fas fa-calculator"></i>
+          <span>Calculator</span>
+        </a>
+        <a href="blog.html" target="_blank" class="nav-link">
+          <i class="fas fa-book"></i>
+          <span>Blog</span>
+        </a>
+        <a href="about.html" target="_blank" class="nav-link">
+          <i class="fas fa-info-circle"></i>
+          <span>About</span>
+        </a>
+        <a href="https://ko-fi.com/sanjeeev" target="_blank" class="nav-link support-btn">
+          <i class="fas fa-heart"></i>
+          <span>Support Me</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-item active" data-section="home" onclick="switchMobileSection('home')">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </div>
+    <div class="mobile-nav-item" data-section="results" onclick="switchMobileSection('results')">
+      <i class="fas fa-chart-line"></i>
+      <span>Results</span>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Ad Space: Left Sidebar -->
+    <div class="ad-sidebar left-ad">
+      <div class="ad-container sidebar vertical">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5970109164913530"
+             data-ad-slot="3568950891"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+    </div>
+
+    <!-- LEFT PANEL - INPUTS -->
+    <div class="left-panel" id="home-section">
 
       <!-- Tagline Section -->
       <div class="tagline-section">
@@ -704,20 +702,6 @@
         </div>
       </div>
 
-      <!-- Ad Space 1: Native ad after goals -->
-      <div class="ad-container banner">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-5970109164913530"
-             data-ad-slot="1469347266"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-        <!-- Placeholder - will be hidden when ad loads -->
-        <div class="ad-placeholder" style="height: 120px; background-color: #f8f9fa; border: 2px dashed #dee2e6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #6c757d; font-size: 14px; font-weight: 500;">Banner Ad (728x90)</div>
-      </div>
 
       <!-- Visualization Section -->
       <div class="section" data-section="visualization">
@@ -741,20 +725,6 @@
       </div>
 
 
-      <!-- Ad Space 4: Bottom banner before about section -->
-      <div class="ad-container banner">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-5970109164913530"
-             data-ad-slot="1469347266"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-        <!-- Placeholder - will be hidden when ad loads -->
-        <div class="ad-placeholder" style="height: 120px; background-color: #f8f9fa; border: 2px dashed #dee2e6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #6c757d; font-size: 14px; font-weight: 500;">Banner Ad (728x90)</div>
-      </div>
 
       <!-- About & Legal Information -->
       <div class="section" data-section="about">
@@ -804,6 +774,362 @@
                 <p>&copy; 2025 Zero Balanced - Find Your Financial Balance</p>
                 <p class="version-info">Made with <i class="fas fa-heart" style="color: #e74c3c;"></i> for better financial planning</p>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- How to Use Guide Section -->
+      <div class="section" data-section="how-to-use" id="how-to-use-section" style="display: none;">
+        <div class="section-title"><i class="fas fa-book-open"></i> How to Use Zero Balanced Calculator</div>
+        <div class="guide-card">
+          <div class="guide-content">
+            <h4>Complete Step-by-Step Guide</h4>
+            <p>Follow this comprehensive guide to maximize the potential of our financial planning calculator and get the most accurate results for your financial goals.</p>
+
+            <div class="guide-steps">
+              <div class="guide-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h5><i class="fas fa-user"></i> Enter Personal Information</h5>
+                  <ul>
+                    <li><strong>Current Age:</strong> Your age today (used for life stage analysis)</li>
+                    <li><strong>Life Expectancy:</strong> Realistic estimate (average is 75-80 years in India)</li>
+                    <li><strong>Planning Timeline:</strong> Years until you want to achieve your goals</li>
+                  </ul>
+                  <div class="tip">
+                    <i class="fas fa-lightbulb"></i>
+                    <span><strong>Tip:</strong> Be realistic with life expectancy - this affects retirement planning calculations.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="guide-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h5><i class="fas fa-money-bill-wave"></i> Input Financial Details</h5>
+                  <ul>
+                    <li><strong>Monthly Income:</strong> Total monthly income (post-tax)</li>
+                    <li><strong>Monthly Expenses:</strong> All regular monthly expenses</li>
+                    <li><strong>Current Savings:</strong> Total liquid savings available today</li>
+                    <li><strong>Existing EMI:</strong> All current loan EMIs combined</li>
+                  </ul>
+                  <div class="tip">
+                    <i class="fas fa-lightbulb"></i>
+                    <span><strong>Tip:</strong> Include all expenses - utilities, groceries, entertainment, insurance premiums.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="guide-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h5><i class="fas fa-seedling"></i> Configure Investment Settings</h5>
+                  <ul>
+                    <li><strong>Expected Returns:</strong> 8-12% for balanced portfolio, 12-15% for aggressive</li>
+                    <li><strong>Inflation Rate:</strong> Typically 4-6% in India</li>
+                    <li><strong>Existing Investments:</strong> Current investment portfolio value</li>
+                    <li><strong>Current SIP:</strong> Monthly systematic investment amount</li>
+                  </ul>
+                  <div class="tip">
+                    <i class="fas fa-lightbulb"></i>
+                    <span><strong>Tip:</strong> Conservative estimate: 10% returns, 5% inflation for realistic planning.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="guide-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h5><i class="fas fa-bullseye"></i> Set Your Financial Goals</h5>
+                  <ul>
+                    <li><strong>Emergency Fund:</strong> 6-12 months of expenses</li>
+                    <li><strong>Home Purchase:</strong> Down payment + registration costs</li>
+                    <li><strong>Education Fund:</strong> Child's higher education (adjust for inflation)</li>
+                    <li><strong>Retirement Corpus:</strong> 25-30x annual retirement expenses</li>
+                    <li><strong>Vehicle Purchase:</strong> Car/bike purchase amount</li>
+                  </ul>
+                  <div class="tip">
+                    <i class="fas fa-lightbulb"></i>
+                    <span><strong>Tip:</strong> Prioritize emergency fund first, then other goals based on urgency.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="guide-step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                  <h5><i class="fas fa-chart-line"></i> Analyze Results</h5>
+                  <ul>
+                    <li><strong>Monthly Investment Needed:</strong> Additional amount to invest monthly</li>
+                    <li><strong>Financial Health Score:</strong> Overall financial wellness (aim for 70+)</li>
+                    <li><strong>Balance Score:</strong> Work-life balance indicator</li>
+                    <li><strong>Goal Timeline:</strong> Realistic time to achieve all goals</li>
+                  </ul>
+                  <div class="tip">
+                    <i class="fas fa-lightbulb"></i>
+                    <span><strong>Tip:</strong> If timeline is too long, consider increasing income or reducing goal amounts.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="guide-step">
+                <div class="step-number">6</div>
+                <div class="step-content">
+                  <h5><i class="fas fa-sync-alt"></i> Use Scenarios & Insights</h5>
+                  <ul>
+                    <li><strong>Alternative Scenarios:</strong> Compare different investment strategies</li>
+                    <li><strong>Balance Plans:</strong> Age-appropriate investment recommendations</li>
+                    <li><strong>Personalized Insights:</strong> AI-driven suggestions for improvement</li>
+                    <li><strong>Export Data:</strong> Save your plan as JSON for future reference</li>
+                  </ul>
+                  <div class="tip">
+                    <i class="fas fa-lightbulb"></i>
+                    <span><strong>Tip:</strong> Review and update your plan every 6 months or after major life changes.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="best-practices">
+              <h5><i class="fas fa-star"></i> Best Practices for Accurate Planning</h5>
+              <div class="practices-grid">
+                <div class="practice-item">
+                  <i class="fas fa-check-circle"></i>
+                  <span><strong>Be Conservative:</strong> Use realistic return expectations (10-12%) rather than optimistic ones</span>
+                </div>
+                <div class="practice-item">
+                  <i class="fas fa-check-circle"></i>
+                  <span><strong>Account for Inflation:</strong> Factor in 5-6% inflation for future goal costs</span>
+                </div>
+                <div class="practice-item">
+                  <i class="fas fa-check-circle"></i>
+                  <span><strong>Regular Updates:</strong> Revise your plan annually or after major life events</span>
+                </div>
+                <div class="practice-item">
+                  <i class="fas fa-check-circle"></i>
+                  <span><strong>Emergency Buffer:</strong> Always maintain 6 months expenses as emergency fund</span>
+                </div>
+                <div class="practice-item">
+                  <i class="fas fa-check-circle"></i>
+                  <span><strong>Start Early:</strong> Time is your biggest advantage in wealth building</span>
+                </div>
+                <div class="practice-item">
+                  <i class="fas fa-check-circle"></i>
+                  <span><strong>Diversify Investments:</strong> Don't put all money in one asset class</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="action-buttons">
+              <button onclick="hideGuideSection()" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Calculator
+              </button>
+              <a href="blog.html" class="btn btn-primary">
+                <i class="fas fa-book"></i> Read Detailed Guides
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="section" data-section="faq" id="faq-section" style="display: none;">
+        <div class="section-title"><i class="fas fa-question-circle"></i> Frequently Asked Questions</div>
+        <div class="faq-card">
+          <div class="faq-content">
+            <h4>Get Answers to Common Questions</h4>
+            <p>Find answers to the most frequently asked questions about financial planning and using our calculator.</p>
+
+            <div class="faq-categories">
+              <div class="faq-category">
+                <h5><i class="fas fa-calculator"></i> Calculator Usage</h5>
+                <div class="faq-items">
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>How accurate are the calculator results?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>Our calculator uses proven financial formulas and industry-standard assumptions. Results are estimates based on your inputs and should be used for planning purposes. Actual results may vary due to market conditions, tax changes, and other factors. Always consult a financial advisor for personalized advice.</p>
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>Is my financial data safe and private?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>Yes, absolutely! All calculations happen locally in your browser. Your financial data never leaves your device and is not transmitted to our servers. We don't store, access, or share any of your personal financial information.</p>
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>Can I save my financial plan?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>Yes! You can export your complete financial plan as a JSON file using the "Download JSON" option. This file can be imported later to restore your plan. You can also generate a shareable image of your financial summary.</p>
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>What returns should I expect for investments?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>Conservative planning suggests 8-10% for balanced portfolios and 10-12% for equity-heavy portfolios over long term (15+ years). For shorter terms (5-10 years), expect 6-8%. These are historical averages and future returns may vary.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-category">
+                <h5><i class="fas fa-bullseye"></i> Financial Planning</h5>
+                <div class="faq-items">
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>How much should I save for retirement?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>A good rule of thumb is to save 25-30 times your annual retirement expenses. If you need ₹5 lakhs per year in retirement, aim for a corpus of ₹1.25-1.5 crores. Start early to benefit from compounding - even ₹5,000/month at age 25 can build a substantial retirement corpus.</p>
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>What's the ideal emergency fund size?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>Maintain 6-12 months of expenses as emergency fund. For salaried individuals, 6 months is sufficient. For business owners or those with variable income, aim for 12 months. Keep this in liquid instruments like savings accounts or liquid mutual funds.</p>
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>Should I pay off loans first or invest?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>It depends on the loan interest rate. If your loan interest rate is higher than expected investment returns (e.g., credit card debt at 18-24%), prioritize paying off debt. For home loans at 8-10%, you can invest simultaneously as long-term equity returns typically exceed these rates.</p>
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>How often should I review my financial plan?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>Review your financial plan every 6 months or after major life events (marriage, child birth, job change, salary increment). Annual reviews are minimum. This ensures your plan stays aligned with your changing circumstances and market conditions.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-category">
+                <h5><i class="fas fa-chart-line"></i> Investments & SIP</h5>
+                <div class="faq-items">
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>What's the difference between SIP and lump sum investment?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>SIP (Systematic Investment Plan) involves investing a fixed amount regularly, which averages out market volatility (rupee cost averaging). Lump sum means investing the entire amount at once. SIP is better for regular income earners and reduces timing risk, while lump sum can be better if you have surplus funds and markets are low.</p>
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>How much should I invest in equity vs debt?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>A common rule is "100 minus your age" in equity. For example, at age 30, invest 70% in equity and 30% in debt. However, this varies based on risk tolerance, goals, and market conditions. For long-term goals (10+ years), you can have higher equity allocation.</p>
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>Which mutual funds should I choose?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>Focus on low-cost index funds or well-performing active funds with consistent track records. For beginners, consider diversified equity funds, balanced advantage funds, or target date funds. Always check expense ratios (prefer <1.5%) and fund manager tenure. Consult a financial advisor for personalized recommendations.</p>
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>Can I change my SIP amount later?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>Yes! Most SIPs allow you to increase, decrease, or pause your investments. Many funds offer SIP top-up features where you can automatically increase your SIP amount annually (typically 5-10%). This helps you invest your salary increments systematically.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-category">
+                <h5><i class="fas fa-shield-alt"></i> Risk & Safety</h5>
+                <div class="faq-items">
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>What if I can't achieve my financial goals on time?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>Don't panic! You have several options: 1) Extend your timeline, 2) Increase monthly investments, 3) Reduce goal amounts, 4) Optimize your investment strategy for better returns, 5) Look for additional income sources. The key is to start early and stay consistent with your investments.</p>
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>How do I protect my investments from market crashes?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>Diversification is key: spread investments across asset classes, geographies, and time. Maintain asset allocation discipline, don't panic sell during market downturns, and keep investing through SIPs to benefit from rupee cost averaging. Have adequate emergency funds so you don't need to withdraw investments during emergencies.</p>
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                      <span>Should I invest if I have existing loans?</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <p>Yes, but prioritize high-interest debt first. Pay minimum EMIs on low-interest loans (like home loans) and invest the surplus. For high-interest loans (credit cards, personal loans), focus on clearing them first. Once high-interest debt is cleared, allocate more towards investments while maintaining loan EMIs.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="faq-contact">
+              <div class="contact-box">
+                <h5><i class="fas fa-envelope"></i> Still Have Questions?</h5>
+                <p>Can't find the answer you're looking for? We're here to help! Send us your questions and we'll get back to you.</p>
+                <a href="contact.html" class="btn btn-primary">
+                  <i class="fas fa-paper-plane"></i> Contact Us
+                </a>
+              </div>
+            </div>
+
+            <div class="action-buttons">
+              <button onclick="hideFAQSection()" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Calculator
+              </button>
+              <a href="blog.html" class="btn btn-primary">
+                <i class="fas fa-book"></i> Read Detailed Guides
+              </a>
             </div>
           </div>
         </div>
@@ -997,8 +1323,6 @@
         <script>
              (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
-        <!-- Placeholder - will be hidden when ad loads -->
-        <div class="ad-placeholder" style="height: 120px; background-color: #f8f9fa; border: 2px dashed #dee2e6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #6c757d; font-size: 14px; font-weight: 500;">Banner Ad (728x90)</div>
       </div>
 
 
@@ -1069,8 +1393,6 @@
         <script>
              (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
-        <!-- Placeholder - will be hidden when ad loads -->
-        <div class="ad-placeholder" style="height: 600px; background-color: #f8f9fa; border: 2px dashed #dee2e6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #6c757d; font-size: 14px; font-weight: 500;">Right Vertical Ad (160x600)</div>
       </div>
     </div>
   </div>
