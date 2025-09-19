@@ -499,63 +499,491 @@
           </script>
         </div>
 
-        <!-- Article 1: Financial Plan Guide -->
-        <section id="financial-plan-guide" class="full-article">
-          <h2>How to Create a Comprehensive Financial Plan</h2>
-          <div class="article-meta">
-            <span><i class="fas fa-calendar"></i> Last updated: January 2024</span>
-            <span><i class="fas fa-clock"></i> 8 minute read</span>
-            <span><i class="fas fa-user"></i> By Zero Balanced Team</span>
+        <!-- Article Display Container -->
+        <div id="article-display-container" class="article-display-container" style="display: none;">
+          <div id="article-content" class="article-content-display">
+            <button id="close-article" class="close-article-btn">
+              <i class="fas fa-times"></i>
+            </button>
+            <!-- Dynamic article content will be loaded here -->
           </div>
+        </div>
 
-          <div class="article-body">
-            <h3>1. Assess Your Current Financial Situation</h3>
-            <p>Before setting financial goals, you need to understand where you stand today. Calculate your net worth by listing all assets (savings, investments, property) and subtracting all liabilities (loans, credit card debt, mortgages).</p>
+        <!-- Hidden Article Templates -->
+        <div id="article-templates" style="display: none;">
 
-            <div class="tip-box">
-              <h4><i class="fas fa-lightbulb"></i> Pro Tip</h4>
-              <p>Use our Zero Balanced calculator to get an instant snapshot of your financial health and goal requirements.</p>
+          <!-- Financial Plan Guide Template -->
+          <div id="financial-plan-guide-template" class="article-template">
+            <h2>How to Create a Comprehensive Financial Plan</h2>
+            <div class="article-meta">
+              <span><i class="fas fa-calendar"></i> Last updated: January 2024</span>
+              <span><i class="fas fa-clock"></i> 8 minute read</span>
+              <span><i class="fas fa-user"></i> By Zero Balanced Team</span>
             </div>
 
-            <h3>2. Define Your Financial Goals</h3>
-            <p>Financial goals should be SMART: Specific, Measurable, Achievable, Relevant, and Time-bound. Common goals include:</p>
-            <ul>
-              <li><strong>Emergency Fund:</strong> 6-12 months of expenses</li>
-              <li><strong>Home Purchase:</strong> Down payment + closing costs</li>
-              <li><strong>Child's Education:</strong> Future education costs adjusted for inflation</li>
-              <li><strong>Retirement:</strong> 25-30x annual expenses at retirement</li>
-              <li><strong>Debt Payoff:</strong> Clear timeline for all debts</li>
-            </ul>
+            <div class="article-body">
+              <h3>1. Assess Your Current Financial Situation</h3>
+              <p>Before setting financial goals, you need to understand where you stand today. Calculate your net worth by listing all assets (savings, investments, property) and subtracting all liabilities (loans, credit card debt, mortgages).</p>
 
-            <h3>3. Create a Budget and Track Expenses</h3>
-            <p>The 50/30/20 rule is a great starting point:</p>
-            <ul>
-              <li><strong>50% Needs:</strong> Housing, utilities, groceries, minimum debt payments</li>
-              <li><strong>30% Wants:</strong> Entertainment, dining out, hobbies</li>
-              <li><strong>20% Savings & Investments:</strong> Emergency fund, retirement, goals</li>
-            </ul>
+              <div class="tip-box">
+                <h4><i class="fas fa-lightbulb"></i> Pro Tip</h4>
+                <p>Use our Zero Balanced calculator to get an instant snapshot of your financial health and goal requirements.</p>
+              </div>
 
-            <h3>4. Build Your Investment Strategy</h3>
-            <p>Your investment allocation should align with your age, risk tolerance, and time horizon:</p>
-            <ul>
-              <li><strong>Emergency Fund:</strong> High-yield savings account or liquid funds</li>
-              <li><strong>Short-term goals (1-3 years):</strong> Debt funds, FDs</li>
-              <li><strong>Medium-term goals (3-7 years):</strong> Balanced mutual funds</li>
-              <li><strong>Long-term goals (7+ years):</strong> Equity mutual funds, stocks</li>
-            </ul>
+              <h3>2. Define Your Financial Goals</h3>
+              <p>Financial goals should be SMART: Specific, Measurable, Achievable, Relevant, and Time-bound. Common goals include:</p>
+              <ul>
+                <li><strong>Emergency Fund:</strong> 6-12 months of expenses</li>
+                <li><strong>Home Purchase:</strong> Down payment + closing costs</li>
+                <li><strong>Child's Education:</strong> Future education costs adjusted for inflation</li>
+                <li><strong>Retirement:</strong> 25-30x annual expenses at retirement</li>
+                <li><strong>Debt Payoff:</strong> Clear timeline for all debts</li>
+              </ul>
 
-            <h3>5. Regular Review and Adjustment</h3>
-            <p>Review your financial plan every 6 months or when major life events occur. Adjust goals, rebalance investments, and track progress regularly.</p>
+              <h3>3. Create a Budget and Track Expenses</h3>
+              <p>The 50/30/20 rule is a great starting point:</p>
+              <ul>
+                <li><strong>50% Needs:</strong> Housing, utilities, groceries, minimum debt payments</li>
+                <li><strong>30% Wants:</strong> Entertainment, dining out, hobbies</li>
+                <li><strong>20% Savings & Investments:</strong> Emergency fund, retirement, goals</li>
+              </ul>
 
-            <div class="action-box">
-              <h4><i class="fas fa-rocket"></i> Take Action Now</h4>
-              <p>Start planning today with our comprehensive financial calculator. Input your goals and get personalized recommendations.</p>
-              <a href="index.html" class="btn btn-primary">Use Financial Calculator</a>
+              <h3>4. Build Your Investment Strategy</h3>
+              <p>Your investment allocation should align with your age, risk tolerance, and time horizon:</p>
+              <ul>
+                <li><strong>Emergency Fund:</strong> High-yield savings account or liquid funds</li>
+                <li><strong>Short-term goals (1-3 years):</strong> Debt funds, FDs</li>
+                <li><strong>Medium-term goals (3-7 years):</strong> Balanced mutual funds</li>
+                <li><strong>Long-term goals (7+ years):</strong> Equity mutual funds, stocks</li>
+              </ul>
+
+              <h3>5. Regular Review and Adjustment</h3>
+              <p>Review your financial plan every 6 months or when major life events occur. Adjust goals, rebalance investments, and track progress regularly.</p>
+
+              <div class="action-box">
+                <h4><i class="fas fa-rocket"></i> Take Action Now</h4>
+                <p>Start planning today with our comprehensive financial calculator. Input your goals and get personalized recommendations.</p>
+                <a href="index.html" class="btn btn-primary">Use Financial Calculator</a>
+              </div>
             </div>
           </div>
-        </section>
 
-        <!-- Continue with more articles... -->
+          <!-- Investment Strategies Template -->
+          <div id="investment-strategies-template" class="article-template">
+            <h2>Investment Strategies for Different Age Groups</h2>
+            <div class="article-meta">
+              <span><i class="fas fa-calendar"></i> Last updated: January 2024</span>
+              <span><i class="fas fa-clock"></i> 10 minute read</span>
+              <span><i class="fas fa-user"></i> By Zero Balanced Team</span>
+            </div>
+
+            <div class="article-body">
+              <h3>Investment Strategy in Your 20s: Aggressive Growth</h3>
+              <p>In your 20s, time is your greatest asset. With 40+ years until retirement, you can afford to take higher risks for potentially higher returns.</p>
+
+              <ul>
+                <li><strong>Equity Allocation:</strong> 80-90% in equity mutual funds</li>
+                <li><strong>Focus Areas:</strong> Large cap, mid cap, and small cap diversification</li>
+                <li><strong>SIP Amount:</strong> Start with ₹2,000-5,000 per month</li>
+                <li><strong>Emergency Fund:</strong> 3-6 months of expenses</li>
+              </ul>
+
+              <div class="tip-box">
+                <h4><i class="fas fa-lightbulb"></i> Pro Tip</h4>
+                <p>Start early even with small amounts. A ₹2,000 SIP started at 25 can create more wealth than ₹10,000 SIP started at 35.</p>
+              </div>
+
+              <h3>Investment Strategy in Your 30s: Balanced Growth</h3>
+              <p>Your 30s are crucial for wealth building while managing increasing responsibilities like home loans and family expenses.</p>
+
+              <ul>
+                <li><strong>Equity Allocation:</strong> 70-80% in equity, 20-30% in debt</li>
+                <li><strong>Focus Areas:</strong> Diversified equity funds, ELSS for tax saving</li>
+                <li><strong>Goal-based Investing:</strong> Separate funds for child's education, home purchase</li>
+                <li><strong>Insurance:</strong> Adequate term life and health insurance</li>
+              </ul>
+
+              <h3>Investment Strategy in Your 40s: Moderate Approach</h3>
+              <p>With retirement 15-20 years away, maintain growth while gradually reducing risk.</p>
+
+              <ul>
+                <li><strong>Equity Allocation:</strong> 60-70% in equity, 30-40% in debt</li>
+                <li><strong>Focus Areas:</strong> Blue-chip stocks, balanced funds, debt funds</li>
+                <li><strong>Goals:</strong> Intensify retirement planning, child's higher education</li>
+                <li><strong>Review:</strong> Annual portfolio rebalancing becomes crucial</li>
+              </ul>
+
+              <h3>Investment Strategy in Your 50s & 60s: Capital Preservation</h3>
+              <p>Focus shifts to capital preservation and generating steady income for retirement.</p>
+
+              <ul>
+                <li><strong>Equity Allocation:</strong> 40-50% in equity, 50-60% in debt</li>
+                <li><strong>Focus Areas:</strong> Conservative hybrid funds, senior citizen schemes</li>
+                <li><strong>Income Generation:</strong> Dividend funds, FDs, government bonds</li>
+                <li><strong>Liquidity:</strong> Keep higher emergency fund (12+ months)</li>
+              </ul>
+
+              <div class="action-box">
+                <h4><i class="fas fa-calculator"></i> Calculate Your Strategy</h4>
+                <p>Use our age-based investment calculator to determine the right allocation for your age and goals.</p>
+                <a href="index.html" class="btn btn-primary">Use Investment Calculator</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- SIP and Mutual Funds Template -->
+          <div id="sip-mutual-funds-template" class="article-template">
+            <h2>Understanding SIP and Mutual Funds</h2>
+            <div class="article-meta">
+              <span><i class="fas fa-calendar"></i> Last updated: January 2024</span>
+              <span><i class="fas fa-clock"></i> 7 minute read</span>
+              <span><i class="fas fa-user"></i> By Zero Balanced Team</span>
+            </div>
+
+            <div class="article-body">
+              <h3>What is SIP (Systematic Investment Plan)?</h3>
+              <p>SIP is a method of investing in mutual funds where you invest a fixed amount regularly (monthly/quarterly) instead of making a lump sum investment.</p>
+
+              <div class="tip-box">
+                <h4><i class="fas fa-chart-line"></i> Key Benefits of SIP</h4>
+                <ul>
+                  <li><strong>Rupee Cost Averaging:</strong> Buy more units when prices are low, fewer when high</li>
+                  <li><strong>Discipline:</strong> Automated investing builds a habit</li>
+                  <li><strong>Flexibility:</strong> Start with as little as ₹500 per month</li>
+                  <li><strong>Compounding:</strong> Long-term wealth creation through compound returns</li>
+                </ul>
+              </div>
+
+              <h3>Types of Mutual Funds</h3>
+
+              <h4>1. Equity Funds</h4>
+              <ul>
+                <li><strong>Large Cap:</strong> Invest in top 100 companies (lower risk)</li>
+                <li><strong>Mid Cap:</strong> Companies ranked 101-250 (moderate risk)</li>
+                <li><strong>Small Cap:</strong> Companies beyond 250 (higher risk, higher potential returns)</li>
+                <li><strong>Multi Cap:</strong> Diversified across all market caps</li>
+              </ul>
+
+              <h4>2. Debt Funds</h4>
+              <ul>
+                <li><strong>Liquid Funds:</strong> For emergency funds (1-7 days)</li>
+                <li><strong>Short Duration:</strong> For 1-3 year goals</li>
+                <li><strong>Medium Duration:</strong> For 3-5 year goals</li>
+                <li><strong>Long Duration:</strong> For long-term debt allocation</li>
+              </ul>
+
+              <h4>3. Hybrid Funds</h4>
+              <ul>
+                <li><strong>Conservative:</strong> 20-30% equity, 70-80% debt</li>
+                <li><strong>Aggressive:</strong> 65-80% equity, 20-35% debt</li>
+                <li><strong>Balanced:</strong> 50-50 equity and debt allocation</li>
+              </ul>
+
+              <h3>How to Choose the Right Mutual Fund</h3>
+              <ol>
+                <li><strong>Define Your Goal:</strong> Time horizon and risk tolerance</li>
+                <li><strong>Check Performance:</strong> 3-5 year track record</li>
+                <li><strong>Expense Ratio:</strong> Lower is better (below 1% for equity funds)</li>
+                <li><strong>Fund Manager:</strong> Experience and consistency</li>
+                <li><strong>Fund Size:</strong> Not too small (₹500+ cr) or too large (₹50,000+ cr)</li>
+              </ol>
+
+              <div class="action-box">
+                <h4><i class="fas fa-search"></i> Find Your Perfect SIP</h4>
+                <p>Calculate how much SIP you need for your goals and get fund recommendations.</p>
+                <a href="index.html" class="btn btn-primary">SIP Calculator</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Emergency Fund Template -->
+          <div id="emergency-fund-template" class="article-template">
+            <h2>Emergency Fund Planning</h2>
+            <div class="article-meta">
+              <span><i class="fas fa-calendar"></i> Last updated: January 2024</span>
+              <span><i class="fas fa-clock"></i> 6 minute read</span>
+              <span><i class="fas fa-user"></i> By Zero Balanced Team</span>
+            </div>
+
+            <div class="article-body">
+              <h3>What is an Emergency Fund?</h3>
+              <p>An emergency fund is money set aside specifically for unexpected expenses or financial emergencies like job loss, medical expenses, or major repairs.</p>
+
+              <div class="tip-box">
+                <h4><i class="fas fa-shield-alt"></i> Why You Need an Emergency Fund</h4>
+                <ul>
+                  <li>Avoid debt during emergencies</li>
+                  <li>Financial peace of mind</li>
+                  <li>Prevent dipping into investments</li>
+                  <li>Handle job loss or income reduction</li>
+                </ul>
+              </div>
+
+              <h3>How Much Should You Save?</h3>
+
+              <h4>Based on Employment Type:</h4>
+              <ul>
+                <li><strong>Salaried Employees:</strong> 6-9 months of expenses</li>
+                <li><strong>Business Owners:</strong> 9-12 months of expenses</li>
+                <li><strong>Freelancers:</strong> 12+ months of expenses</li>
+                <li><strong>Dual Income Family:</strong> 6 months of expenses</li>
+              </ul>
+
+              <h4>Based on Dependents:</h4>
+              <ul>
+                <li><strong>Single, No Dependents:</strong> 3-6 months</li>
+                <li><strong>Married, No Children:</strong> 6 months</li>
+                <li><strong>With Children:</strong> 9-12 months</li>
+                <li><strong>Elderly Parents:</strong> Add 2-3 months</li>
+              </ul>
+
+              <h3>Where to Keep Your Emergency Fund</h3>
+
+              <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+                <tr style="background: #f8f9fa;">
+                  <th style="padding: 0.5rem; border: 1px solid #ddd;">Option</th>
+                  <th style="padding: 0.5rem; border: 1px solid #ddd;">Returns</th>
+                  <th style="padding: 0.5rem; border: 1px solid #ddd;">Liquidity</th>
+                  <th style="padding: 0.5rem; border: 1px solid #ddd;">Best For</th>
+                </tr>
+                <tr>
+                  <td style="padding: 0.5rem; border: 1px solid #ddd;">High-Yield Savings</td>
+                  <td style="padding: 0.5rem; border: 1px solid #ddd;">3-4%</td>
+                  <td style="padding: 0.5rem; border: 1px solid #ddd;">Instant</td>
+                  <td style="padding: 0.5rem; border: 1px solid #ddd;">Primary emergency fund</td>
+                </tr>
+                <tr style="background: #f8f9fa;">
+                  <td style="padding: 0.5rem; border: 1px solid #ddd;">Liquid Mutual Funds</td>
+                  <td style="padding: 0.5rem; border: 1px solid #ddd;">4-6%</td>
+                  <td style="padding: 0.5rem; border: 1px solid #ddd;">1-2 days</td>
+                  <td style="padding: 0.5rem; border: 1px solid #ddd;">Larger emergency corpus</td>
+                </tr>
+                <tr>
+                  <td style="padding: 0.5rem; border: 1px solid #ddd;">Short-term FDs</td>
+                  <td style="padding: 0.5rem; border: 1px solid #ddd;">5-7%</td>
+                  <td style="padding: 0.5rem; border: 1px solid #ddd;">Penalty on early withdrawal</td>
+                  <td style="padding: 0.5rem; border: 1px solid #ddd;">Excess emergency funds</td>
+                </tr>
+              </table>
+
+              <h3>How to Build Your Emergency Fund</h3>
+              <ol>
+                <li><strong>Start Small:</strong> Aim for ₹25,000 initially</li>
+                <li><strong>Automate:</strong> Set up automatic transfers</li>
+                <li><strong>Use Windfalls:</strong> Bonuses, tax refunds, gifts</li>
+                <li><strong>Cut Expenses:</strong> Temporarily reduce non-essential spending</li>
+                <li><strong>Side Income:</strong> Freelancing, part-time work</li>
+              </ol>
+
+              <div class="action-box">
+                <h4><i class="fas fa-calculator"></i> Calculate Your Emergency Fund</h4>
+                <p>Determine exactly how much emergency fund you need based on your situation.</p>
+                <a href="index.html" class="btn btn-primary">Emergency Fund Calculator</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Retirement Planning Template -->
+          <div id="retirement-planning-template" class="article-template">
+            <h2>Retirement Planning Basics</h2>
+            <div class="article-meta">
+              <span><i class="fas fa-calendar"></i> Last updated: January 2024</span>
+              <span><i class="fas fa-clock"></i> 9 minute read</span>
+              <span><i class="fas fa-user"></i> By Zero Balanced Team</span>
+            </div>
+
+            <div class="article-body">
+              <h3>Why Start Retirement Planning Early?</h3>
+              <p>Retirement planning is about ensuring financial independence when you stop working. Starting early gives you the powerful advantage of compound growth.</p>
+
+              <div class="tip-box">
+                <h4><i class="fas fa-clock"></i> The Power of Starting Early</h4>
+                <p>A 25-year-old investing ₹5,000/month for 40 years at 12% returns will have ₹9.8 crores. A 35-year-old would need ₹15,000/month to achieve the same corpus!</p>
+              </div>
+
+              <h3>How Much Do You Need for Retirement?</h3>
+
+              <h4>The 25x Rule</h4>
+              <p>A general rule is to have 25-30 times your annual expenses saved by retirement. If you spend ₹10 lakhs annually, you need ₹2.5-3 crores.</p>
+
+              <h4>Factors to Consider:</h4>
+              <ul>
+                <li><strong>Inflation:</strong> Expenses will be 4-6x higher in 30 years</li>
+                <li><strong>Lifestyle:</strong> Travel, healthcare, hobbies</li>
+                <li><strong>Healthcare:</strong> Medical costs increase with age</li>
+                <li><strong>Dependents:</strong> Supporting children or parents</li>
+                <li><strong>Debt:</strong> Ensure all debts are cleared before retirement</li>
+              </ul>
+
+              <h3>Retirement Investment Options</h3>
+
+              <h4>1. Employer Provident Fund (EPF)</h4>
+              <ul>
+                <li>12% of salary contributed by you and employer</li>
+                <li>Tax-free returns (8-8.5% currently)</li>
+                <li>Mandatory for salaried employees</li>
+              </ul>
+
+              <h4>2. Public Provident Fund (PPF)</h4>
+              <ul>
+                <li>15-year lock-in with extension option</li>
+                <li>₹1.5 lakh annual investment limit</li>
+                <li>Tax-free returns (7-8% currently)</li>
+                <li>EEE tax benefit</li>
+              </ul>
+
+              <h4>3. National Pension System (NPS)</h4>
+              <ul>
+                <li>Market-linked returns (8-12%)</li>
+                <li>Additional ₹50,000 tax deduction</li>
+                <li>Low cost structure</li>
+                <li>Partial withdrawal at retirement</li>
+              </ul>
+
+              <h4>4. Mutual Fund SIPs</h4>
+              <ul>
+                <li>Highest return potential (10-15%)</li>
+                <li>Complete flexibility</li>
+                <li>Tax-efficient after 1 year</li>
+                <li>Should be largest component</li>
+              </ul>
+
+              <h3>Age-wise Retirement Strategy</h3>
+
+              <h4>In Your 20s:</h4>
+              <ul>
+                <li>Start EPF and maximize employer matching</li>
+                <li>Begin PPF to complete 15-year tenure early</li>
+                <li>Aggressive equity mutual fund SIPs</li>
+                <li>Target: Save 20% of income</li>
+              </ul>
+
+              <h4>In Your 30s:</h4>
+              <ul>
+                <li>Increase SIP amounts with salary hikes</li>
+                <li>Consider NPS for additional tax benefits</li>
+                <li>Diversify across large, mid, small cap funds</li>
+                <li>Target: Save 25-30% of income</li>
+              </ul>
+
+              <h4>In Your 40s:</h4>
+              <ul>
+                <li>Gradually increase debt allocation</li>
+                <li>Consider conservative hybrid funds</li>
+                <li>Maximize PPF and NPS contributions</li>
+                <li>Target: Save 30-35% of income</li>
+              </ul>
+
+              <h4>In Your 50s:</h4>
+              <ul>
+                <li>Focus on capital preservation</li>
+                <li>Build bond ladder for retirement income</li>
+                <li>Consider senior citizen schemes</li>
+                <li>Plan withdrawal strategy</li>
+              </ul>
+
+              <div class="action-box">
+                <h4><i class="fas fa-chart-pie"></i> Plan Your Retirement</h4>
+                <p>Calculate your retirement corpus and create a personalized investment strategy.</p>
+                <a href="index.html" class="btn btn-primary">Retirement Calculator</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calculator Guide Template -->
+          <div id="calculator-guide-template" class="article-template">
+            <h2>How to Use Zero Balanced Calculator</h2>
+            <div class="article-meta">
+              <span><i class="fas fa-calendar"></i> Last updated: January 2024</span>
+              <span><i class="fas fa-clock"></i> 5 minute read</span>
+              <span><i class="fas fa-user"></i> By Zero Balanced Team</span>
+            </div>
+
+            <div class="article-body">
+              <h3>Getting Started with Zero Balanced Calculator</h3>
+              <p>Our comprehensive financial calculator helps you plan for multiple goals simultaneously while considering inflation, taxes, and different investment options.</p>
+
+              <div class="tip-box">
+                <h4><i class="fas fa-star"></i> Key Features</h4>
+                <ul>
+                  <li>Multiple goal planning in one interface</li>
+                  <li>Automatic inflation adjustment</li>
+                  <li>Tax-efficient investment suggestions</li>
+                  <li>Monthly SIP calculations</li>
+                  <li>Asset allocation recommendations</li>
+                </ul>
+              </div>
+
+              <h3>Step-by-Step Guide</h3>
+
+              <h4>Step 1: Enter Basic Information</h4>
+              <ul>
+                <li><strong>Current Age:</strong> Your age today</li>
+                <li><strong>Current Income:</strong> Monthly or annual income</li>
+                <li><strong>Current Savings:</strong> Existing investments and savings</li>
+                <li><strong>Risk Profile:</strong> Conservative, Moderate, or Aggressive</li>
+              </ul>
+
+              <h4>Step 2: Add Your Financial Goals</h4>
+              <ul>
+                <li><strong>Goal Name:</strong> House, Car, Education, Retirement, etc.</li>
+                <li><strong>Target Amount:</strong> Cost in today's money</li>
+                <li><strong>Time Horizon:</strong> Years until you need the money</li>
+                <li><strong>Priority:</strong> High, Medium, or Low</li>
+              </ul>
+
+              <h4>Step 3: Review Calculations</h4>
+              <p>The calculator will show:</p>
+              <ul>
+                <li><strong>Inflation-Adjusted Amount:</strong> Future value of your goal</li>
+                <li><strong>Monthly SIP Required:</strong> How much to invest monthly</li>
+                <li><strong>Investment Mix:</strong> Recommended asset allocation</li>
+                <li><strong>Tax Implications:</strong> Tax-saving opportunities</li>
+              </ul>
+
+              <h3>Advanced Features</h3>
+
+              <h4>Goal Prioritization</h4>
+              <p>When you have limited funds, the calculator helps prioritize goals based on urgency and importance.</p>
+
+              <h4>Tax Optimization</h4>
+              <p>Automatically suggests ELSS funds, PPF, and NPS to maximize tax savings under Section 80C and 80CCD.</p>
+
+              <h4>What-If Scenarios</h4>
+              <ul>
+                <li>What if I increase my SIP by 10% annually?</li>
+                <li>What if I get a bonus and want to invest lump sum?</li>
+                <li>What if I change my retirement age?</li>
+                <li>What if I want to retire early?</li>
+              </ul>
+
+              <h3>Tips for Best Results</h3>
+              <ol>
+                <li><strong>Be Realistic:</strong> Use conservative estimates for goals</li>
+                <li><strong>Regular Updates:</strong> Revisit calculations annually</li>
+                <li><strong>Consider Inflation:</strong> Use 6-7% inflation for most goals</li>
+                <li><strong>Emergency First:</strong> Build emergency fund before other goals</li>
+                <li><strong>Start Small:</strong> Begin with what you can afford and increase gradually</li>
+              </ol>
+
+              <h3>Common Mistakes to Avoid</h3>
+              <ul>
+                <li>Underestimating inflation impact</li>
+                <li>Being too aggressive with return expectations</li>
+                <li>Not factoring in tax implications</li>
+                <li>Ignoring liquidity requirements</li>
+                <li>Not reviewing and adjusting plans</li>
+              </ul>
+
+              <div class="action-box">
+                <h4><i class="fas fa-play-circle"></i> Start Planning Now</h4>
+                <p>Put these tips into action and start planning your financial future today.</p>
+                <a href="index.html" class="btn btn-primary">Open Calculator</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
 
       </div>
     </main>
@@ -793,9 +1221,6 @@
     .ad-container.banner-content {
       text-align: center;
       margin: 3rem 0;
-      padding: 2rem;
-      background: #f8f9fa;
-      border-radius: 10px;
     }
 
     .blog-footer {
@@ -848,6 +1273,153 @@
       text-decoration: none;
     }
 
+    /* Article Display Container Styles */
+    .article-display-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    .close-article-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: #dc3545;
+      color: white;
+      border: none;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .close-article-btn:hover {
+      background: #c82333;
+      transform: scale(1.1);
+    }
+
+    .article-content-display {
+      position: relative;
+      background: white;
+      border-radius: 10px;
+      padding: 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      line-height: 1.6;
+    }
+
+    .article-content-display h2 {
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+    }
+
+    .article-content-display h3 {
+      color: #34495e;
+      margin: 2rem 0 1rem 0;
+      font-size: 1.5rem;
+    }
+
+    .article-content-display h4 {
+      color: #2c3e50;
+      margin: 1.5rem 0 0.5rem 0;
+      font-size: 1.2rem;
+    }
+
+    .article-content-display .article-meta {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 5px;
+      margin-bottom: 2rem;
+      color: #6c757d;
+    }
+
+    .article-content-display .tip-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin: 2rem 0;
+    }
+
+    .article-content-display .tip-box h4 {
+      color: white;
+      margin-top: 0;
+    }
+
+    .article-content-display .action-box {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .article-content-display .action-box h4 {
+      color: white;
+      margin-top: 0;
+    }
+
+    .article-content-display .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: white;
+      color: #f5576c;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: all 0.3s;
+      margin-top: 1rem;
+    }
+
+    .article-content-display .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .article-content-display ul,
+    .article-content-display ol {
+      margin: 1rem 0;
+      padding-left: 2rem;
+    }
+
+    .article-content-display li {
+      margin-bottom: 0.5rem;
+    }
+
+    .article-content-display table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+    }
+
+    .article-content-display th,
+    .article-content-display td {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    .article-content-display th {
+      background: #f8f9fa;
+      font-weight: bold;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .header-content {
@@ -870,7 +1442,87 @@
       .full-article {
         padding: 2rem 1.5rem;
       }
+
+      .article-display-container {
+        padding: 1rem;
+      }
+
+      .article-content-display {
+        padding: 2rem 1.5rem;
+      }
+
+      .article-content-display h2 {
+        font-size: 2rem;
+      }
     }
   </style>
+
+  <script>
+    // Article Display Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const articleDisplayContainer = document.getElementById('article-display-container');
+      const articleContent = document.getElementById('article-content');
+      const closeArticleBtn = document.getElementById('close-article');
+      const readMoreLinks = document.querySelectorAll('.read-more');
+
+      // Function to show an article
+      function showArticle(templateId) {
+        const template = document.getElementById(templateId + '-template');
+        if (template) {
+          // Copy the template content to the display area, keeping the close button
+          const closeButton = articleContent.querySelector('.close-article-btn');
+          articleContent.innerHTML = template.innerHTML;
+          articleContent.insertBefore(closeButton, articleContent.firstChild);
+
+          // Show the article display container
+          articleDisplayContainer.style.display = 'block';
+
+          // Scroll to the article display container
+          articleDisplayContainer.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      }
+
+      // Function to hide the article
+      function hideArticle() {
+        articleDisplayContainer.style.display = 'none';
+      }
+
+      // Add event listeners to all "Read Full Guide" links
+      readMoreLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+
+          // Get the target from the href attribute
+          const href = this.getAttribute('href');
+          const targetId = href.replace('#', '');
+
+          // Show the corresponding article
+          showArticle(targetId);
+        });
+      });
+
+      // Add event listener to close button
+      closeArticleBtn.addEventListener('click', function() {
+        hideArticle();
+      });
+
+      // Close article when clicking outside the content area
+      articleDisplayContainer.addEventListener('click', function(e) {
+        if (e.target === articleDisplayContainer) {
+          hideArticle();
+        }
+      });
+
+      // Handle keyboard navigation (ESC to close)
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && articleDisplayContainer.style.display === 'block') {
+          hideArticle();
+        }
+      });
+    });
+  </script>
 </body>
 </html>
