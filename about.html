@@ -37,7 +37,7 @@
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5970109164913530" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="about-page">
   <!-- Main Navigation Header -->
   <header class="main-header">
     <div class="header-container">
@@ -394,7 +394,21 @@
   </header>
 
   <!-- Main Content -->
-  <main class="page-main">
+  <div class="container">
+    <!-- Ad Space: Left Sidebar -->
+    <div class="ad-sidebar left-ad">
+      <div class="ad-container sidebar vertical">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5970109164913530"
+             data-ad-slot="7394120396"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="page-main">
       <div class="page-content">
 
         <!-- Hero Section -->
@@ -546,37 +560,57 @@
       </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="page-footer">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h4>Zero Balanced</h4>
-          <p>Your trusted partner for financial planning and wealth building.</p>
-        </div>
-        <div class="footer-section">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><a href="index.html">Financial Calculator</a></li>
-            <li><a href="blog.html">Blog & Guides</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="privacy.html">Privacy Policy</a></li>
-            <li><a href="terms.html">Terms of Service</a></li>
-            <li><a href="disclaimer.html">Disclaimer</a></li>
-          </ul>
-        </div>
+
+    <!-- Ad Space: Right Sidebar -->
+    <div class="ad-sidebar right-ad">
+      <div class="ad-container sidebar vertical">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5970109164913530"
+             data-ad-slot="7394120396"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2024 Zero Balanced. All rights reserved.</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="background: #333; color: white; margin-top: 40px;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 3rem 2rem 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+      <div>
+        <h4 style="color: #667eea; margin-bottom: 1rem;">Zero Balanced</h4>
+        <p style="margin: 0; color: #ccc;">Your trusted partner for financial planning and wealth building.</p>
       </div>
-    </footer>
+      <div>
+        <h4 style="color: #667eea; margin-bottom: 1rem;">Quick Links</h4>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li style="margin-bottom: 0.5rem;"><a href="index.html" style="color: #ccc; text-decoration: none;">Financial Calculator</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="blog.html" style="color: #ccc; text-decoration: none;">Blog & Guides</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="about.html" style="color: #ccc; text-decoration: none;">About Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color: #667eea; margin-bottom: 1rem;">Legal</h4>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li style="margin-bottom: 0.5rem;"><a href="privacy.html" style="color: #ccc; text-decoration: none;">Privacy Policy</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="terms.html" style="color: #ccc; text-decoration: none;">Terms of Service</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="disclaimer.html" style="color: #ccc; text-decoration: none;">Disclaimer</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="dmca.html" style="color: #ccc; text-decoration: none;">DMCA Notice</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="copyright.html" style="color: #ccc; text-decoration: none;">Copyright Info</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top: 1px solid #555; padding: 1rem 2rem; text-align: center;">
+      <p style="margin: 0; color: #ccc; font-size: 0.9rem;">&copy; 2024 Zero Balanced. All rights reserved.</p>
+    </div>
+  </footer>
 
   <style>
+    /* Footer link hover effects */
+    footer a:hover {
+      color: white !important;
+    }
+
     /* About page specific styles */
     body {
       background: white;
@@ -584,14 +618,21 @@
       padding: 0;
     }
 
-    /* Override container styles from main.css */
+    /* About page uses default grid layout with sidebars */
     .container {
-      display: block !important;
-      grid-template-columns: unset !important;
-      background: transparent !important;
-      min-height: auto !important;
-      padding: 0 !important;
-      margin: 0 !important;
+      background: white !important;
+    }
+
+    /* About page main content styling */
+    .page-main {
+      background: white;
+      padding: 0;
+      margin: 0;
+    }
+
+    .page-content {
+      padding: 0;
+      margin: 0;
     }
 
     .page-header {
@@ -896,53 +937,38 @@
       color: #667eea;
     }
 
-    .page-footer {
-      background: #333;
-      color: white;
-      margin-top: 0;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 3rem 2rem 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-
-    .footer-section h4 {
-      color: #667eea;
-      margin-bottom: 1rem;
-    }
-
-    .footer-section ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .footer-section ul li {
-      margin-bottom: 0.5rem;
-    }
-
-    .footer-section ul li a {
-      color: #ccc;
-      text-decoration: none;
-    }
-
-    .footer-section ul li a:hover {
-      color: white;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid #555;
-      padding: 1rem 2rem;
-      text-align: center;
-      color: #ccc;
-    }
 
     /* Responsive */
     @media (max-width: 768px) {
+      .container {
+        display: block !important;
+        grid-template-columns: none !important;
+      }
+
+      .ad-sidebar {
+        display: none !important;
+      }
+
+      /* Footer responsive */
+      footer > div:first-child {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+        padding: 2rem 1rem 1rem !important;
+        text-align: center;
+      }
+    }
+
+    /* Ensure desktop layout is enforced on larger screens - 3 column layout */
+    @media (min-width: 769px) {
+      .container {
+        display: grid !important;
+        grid-template-columns: 180px 1fr 180px !important;
+      }
+
+      .ad-sidebar {
+        display: block !important;
+      }
+
       .header-content {
         flex-direction: column;
         gap: 1rem;
@@ -980,6 +1006,7 @@
         width: 100%;
         max-width: 300px;
       }
+
     }
   </style>
 </body>

@@ -2049,3 +2049,86 @@
     display: none !important;
   }
 }
+
+/* Legal Pages Mobile Responsive */
+@media (max-width: 768px) {
+  .legal-content {
+    padding: 20px 15px;
+    gap: 24px;
+  }
+
+  .legal-header h1 {
+    font-size: 2rem;
+  }
+
+  .disclaimer-highlight {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .policy-section {
+    padding: 20px;
+  }
+
+  .policy-section h2 {
+    font-size: 1.25rem;
+  }
+
+  .policy-section h3 {
+    font-size: 1.1rem;
+  }
+
+  .contact-info {
+    padding: 24px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .legal-content {
+    padding: 15px 10px;
+    gap: 20px;
+  }
+
+  .legal-header {
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+
+  .legal-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .disclaimer-summary {
+    padding: 20px;
+  }
+
+  .disclaimer-summary h2 {
+    font-size: 1.5rem;
+  }
+
+  .summary-item {
+    padding: 16px;
+  }
+
+  .summary-item i {
+    font-size: 1.5rem;
+  }
+
+  .policy-section {
+    padding: 16px;
+  }
+
+  .policy-section h2 {
+    font-size: 1.15rem;
+  }
+
+  .contact-info {
+    padding: 20px 12px;
+  }
+}

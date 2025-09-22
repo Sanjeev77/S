@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .calculator-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-mode-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .toggle-btn {
+            padding: 8px 16px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .toggle-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .time-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .input-container {
+            display: none;
+        }
+
+        .input-container.active {
+            display: block;
+        }
+
+        .number-inputs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .time-input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            transition: border-color 0.3s;
+        }
+
+        .time-input-group:focus-within {
+            border-color: #667eea;
+        }
+
+        .time-input-group input[type="number"] {
+            border: none;
+            outline: none;
+            width: 60px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .time-input-group label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .slider-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .slider-value {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e9ecef;
+            outline: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            background: #5a67d8;
+            transform: scale(1.1);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .preset-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .preset-btn {
+            padding: 6px 12px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .preset-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .multiple-times-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .multiple-times-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .multiple-times-header span {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .btn-add-row {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-add-row:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        .time-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            margin-bottom: 10px;
+            transition: border-color 0.3s;
+        }
+
+        .time-row:hover {
+            border-color: #667eea;
+        }
+
+        .time-row-inputs {
+            display: flex;
+            flex: 1;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .time-row .time-input-group {
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .btn-remove-row {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-remove-row:hover {
+            background: #c82333;
+        }
+
+        .row-number {
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: 600;
+            min-width: 35px;
+            text-align: center;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-add {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: #218838;
+        }
+
+        .btn-clear {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-clear:hover {
+            background: #c82333;
+        }
+
+        .time-list {
+            margin-bottom: 20px;
+        }
+
+        .time-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: white;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .time-item .time-display {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .btn-remove:hover {
+            background: #c82333;
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .total-label {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .total-time {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .total-breakdown {
+            margin-top: 15px;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .input-mode-toggle {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .toggle-btn {
+                padding: 12px 16px;
+            }
+
+            .number-inputs {
+                flex-direction: column;
+            }
+
+            .time-input-group {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .preset-buttons {
+                justify-content: center;
+            }
+
+            .preset-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                padding: 12px 20px;
+            }
+
+            .total-time {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body class="time-calculator-page">
+    <div class="container">
+        <h1>⏰ Time Calculator</h1>
+
+        <div class="calculator-section">
+            <div class="section-title">
+                <span>📝 Add Time</span>
+            </div>
+
+            <div class="input-mode-toggle">
+                <button class="toggle-btn active" onclick="switchInputMode('single')">Single Time</button>
+                <button class="toggle-btn" onclick="switchInputMode('multiple')">Multiple Times</button>
+                <button class="toggle-btn" onclick="switchInputMode('slider')">Slider Input</button>
+            </div>
+
+            <div class="time-inputs">
+                <!-- Single Time Input Mode -->
+                <div class="input-container active" id="single-input">
+                    <div class="number-inputs">
+                        <div class="time-input-group">
+                            <input type="number" id="hours" min="0" max="999" value="0" placeholder="0">
+                            <label for="hours">hours</label>
+                        </div>
+                        <div class="time-input-group">
+                            <input type="number" id="minutes" min="0" max="59" value="0" placeholder="0">
+                            <label for="minutes">minutes</label>
+                        </div>
+                        <div class="time-input-group">
+                            <input type="number" id="seconds" min="0" max="59" value="0" placeholder="0">
+                            <label for="seconds">seconds</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multiple Times Input Mode -->
+                <div class="input-container" id="multiple-input">
+                    <div class="multiple-times-container">
+                        <div class="multiple-times-header">
+                            <span>Enter multiple times (minimum 2):</span>
+                            <button class="btn-add-row" onclick="addTimeRow()">+ Add Row</button>
+                        </div>
+                        <div id="timeRows">
+                            <!-- Time rows will be added here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slider Input Mode -->
+                <div class="input-container" id="slider-input">
+                    <div class="slider-container">
+                        <div class="slider-group">
+                            <div class="slider-label">
+                                <span>Hours</span>
+                                <span class="slider-value" id="hoursSliderValue">0</span>
+                            </div>
+                            <input type="range" class="slider" id="hoursSlider" min="0" max="24" value="0"
+                                   oninput="updateSliderValue('hours', this.value)">
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-label">
+                                <span>Minutes</span>
+                                <span class="slider-value" id="minutesSliderValue">0</span>
+                            </div>
+                            <input type="range" class="slider" id="minutesSlider" min="0" max="59" value="0"
+                                   oninput="updateSliderValue('minutes', this.value)">
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-label">
+                                <span>Seconds</span>
+                                <span class="slider-value" id="secondsSliderValue">0</span>
+                            </div>
+                            <input type="range" class="slider" id="secondsSlider" min="0" max="59" value="0"
+                                   oninput="updateSliderValue('seconds', this.value)">
+                        </div>
+
+                        <div class="preset-buttons">
+                            <button class="preset-btn" onclick="setPresetTime(0, 15, 0)">15min</button>
+                            <button class="preset-btn" onclick="setPresetTime(0, 30, 0)">30min</button>
+                            <button class="preset-btn" onclick="setPresetTime(1, 0, 0)">1hr</button>
+                            <button class="preset-btn" onclick="setPresetTime(1, 30, 0)">1.5hr</button>
+                            <button class="preset-btn" onclick="setPresetTime(2, 0, 0)">2hr</button>
+                            <button class="preset-btn" onclick="setPresetTime(8, 0, 0)">8hr</button>
+                            <button class="preset-btn" onclick="setPresetTime(0, 0, 0)">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-add" onclick="addTime()">Add Time</button>
+                <button class="btn btn-clear" onclick="clearAll()">Clear All</button>
+            </div>
+        </div>
+
+        <div class="calculator-section">
+            <div class="section-title">
+                <span>📋 Time Entries</span>
+            </div>
+            <div class="time-list" id="timeList">
+                <p style="text-align: center; color: #666; font-style: italic;">No time entries yet. Add some times above!</p>
+            </div>
+        </div>
+
+        <div class="total-section">
+            <div class="total-label">Total Time</div>
+            <div class="total-time" id="totalTime">0h 0m 0s</div>
+            <div class="total-breakdown" id="totalBreakdown">
+                0 hours, 0 minutes, 0 seconds
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timeEntries = [];
+        let currentInputMode = 'single';
+        let timeRowCounter = 0;
+
+        function switchInputMode(mode) {
+            currentInputMode = mode;
+
+            // Update toggle buttons
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update input containers
+            document.querySelectorAll('.input-container').forEach(container => container.classList.remove('active'));
+            document.getElementById(mode + '-input').classList.add('active');
+
+            // Initialize multiple input mode if selected
+            if (mode === 'multiple') {
+                initializeMultipleInputMode();
+            } else if (mode === 'single') {
+                syncInputValues();
+            }
+        }
+
+        function initializeMultipleInputMode() {
+            const timeRows = document.getElementById('timeRows');
+            timeRows.innerHTML = '';
+            timeRowCounter = 0;
+
+            // Add 2 initial rows
+            addTimeRow();
+            addTimeRow();
+        }
+
+        function addTimeRow() {
+            timeRowCounter++;
+            const timeRows = document.getElementById('timeRows');
+
+            const rowHtml = `
+                <div class="time-row" id="timeRow-${timeRowCounter}">
+                    <div class="row-number">${timeRowCounter}</div>
+                    <div class="time-row-inputs">
+                        <div class="time-input-group">
+                            <input type="number" id="multiHours-${timeRowCounter}" min="0" max="999" value="0" placeholder="0">
+                            <label>hours</label>
+                        </div>
+                        <div class="time-input-group">
+                            <input type="number" id="multiMinutes-${timeRowCounter}" min="0" max="59" value="0" placeholder="0">
+                            <label>minutes</label>
+                        </div>
+                        <div class="time-input-group">
+                            <input type="number" id="multiSeconds-${timeRowCounter}" min="0" max="59" value="0" placeholder="0">
+                            <label>seconds</label>
+                        </div>
+                    </div>
+                    <button class="btn-remove-row" onclick="removeTimeRow(${timeRowCounter})">Remove</button>
+                </div>
+            `;
+
+            timeRows.insertAdjacentHTML('beforeend', rowHtml);
+        }
+
+        function removeTimeRow(rowId) {
+            const totalRows = document.querySelectorAll('.time-row').length;
+            if (totalRows <= 2) {
+                alert('You must have at least 2 time entries in multiple mode!');
+                return;
+            }
+
+            const row = document.getElementById(`timeRow-${rowId}`);
+            if (row) {
+                row.remove();
+                updateRowNumbers();
+            }
+        }
+
+        function updateRowNumbers() {
+            const rows = document.querySelectorAll('.time-row');
+            rows.forEach((row, index) => {
+                const rowNumber = row.querySelector('.row-number');
+                rowNumber.textContent = index + 1;
+            });
+        }
+
+        function syncInputValues() {
+            if (currentInputMode === 'slider') {
+                // Sync from number inputs to sliders
+                const hours = parseInt(document.getElementById('hours').value) || 0;
+                const minutes = parseInt(document.getElementById('minutes').value) || 0;
+                const seconds = parseInt(document.getElementById('seconds').value) || 0;
+
+                setSliderValues(hours, minutes, seconds);
+            } else {
+                // Sync from sliders to number inputs
+                const hours = parseInt(document.getElementById('hoursSlider').value) || 0;
+                const minutes = parseInt(document.getElementById('minutesSlider').value) || 0;
+                const seconds = parseInt(document.getElementById('secondsSlider').value) || 0;
+
+                setNumberInputValues(hours, minutes, seconds);
+            }
+        }
+
+        function setSliderValues(hours, minutes, seconds) {
+            const maxHours = Math.min(hours, 24);
+            document.getElementById('hoursSlider').value = maxHours;
+            document.getElementById('hoursSliderValue').textContent = hours;
+
+            document.getElementById('minutesSlider').value = minutes;
+            document.getElementById('minutesSliderValue').textContent = minutes;
+
+            document.getElementById('secondsSlider').value = seconds;
+            document.getElementById('secondsSliderValue').textContent = seconds;
+        }
+
+        function setNumberInputValues(hours, minutes, seconds) {
+            document.getElementById('hours').value = hours;
+            document.getElementById('minutes').value = minutes;
+            document.getElementById('seconds').value = seconds;
+        }
+
+        function updateSliderValue(type, value) {
+            document.getElementById(type + 'SliderValue').textContent = value;
+
+            // Also update the corresponding number input
+            if (type === 'hours') {
+                document.getElementById('hours').value = value;
+            } else if (type === 'minutes') {
+                document.getElementById('minutes').value = value;
+            } else if (type === 'seconds') {
+                document.getElementById('seconds').value = value;
+            }
+        }
+
+        function setPresetTime(hours, minutes, seconds) {
+            setSliderValues(hours, minutes, seconds);
+            setNumberInputValues(hours, minutes, seconds);
+        }
+
+        function getCurrentTimeValues() {
+            if (currentInputMode === 'multiple') {
+                // Return array of all time entries from multiple rows
+                const rows = document.querySelectorAll('.time-row');
+                const times = [];
+
+                rows.forEach((row, index) => {
+                    const rowNum = index + 1;
+                    const hours = parseInt(document.getElementById(`multiHours-${row.id.split('-')[1]}`).value) || 0;
+                    const minutes = parseInt(document.getElementById(`multiMinutes-${row.id.split('-')[1]}`).value) || 0;
+                    const seconds = parseInt(document.getElementById(`multiSeconds-${row.id.split('-')[1]}`).value) || 0;
+
+                    if (hours > 0 || minutes > 0 || seconds > 0) {
+                        times.push({ hours, minutes, seconds });
+                    }
+                });
+
+                return times;
+            } else if (currentInputMode === 'slider') {
+                return [{
+                    hours: parseInt(document.getElementById('hoursSlider').value) || 0,
+                    minutes: parseInt(document.getElementById('minutesSlider').value) || 0,
+                    seconds: parseInt(document.getElementById('secondsSlider').value) || 0
+                }];
+            } else {
+                return [{
+                    hours: parseInt(document.getElementById('hours').value) || 0,
+                    minutes: parseInt(document.getElementById('minutes').value) || 0,
+                    seconds: parseInt(document.getElementById('seconds').value) || 0
+                }];
+            }
+        }
+
+        function clearCurrentInputs() {
+            if (currentInputMode === 'multiple') {
+                const rows = document.querySelectorAll('.time-row');
+                rows.forEach(row => {
+                    const rowId = row.id.split('-')[1];
+                    document.getElementById(`multiHours-${rowId}`).value = 0;
+                    document.getElementById(`multiMinutes-${rowId}`).value = 0;
+                    document.getElementById(`multiSeconds-${rowId}`).value = 0;
+                });
+            } else if (currentInputMode === 'slider') {
+                setSliderValues(0, 0, 0);
+            } else {
+                setNumberInputValues(0, 0, 0);
+            }
+        }
+
+        function addTime() {
+            const timeValues = getCurrentTimeValues();
+
+            if (timeValues.length === 0) {
+                alert('Please enter at least some time to add!');
+                return;
+            }
+
+            // Validate times
+            for (let timeValue of timeValues) {
+                if (timeValue.minutes > 59 || timeValue.seconds > 59) {
+                    alert('Minutes and seconds should be less than 60!');
+                    return;
+                }
+            }
+
+            // Add all time entries
+            timeValues.forEach(timeValue => {
+                if (timeValue.hours > 0 || timeValue.minutes > 0 || timeValue.seconds > 0) {
+                    timeEntries.push(timeValue);
+                }
+            });
+
+            if (timeValues.length === 0 || timeValues.every(t => t.hours === 0 && t.minutes === 0 && t.seconds === 0)) {
+                alert('Please enter at least some time to add!');
+                return;
+            }
+
+            // Clear inputs
+            clearCurrentInputs();
+
+            updateDisplay();
+        }
+
+        function removeTime(index) {
+            timeEntries.splice(index, 1);
+            updateDisplay();
+        }
+
+        function clearAll() {
+            if (timeEntries.length === 0) {
+                alert('No time entries to clear!');
+                return;
+            }
+
+            if (confirm('Are you sure you want to clear all time entries?')) {
+                timeEntries = [];
+                updateDisplay();
+            }
+        }
+
+        function updateDisplay() {
+            const timeList = document.getElementById('timeList');
+
+            if (timeEntries.length === 0) {
+                timeList.innerHTML = '<p style="text-align: center; color: #666; font-style: italic;">No time entries yet. Add some times above!</p>';
+            } else {
+                timeList.innerHTML = timeEntries.map((entry, index) => `
+                    <div class="time-item">
+                        <span class="time-display">${formatTime(entry.hours, entry.minutes, entry.seconds)}</span>
+                        <button class="btn-remove" onclick="removeTime(${index})">Remove</button>
+                    </div>
+                `).join('');
+            }
+
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let totalHours = 0;
+            let totalMinutes = 0;
+            let totalSeconds = 0;
+
+            timeEntries.forEach(entry => {
+                totalHours += entry.hours;
+                totalMinutes += entry.minutes;
+                totalSeconds += entry.seconds;
+            });
+
+            // Convert excess seconds to minutes
+            totalMinutes += Math.floor(totalSeconds / 60);
+            totalSeconds = totalSeconds % 60;
+
+            // Convert excess minutes to hours
+            totalHours += Math.floor(totalMinutes / 60);
+            totalMinutes = totalMinutes % 60;
+
+            // Update display
+            document.getElementById('totalTime').textContent = formatTime(totalHours, totalMinutes, totalSeconds);
+
+            // Update breakdown
+            const breakdown = [];
+            if (totalHours > 0) breakdown.push(`${totalHours} hour${totalHours !== 1 ? 's' : ''}`);
+            if (totalMinutes > 0) breakdown.push(`${totalMinutes} minute${totalMinutes !== 1 ? 's' : ''}`);
+            if (totalSeconds > 0) breakdown.push(`${totalSeconds} second${totalSeconds !== 1 ? 's' : ''}`);
+
+            document.getElementById('totalBreakdown').textContent =
+                breakdown.length > 0 ? breakdown.join(', ') : '0 hours, 0 minutes, 0 seconds';
+        }
+
+        function formatTime(hours, minutes, seconds) {
+            const h = hours > 0 ? `${hours}h ` : '';
+            const m = minutes > 0 ? `${minutes}m ` : '';
+            const s = seconds > 0 ? `${seconds}s` : '';
+
+            return (h + m + s).trim() || '0s';
+        }
+
+        // Allow Enter key to add time
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addTime();
+            }
+        });
+
+        // Auto-correct minutes and seconds if they exceed 59
+        document.getElementById('minutes').addEventListener('blur', function() {
+            if (this.value > 59) {
+                const hours = document.getElementById('hours');
+                hours.value = (parseInt(hours.value) || 0) + Math.floor(this.value / 60);
+                this.value = this.value % 60;
+            }
+        });
+
+        document.getElementById('seconds').addEventListener('blur', function() {
+            if (this.value > 59) {
+                const minutes = document.getElementById('minutes');
+                minutes.value = (parseInt(minutes.value) || 0) + Math.floor(this.value / 60);
+                this.value = this.value % 60;
+
+                // Check if minutes now exceed 59
+                if (minutes.value > 59) {
+                    const hours = document.getElementById('hours');
+                    hours.value = (parseInt(hours.value) || 0) + Math.floor(minutes.value / 60);
+                    minutes.value = minutes.value % 60;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
