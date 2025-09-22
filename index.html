@@ -1421,7 +1421,8 @@
     </div>
   </div>
 
-  <!-- Ad Blocker Detection -->
+  <!-- Ad Blocker Detection - TEMPORARILY COMMENTED OUT FOR GOOGLE ADS APPROVAL -->
+  <!--
   <div id="adblock-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; backdrop-filter: blur(0px);">
     <div class="modal-content" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 10px; text-align: center; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
       <div style="color: #dc3545; font-size: 48px; margin-bottom: 20px;">
@@ -1429,7 +1430,7 @@
       </div>
       <h3 style="color: #343a40; margin-bottom: 15px;">Ad Blocker Detected</h3>
       <p style="color: #6c757d; margin-bottom: 25px; line-height: 1.5;">
-        <strong>Access Blocked:</strong> We rely on ads to keep this financial calculator free for everyone. 
+        <strong>Access Blocked:</strong> We rely on ads to keep this financial calculator free for everyone.
         You must disable your ad blocker to access our tools.
       </p>
       <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 6px; margin-bottom: 20px; text-align: left;">
@@ -1450,11 +1451,14 @@
       </button>
     </div>
   </div>
+  -->
 
-  <!-- Ad Blocker Detection Script -->
+  <!-- Ad Blocker Detection Script - TEMPORARILY COMMENTED OUT FOR GOOGLE ADS APPROVAL -->
+  <!--
   <div id="adblock-detector" style="height: 1px; width: 1px; position: absolute; left: -999px; top: -999px;">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" style="display: block; height: 1px; width: 1px;"></script>
   </div>
+  -->
 
   <!-- Scripts -->
   <!--script>
@@ -1467,21 +1471,22 @@
   <script src="js/main.js?v=1.0"></script>
   <script src="js/legal-pages.js?v=1.0"></script>
 
-  <!-- Ad Blocker Detection Logic -->
+  <!-- Ad Blocker Detection Logic - TEMPORARILY COMMENTED OUT FOR GOOGLE ADS APPROVAL -->
+  <!--
   <script>
     let adBlockDetected = false;
-    
+
     // Check if ads are blocked after page loads
     window.addEventListener('load', function() {
       setTimeout(function() {
         const adBlockModal = document.getElementById('adblock-modal');
-        
+
         // Check if AdSense script failed to load (blocked by ad blocker)
         if (!window.adsbygoogle || window.adsbygoogle.loaded !== true) {
           adBlockDetected = true;
           if (adBlockModal) {
             adBlockModal.style.display = 'block';
-            
+
             // Blur only the background content, not the modal
             const mainContent = document.querySelector('.container');
             if (mainContent) {
@@ -1489,18 +1494,18 @@
               mainContent.style.pointerEvents = 'none';
               mainContent.style.userSelect = 'none';
             }
-            
+
             // Also blur the mobile nav if it exists
             const mobileNav = document.querySelector('.mobile-nav');
             if (mobileNav) {
               mobileNav.style.filter = 'blur(5px)';
               mobileNav.style.pointerEvents = 'none';
             }
-            
+
             // Keep modal interactive
             adBlockModal.style.pointerEvents = 'all';
             adBlockModal.style.filter = 'none';
-            
+
             // Disable all interactive elements
             disableAllInteractions();
           }
@@ -1518,7 +1523,7 @@
           input.style.pointerEvents = 'none';
         }
       });
-      
+
       // Disable all links
       const links = document.querySelectorAll('a');
       links.forEach(link => {
@@ -1527,20 +1532,20 @@
           link.onclick = function(e) { e.preventDefault(); return false; };
         }
       });
-      
+
       // Disable scrolling
       document.body.style.overflow = 'hidden';
-      
+
       // Block right-click context menu
       document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
         return false;
       });
-      
+
       // Block keyboard shortcuts
       document.addEventListener('keydown', function(e) {
         // Block F12, Ctrl+Shift+I, Ctrl+U, etc.
-        if (e.key === 'F12' || 
+        if (e.key === 'F12' ||
             (e.ctrlKey && e.shiftKey && e.key === 'I') ||
             (e.ctrlKey && e.key === 'u') ||
             (e.ctrlKey && e.shiftKey && e.key === 'C')) {
@@ -1555,32 +1560,33 @@
       if (adBlockDetected && (!window.adsbygoogle || window.adsbygoogle.loaded !== true)) {
         const modal = document.getElementById('adblock-modal');
         const mainContent = document.querySelector('.container');
-        
+
         if (modal && modal.style.display === 'none') {
           // Re-show modal if someone tries to hide it
           modal.style.display = 'block';
         }
-        
+
         if (mainContent && mainContent.style.display !== 'none') {
           // Re-hide main content if someone tries to show it
           mainContent.style.display = 'none';
         }
-        
+
         // Re-apply restrictions only to content, not modal
         if (mainContent) {
           mainContent.style.filter = 'blur(5px)';
           mainContent.style.pointerEvents = 'none';
         }
-        
+
         const mobileNav = document.querySelector('.mobile-nav');
         if (mobileNav) {
           mobileNav.style.filter = 'blur(5px)';
           mobileNav.style.pointerEvents = 'none';
         }
-        
+
         document.body.style.overflow = 'hidden';
       }
     }, 1000); // Check every second
   </script>
+  -->
 </body>
 </html>

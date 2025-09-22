@@ -133,25 +133,36 @@
 
 /* Medium to Large screens */
 @media (max-width: 1200px) {
-  .container { 
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    width: 100vw;
+  .container {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+    width: 100vw !important;
+    display: block !important;
+    grid-template-areas: none !important;
   }
-  
+
   .ad-sidebar {
-    display: none; /* Hide side ads on medium screens */
+    display: none !important; /* Hide side ads on medium screens */
   }
-  
-  .right-panel {
-    position: static;
-    min-height: auto; /* Remove fixed height on smaller screens */
-    border-left: none;
-    border-top: 1px solid #dee2e6;
-  }
-  
+
   .left-panel {
-    min-height: auto;
+    min-height: auto !important;
+    width: 100% !important;
+    display: block !important;
+    position: static !important;
+    border: none !important;
+    margin-bottom: 20px !important;
+  }
+
+  .right-panel {
+    position: static !important;
+    min-height: auto !important;
+    border-left: none !important;
+    border-top: 2px solid #dee2e6 !important;
+    display: block !important;
+    width: 100% !important;
+    padding-top: 20px !important;
+    margin-top: 20px !important;
   }
   
   .form-row { 
@@ -239,8 +250,10 @@
   
   
   .container {
-    width: 100vw;
-    grid-template-columns: 1fr;
+    width: 100vw !important;
+    grid-template-columns: 1fr !important;
+    display: block !important;
+    grid-template-areas: none !important;
   }
   
   .ad-sidebar {
@@ -962,7 +975,8 @@
     margin-bottom: 120px !important;
   }
   
-  /* Add mobile ad between sections */
+  /* Add mobile ad between sections - TEMPORARILY COMMENTED OUT FOR GOOGLE ADS APPROVAL */
+  /*
   #results-section::before {
     content: '';
     display: block;
@@ -974,13 +988,14 @@
     margin-bottom: 20px;
     position: relative;
   }
-  
+
   #results-section::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 80'%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' fill='%236c757d' font-size='12' font-family='sans-serif'%3EMobile Banner Ad Space%3C/text%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 250px 30px;
   }
+  */
   
   /* Improve touch targets for mobile */
   .btn {
@@ -1628,10 +1643,13 @@
     font-size: 0.9rem !important;
   }
   
+  /* TEMPORARILY COMMENTED OUT FOR GOOGLE ADS APPROVAL */
+  /*
   #results-section::before {
     height: 60px;
     background-size: 200px 24px;
   }
+  */
   
   .left-panel {
     padding: 15px;

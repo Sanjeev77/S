@@ -147,23 +147,23 @@ body {
   overflow-y: visible;
   box-shadow: none;
   display: grid;
-  grid-template-columns: 180px 1fr 180px; /* 3-column layout: left sidebar + main content + right sidebar */
+  grid-template-columns: 180px 1fr 1fr 180px; /* 4-column layout: left sidebar + main content + results + right sidebar */
   gap: 0;
   position: relative;
   box-sizing: border-box;
 }
 
 /* Ensure desktop layout is enforced on larger screens */
-@media (min-width: 769px) {
+@media (min-width: 1201px) {
   .container {
-    grid-template-columns: 180px 1fr 180px !important;
+    grid-template-columns: 180px 1fr 1fr 180px !important;
     display: grid !important;
   }
   
   .ad-sidebar {
     display: block !important;
   }
-  
+
   .mobile-nav {
     display: none !important;
   }
@@ -974,6 +974,22 @@ body:has(.legal-content) .container::before {
 /* Hide gradient background on legal pages */
 .container:has(.legal-content)::before,
 .container:has(.page-main .legal-content)::before {
+  display: none !important;
+}
+
+/* Legal pages use single-column layout */
+.legal-page .container,
+.about-page .container,
+.blog-page .container,
+.time-calculator-page .container {
+  grid-template-columns: 1fr !important;
+  display: block !important;
+}
+
+.legal-page .ad-sidebar,
+.about-page .ad-sidebar,
+.blog-page .ad-sidebar,
+.time-calculator-page .ad-sidebar {
   display: none !important;
 }
 
