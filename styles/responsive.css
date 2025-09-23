@@ -919,12 +919,12 @@
     min-height: auto;
   }
   
-  .container::before {
-    left: 0;
-    right: 0;
-    height: 150px;
-  }
   
+  /* Hide gradient background pseudo-element in mobile */
+  .container::before {
+    display: none !important;
+  }
+
   /* Mobile section switching */
   .mobile-hidden {
     display: none !important;
