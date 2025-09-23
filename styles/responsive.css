@@ -2102,9 +2102,6 @@
     font-size: 1.1rem;
   }
 
-  .contact-info {
-    padding: 24px 16px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -2146,7 +2143,4 @@
     font-size: 1.15rem;
   }
 
-  .contact-info {
-    padding: 20px 12px;
-  }
 }

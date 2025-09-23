@@ -61,8 +61,8 @@ function showPrivacyPolicy(e) {
     <p>• Disable cookies in your browser settings</p>
     <p>• Use the calculator without providing any personal information</p>
     
-    <h4>7. Contact Us</h4>
-    <p>If you have questions about this Privacy Policy, please contact us through our feedback form.</p>
+    <h4>7. Changes to This Policy</h4>
+    <p>We may update this privacy policy from time to time. Any changes will be reflected here with an updated date.</p>
   `;
   showLegalModal('Privacy Policy', content);
 }
@@ -96,8 +96,8 @@ function showTermsOfService(e) {
     <h4>7. Modifications</h4>
     <p>We reserve the right to modify these terms at any time. Continued use constitutes acceptance of modified terms.</p>
     
-    <h4>8. Contact Information</h4>
-    <p>For questions about these terms, please contact us through our feedback form.</p>
+    <h4>8. Updates to Terms</h4>
+    <p>These terms may be updated periodically. Continued use of the service constitutes acceptance of any updates.</p>
   `;
   showLegalModal('Terms of Service', content);
 }
@@ -173,47 +173,12 @@ function showAboutUs(e) {
     <h4>Disclaimer</h4>
     <p>Zero Balanced provides financial calculations and insights for educational purposes. We are not financial advisors, and our tools should not replace professional financial advice. Always consult qualified professionals for important financial decisions.</p>
     
-    <h4>Contact Us</h4>
+    <h4>Feedback</h4>
     <p>Have suggestions or feedback? We'd love to hear from you through our feedback form!</p>
   `;
   showLegalModal('About Zero Balanced', content);
 }
 
-function showContactInfo(e) {
-  e.preventDefault();
-  const content = `
-    <h3>Contact Information</h3>
-    
-    <h4>Get in Touch</h4>
-    <p>We value your feedback and are here to help with any questions about Zero Balanced financial calculator.</p>
-    
-    <h4>Feedback Form</h4>
-    <p>The best way to reach us is through our built-in feedback form at the bottom of the results panel. Your messages help us improve the calculator and add new features.</p>
-    
-    <h4>What You Can Contact Us About:</h4>
-    <p>• Calculator bugs or issues</p>
-    <p>• Feature requests and suggestions</p>
-    <p>• Questions about financial calculations</p>
-    <p>• Privacy and data concerns</p>
-    <p>• General feedback about user experience</p>
-    
-    <h4>Response Time</h4>
-    <p>We aim to respond to all feedback within 48-72 hours during business days. Technical issues receive priority attention.</p>
-    
-    <h4>Technical Support</h4>
-    <p>For technical issues:</p>
-    <p>• Try refreshing the page first</p>
-    <p>• Clear your browser cache if calculations seem incorrect</p>
-    <p>• Ensure JavaScript is enabled in your browser</p>
-    <p>• Check that you're using a modern browser (Chrome, Firefox, Safari, Edge)</p>
-    
-    <h4>Privacy Commitment</h4>
-    <p>All feedback is handled confidentially. We never share personal information and only use feedback to improve our service.</p>
-    
-    <p><strong>Thank you for using Zero Balanced!</strong></p>
-  `;
-  showLegalModal('Contact Information', content);
-}
 
 function showDisclaimer(e) {
   e.preventDefault();
@@ -445,7 +410,6 @@ function showSitemap(e) {
     
     <h4>About & Support</h4>
     <p>• About Zero Balanced</p>
-    <p>• Contact Information</p>
     <p>• How to Use Guide</p>
     <p>• Frequently Asked Questions</p>
     <p>• Support & Help</p>

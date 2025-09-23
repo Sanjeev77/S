@@ -939,37 +939,6 @@ body:has(.legal-content) .container::before {
   font-size: 1.2rem;
 }
 
-/* Contact Information Styling */
-.contact-info {
-  background: linear-gradient(135deg, #4a90e2 0%, #667eea 100%);
-  color: white;
-  padding: 32px;
-  border-radius: 16px;
-  text-align: center;
-  margin-top: 40px;
-}
-
-.contact-info h2 {
-  color: white;
-  margin-bottom: 16px;
-  font-size: 1.5rem;
-}
-
-.contact-info p {
-  margin-bottom: 8px;
-  font-size: 1rem;
-}
-
-.contact-info a {
-  color: #bee3f8;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.contact-info a:hover {
-  color: white;
-  text-decoration: underline;
-}
 
 /* Hide gradient background on legal pages */
 .container:has(.legal-content)::before,
