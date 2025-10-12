@@ -7,15 +7,59 @@ body.time-calculator-page {
   padding: 0;
 }
 
+/* Main content wrapper with ads */
+.main-content {
+  display: flex;
+  gap: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px;
+  align-items: flex-start;
+}
+
+/* Ad sidebar styles - Desktop vertical ads */
+.ad-sidebar {
+  flex: 0 0 160px;
+  position: sticky;
+  top: 20px;
+  display: block;
+}
+
+.ad-sidebar-left,
+.ad-sidebar-right {
+  display: block;
+}
+
+.ad-container.vertical {
+  min-height: 600px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+/* Mobile ad containers */
+.mobile-ad-container {
+  display: none;
+  margin: 20px 0;
+  padding: 10px 0;
+  text-align: center;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
 body.time-calculator-page .container {
   grid-template-columns: 1fr !important;
   display: block !important;
   max-width: 1200px;
-  margin: 20px auto;
+  margin: 0 auto;
   background: white;
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   padding: 40px;
+  flex: 1 1 auto;
 }
 
 /* Hide gradient background for time calculator */
@@ -194,10 +238,10 @@ body.time-calculator-page .container::before {
 .total-section {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 30px;
+  padding: 35px;
   border-radius: 15px;
   text-align: center;
-  flex: 0 0 280px;
+  flex: 0 0 380px;
   height: fit-content;
   align-self: flex-start;
   margin-top: 65px;
@@ -216,20 +260,23 @@ body.time-calculator-page .container::before {
 }
 
 .total-label {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
   opacity: 0.9;
+  font-weight: 600;
 }
 
 .total-time {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   font-weight: 700;
+  margin: 20px 0;
 }
 
 .total-breakdown {
-  margin-top: 15px;
-  font-size: 1rem;
+  margin-top: 20px;
+  font-size: 1.1rem;
   opacity: 0.9;
+  line-height: 1.6;
 }
 
 .time-item.add {
@@ -315,6 +362,7 @@ body.time-calculator-page .container::before {
   align-items: flex-start;
   flex-wrap: wrap;
   min-width: 0;
+  min-height: 50px;
 }
 
 .compact-input-group {
@@ -360,13 +408,7 @@ body.time-calculator-page .container::before {
 }
 
 .compact-input-group .slider {
-  width: 100%;
-  height: 6px;
-  border-radius: 3px;
-  background: #e9ecef;
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
+  display: none;
 }
 
 .compact-input-group .slider::-webkit-slider-thumb {
@@ -495,8 +537,8 @@ body.time-calculator-page .container::before {
 }
 
 .input-section {
-  flex: 0 0 auto;
-  width: 600px;
+  flex: 1 1 auto;
+  max-width: 650px;
   min-width: 500px;
 }
 
@@ -508,7 +550,86 @@ body.time-calculator-page .container::before {
   margin-bottom: 0;
 }
 
+/* SEO Content Sections */
+.seo-intro {
+  margin-top: 40px;
+  padding: 30px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+}
+
+.seo-intro h2 {
+  color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.seo-intro p {
+  color: #555;
+  line-height: 1.6;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.seo-content {
+  margin-top: 30px;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  border: 2px solid #e9ecef;
+}
+
+.seo-content h3 {
+  color: #333;
+  font-size: 1.5rem;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.seo-content h3:first-child {
+  margin-top: 0;
+}
+
+.seo-content ul {
+  list-style-type: disc;
+  padding-left: 25px;
+  margin: 15px 0;
+}
+
+.seo-content li {
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.seo-content p {
+  color: #555;
+  line-height: 1.7;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
 /* Responsive Design */
+@media (max-width: 1200px) {
+  /* Hide sidebar ads on smaller screens */
+  .ad-sidebar {
+    display: none !important;
+  }
+
+  /* Show mobile ads */
+  .mobile-ad-container {
+    display: block !important;
+  }
+
+  .main-content {
+    padding: 10px;
+  }
+}
+
 @media (max-width: 1000px) {
   .top-layout {
     flex-direction: column;
@@ -529,6 +650,19 @@ body.time-calculator-page .container::before {
 
   .entries-section {
     margin-top: 15px;
+  }
+
+  .seo-intro,
+  .seo-content {
+    padding: 20px;
+  }
+
+  .seo-intro h2 {
+    font-size: 1.5rem;
+  }
+
+  .seo-content h3 {
+    font-size: 1.3rem;
   }
 }
 
@@ -553,30 +687,8 @@ body.time-calculator-page .container::before {
     min-height: 44px;
   }
 
-  .time-input-group {
-    padding: 14px 18px;
-    min-height: 50px;
-  }
-
-  .time-input-group input[type="number"] {
-    width: 70px;
-    font-size: 1.05rem;
-    min-height: 36px;
-  }
-
   .compact-input-group .slider {
-    height: 7px;
-    margin: 10px 0;
-  }
-
-  .compact-input-group .slider::-webkit-slider-thumb {
-    width: 24px;
-    height: 24px;
-  }
-
-  .compact-input-group .slider::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
+    display: none !important;
   }
 
   .time-calculator-page .btn {
@@ -593,20 +705,76 @@ body.time-calculator-page .container::before {
   .time-row {
     padding: 18px;
     margin-bottom: 15px;
+    overflow: visible !important;
   }
 
   .time-row-header {
-    flex-direction: column;
-    gap: 10px;
+    display: block !important;
+    width: 100%;
+    overflow: visible !important;
   }
 
-  .time-input-groups {
-    flex-direction: column;
-    gap: 12px;
+  /* Horizontal layout for tablet */
+  .time-row .time-input-groups {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    width: 100% !important;
+    margin-top: 12px !important;
   }
 
-  .compact-input-group {
-    min-width: 100%;
+  .time-row .compact-input-group {
+    display: flex !important;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .compact-input-group .time-input-group {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin-bottom: 0 !important;
+    background: white !important;
+    border: 2px solid #e9ecef !important;
+    border-radius: 10px !important;
+    padding: 12px 8px !important;
+    min-height: 85px !important;
+    overflow: hidden !important;
+  }
+
+  .compact-input-group .time-input-group input[type="number"] {
+    width: 100% !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    padding: 6px 4px !important;
+    text-align: center !important;
+    border: none !important;
+    background: transparent !important;
+    order: 2 !important;
+    min-width: 0 !important;
+  }
+
+  .compact-input-group .time-input-group label {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    color: #666 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 4px !important;
+    order: 1 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    width: 100% !important;
+  }
+
+  .compact-input-group .slider {
+    display: none !important;
   }
 
   .time-rows-grid {
@@ -643,80 +811,194 @@ body.time-calculator-page .container::before {
     box-sizing: border-box;
   }
 
+  /* Mobile ad styling */
+  .mobile-ad-container {
+    display: block !important;
+    margin: 15px -15px;
+    padding: 10px 15px;
+    background: #f8f9fa;
+    border-radius: 0;
+  }
+
+  /* SEO content mobile styles */
+  .seo-intro {
+    margin: 20px -15px 0;
+    padding: 20px 15px;
+    border-radius: 0;
+  }
+
+  .seo-intro h2 {
+    font-size: 1.3rem;
+  }
+
+  .seo-intro p {
+    font-size: 0.9rem;
+  }
+
+  .seo-content {
+    margin: 15px -15px 0;
+    padding: 20px 15px;
+    border-radius: 0;
+  }
+
+  .seo-content h3 {
+    font-size: 1.2rem;
+    margin-top: 20px;
+  }
+
+  .seo-content ul {
+    padding-left: 20px;
+  }
+
+  .seo-content li {
+    font-size: 0.9rem;
+  }
+
+  .seo-content p {
+    font-size: 0.9rem;
+  }
+
   .time-calc-title {
     font-size: 1.5rem;
     margin-bottom: 20px;
   }
 
+  /* Force visibility of all parent containers */
+  .time-row {
+    display: block !important;
+    visibility: visible !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  .time-row-header {
+    display: block !important;
+    visibility: visible !important;
+    height: auto !important;
+  }
+
   .operation-toggle {
+    display: flex !important;
+    visibility: visible !important;
     padding: 3px;
     margin-bottom: 10px;
     gap: 4px;
+    width: 100%;
   }
 
   .operation-btn {
+    display: flex !important;
+    visibility: visible !important;
     padding: 10px 8px;
     font-size: 0.85rem;
     min-height: 40px;
     border-radius: 6px;
     flex: 1;
+    align-items: center;
+    justify-content: center;
   }
 
   .operation-btn span {
     font-size: 1rem;
   }
 
-  .time-input-group {
-    width: 100%;
-    justify-content: center;
-    padding: 10px;
-    min-height: 50px;
+  /* Critical: Force time input groups to be visible - NO FLEX */
+  .time-input-groups {
+    display: block !important;
+    visibility: visible !important;
+    height: auto !important;
+    width: 100% !important;
+    min-height: auto !important;
+    flex-wrap: nowrap !important;
+    overflow: visible !important;
+    flex: none !important;
+  }
+
+  /* Ensure input section is visible */
+  .input-section {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .calculator-section {
+    display: block !important;
+  }
+
+  .multiple-times-container {
+    display: flex !important;
     flex-direction: column;
+  }
+
+  .time-rows-grid {
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  /* Mobile vertical stack for time inputs */
+  .time-row .time-input-group {
+    display: flex !important;
+    flex-direction: row !important;
+    width: 100%;
+    justify-content: space-between;
     align-items: center;
-    gap: 6px;
+    padding: 12px 16px;
+    min-height: 60px;
+    gap: 10px;
     background: white;
     border-radius: 8px;
     border: 2px solid #e9ecef;
+    margin-bottom: 0;
   }
 
-  .time-input-group input[type="number"] {
-    width: 70px;
-    font-size: 1.2rem;
-    padding: 8px;
-    min-height: 40px;
+  .time-row .time-input-group input[type="number"] {
+    width: 80px;
+    font-size: 1.3rem;
+    padding: 10px;
+    min-height: 44px;
     text-align: center;
-    border: 1px solid #dee2e6;
+    border: 2px solid #dee2e6;
     border-radius: 6px;
     background: #f8f9fa;
+    flex-shrink: 0;
   }
 
-  .time-input-group input[type="number"]:focus {
+  .time-row .time-input-group input[type="number"]:focus {
     border-color: #667eea;
     outline: none;
+    background: white;
   }
 
-  .time-input-group label {
-    font-size: 0.8rem;
+  .time-row .time-input-group label {
+    font-size: 0.85rem;
     font-weight: 600;
-    color: #666;
+    color: #555;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    flex: 1;
+    text-align: left;
   }
 
+  /* Slider styling for mobile */
   .compact-input-group .slider {
-    height: 6px;
-    margin: 10px 0;
+    display: block !important;
+    height: 8px;
+    margin: 12px 0 8px 0;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
   .compact-input-group .slider::-webkit-slider-thumb {
-    width: 22px;
-    height: 22px;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
     border: 3px solid #fff;
   }
 
   .compact-input-group .slider::-moz-range-thumb {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     border: 3px solid #fff;
   }
 
@@ -786,30 +1068,105 @@ body.time-calculator-page .container::before {
   }
 
   .time-row-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
+    display: block !important;
+    width: 100%;
+    overflow: visible !important;
+    height: auto !important;
+    min-height: auto !important;
   }
 
-  .time-input-groups {
-    flex-direction: column;
-    gap: 10px;
-    justify-content: stretch;
+  /* FORCE Compact horizontal layout for mobile - all inputs in one row */
+  .time-row .time-input-groups {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 4px !important;
+    width: 100% !important;
+    min-height: auto !important;
+    margin-top: 12px !important;
+    align-items: stretch !important;
+    justify-content: space-between !important;
   }
 
-  .compact-input-group {
-    min-width: 100%;
-    flex: none;
-    padding: 0;
-    margin: 0;
+  .time-row .compact-input-group {
+    display: flex !important;
+    visibility: visible !important;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  .compact-input-group:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  .compact-input-group .time-input-group {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+    width: 100% !important;
+    margin-bottom: 0 !important;
+    background: white !important;
+    border: 2px solid #e9ecef !important;
+    border-radius: 8px !important;
+    padding: 8px 4px !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    min-height: 75px !important;
+    overflow: hidden !important;
+  }
+
+  .compact-input-group .time-input-group input[type="number"] {
+    width: 100% !important;
+    font-size: 1.4rem !important;
+    font-weight: 600 !important;
+    padding: 4px 2px !important;
+    text-align: center !important;
+    border: none !important;
+    background: transparent !important;
+    order: 2 !important;
+    min-width: 0 !important;
+  }
+
+  .compact-input-group .time-input-group label {
+    font-size: 0.65rem !important;
+    font-weight: 600 !important;
+    color: #666 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.3px !important;
+    margin-bottom: 2px !important;
+    order: 1 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    width: 100% !important;
+  }
+
+  .compact-input-group .slider {
+    display: none !important;
   }
 
   .time-row {
+    display: block !important;
     padding: 15px;
     margin-bottom: 12px;
     border-radius: 10px;
     background: #f8f9fa;
     border: 2px solid #e9ecef;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 150px !important;
   }
 
   .time-rows-grid {
@@ -861,5 +1218,58 @@ body.time-calculator-page .container::before {
     background: #f8f9fa;
     padding: 15px;
     border-radius: 10px;
+  }
+
+  /* NUCLEAR OPTION: Force show ALL elements */
+  .time-row * {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Nuclear option - ensure horizontal layout */
+  .time-row .time-input-groups {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 4px !important;
+  }
+
+  .time-row .compact-input-group {
+    display: flex !important;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+  }
+
+  .time-row .time-input-group {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .time-row .time-input-group label {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .slider {
+    display: none !important;
+  }
+
+  input[type="number"],
+  input[type="range"],
+  label {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Force compact input groups to show vertically stacked */
+  .time-row .compact-input-group {
+    display: block !important;
+    clear: both !important;
+    float: none !important;
   }
 }
