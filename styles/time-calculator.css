@@ -8,41 +8,38 @@ body.time-calculator-page {
   overflow-x: hidden;
 }
 
-/* Main content wrapper with ads */
-.main-content {
-  display: flex;
-  gap: 20px;
-  max-width: 100%;
-  width: 100%;
-  margin: 0 auto;
-  padding: 20px 10px;
-  align-items: flex-start;
-  justify-content: center;
-  box-sizing: border-box;
-}
-
-/* Ad sidebar styles - Desktop vertical ads */
-.ad-sidebar {
-  flex: 0 0 160px;
-  width: 160px;
-  position: sticky;
-  top: 80px;
-  display: block;
-  height: 600px;
-  min-height: 600px;
-  z-index: 10;
-}
-
-.ad-sidebar-left,
-.ad-sidebar-right {
-  display: block;
+/* Fixed Position Vertical Ads on Background */
+.fixed-ad-left,
+.fixed-ad-right {
+  position: fixed;
+  top: 100px;
   width: 160px;
   height: 600px;
+  z-index: 1000;
+  display: none;
 }
 
-/* Show ads on desktop */
-@media (min-width: 1201px) {
-  .ad-sidebar {
+.fixed-ad-left {
+  left: 10px;
+}
+
+.fixed-ad-right {
+  right: 10px;
+}
+
+.fixed-ad-left ins.adsbygoogle,
+.fixed-ad-right ins.adsbygoogle {
+  display: block !important;
+  width: 160px !important;
+  height: 600px !important;
+  min-width: 160px !important;
+  min-height: 600px !important;
+}
+
+/* Show fixed ads on large desktop screens */
+@media (min-width: 1400px) {
+  .fixed-ad-left,
+  .fixed-ad-right {
     display: block !important;
   }
 
@@ -51,27 +48,14 @@ body.time-calculator-page {
   }
 }
 
-.ad-container.sidebar.vertical {
-  width: 160px;
-  height: 600px;
-  min-height: 600px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+/* Main content wrapper */
+.main-content {
   display: block;
-  overflow: visible;
-  padding: 0;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 10px;
   box-sizing: border-box;
-  backdrop-filter: blur(10px);
-}
-
-.ad-container.sidebar.vertical ins.adsbygoogle {
-  display: block !important;
-  width: 160px !important;
-  height: 600px !important;
-  min-width: 160px !important;
-  min-height: 600px !important;
-  background: white;
-  border-radius: 8px;
 }
 
 /* Mobile ad containers */
@@ -653,9 +637,10 @@ body.time-calculator-page .container::before {
 }
 
 /* Responsive Design */
-@media (max-width: 1200px) {
-  /* Hide sidebar ads on smaller screens */
-  .ad-sidebar {
+@media (max-width: 1399px) {
+  /* Hide fixed ads on smaller screens */
+  .fixed-ad-left,
+  .fixed-ad-right {
     display: none !important;
   }
 

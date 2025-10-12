@@ -167,21 +167,29 @@
     });
   </script>
 
-  <!-- Main Content Wrapper with Ads -->
-  <div class="main-content">
-    <!-- Left Sidebar Ad (Desktop Only) -->
-    <aside class="ad-sidebar ad-sidebar-left" aria-label="Advertisement" style="width:160px;height:600px;">
-      <div class="ad-container sidebar vertical" style="width:160px;height:600px;">
-        <!-- Vertical -->
-        <ins class="adsbygoogle"
-             style="display:block;width:160px;height:600px;"
-             data-ad-client="ca-pub-5970109164913530"
-             data-ad-slot="3568950891"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-      </div>
-    </aside>
+  <!-- Fixed Position Vertical Ads on Background -->
+  <!-- Left Vertical Ad -->
+  <div class="fixed-ad-left" aria-label="Advertisement">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5970109164913530"
+         data-ad-slot="3568950891"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
 
+  <!-- Right Vertical Ad -->
+  <div class="fixed-ad-right" aria-label="Advertisement">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5970109164913530"
+         data-ad-slot="3568950891"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div class="main-content">
     <!-- Time Calculator Container -->
     <div class="container">
       <h1 class="time-calc-title">⏰ Time Calculator</h1>
@@ -274,19 +282,6 @@
              data-ad-slot="1469347266"></ins>
       </div>
     </div>  <!-- end container -->
-
-    <!-- Right Sidebar Ad (Desktop Only) -->
-    <aside class="ad-sidebar ad-sidebar-right" aria-label="Advertisement" style="width:160px;height:600px;">
-      <div class="ad-container sidebar vertical" style="width:160px;height:600px;">
-        <!-- Vertical -->
-        <ins class="adsbygoogle"
-             style="display:block;width:160px;height:600px;"
-             data-ad-client="ca-pub-5970109164913530"
-             data-ad-slot="3568950891"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-      </div>
-    </aside>
   </div>  <!-- end main-content -->
 
   <!-- Initialize AdSense ads after page load -->
@@ -295,15 +290,28 @@
       // Wait a moment for layout to stabilize
       setTimeout(function() {
         try {
-          // Initialize all ads
-          (adsbygoogle = window.adsbygoogle || []).push({});
-          (adsbygoogle = window.adsbygoogle || []).push({});
-          (adsbygoogle = window.adsbygoogle || []).push({});
-          (adsbygoogle = window.adsbygoogle || []).push({});
+          // Initialize desktop vertical ads (if visible)
+          const leftAd = document.querySelector('.fixed-ad-left');
+          const rightAd = document.querySelector('.fixed-ad-right');
+
+          if (leftAd && window.getComputedStyle(leftAd).display !== 'none') {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          }
+          if (rightAd && window.getComputedStyle(rightAd).display !== 'none') {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          }
+
+          // Initialize mobile ads (if visible)
+          const mobileAds = document.querySelectorAll('.mobile-ad-container');
+          mobileAds.forEach(function(ad) {
+            if (window.getComputedStyle(ad).display !== 'none') {
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            }
+          });
         } catch (e) {
           console.error('AdSense initialization error:', e);
         }
-      }, 300);
+      }, 500);
     });
   </script>
 
