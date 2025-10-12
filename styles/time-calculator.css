@@ -21,8 +21,8 @@ body.time-calculator-page {
 
 /* Ad sidebar styles - Desktop vertical ads */
 .ad-sidebar {
-  flex: 0 0 160px;
-  width: 160px;
+  flex: 0 0 180px;
+  width: 180px;
   position: sticky;
   top: 20px;
   display: block;
@@ -34,9 +34,8 @@ body.time-calculator-page {
   display: block;
 }
 
-.ad-container.vertical {
-  width: 160px;
-  height: 600px;
+.ad-container.sidebar.vertical {
+  width: 180px;
   min-height: 600px;
   background: #f8f9fa;
   border-radius: 8px;
@@ -44,23 +43,25 @@ body.time-calculator-page {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-.ad-container.vertical ins {
-  width: 160px !important;
-  height: 600px !important;
+.ad-container.sidebar.vertical ins {
+  width: 180px !important;
+  min-height: 600px !important;
 }
 
 /* Mobile ad containers */
 .mobile-ad-container {
   display: none;
-  margin: 20px 0;
+  margin: 20px auto;
   padding: 10px;
   text-align: center;
   background: #f8f9fa;
   border-radius: 8px;
-  min-height: 50px;
   width: 100%;
+  max-width: 340px;
   box-sizing: border-box;
 }
 
