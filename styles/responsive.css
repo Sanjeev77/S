@@ -909,11 +909,14 @@
     opacity: 1 !important;
   }
 
-  /* Ensure ads inside mobile containers are visible */
+  /* Ensure ads inside mobile containers are visible and horizontal */
   .mobile-ad-container .adsbygoogle {
     display: block !important;
-    min-height: 100px;
-    width: 100%;
+    width: 100% !important;
+    height: 100px !important;
+    max-height: 100px !important;
+    min-height: 50px !important;
+    overflow: hidden !important;
   }
 
   body {
