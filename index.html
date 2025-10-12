@@ -477,14 +477,15 @@
 
     <!-- Mobile Ad: Top Banner (visible only on mobile ≤768px) -->
     <div class="mobile-ad-container">
-      <div class="ad-container mobile-banner">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-5970109164913530"
-             data-ad-slot="4427398071"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-      </div>
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5970109164913530"
+           data-ad-slot="4427398071"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
 
     <!-- LEFT PANEL - INPUTS -->
@@ -1389,14 +1390,15 @@
 
     <!-- Mobile Ad: Bottom Banner (visible only on mobile ≤768px) -->
     <div class="mobile-ad-container">
-      <div class="ad-container mobile-banner">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-5970109164913530"
-             data-ad-slot="4427398071"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-      </div>
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5970109164913530"
+           data-ad-slot="4427398071"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
 
     <!-- Ad Space: Right Sidebar -->
@@ -1604,32 +1606,5 @@
   </script>
   -->
 
-  <!-- Initialize AdSense ads after DOM is ready -->
-  <script>
-    // Wait for DOM to be fully loaded
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initializeAds);
-    } else {
-      // DOM is already loaded
-      initializeAds();
-    }
-
-    function initializeAds() {
-      // Small delay to ensure all elements have calculated dimensions
-      setTimeout(function() {
-        try {
-          // Push all ads at once after DOM is ready
-          const adsElements = document.querySelectorAll('.adsbygoogle');
-          adsElements.forEach(function(ad) {
-            if (!ad.dataset.adsbygoogleStatus) {
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            }
-          });
-        } catch (e) {
-          console.error('AdSense initialization error:', e);
-        }
-      }, 100);
-    }
-  </script>
 </body>
 </html>
