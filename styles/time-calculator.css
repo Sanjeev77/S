@@ -638,6 +638,17 @@ body.time-calculator-page .container::before {
   /* Show mobile ads */
   .mobile-ad-container {
     display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Ensure ads inside mobile containers are visible and horizontal - fixed size */
+  .mobile-ad-container .adsbygoogle {
+    display: inline-block !important;
+    width: 320px !important;
+    height: 100px !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
   }
 
   .main-content {
