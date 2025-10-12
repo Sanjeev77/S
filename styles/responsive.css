@@ -873,6 +873,8 @@
   display: none;
   padding: 10px;
   background: #f8f9fa;
+  width: 100%;
+  min-height: 50px;
 }
 
 .ad-container.mobile-banner {

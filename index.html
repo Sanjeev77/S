@@ -476,16 +476,8 @@
     </div>
 
     <!-- Mobile Ad: Top Banner (visible only on mobile ≤768px) -->
-    <div class="mobile-ad-container">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-5970109164913530"
-           data-ad-slot="4427398071"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>
-           (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
+    <div class="mobile-ad-container" id="mobile-top-ad">
+      <!-- Ad will be inserted here on mobile only -->
     </div>
 
     <!-- LEFT PANEL - INPUTS -->
@@ -1389,16 +1381,8 @@
     </div>
 
     <!-- Mobile Ad: Bottom Banner (visible only on mobile ≤768px) -->
-    <div class="mobile-ad-container">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-5970109164913530"
-           data-ad-slot="4427398071"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>
-           (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
+    <div class="mobile-ad-container" id="mobile-bottom-ad">
+      <!-- Ad will be inserted here on mobile only -->
     </div>
 
     <!-- Ad Space: Right Sidebar -->
@@ -1605,6 +1589,26 @@
     }, 1000); // Check every second
   </script>
   -->
+
+  <!-- Load mobile ads only on mobile devices -->
+  <script>
+    // Check if mobile (only insert ads on mobile to avoid hidden ad errors)
+    if (window.innerWidth <= 768) {
+      // Insert top mobile ad
+      document.getElementById('mobile-top-ad').innerHTML =
+        '<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530" data-ad-slot="4427398071" data-ad-format="auto" data-full-width-responsive="true"></ins>' +
+        '<script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>';
+
+      // Insert bottom mobile ad
+      document.getElementById('mobile-bottom-ad').innerHTML =
+        '<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530" data-ad-slot="4427398071" data-ad-format="auto" data-full-width-responsive="true"></ins>' +
+        '<script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>';
+
+      // Show the containers
+      document.getElementById('mobile-top-ad').style.display = 'block';
+      document.getElementById('mobile-bottom-ad').style.display = 'block';
+    }
+  </script>
 
 </body>
 </html>
