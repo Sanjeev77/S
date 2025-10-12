@@ -5,51 +5,73 @@ body.time-calculator-page {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
   padding: 0;
+  overflow-x: hidden;
 }
 
 /* Main content wrapper with ads */
 .main-content {
   display: flex;
   gap: 20px;
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 20px;
-  align-items: flex-start;
+  max-width: 100%;
   width: 100%;
+  margin: 0 auto;
+  padding: 20px 10px;
+  align-items: flex-start;
+  justify-content: center;
   box-sizing: border-box;
 }
 
 /* Ad sidebar styles - Desktop vertical ads */
 .ad-sidebar {
-  flex: 0 0 180px;
-  width: 180px;
+  flex: 0 0 160px;
+  width: 160px;
   position: sticky;
-  top: 20px;
+  top: 80px;
   display: block;
+  height: 600px;
   min-height: 600px;
+  z-index: 10;
 }
 
 .ad-sidebar-left,
 .ad-sidebar-right {
   display: block;
+  width: 160px;
+  height: 600px;
+}
+
+/* Show ads on desktop */
+@media (min-width: 1201px) {
+  .ad-sidebar {
+    display: block !important;
+  }
+
+  .mobile-ad-container {
+    display: none !important;
+  }
 }
 
 .ad-container.sidebar.vertical {
-  width: 180px;
+  width: 160px;
+  height: 600px;
   min-height: 600px;
-  background: #f8f9fa;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  padding: 10px;
+  display: block;
+  overflow: visible;
+  padding: 0;
   box-sizing: border-box;
+  backdrop-filter: blur(10px);
 }
 
-.ad-container.sidebar.vertical ins {
-  width: 180px !important;
+.ad-container.sidebar.vertical ins.adsbygoogle {
+  display: block !important;
+  width: 160px !important;
+  height: 600px !important;
+  min-width: 160px !important;
   min-height: 600px !important;
+  background: white;
+  border-radius: 8px;
 }
 
 /* Mobile ad containers */
@@ -69,12 +91,14 @@ body.time-calculator-page .container {
   grid-template-columns: 1fr !important;
   display: block !important;
   max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   background: white;
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   padding: 40px;
   flex: 1 1 auto;
+  box-sizing: border-box;
 }
 
 /* Hide gradient background for time calculator */
