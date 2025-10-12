@@ -475,16 +475,8 @@
       </div>
     </div>
 
-    <!-- Mobile Ad: Top Banner (visible only on mobile) -->
-    <div class="mobile-ad-container" id="mobile-top-ad">
-      <div class="ad-container mobile-banner">
-        <ins class="adsbygoogle"
-             style="display:block;width:100%;height:50px;"
-             data-ad-client="ca-pub-5970109164913530"
-             data-ad-slot="1469347266"
-             data-ad-format="rectangle"></ins>
-      </div>
-    </div>
+    <!-- Mobile ad will be inserted here dynamically -->
+    <div id="mobile-top-ad-placeholder"></div>
 
     <!-- LEFT PANEL - INPUTS -->
     <div class="left-panel" id="home-section">
@@ -1386,16 +1378,8 @@
 
     </div>
 
-    <!-- Mobile Ad: Bottom Banner (visible only on mobile) -->
-    <div class="mobile-ad-container" id="mobile-bottom-ad">
-      <div class="ad-container mobile-banner">
-        <ins class="adsbygoogle"
-             style="display:block;width:100%;height:50px;"
-             data-ad-client="ca-pub-5970109164913530"
-             data-ad-slot="1469347266"
-             data-ad-format="rectangle"></ins>
-      </div>
-    </div>
+    <!-- Mobile ad will be inserted here dynamically -->
+    <div id="mobile-bottom-ad-placeholder"></div>
 
     <!-- Ad Space: Right Sidebar -->
     <div class="ad-sidebar right-ad">
@@ -1613,6 +1597,15 @@
     }
 
     function initializeAds() {
+      // Check if mobile device (screen width <= 768px)
+      const isMobile = window.innerWidth <= 768;
+
+      // Dynamically insert mobile ads ONLY on mobile devices
+      if (isMobile) {
+        insertMobileAd('mobile-top-ad-placeholder');
+        insertMobileAd('mobile-bottom-ad-placeholder');
+      }
+
       // Small delay to ensure all elements have calculated dimensions
       setTimeout(function() {
         try {
@@ -1627,6 +1620,39 @@
           console.error('AdSense initialization error:', e);
         }
       }, 100);
+    }
+
+    function insertMobileAd(placeholderId) {
+      const placeholder = document.getElementById(placeholderId);
+      if (!placeholder) return;
+
+      // Create mobile ad container
+      const container = document.createElement('div');
+      container.className = 'mobile-ad-container';
+      container.style.display = 'block';
+      container.style.padding = '10px';
+      container.style.background = '#f8f9fa';
+
+      // Create ad wrapper
+      const adWrapper = document.createElement('div');
+      adWrapper.className = 'ad-container mobile-banner';
+      adWrapper.style.minHeight = '60px';
+      adWrapper.style.margin = '0';
+      adWrapper.style.borderRadius = '6px';
+
+      // Create AdSense ins element
+      const adsenseIns = document.createElement('ins');
+      adsenseIns.className = 'adsbygoogle';
+      adsenseIns.style.display = 'block';
+      adsenseIns.setAttribute('data-ad-client', 'ca-pub-5970109164913530');
+      adsenseIns.setAttribute('data-ad-slot', '1469347266');
+      adsenseIns.setAttribute('data-ad-format', 'auto');
+      adsenseIns.setAttribute('data-full-width-responsive', 'true');
+
+      // Assemble the ad
+      adWrapper.appendChild(adsenseIns);
+      container.appendChild(adWrapper);
+      placeholder.appendChild(container);
     }
   </script>
 </body>
