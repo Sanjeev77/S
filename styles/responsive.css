@@ -874,7 +874,9 @@
   padding: 10px;
   background: #f8f9fa;
   width: 100%;
-  min-height: 50px;
+  min-height: 100px;
+  margin: 10px 0;
+  text-align: center;
 }
 
 .ad-container.mobile-banner {
@@ -902,9 +904,18 @@
   }
   
   .mobile-ad-container {
-    display: block;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
-  
+
+  /* Ensure ads inside mobile containers are visible */
+  .mobile-ad-container .adsbygoogle {
+    display: block !important;
+    min-height: 100px;
+    width: 100%;
+  }
+
   body {
     padding-bottom: 200px; /* Space for fixed bottom nav + banner ads */
     padding-top: 0;

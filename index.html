@@ -477,7 +477,12 @@
 
     <!-- Mobile Ad: Top Banner (visible only on mobile ≤768px) -->
     <div class="mobile-ad-container" id="mobile-top-ad">
-      <!-- Ad will be inserted here on mobile only -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5970109164913530"
+           data-ad-slot="1469347266"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
     </div>
 
     <!-- LEFT PANEL - INPUTS -->
@@ -1382,7 +1387,12 @@
 
     <!-- Mobile Ad: Bottom Banner (visible only on mobile ≤768px) -->
     <div class="mobile-ad-container" id="mobile-bottom-ad">
-      <!-- Ad will be inserted here on mobile only -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5970109164913530"
+           data-ad-slot="1469347266"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
     </div>
 
     <!-- Ad Space: Right Sidebar -->
@@ -1592,38 +1602,12 @@
 
   <!-- Initialize all AdSense ads -->
   <script>
-    function loadMobileAd(containerId) {
-      const container = document.getElementById(containerId);
-      if (!container) return;
-
-      // Create AdSense ins element
-      const ins = document.createElement('ins');
-      ins.className = 'adsbygoogle';
-      ins.style.display = 'block';
-      ins.setAttribute('data-ad-client', 'ca-pub-5970109164913530');
-      ins.setAttribute('data-ad-slot', '4427398071');
-      ins.setAttribute('data-ad-format', 'auto');
-      ins.setAttribute('data-full-width-responsive', 'true');
-
-      // Append to container
-      container.appendChild(ins);
-
-      // Show container
-      container.style.display = 'block';
-
-      // Initialize AdSense
-      try {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (e) {
-        console.error('AdSense error:', e);
-      }
-    }
-
     // Wait for page to load
     window.addEventListener('load', function() {
-      // Initialize existing ads (sidebar and middle ads)
-      const existingAds = document.querySelectorAll('.adsbygoogle');
-      existingAds.forEach(function(ad) {
+      // Initialize all AdSense ads (including mobile)
+      const allAds = document.querySelectorAll('.adsbygoogle');
+      allAds.forEach(function(ad) {
+        // Only initialize ads that haven't been initialized yet
         if (!ad.dataset.adsbygoogleStatus) {
           try {
             (adsbygoogle = window.adsbygoogle || []).push({});
@@ -1632,14 +1616,6 @@
           }
         }
       });
-
-      // Load mobile ads only on mobile
-      if (window.innerWidth <= 768) {
-        setTimeout(function() {
-          loadMobileAd('mobile-top-ad');
-          loadMobileAd('mobile-bottom-ad');
-        }, 100);
-      }
     });
   </script>
 
