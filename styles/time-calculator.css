@@ -67,8 +67,14 @@ body.time-calculator-page {
   background: #f8f9fa;
   border-radius: 8px;
   width: 100%;
-  max-width: 340px;
+  max-width: 100%;
   box-sizing: border-box;
+}
+
+.mobile-ad-container ins.adsbygoogle {
+  display: block !important;
+  width: 100% !important;
+  min-height: 100px;
 }
 
 body.time-calculator-page .container {
@@ -651,11 +657,11 @@ body.time-calculator-page .container::before {
     opacity: 1 !important;
   }
 
-  /* Ensure ads inside mobile containers are visible and horizontal - fixed size */
+  /* Ensure ads inside mobile containers are visible and responsive */
   .mobile-ad-container .adsbygoogle {
-    display: inline-block !important;
-    width: 320px !important;
-    height: 100px !important;
+    display: block !important;
+    width: 100% !important;
+    min-height: 100px !important;
     max-width: 100% !important;
     margin: 0 auto !important;
   }
