@@ -1,0 +1,865 @@
+/* Time Calculator Specific Styles */
+
+/* Override body for time calculator page */
+body.time-calculator-page {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 0;
+}
+
+body.time-calculator-page .container {
+  grid-template-columns: 1fr !important;
+  display: block !important;
+  max-width: 1200px;
+  margin: 20px auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+}
+
+/* Hide gradient background for time calculator */
+body.time-calculator-page .container::before {
+  display: none !important;
+}
+
+.time-calc-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.calculator-section {
+  margin-bottom: 30px;
+}
+
+.time-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.number-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.time-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+  transition: border-color 0.3s;
+}
+
+.time-input-group:focus-within {
+  border-color: #667eea;
+}
+
+.time-input-group input[type="number"] {
+  border: none;
+  outline: none;
+  width: 60px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.time-input-group label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.preset-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.preset-btn {
+  padding: 6px 12px;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.preset-btn:hover {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.multiple-times-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.time-rows-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.time-rows-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.time-rows-grid::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.time-rows-grid::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 4px;
+}
+
+.time-rows-grid::-webkit-scrollbar-thumb:hover {
+  background: #5a6fd8;
+}
+
+.operation-toggle {
+  display: flex;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 12px;
+  border: 2px solid #e9ecef;
+}
+
+.operation-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 40px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.operation-btn.active.add {
+  background: #28a745;
+  color: white;
+}
+
+.operation-btn.active.subtract {
+  background: #dc3545;
+  color: white;
+}
+
+.operation-btn:not(.active) {
+  background: transparent;
+  color: #666;
+}
+
+.operation-btn:not(.active):hover {
+  background: #e9ecef;
+}
+
+.time-row.subtract {
+  border-left: 4px solid #dc3545;
+}
+
+.time-row.add {
+  border-left: 4px solid #28a745;
+}
+
+.total-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  flex: 0 0 280px;
+  height: fit-content;
+  align-self: flex-start;
+  margin-top: 65px;
+}
+
+.total-section.negative {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+.total-section.negative .total-time {
+  color: #fff;
+}
+
+.total-section.negative .total-breakdown {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.total-label {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+
+.total-time {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.total-breakdown {
+  margin-top: 15px;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.time-item.add {
+  border-left: 4px solid #28a745;
+}
+
+.time-item.subtract {
+  border-left: 4px solid #dc3545;
+}
+
+.time-item.subtract .time-display::before {
+  content: "− ";
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.time-item.add .time-display::before {
+  content: "+ ";
+  color: #28a745;
+  font-weight: 600;
+}
+
+.multiple-times-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.multiple-times-header span {
+  font-weight: 600;
+  color: #555;
+}
+
+.btn-add-row {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-height: 36px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.btn-add-row:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+.time-row {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 25px;
+  background: white;
+  border-radius: 12px;
+  border: 2px solid #e9ecef;
+  margin-bottom: 15px;
+  transition: border-color 0.3s;
+}
+
+.time-row-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.time-row:hover {
+  border-color: #667eea;
+}
+
+.time-input-groups {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.compact-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-width: 140px;
+}
+
+.time-row .time-input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8f9fa;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+  transition: border-color 0.3s;
+  margin-bottom: 8px;
+}
+
+.time-row .time-input-group:focus-within {
+  border-color: #667eea;
+}
+
+.time-row .time-input-group input[type="number"] {
+  border: none;
+  outline: none;
+  width: 60px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  background: transparent;
+  min-width: 50px;
+}
+
+.time-row .time-input-group label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.compact-input-group .slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #e9ecef;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.compact-input-group .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.compact-input-group .slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.btn-remove-row {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-start;
+  min-height: 32px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.btn-remove-row:hover {
+  background: #c82333;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0 0;
+  justify-content: center;
+}
+
+.time-calculator-page .btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.btn-add {
+  background: #28a745;
+  color: white;
+}
+
+.btn-add:hover {
+  background: #218838;
+}
+
+.btn-clear {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-clear:hover {
+  background: #c82333;
+}
+
+.time-list {
+  margin-bottom: 20px;
+}
+
+.time-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: white;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.time-item .time-display {
+  font-weight: 500;
+  color: #333;
+}
+
+.btn-remove {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  min-height: 36px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.btn-remove:hover {
+  background: #c82333;
+}
+
+.top-layout {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.input-section {
+  flex: 0 0 auto;
+  width: 600px;
+  min-width: 500px;
+}
+
+.entries-section {
+  margin-top: 20px;
+}
+
+.entries-section .calculator-section {
+  margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1000px) {
+  .top-layout {
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 25px;
+  }
+
+  .input-section {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .total-section {
+    flex: none;
+    margin-top: 0;
+    align-self: stretch;
+  }
+
+  .entries-section {
+    margin-top: 15px;
+  }
+}
+
+/* Tablet and large mobile devices */
+@media (max-width: 768px) and (min-width: 481px) {
+  body.time-calculator-page .container {
+    padding: 25px;
+    margin: 15px;
+  }
+
+  .time-calc-title {
+    font-size: 2rem;
+  }
+
+  .operation-toggle {
+    padding: 4px;
+  }
+
+  .operation-btn {
+    padding: 11px 16px;
+    font-size: 0.95rem;
+    min-height: 44px;
+  }
+
+  .time-input-group {
+    padding: 14px 18px;
+    min-height: 50px;
+  }
+
+  .time-input-group input[type="number"] {
+    width: 70px;
+    font-size: 1.05rem;
+    min-height: 36px;
+  }
+
+  .compact-input-group .slider {
+    height: 7px;
+    margin: 10px 0;
+  }
+
+  .compact-input-group .slider::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+  }
+
+  .compact-input-group .slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+  }
+
+  .time-calculator-page .btn {
+    padding: 13px 22px;
+    font-size: 1rem;
+    min-height: 46px;
+  }
+
+  .btn-add-row {
+    min-height: 42px;
+    padding: 9px 18px;
+  }
+
+  .time-row {
+    padding: 18px;
+    margin-bottom: 15px;
+  }
+
+  .time-row-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .time-input-groups {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .compact-input-group {
+    min-width: 100%;
+  }
+
+  .time-rows-grid {
+    gap: 15px;
+    max-height: 50vh;
+  }
+
+  .total-section {
+    padding: 25px;
+  }
+
+  .total-time {
+    font-size: 2.2rem;
+  }
+
+  .btn-group {
+    gap: 10px;
+  }
+
+  .time-item {
+    padding: 10px 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  body.time-calculator-page {
+    padding: 0;
+  }
+
+  body.time-calculator-page .container {
+    border-radius: 0;
+    margin: 0;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  .time-calc-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .operation-toggle {
+    padding: 3px;
+    margin-bottom: 10px;
+    gap: 4px;
+  }
+
+  .operation-btn {
+    padding: 10px 8px;
+    font-size: 0.85rem;
+    min-height: 40px;
+    border-radius: 6px;
+    flex: 1;
+  }
+
+  .operation-btn span {
+    font-size: 1rem;
+  }
+
+  .time-input-group {
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+    min-height: 50px;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+  }
+
+  .time-input-group input[type="number"] {
+    width: 70px;
+    font-size: 1.2rem;
+    padding: 8px;
+    min-height: 40px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background: #f8f9fa;
+  }
+
+  .time-input-group input[type="number"]:focus {
+    border-color: #667eea;
+    outline: none;
+  }
+
+  .time-input-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .compact-input-group .slider {
+    height: 6px;
+    margin: 10px 0;
+  }
+
+  .compact-input-group .slider::-webkit-slider-thumb {
+    width: 22px;
+    height: 22px;
+    border: 3px solid #fff;
+  }
+
+  .compact-input-group .slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border: 3px solid #fff;
+  }
+
+  .btn-add-row {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    min-height: 36px;
+    border-radius: 6px;
+    position: static;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .multiple-times-header {
+    position: relative;
+    padding-right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .multiple-times-header span {
+    font-size: 0.95rem;
+  }
+
+  .btn-remove-row {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    min-height: 32px;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .time-calculator-page .btn {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    min-height: 44px;
+    border-radius: 8px;
+    width: 100%;
+  }
+
+  .btn-remove {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    min-height: 36px;
+    border-radius: 6px;
+  }
+
+  .total-time {
+    font-size: 2rem;
+    margin: 15px 0;
+  }
+
+  .total-label {
+    font-size: 1.1rem;
+  }
+
+  .total-section {
+    padding: 20px;
+    margin-top: 0;
+  }
+
+  .time-row-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .time-input-groups {
+    flex-direction: column;
+    gap: 10px;
+    justify-content: stretch;
+  }
+
+  .compact-input-group {
+    min-width: 100%;
+    flex: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .time-row {
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+  }
+
+  .time-rows-grid {
+    gap: 12px;
+    padding-right: 5px;
+    max-height: 60vh;
+  }
+
+  .time-rows-grid::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .time-rows-grid::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+  }
+
+  .top-layout {
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .entries-section {
+    margin-top: 20px;
+  }
+
+  .time-item {
+    padding: 12px;
+    margin-bottom: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .time-item .time-display {
+    font-size: 1rem;
+  }
+
+  .time-list {
+    margin-bottom: 20px;
+  }
+
+  .total-breakdown {
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+
+  /* Fix for entries section title */
+  .entries-section .calculator-section {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+  }
+}

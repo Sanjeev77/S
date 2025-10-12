@@ -373,10 +373,29 @@
 </svg>
       </div>
       <nav class="main-navigation">
-        <a href="index.html" class="nav-link">
-          <i class="fas fa-calculator"></i>
-          <span>Calculator</span>
-        </a>
+        <div class="nav-dropdown">
+          <div class="nav-dropdown-toggle" onclick="toggleDropdown(this)">
+            <i class="fas fa-calculator"></i>
+            <span>Calculators</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="nav-dropdown-menu">
+            <a href="index.html" class="dropdown-item">
+              <i class="fas fa-chart-line"></i>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Financial Planning</div>
+                <div class="dropdown-item-desc">Plan your financial future & goals</div>
+              </div>
+            </a>
+            <a href="time-calculator.html" class="dropdown-item">
+              <i class="fas fa-clock"></i>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Time Calculator</div>
+                <div class="dropdown-item-desc">Add, subtract & calculate time</div>
+              </div>
+            </a>
+          </div>
+        </div>
         <a href="blog.html" target="_blank" class="nav-link">
           <i class="fas fa-book"></i>
           <span>Blog</span>
@@ -1009,5 +1028,26 @@
 
     }
   </style>
+
+  <script>
+    function toggleDropdown(element) {
+      const dropdown = element.closest('.nav-dropdown');
+      dropdown.classList.toggle('open');
+
+      document.querySelectorAll('.nav-dropdown').forEach(d => {
+        if (d !== dropdown) {
+          d.classList.remove('open');
+        }
+      });
+    }
+
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.nav-dropdown')) {
+        document.querySelectorAll('.nav-dropdown').forEach(d => {
+          d.classList.remove('open');
+        });
+      }
+    });
+  </script>
 </body>
 </html>
