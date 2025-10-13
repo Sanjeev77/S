@@ -498,6 +498,16 @@ body.time-calculator-page .container::before {
   min-width: 50px;
 }
 
+.time-row .time-input-group input[type="number"]::placeholder {
+  color: #bbb;
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.time-row .time-input-group input[type="number"]:focus::placeholder {
+  opacity: 0.4;
+}
+
 .time-row .time-input-group label {
   font-size: 0.9rem;
   color: #666;

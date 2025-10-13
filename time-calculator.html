@@ -384,8 +384,9 @@
             <div class="time-input-groups">
               <div class="compact-input-group">
                 <div class="time-input-group">
-                  <input type="number" id="multiHours-${timeRowCounter}" min="0" max="999" value="0" placeholder="0"
-                         oninput="syncSliderFromNumber(${timeRowCounter}, 'hours', this.value)">
+                  <input type="number" id="multiHours-${timeRowCounter}" min="0" max="999" placeholder="0"
+                         oninput="syncSliderFromNumber(${timeRowCounter}, 'hours', this.value)"
+                         onfocus="this.select()">
                   <label>hours</label>
                 </div>
                 <input type="range" class="slider" id="multiHoursSlider-${timeRowCounter}" min="0" max="24" value="0"
@@ -393,8 +394,9 @@
               </div>
               <div class="compact-input-group">
                 <div class="time-input-group">
-                  <input type="number" id="multiMinutes-${timeRowCounter}" min="0" max="59" value="0" placeholder="0"
-                         oninput="syncSliderFromNumber(${timeRowCounter}, 'minutes', this.value)">
+                  <input type="number" id="multiMinutes-${timeRowCounter}" min="0" max="59" placeholder="0"
+                         oninput="syncSliderFromNumber(${timeRowCounter}, 'minutes', this.value)"
+                         onfocus="this.select()">
                   <label>minutes</label>
                 </div>
                 <input type="range" class="slider" id="multiMinutesSlider-${timeRowCounter}" min="0" max="59" value="0"
@@ -402,8 +404,9 @@
               </div>
               <div class="compact-input-group">
                 <div class="time-input-group">
-                  <input type="number" id="multiSeconds-${timeRowCounter}" min="0" max="59" value="0" placeholder="0"
-                         oninput="syncSliderFromNumber(${timeRowCounter}, 'seconds', this.value)">
+                  <input type="number" id="multiSeconds-${timeRowCounter}" min="0" max="59" placeholder="0"
+                         oninput="syncSliderFromNumber(${timeRowCounter}, 'seconds', this.value)"
+                         onfocus="this.select()">
                   <label>seconds</label>
                 </div>
                 <input type="range" class="slider" id="multiSecondsSlider-${timeRowCounter}" min="0" max="59" value="0"
@@ -478,9 +481,14 @@
       const times = [];
 
       rows.forEach((row) => {
-        const hours = parseInt(document.getElementById(`multiHours-${row.id.split('-')[1]}`).value) || 0;
-        const minutes = parseInt(document.getElementById(`multiMinutes-${row.id.split('-')[1]}`).value) || 0;
-        const seconds = parseInt(document.getElementById(`multiSeconds-${row.id.split('-')[1]}`).value) || 0;
+        const rowId = row.id.split('-')[1];
+        const hoursInput = document.getElementById(`multiHours-${rowId}`);
+        const minutesInput = document.getElementById(`multiMinutes-${rowId}`);
+        const secondsInput = document.getElementById(`multiSeconds-${rowId}`);
+
+        const hours = parseInt(hoursInput.value) || 0;
+        const minutes = parseInt(minutesInput.value) || 0;
+        const seconds = parseInt(secondsInput.value) || 0;
         const operation = row.getAttribute('data-operation') || 'add';
 
         if (hours > 0 || minutes > 0 || seconds > 0) {
@@ -495,9 +503,9 @@
       const rows = document.querySelectorAll('.time-row');
       rows.forEach(row => {
         const rowId = row.id.split('-')[1];
-        document.getElementById(`multiHours-${rowId}`).value = 0;
-        document.getElementById(`multiMinutes-${rowId}`).value = 0;
-        document.getElementById(`multiSeconds-${rowId}`).value = 0;
+        document.getElementById(`multiHours-${rowId}`).value = '';
+        document.getElementById(`multiMinutes-${rowId}`).value = '';
+        document.getElementById(`multiSeconds-${rowId}`).value = '';
 
         document.getElementById(`multiHoursSlider-${rowId}`).value = 0;
         document.getElementById(`multiMinutesSlider-${rowId}`).value = 0;
@@ -616,8 +624,25 @@
       // Clean up the text - remove extra spaces around colons
       text = text.trim().toLowerCase().replace(/\s*:\s*/g, ':');
 
-      // Pattern 1: Colon format (e.g., "2:30:15", "2:30", "02:30:15")
-      // Check this FIRST before other patterns
+      // Pattern 1: 12-hour format with AM/PM (e.g., "8:00 PM", "8:30:15 AM", "8 PM")
+      // For a duration calculator, we just use the numeric value (8:00 PM = 8 hours)
+      const ampmMatch = text.match(/^(\d+)(?::(\d+))?(?::(\d+))?\s*(am|pm)$/);
+      if (ampmMatch) {
+        hours = parseInt(ampmMatch[1]);
+        minutes = ampmMatch[2] ? parseInt(ampmMatch[2]) : 0;
+        seconds = ampmMatch[3] ? parseInt(ampmMatch[3]) : 0;
+
+        // Since this is a duration calculator, just use the numeric values
+        // 8:00 PM means 8 hours, not 20 hours
+        // Special case: 12:xx AM = 0 hours (midnight duration would be 0)
+        if (hours === 12 && ampmMatch[4] === 'am') {
+          hours = 0;
+        }
+
+        return { hours, minutes, seconds };
+      }
+
+      // Pattern 2: Colon format (e.g., "2:30:15", "2:30", "02:30:15")
       const colonMatch = text.match(/^(\d+):(\d+)(?::(\d+))?$/);
       if (colonMatch) {
         hours = parseInt(colonMatch[1]);
@@ -626,7 +651,7 @@
         return { hours, minutes, seconds };
       }
 
-      // Pattern 2: Decimal hours (e.g., "2.5 hours", "1.25h")
+      // Pattern 3: Decimal hours (e.g., "2.5 hours", "1.25h")
       const decimalHoursMatch = text.match(/^(\d+\.?\d*)\s*(hours?|hrs?|h)$/);
       if (decimalHoursMatch) {
         const decimalHours = parseFloat(decimalHoursMatch[1]);
@@ -635,7 +660,7 @@
         return { hours, minutes, seconds };
       }
 
-      // Pattern 3: Just minutes that need conversion (e.g., "90 minutes", "150m")
+      // Pattern 4: Just minutes that need conversion (e.g., "90 minutes", "150m")
       const justMinutesMatch = text.match(/^(\d+)\s*(minutes?|mins?|m)$/);
       if (justMinutesMatch) {
         const totalMinutes = parseInt(justMinutesMatch[1]);
@@ -644,7 +669,7 @@
         return { hours, minutes, seconds };
       }
 
-      // Pattern 4: Just seconds that need conversion (e.g., "3600 seconds", "3600s")
+      // Pattern 5: Just seconds that need conversion (e.g., "3600 seconds", "3600s")
       const justSecondsMatch = text.match(/^(\d+)\s*(seconds?|secs?|s)$/);
       if (justSecondsMatch) {
         const totalSeconds = parseInt(justSecondsMatch[1]);
@@ -654,9 +679,9 @@
         return { hours, minutes, seconds };
       }
 
-      // Pattern 5: Mixed format with h/m/s (e.g., "2h 30m 15s", "1h30m", "45m", "30s", "2 hr 22 mins")
-      // More flexible regex to handle various word separators and formats
-      const hmsMatch = text.match(/(?:(\d+)\s*(?:hours?|hrs?|hr|h))?[\s:,]*(?:(\d+)\s*(?:minutes?|mins?|min|m))?[\s:,]*(?:(\d+)\s*(?:seconds?|secs?|sec|s))?/);
+      // Pattern 6: Mixed format with h/m/s (e.g., "2h 30m 15s", "1h30m", "45m", "30s", "2 hr 22 mins", "3 hours & 45 minutes")
+      // More flexible regex to handle various word separators and formats including &, and
+      const hmsMatch = text.match(/(?:(\d+)\s*(?:hours?|hrs?|hr|h))?[\s:,&]*(?:\band\b)?[\s:,&]*(?:(\d+)\s*(?:minutes?|mins?|min|m))?[\s:,&]*(?:\band\b)?[\s:,&]*(?:(\d+)\s*(?:seconds?|secs?|sec|s))?/);
       if (hmsMatch && (hmsMatch[1] || hmsMatch[2] || hmsMatch[3])) {
         hours = hmsMatch[1] ? parseInt(hmsMatch[1]) : 0;
         minutes = hmsMatch[2] ? parseInt(hmsMatch[2]) : 0;
