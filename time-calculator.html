@@ -362,14 +362,25 @@
       const rowHtml = `
         <div class="time-row add" id="timeRow-${timeRowCounter}" data-operation="add">
           <div class="time-row-header">
-            <div class="operation-toggle">
-              <button class="operation-btn add active" onclick="setOperation(${timeRowCounter}, 'add')">
-                <span>+</span> Add
-              </button>
-              <button class="operation-btn subtract" onclick="setOperation(${timeRowCounter}, 'subtract')">
-                <span>−</span> Subtract
-              </button>
+            <div class="row-top-section">
+              <div class="operation-toggle">
+                <button class="operation-btn add active" onclick="setOperation(${timeRowCounter}, 'add')">
+                  <span>+</span> Add
+                </button>
+                <button class="operation-btn subtract" onclick="setOperation(${timeRowCounter}, 'subtract')">
+                  <span>−</span> Subtract
+                </button>
+              </div>
+              ${isRemovable ? `<button class="btn-remove-row" onclick="removeTimeRow(${timeRowCounter})">Remove</button>` : ''}
             </div>
+
+            <div class="paste-section">
+              <input type="text" class="paste-input" id="pasteInput-${timeRowCounter}" placeholder="Paste time here (e.g., 2h 30m or 2:30)"
+                     onpaste="handleManualPaste(event, ${timeRowCounter})"
+                     onkeypress="if(event.key==='Enter') handleManualPaste(event, ${timeRowCounter})"
+                     title="Paste or type time and press Enter">
+            </div>
+
             <div class="time-input-groups">
               <div class="compact-input-group">
                 <div class="time-input-group">
@@ -399,7 +410,6 @@
                        oninput="syncNumberFromSlider(${timeRowCounter}, 'seconds', this.value)">
               </div>
             </div>
-            ${isRemovable ? `<button class="btn-remove-row" onclick="removeTimeRow(${timeRowCounter})">Remove</button>` : ''}
           </div>
         </div>
       `;
@@ -597,6 +607,110 @@
 
       const timeStr = (h + m + s).trim() || '0s';
       return isNegative ? `−${timeStr}` : timeStr;
+    }
+
+    function parseTimeString(text) {
+      // Initialize result
+      let hours = 0, minutes = 0, seconds = 0;
+
+      // Clean up the text - remove extra spaces around colons
+      text = text.trim().toLowerCase().replace(/\s*:\s*/g, ':');
+
+      // Pattern 1: Colon format (e.g., "2:30:15", "2:30", "02:30:15")
+      // Check this FIRST before other patterns
+      const colonMatch = text.match(/^(\d+):(\d+)(?::(\d+))?$/);
+      if (colonMatch) {
+        hours = parseInt(colonMatch[1]);
+        minutes = parseInt(colonMatch[2]);
+        seconds = colonMatch[3] ? parseInt(colonMatch[3]) : 0;
+        return { hours, minutes, seconds };
+      }
+
+      // Pattern 2: Decimal hours (e.g., "2.5 hours", "1.25h")
+      const decimalHoursMatch = text.match(/^(\d+\.?\d*)\s*(hours?|hrs?|h)$/);
+      if (decimalHoursMatch) {
+        const decimalHours = parseFloat(decimalHoursMatch[1]);
+        hours = Math.floor(decimalHours);
+        minutes = Math.round((decimalHours - hours) * 60);
+        return { hours, minutes, seconds };
+      }
+
+      // Pattern 3: Just minutes that need conversion (e.g., "90 minutes", "150m")
+      const justMinutesMatch = text.match(/^(\d+)\s*(minutes?|mins?|m)$/);
+      if (justMinutesMatch) {
+        const totalMinutes = parseInt(justMinutesMatch[1]);
+        hours = Math.floor(totalMinutes / 60);
+        minutes = totalMinutes % 60;
+        return { hours, minutes, seconds };
+      }
+
+      // Pattern 4: Just seconds that need conversion (e.g., "3600 seconds", "3600s")
+      const justSecondsMatch = text.match(/^(\d+)\s*(seconds?|secs?|s)$/);
+      if (justSecondsMatch) {
+        const totalSeconds = parseInt(justSecondsMatch[1]);
+        hours = Math.floor(totalSeconds / 3600);
+        minutes = Math.floor((totalSeconds % 3600) / 60);
+        seconds = totalSeconds % 60;
+        return { hours, minutes, seconds };
+      }
+
+      // Pattern 5: Mixed format with h/m/s (e.g., "2h 30m 15s", "1h30m", "45m", "30s", "2 hr 22 mins")
+      // More flexible regex to handle various word separators and formats
+      const hmsMatch = text.match(/(?:(\d+)\s*(?:hours?|hrs?|hr|h))?[\s:,]*(?:(\d+)\s*(?:minutes?|mins?|min|m))?[\s:,]*(?:(\d+)\s*(?:seconds?|secs?|sec|s))?/);
+      if (hmsMatch && (hmsMatch[1] || hmsMatch[2] || hmsMatch[3])) {
+        hours = hmsMatch[1] ? parseInt(hmsMatch[1]) : 0;
+        minutes = hmsMatch[2] ? parseInt(hmsMatch[2]) : 0;
+        seconds = hmsMatch[3] ? parseInt(hmsMatch[3]) : 0;
+        return { hours, minutes, seconds };
+      }
+
+      // If no pattern matched, return null
+      return null;
+    }
+
+    function handleManualPaste(event, rowId) {
+      // Prevent default paste behavior
+      event.preventDefault();
+
+      const row = document.getElementById(`timeRow-${rowId}`);
+      const input = document.getElementById(`pasteInput-${rowId}`);
+
+      // Get pasted/typed text
+      let text = '';
+      if (event.type === 'paste') {
+        text = (event.clipboardData || window.clipboardData).getData('text');
+      } else if (event.type === 'keypress') {
+        text = input.value;
+      }
+
+      // Parse the time string
+      const parsedTime = parseTimeString(text);
+
+      if (parsedTime) {
+        // Update the input fields
+        document.getElementById(`multiHours-${rowId}`).value = parsedTime.hours;
+        document.getElementById(`multiMinutes-${rowId}`).value = parsedTime.minutes;
+        document.getElementById(`multiSeconds-${rowId}`).value = parsedTime.seconds;
+
+        // Update sliders
+        document.getElementById(`multiHoursSlider-${rowId}`).value = Math.min(parsedTime.hours, 24);
+        document.getElementById(`multiMinutesSlider-${rowId}`).value = parsedTime.minutes;
+        document.getElementById(`multiSecondsSlider-${rowId}`).value = parsedTime.seconds;
+
+        // Update live total
+        updateLiveTotal();
+
+        // Clear the paste input
+        input.value = '';
+
+        // Visual feedback - success
+        row.classList.add('paste-success');
+        setTimeout(() => row.classList.remove('paste-success'), 1000);
+      } else {
+        // Visual feedback - error
+        row.classList.add('paste-error');
+        setTimeout(() => row.classList.remove('paste-error'), 1000);
+      }
     }
 
     // Initialize the page with 2 time cards

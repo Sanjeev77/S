@@ -361,6 +361,68 @@ body.time-calculator-page .container::before {
   transform: translateY(-1px);
 }
 
+.paste-section {
+  width: 100%;
+}
+
+.paste-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  min-height: 44px;
+  background: #f8f9fa;
+}
+
+.paste-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background: white;
+}
+
+.paste-input::placeholder {
+  color: #999;
+  font-size: 0.85rem;
+}
+
+/* Paste feedback animations */
+.paste-success {
+  animation: pulseSuccess 0.6s ease-out;
+}
+
+.paste-error {
+  animation: pulseError 0.6s ease-out;
+}
+
+@keyframes pulseSuccess {
+  0% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+    border-color: #28a745;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+  }
+}
+
+@keyframes pulseError {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+    border-color: #dc3545;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}
+
 .time-row {
   display: flex;
   flex-direction: column;
@@ -375,7 +437,14 @@ body.time-calculator-page .container::before {
 
 .time-row-header {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.row-top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 10px;
   flex-wrap: wrap;
 }
@@ -466,21 +535,21 @@ body.time-calculator-page .container::before {
   background: #dc3545;
   color: white;
   border: none;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.7rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.3s;
   white-space: nowrap;
   flex-shrink: 0;
-  align-self: flex-start;
-  min-height: 32px;
+  min-height: 36px;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
 .btn-remove-row:hover {
   background: #c82333;
+  transform: translateY(-1px);
 }
 
 .btn-group {
@@ -741,6 +810,16 @@ body.time-calculator-page .container::before {
   .btn-add-row {
     min-height: 42px;
     padding: 9px 18px;
+  }
+
+  .paste-section {
+    max-width: 100%;
+  }
+
+  .paste-input {
+    min-width: 200px;
+    font-size: 0.9rem;
+    min-height: 42px;
   }
 
   .time-row {
@@ -1051,6 +1130,18 @@ body.time-calculator-page .container::before {
     position: static;
     width: 100%;
     margin-top: 10px;
+  }
+
+  .paste-section {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .paste-input {
+    width: 100%;
+    font-size: 0.85rem;
+    min-height: 40px;
+    padding: 10px 12px;
   }
 
   .multiple-times-header {
