@@ -27,10 +27,18 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- Day Trader Returns Calculator -->
+  <!-- Premiere Pro Downgrader -->
   <url>
-    <loc>https://www.zerobalanced.com/day-trader-calculator.html</loc>
-    <lastmod>2025-10-13</lastmod>
+    <loc>https://www.zerobalanced.com/Premiere-Pro-downgrader.html</loc>
+    <lastmod>2025-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- After Effects Downgrader -->
+  <url>
+    <loc>https://www.zerobalanced.com/After-Effects-downgrader.html</loc>
+    <lastmod>2025-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>

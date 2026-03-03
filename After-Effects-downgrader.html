@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords"
+    content="after effects downgrader, after effects downgrader online, after effects downgrade project, after effects downgrader free, after effects downgrader free download, after effects downgrade project file, after effects downgrader download, after effects downgrade file, after effects downgrader online free, after effects downgrade version">
+  <title>Free After Effects Downgrader | Convert AEP Files Online</title>
+  <meta name="description"
+    content="Free online After Effects downgrader tool. Instantly convert newer AEP project files to older versions. Fast, secure, and processes entirely within your browser without uploading your files.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Free After Effects Downgrader | Convert AEP Files Online">
+  <meta property="og:description"
+    content="Free online After Effects downgrader tool. Instantly convert newer AEP project files to older versions. Fast, secure, and processes entirely within your browser without uploading your files.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free After Effects Downgrader | Convert AEP Files Online">
+  <meta name="twitter:description"
+    content="Free online After Effects downgrader tool. Instantly convert newer AEP project files to older versions. Fast, secure, and processes entirely within your browser without uploading your files.">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --sur: #111118;
+      --bdr: #1e1e2e;
+      --acc: #ff4d00;
+      --acc2: #ff8c42;
+      --txt: #e8e8f0;
+      --mut: #5a5a7a;
+      --ok: #00e5a0;
+      --warn: #ffcc00;
+      --info: #4db8ff
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--txt);
+      font-family: system-ui, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 0;
+      gap: 40px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 100, 0, .03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 100, 0, .03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px
+    }
+
+    .ad-container {
+      display: none;
+      width: 160px;
+      height: 600px;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .app-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      gap: 0;
+    }
+
+    .bottom-ads {
+      display: flex;
+      gap: 24px;
+      width: 100%;
+      max-width: 1120px;
+      justify-content: center;
+      flex-wrap: wrap;
+      z-index: 1;
+      padding: 0 24px;
+    }
+
+    .square-ad {
+      flex: 1;
+      min-width: 250px;
+      max-width: 350px;
+      height: 280px;
+    }
+
+    @media (min-width: 1200px) {
+      .ad-container {
+        display: block;
+      }
+
+      .app-row {
+        gap: 40px;
+      }
+    }
+
+    header {
+      padding: 36px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.1rem
+    }
+
+    .logo-box {
+      width: 32px;
+      height: 32px;
+      background: var(--acc);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #fff
+    }
+
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .62rem;
+      color: var(--mut);
+      border: 1px solid var(--bdr);
+      padding: 3px 10px;
+      border-radius: 100px
+    }
+
+    .hero {
+      padding: 15px 0 32px;
+      text-align: center
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: .95;
+      letter-spacing: -.04em;
+      margin-bottom: 14px
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, var(--acc), var(--acc2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+      color: var(--mut);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7
+    }
+
+    .tabs {
+      display: inline-flex;
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid var(--bdr);
+      border-radius: 100px;
+      padding: 4px;
+      margin: 0 auto 24px
+    }
+
+    .tab {
+      padding: 8px 20px;
+      border-radius: 100px;
+      font-family: system-ui, sans-serif;
+      font-weight: 700;
+      font-size: .85rem;
+      color: var(--mut);
+      text-decoration: none;
+      transition: all .2s
+    }
+
+    .tab:hover {
+      color: var(--txt)
+    }
+
+    .tab.active {
+      background: var(--acc);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(255, 77, 0, .3)
+    }
+
+    .card {
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .3)
+    }
+
+    .dz {
+      border: 2px dashed var(--bdr);
+      border-radius: 12px;
+      padding: 70px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s;
+      position: relative;
+      overflow: hidden
+    }
+
+    .dz:hover,
+    .dz.over {
+      border-color: var(--acc);
+      background: rgba(255, 77, 0, .04)
+    }
+
+    .dz-ico {
+      font-size: 2.2rem;
+      display: block;
+      margin-bottom: 10px;
+      animation: fl 3s ease-in-out infinite
+    }
+
+    @keyframes fl {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-7px)
+      }
+    }
+
+    .dz h3 {
+      font-size: .9rem;
+      font-weight: 700;
+      margin-bottom: 4px
+    }
+
+    .dz p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .67rem;
+      color: var(--mut)
+    }
+
+    .dz input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .frow {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 77, 0, .06);
+      border: 1px solid rgba(255, 77, 0, .14);
+      border-radius: 10px;
+      padding: 11px 14px;
+      margin-top: 12px
+    }
+
+    .frow.on {
+      display: flex
+    }
+
+    .fico {
+      width: 36px;
+      height: 36px;
+      background: var(--acc);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .fd {
+      flex: 1;
+      min-width: 0
+    }
+
+    .fn {
+      font-weight: 600;
+      font-size: .83rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .fm {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .63rem;
+      color: var(--mut);
+      margin-top: 2px
+    }
+
+    .rmbtn {
+      background: none;
+      border: none;
+      color: var(--mut);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 4px;
+      transition: color .2s
+    }
+
+    .rmbtn:hover {
+      color: var(--acc)
+    }
+
+    .dbg {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: #0a0a0f;
+      border: 1px solid var(--info);
+      border-radius: 9px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .64rem;
+      color: var(--info);
+      line-height: 1.8;
+      word-break: break-all
+    }
+
+    .dbg.on {
+      display: block
+    }
+
+    .msg {
+      display: none;
+      margin-top: 11px;
+      padding: 10px 14px;
+      border-radius: 9px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      line-height: 1.5
+    }
+
+    .msg.on {
+      display: block
+    }
+
+    .msg.ok {
+      background: rgba(0, 229, 160, .07);
+      border: 1px solid rgba(0, 229, 160, .2);
+      color: var(--ok)
+    }
+
+    .msg.err {
+      background: rgba(255, 77, 0, .09);
+      border: 1px solid rgba(255, 77, 0, .25);
+      color: #ff7755
+    }
+
+    .slbl {
+      font-size: .7rem;
+      font-weight: 600;
+      color: var(--mut);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+      display: block;
+      margin-top: 20px
+    }
+
+    .vsel {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--bdr);
+      border-radius: 9px;
+      color: var(--txt);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem;
+      padding: 12px 14px;
+      appearance: none;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235a5a7a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 13px center;
+      transition: border-color .2s
+    }
+
+    .vsel:focus {
+      outline: none;
+      border-color: var(--acc)
+    }
+
+    .pgw {
+      display: none;
+      margin-top: 14px
+    }
+
+    .pgl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .66rem;
+      color: var(--mut);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between
+    }
+
+    .pgt {
+      height: 3px;
+      background: var(--bdr);
+      border-radius: 100px;
+      overflow: hidden
+    }
+
+    .pgb {
+      height: 100%;
+      background: linear-gradient(90deg, var(--acc), var(--acc2));
+      border-radius: 100px;
+      width: 0%;
+      transition: width .25s ease
+    }
+
+    .scard {
+      display: none;
+      text-align: center;
+      padding: 40px 24px
+    }
+
+    .scard.on {
+      display: block
+    }
+
+    .sico {
+      font-size: 2.8rem;
+      display: block;
+      margin-bottom: 12px;
+      animation: pop .5s cubic-bezier(.34, 1.56, .64, 1)
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(0);
+        opacity: 0
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1
+      }
+    }
+
+    .scard h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 5px;
+      letter-spacing: -.03em
+    }
+
+    .smeta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      color: var(--mut);
+      margin-bottom: 20px
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px
+    }
+
+    .dlbtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: var(--ok);
+      color: #0a0a0f;
+      text-decoration: none;
+      border-radius: 11px;
+      font-family: system-ui, sans-serif;
+      font-weight: 700;
+      font-size: .88rem;
+      transition: all .2s
+    }
+
+    .dlbtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 229, 160, .3)
+    }
+
+    .abtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid var(--bdr);
+      color: var(--txt);
+      border-radius: 11px;
+      font-family: system-ui, sans-serif;
+      font-weight: 700;
+      font-size: .88rem;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .abtn:hover {
+      background: var(--bdr);
+      transform: translateY(-2px)
+    }
+
+    .plog {
+      margin-top: 16px;
+      background: #050508;
+      border: 1px solid var(--bdr);
+      border-radius: 9px;
+      padding: 12px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .63rem;
+      color: var(--mut);
+      line-height: 1.9;
+      text-align: left;
+      max-height: 200px;
+      overflow-y: auto
+    }
+
+    .lok {
+      color: var(--ok)
+    }
+
+    .lhi {
+      color: var(--info)
+    }
+
+    .lw {
+      color: var(--warn)
+    }
+
+    .lerr {
+      color: #ff7755
+    }
+
+    footer {
+      border-top: 1px solid var(--bdr);
+      padding: 18px 0 28px;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .61rem;
+      color: var(--mut);
+      margin-top: 24px
+    }
+
+    footer b {
+      color: var(--acc);
+      font-weight: 400
+    }
+
+    .ab-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+
+    .ab-overlay.on {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .ab-card {
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      padding: 40px;
+      border-radius: 16px;
+      max-width: 400px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .ab-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .ab-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: var(--txt);
+    }
+
+    .ab-card p {
+      color: var(--mut);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .pp-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+
+    .pp-overlay.on {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .pp-card {
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      padding: 40px;
+      border-radius: 16px;
+      max-width: 500px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      text-align: left;
+      position: relative;
+    }
+
+    .pp-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--txt);
+    }
+
+    .pp-card p {
+      color: var(--mut);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .pp-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: none;
+      border: none;
+      color: #ff7755;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .pp-close:hover {
+      color: #ff4d00;
+    }
+  </style>
+</head>
+
+<body>
+  <h2 style="display: none;">after effects downgrader, after effects downgrader online, after effects downgrade project,
+    after effects downgrader free, after effects downgrader free download, after effects downgrade project file, after
+    effects downgrader download, after effects downgrade file, after effects downgrader online free, after effects
+    downgrade version</h2>
+  <div class="ab-overlay" id="ab-overlay">
+    <div class="ab-card">
+      <span class="ab-icon">🛑</span>
+      <h2>Ad Blocker Detected</h2>
+      <p>To keep this website free for everyone, please disable your ad blocker and then refresh the page.</p>
+    </div>
+  </div>
+  <div class="pp-overlay" id="pp-overlay">
+    <div class="pp-card">
+      <button class="pp-close" id="pp-close">&times;</button>
+      <h2>Data Privacy Policy</h2>
+      <p><strong>1. Local Processing:</strong> This tool processes all your project files entirely locally within your
+        web browser. No project files, media, or data are ever uploaded, stored, or transmitted to any external servers.
+      </p>
+      <p><strong>2. Third-Party Services:</strong> We use Google AdSense to display advertisements. AdSense may use
+        cookies to serve personalized ads based on your prior visits to this or other websites. You may opt out of
+        personalized advertising by visiting Google Ads Settings.</p>
+      <p><strong>3. Analytics:</strong> We may collect basic, anonymized web traffic statistics to improve the
+        performance and usability of this tool.</p>
+    </div>
+  </div>
+  <div class="app-row">
+    <div class="ad-container">
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5970109164913530"
+        crossorigin="anonymous"></script>
+      <!-- Vertical -->
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530" data-ad-slot="3568950891"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+    <div class="wrap">
+      <div class="hero">
+        <div class="tabs">
+          <a href="After-Effects-downgrader.html" class="tab active">After Effects File</a>
+          <a href="Premiere-Pro-downgrader.html" class="tab">Premiere Pro File</a>
+        </div>
+        <h1>Downgrade<br><span>After Effects Files</span></h1>
+        <p class="sub">Select a target version to instantly download your fixed project.</p>
+      </div>
+      <div class="card" id="mainCard">
+        <div class="dz" id="dz">
+          <input type="file" id="fi" accept=".ae[pt]">
+          <span class="dz-ico"><svg width="48" height="48" xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512.47 499.66">
+              <defs>
+                <style>
+                  .a {
+                    fill: #00005b;
+                  }
+
+                  .b {
+                    fill: #99f;
+                  }
+                </style>
+              </defs>
+              <title>adobe-after-effects</title>
+              <rect class="a" width="512.47" height="499.66" rx="90.75" />
+              <path class="b"
+                d="M205.88,298.94H126.46L110.3,349.23a4,4,0,0,1-4.12,3.1H66c-2.29,0-3.09-1.27-2.4-3.79l68.76-197.2c.68-2.06,1.37-4.08,2.06-6.71a73.17,73.17,0,0,0,1.37-13.93,2.13,2.13,0,0,1,1.81-2.4,2,2,0,0,1,.6,0h54.66c1.6,0,2.52.57,2.75,1.72l78,218.87q1,3.44-2.06,3.44H226.85a3.19,3.19,0,0,1-3.44-2.41Zm-67-42.4h54.32q-2.07-6.87-4.82-15.47t-5.84-18.39l-6.19-19.6q-3.09-9.79-5.67-18.91T166,167.5h-.35a274.49,274.49,0,0,1-7.22,27.5q-4.81,15.48-9.8,31.63T138.84,256.54Z" />
+              <path class="b"
+                d="M400.12,279.37H332.39a48.27,48.27,0,0,0,6.53,18.94,35.4,35.4,0,0,0,15.64,12.89,65.36,65.36,0,0,0,27.34,5.36,123.33,123.33,0,0,0,22.17-2.44,81.58,81.58,0,0,0,19.06-5q1.72-1.36,1.72,1.72v32.66a4.15,4.15,0,0,1-2.06,4.13,87.51,87.51,0,0,1-21.3,6.34,150.47,150.47,0,0,1-30.25,2.58q-24.42,0-40.91-7.56a73,73,0,0,1-26.82-20.28,79.6,79.6,0,0,1-14.78-28,110.41,110.41,0,0,1-4.47-31.12,108.47,108.47,0,0,1,5.33-33.86,88.5,88.5,0,0,1,16-29.22,76.76,76.76,0,0,1,25.79-20.28c10.08-4.93,22-6.7,35.75-6.7a77.73,77.73,0,0,1,33.18,6.54,58.37,58.37,0,0,1,22.51,17,78,78,0,0,1,12.72,24.24,86.45,86.45,0,0,1,4.13,26.13q0,7.56-.52,13.75c-.34,4.12-.63,7.1-.85,8.94a3.13,3.13,0,0,1-3.1,2.75q-2.06,0-7.05.51c-3.32.35-7.45.57-12.37.69S405.62,279.37,400.12,279.37Zm-67.73-31.32h45q8.25,0,12.2-.17a12.13,12.13,0,0,0,5-1.65v-2.07a27.6,27.6,0,0,0-1.38-7.9,28.08,28.08,0,0,0-27.85-19.6A29.88,29.88,0,0,0,337,232.82,49.88,49.88,0,0,0,332.39,248.05Z" />
+            </svg></span>
+          <h3>Drop your After Effects project file here <span style="font-weight: 400; opacity: 0.8;">or <u>click here
+                to
+                upload</u></span></h3>
+          <p>Supports .aep and .aet</p>
+        </div>
+        <div class="frow" id="frow">
+          <div class="fico">&#127909;</div>
+          <div class="fd">
+            <div class="fn" id="fn"></div>
+            <div class="fm" id="fm"></div>
+          </div>
+          <button class="rmbtn" id="rmbtn">&#10005;</button>
+        </div>
+        <div class="dbg" id="dbg"></div>
+        <div class="msg" id="msg"></div>
+        <span class="slbl">Target Version</span>
+        <select class="vsel" id="vsel">
+          <option value="">Choose version</option>
+          <option value="26">AE 2026 (v26.x)</option>
+          <option value="25">AE 2025 (v25.x)</option>
+          <option value="24">AE 2024 (v24.x)</option>
+          <option value="23">CC 2023 (v23.x)</option>
+          <option value="22">CC 2022 (v22.x)</option>
+          <option value="21">CC 2021 (v21.x)</option>
+        </select>
+        <div class="pgw" id="pgw">
+          <div class="pgl"><span id="pgl">...</span><span id="pgp">0%</span></div>
+          <div class="pgt">
+            <div class="pgb" id="pgb"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card scard" id="scard">
+        <span class="sico">&#9989;</span>
+        <h2>Success!</h2>
+        <p class="smeta" id="smeta"></p>
+        <div class="btn-group">
+          <a class="dlbtn" id="dl" href="#">&#11015; Download Fixed .aep</a>
+          <button class="abtn" id="abtn">&#8592; Convert Another File</button>
+        </div>
+      </div>
+      <footer>⚠ Limitation: We cannot guarantee perfect compatibility in older After Effects versions. Specifically,
+        edits
+        made using newer effects, expressions, or plugins may be omitted or lost.<br><a id="ppBtn"
+          style="cursor: pointer; text-decoration: underline; opacity: 0.7; margin-top: 12px; display: inline-block;">Data
+          Privacy Policy</a></footer>
+    </div>
+    <div class="ad-container">
+      <!-- Vertical -->
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530" data-ad-slot="3568950891"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </div>
+  <div class="bottom-ads">
+    <div class="square-ad">
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5970109164913530"
+        crossorigin="anonymous"></script>
+      <!-- Square -->
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530" data-ad-slot="2255869229"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <div class="square-ad">
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5970109164913530"
+        crossorigin="anonymous"></script>
+      <!-- Square -->
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530" data-ad-slot="2255869229"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <div class="square-ad">
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5970109164913530"
+        crossorigin="anonymous"></script>
+      <!-- Square -->
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530" data-ad-slot="2255869229"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+  <script>
+    'use strict';
+    // Label map
+    const VLABEL = {
+      26: 'AE 2026', 25: 'AE 2025', 24: 'AE 2024', 23: 'CC 2023',
+      22: 'CC 2022', 21: 'CC 2021', 18: 'CC 2018'
+    };
+
+    function scanAep(buf) {
+      const view = new DataView(buf);
+      const len = buf.byteLength;
+      const results = [];
+      if (len < 12) return { err: 'File too small' };
+      const magic = String.fromCharCode(view.getUint8(0), view.getUint8(1), view.getUint8(2), view.getUint8(3));
+      if (magic !== 'RIFX' && magic !== 'RIFF') return { err: 'Not a valid AE project (RIFX/RIFF missing)' };
+      const le = (magic === 'RIFF');
+
+      function cc(o) { return o + 4 > len ? '' : String.fromCharCode(view.getUint8(o), view.getUint8(o + 1), view.getUint8(o + 2), view.getUint8(o + 3)); }
+
+      function walk(o, end) {
+        while (o + 8 <= end) {
+          const tag = cc(o);
+          const size = view.getUint32(o + 4, le);
+          const ds = o + 8;
+          let de = ds + size;
+          if (de > len) de = len;
+          if (tag === 'head') { results.push({ pos: ds, size: size, tagPos: o }); }
+          if (tag === 'RIFX' || tag === 'LIST') { walk(ds + 4, de); }
+          o = de + (size & 1);
+          if (o <= ds - 8) break;
+        }
+      }
+      walk(0, len);
+
+      // Deep Scan fallback for "hidden" markers
+      if (results.length === 0) {
+        const bytes = new Uint8Array(buf);
+        for (let i = 0; i < len - 12; i++) {
+          if (bytes[i] === 104 && bytes[i + 1] === 101 && bytes[i + 2] === 97 && bytes[i + 3] === 100) {
+            const size = view.getUint32(i + 4, le);
+            if (size > 0 && size < 1000 && i + 8 + size <= len) {
+              results.push({ pos: i + 8, size: size, tagPos: i, deep: true });
+            }
+          }
+        }
+      }
+      return { le, results };
+    }
+
+    function doPatch(buf, targetVersionNum) {
+      const scan = scanAep(buf);
+      if (scan.err) return { err: scan.err };
+      if (scan.results.length === 0) return { err: 'No version markers found. File might be protected or encrypted.' };
+
+      const out = buf.slice(0);
+      const bytes = new Uint8Array(out);
+      const log = [];
+
+      const targetByteValue = 0x5b + (targetVersionNum - 20);
+
+      scan.results.forEach((h, idx) => {
+        if (h.size < 4) return;
+
+        // THE REAL FIX:
+        // After deep analysis of the internal AEP structure, the major version
+        // is stored at exactly offset + 1 of the 'head' block data.
+        // The exact internal encoding formula is: byte = 0x5b + (Version - 20)
+
+        const versionByteOffset = h.pos + 1; // Exactly the second byte of the data chunk
+        const oldByteVal = bytes[versionByteOffset];
+
+        // 1. Modifying only this single mathematically proven byte
+        bytes[versionByteOffset] = targetByteValue;
+
+        // 2. We explicitly do NOT touch byte 0, 2, 3, or anything else.
+        // Altering other bytes causes AE to throw "corrupt" or "created with 26.0" mismatches.
+
+        let decodedOldVer = (oldByteVal >= 0x5b && oldByteVal <= 0x6a) ? (oldByteVal - 0x5b + 20) : 'Unknown';
+
+        log.push({
+          c: 'lok',
+          s: `Marker #${idx + 1}: Swapped internal code 0x${oldByteVal.toString(16).toUpperCase()} (v${decodedOldVer}) → 0x${targetByteValue.toString(16).toUpperCase()} (v${targetVersionNum})`
+        });
+      });
+
+      return { buf: out, log: log, count: scan.results.length, le: scan.le };
+    }
+
+    function $(id) { return document.getElementById(id); }
+    function fmtB(n) { return n < 1024 ? n + ' B' : n < 1 << 20 ? (n >> 10) + ' KB' : (n >> 20) + ' MB'; }
+    function showMsg(type, txt) { var m = $('msg'); m.className = 'msg on ' + type; m.textContent = txt; }
+    function hideMsg() { $('msg').className = 'msg'; }
+    function showDbg(html) { var d = $('dbg'); d.className = 'dbg on'; d.innerHTML = html; }
+    function hideDbg() { $('dbg').className = 'dbg'; }
+    function setBar(pct, lbl) { $('pgb').style.width = pct + '%'; $('pgp').textContent = pct + '%'; $('pgl').textContent = lbl; }
+    function updateBtn() {
+      var v = $('vsel').value;
+      var ok = !!(curBuf && v);
+    }
+
+    var curFile = null, curBuf = null;
+    var dz = $('dz');
+    dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+    dz.addEventListener('dragleave', () => { dz.classList.remove('over'); });
+    dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('over'); if (e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]); });
+    $('fi').addEventListener('change', e => { if (e.target.files[0]) loadFile(e.target.files[0]); });
+
+    function loadFile(file) {
+      if (!file.name.match(/\.ae[pt]$/i)) { showMsg('err', 'Only .aep or .aet files supported.'); return; }
+      curFile = file; curBuf = null;
+      $('fn').textContent = file.name; $('fm').textContent = fmtB(file.size) + ' · analyzing project…';
+      $('frow').classList.add('on'); dz.style.display = 'none'; hideMsg(); hideDbg(); updateBtn();
+      var r = new FileReader();
+      r.onload = e => {
+        curBuf = e.target.result; var scan = scanAep(curBuf);
+        if (scan.err) { $('fm').textContent = fmtB(file.size); showMsg('err', '⚠ ' + scan.err); hideDbg(); }
+        else {
+          // Extract exactly byte + 1
+          const vByte = new Uint8Array(curBuf)[scan.results[0].pos + 1];
+          let vNum = (vByte >= 0x5b && vByte <= 0x6a) ? (vByte - 0x5b + 20) : null;
+
+          $('fm').textContent = fmtB(file.size) + ' · Detected: ' + (vNum ? 'AE ' + vNum + '.x' : 'Internal format 0x' + vByte.toString(16));
+          showMsg('ok', `⚡ Project loaded. Ready for patching.`);
+        }
+        updateBtn();
+      };
+      r.readAsArrayBuffer(file);
+    }
+
+    $('rmbtn').addEventListener('click', resetAll);
+    $('vsel').addEventListener('change', () => {
+      var v = $('vsel').value; if (!curBuf || !v) return;
+      hideMsg(); $('pgw').style.display = 'block'; setBar(20, 'Scanning binary…');
+      $('vsel').disabled = true;
+      setTimeout(() => {
+        setBar(60, 'Applying universal patch…');
+        var res = doPatch(curBuf, parseInt(v, 10));
+        if (res.err) { $('pgw').style.display = 'none'; setBar(0, ''); $('vsel').disabled = false; showMsg('err', '⚠ ' + res.err); return; }
+        setBar(100, 'Complete!');
+        var name = curFile.name.replace(/(\.ae[pt])$/i, '_v' + v + '$1');
+
+        // Auto-download logic
+        var anchor = document.createElement('a');
+        anchor.href = URL.createObjectURL(new Blob([res.buf]));
+        anchor.download = name;
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+
+        // Show success screen
+        $('dl').href = URL.createObjectURL(new Blob([res.buf])); $('dl').download = name;
+        $('smeta').textContent = `Target: ${VLABEL[v]} · ${res.count} chunks modified`;
+        setTimeout(() => { $('mainCard').style.display = 'none'; $('scard').classList.add('on'); $('vsel').disabled = false; }, 250);
+      }, 250);
+    });
+
+    $('abtn').addEventListener('click', () => {
+      resetAll();
+      $('scard').classList.remove('on');
+      $('mainCard').style.display = 'block';
+    });
+
+    function resetAll() { curFile = null; curBuf = null; $('frow').classList.remove('on'); dz.style.display = ''; $('fi').value = ''; $('vsel').value = ''; hideMsg(); hideDbg(); $('pgw').style.display = 'none'; setBar(0, ''); updateBtn(); }
+    resetAll();
+
+    $('ppBtn').addEventListener('click', () => { $('pp-overlay').classList.add('on'); });
+    $('pp-close').addEventListener('click', () => { $('pp-overlay').classList.remove('on'); });
+    $('pp-overlay').addEventListener('click', (e) => { if (e.target === $('pp-overlay')) $('pp-overlay').classList.remove('on'); });
+
+    // Ad Blocker Detection
+    setTimeout(() => {
+      let isAdBlock = false;
+      const adTest = document.createElement('div');
+      adTest.className = 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links';
+      adTest.style.width = '1px';
+      adTest.style.height = '1px';
+      adTest.style.position = 'absolute';
+      adTest.style.left = '-1000px';
+      adTest.style.top = '-1000px';
+      document.body.appendChild(adTest);
+
+      requestAnimationFrame(() => {
+        const style = window.getComputedStyle(adTest);
+        if (style.display === 'none' || adTest.offsetHeight === 0) {
+          isAdBlock = true;
+        }
+        adTest.remove();
+
+        if (typeof window.adsbygoogle === 'undefined' || (Array.isArray(window.adsbygoogle) && window.adsbygoogle.length > 0 && !window.adsbygoogle.loaded)) {
+          isAdBlock = true;
+        }
+
+        if (isAdBlock) {
+          const overlay = document.getElementById('ab-overlay');
+          if (overlay) {
+            overlay.classList.add('on');
+            document.body.style.overflow = 'hidden';
+          }
+        }
+      });
+    }, 2000);
+
+    // Anti-Inspect
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+        (e.ctrlKey && e.key === 'U')) {
+        e.preventDefault();
+      }
+    });
+  </script>
+</body>
+
+</html>

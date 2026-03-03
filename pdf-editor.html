@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Editor - Free Online PDF Editing Tool</title>
+    <meta name="description"
+        content="Free online PDF editor to edit, annotate, and modify PDF files directly in your browser. Edit text, add annotations, draw, insert images, and more.">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/modern-dark.css">
+
+    <!-- PDF.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <!-- pdf-lib Library -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
+
+    <!-- Tesseract.js for OCR -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+
+
+
+    .container {
+    max-width: 1600px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 40px);
+    }
+
+    /* Header */
+    .header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    }
+
+    .header h1 i {
+    font-size: 1.6rem;
+    }
+
+    .header-actions {
+    display: flex;
+    gap: 10px;
+    }
+
+    /* Buttons */
+    .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    }
+
+    .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary {
+    background: var(--primary);
+    color: white;
+    }
+
+    .btn-success {
+    background: var(--success);
+    color: white;
+    }
+
+    .btn-danger {
+    background: var(--danger);
+    color: white;
+    }
+
+    .btn-light {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-secondary {
+    background: #6c757d;
+    color: white;
+    }
+
+    /* Upload Area */
+    .upload-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    margin: 40px;
+    border: 3px dashed #ccc;
+    border-radius: 12px;
+    background: #fafbff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    }
+
+    .upload-area:hover {
+    border-color: var(--primary);
+    background: #f0f4ff;
+    }
+
+    .upload-area.drag-over {
+    border-color: var(--primary);
+    background: #e8f0ff;
+    transform: scale(1.02);
+    }
+
+    .upload-area i {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    }
+
+    .upload-area h2 {
+    color: var(--dark);
+    margin-bottom: 10px;
+    }
+
+    .upload-area p {
+    color: #6c757d;
+    margin-bottom: 20px;
+    }
+
+    #pdf-input {
+    display: none;
+    }
+
+    /* Main Content */
+    .main-content {
+    display: none;
+    flex: 1;
+    overflow: hidden;
+    flex-direction: column;
+    }
+
+    .main-content.active {
+    display: flex;
+    }
+
+    /* Toolbar */
+    .toolbar {
+    background: var(--light);
+    border-bottom: 1px solid #dee2e6;
+    padding: 15px 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    overflow-x: auto;
+    }
+
+    .toolbar-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 0 15px;
+    border-right: 1px solid #dee2e6;
+    }
+
+    .toolbar-group:last-child {
+    border-right: none;
+    }
+
+    .tool-btn {
+    padding: 8px 12px;
+    background: white;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    }
+
+    .tool-btn:hover {
+    background: #e9ecef;
+    border-color: var(--primary);
+    }
+
+    .tool-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    }
+
+    .tool-btn i {
+    font-size: 16px;
+    }
+
+    /* Color Picker */
+    input[type="color"] {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    cursor: pointer;
+    }
+
+    /* Font Size Selector */
+    select, input[type="number"] {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    }
+
+    /* Editor Layout */
+    .editor-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+    width: 200px;
+    background: var(--light);
+    border-right: 1px solid #dee2e6;
+    overflow-y: auto;
+    padding: 15px;
+    }
+
+    .sidebar h3 {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    }
+
+    .page-thumbnail {
+    background: white;
+    border: 2px solid #dee2e6;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    }
+
+    .page-thumbnail:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-thumbnail.active {
+    border-color: var(--primary);
+    background: #f0f4ff;
+    }
+
+    .page-thumbnail canvas {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+    }
+
+    .page-thumbnail .page-number {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #6c757d;
+    }
+
+    .page-thumbnail .page-actions {
+    display: flex;
+    gap: 5px;
+    margin-top: 8px;
+    }
+
+    .page-thumbnail .page-actions button {
+    flex: 1;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    cursor: pointer;
+    }
+
+    .page-thumbnail .page-actions button:hover {
+    background: var(--light);
+    }
+
+    /* Canvas Area */
+    .canvas-area {
+    flex: 1;
+    background: #e9ecef;
+    overflow: auto;
+    position: relative;
+    padding: 20px;
+    }
+
+    /* Document View Mode */
+    .document-view {
+    display: none;
+    background: white;
+    max-width: 8.5in;
+    min-height: 11in;
+    margin: 20px auto;
+    padding: 1in;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    font-family: 'Times New Roman', serif;
+    font-size: 12pt;
+    line-height: 1.6;
+    color: #000;
+    }
+
+    .document-view.active {
+    display: block;
+    }
+
+    .document-view[contenteditable="true"] {
+    outline: none;
+    }
+
+    .document-view p {
+    margin-bottom: 12pt;
+    }
+
+    .document-view h1, .document-view h2, .document-view h3 {
+    margin-top: 18pt;
+    margin-bottom: 12pt;
+    font-weight: bold;
+    }
+
+    .canvas-container {
+    position: relative;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    display: inline-block;
+    margin: 0;
+    }
+
+    #pdf-canvas {
+    display: block;
+    cursor: crosshair;
+    max-width: 100%;
+    height: auto;
+    transition: opacity 0.3s ease;
+    }
+
+    #pdf-canvas.dimmed {
+    opacity: 0.3;
+    }
+
+    /* Text Layer Overlay */
+    .text-layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    opacity: 1;
+    line-height: 1;
+    pointer-events: none;
+    }
+
+    .text-layer span {
+    color: black;
+    position: absolute;
+    white-space: pre;
+    cursor: default;
+    transform-origin: 0% 0%;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    background: transparent;
+    outline: none;
+    padding: 4px;
+    border-radius: 2px;
+    }
+
+    /* Edit mode enabled */
+    .text-layer.edit-mode span {
+    pointer-events: auto;
+    cursor: text;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+
+    .text-layer.edit-mode span:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(102, 126, 234, 0.5);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-layer.edit-mode span:focus {
+    background: rgba(255, 255, 255, 1);
+    outline: none;
+    border: 2px solid var(--primary);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    z-index: 1000;
+    }
+
+    .text-layer span.draggable {
+    cursor: move !important;
+    }
+
+    /* Annotations */
+    .annotation-layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    }
+
+    .annotation {
+    position: absolute;
+    pointer-events: auto;
+    cursor: move;
+    }
+
+    .annotation.text-annotation {
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ccc;
+    min-width: 100px;
+    min-height: 30px;
+    }
+
+    .annotation.drawing {
+    pointer-events: none;
+    }
+
+    .annotation.selected {
+    outline: 2px solid var(--primary);
+    }
+
+    /* Zoom Controls */
+    .zoom-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 100;
+    }
+
+    .zoom-controls button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #dee2e6;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    }
+
+    .zoom-controls button:hover {
+    background: var(--light);
+    border-color: var(--primary);
+    }
+
+    .zoom-controls span {
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    }
+
+    /* Loading Spinner */
+    .loading {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    }
+
+    .loading.active {
+    display: block;
+    }
+
+    .spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+    }
+
+    /* Modal */
+    .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    }
+
+    .modal.active {
+    display: flex;
+    }
+
+    .modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-content h2 {
+    margin-bottom: 20px;
+    color: var(--dark);
+    }
+
+    .modal-content p {
+    margin-bottom: 20px;
+    color: #6c757d;
+    }
+
+    .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    }
+
+    /* Instruction Banner */
+    .instruction-banner {
+    background: linear-gradient(135deg, #e8f0ff 0%, #f0f4ff 100%);
+    border: 1px solid var(--primary);
+    border-left: 4px solid var(--primary);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: #495057;
+    }
+
+    .instruction-banner i {
+    color: var(--primary);
+    font-size: 1.2rem;
+    }
+
+    .instruction-banner .close-banner {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+    }
+
+    .instruction-banner .close-banner:hover {
+    background: rgba(0, 0, 0, 0.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+    .sidebar {
+    width: 150px;
+    }
+
+    .toolbar {
+    padding: 10px;
+    }
+
+    .toolbar-group {
+    padding: 0 10px;
+    }
+
+    .header h1 {
+    font-size: 1.2rem;
+    }
+
+    .header-actions {
+    flex-direction: column;
+    gap: 5px;
+    }
+
+    .instruction-banner {
+    font-size: 0.85rem;
+    padding: 10px 15px;
+    }
+    }
+
+    @media (max-width: 480px) {
+    .sidebar {
+    display: none;
+    }
+
+    .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    }
+
+    .toolbar-group {
+    border-right: none;
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 0;
+    }
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <i class="fas fa-file-pdf"></i>
+                PDF Editor
+            </h1>
+            <div class="header-actions">
+                <button class="btn btn-light" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i> Home
+                </button>
+                <button class="btn btn-success" id="export-btn" style="display: none;">
+                    <i class="fas fa-download"></i> Export PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Upload Area -->
+        <div class="upload-area" id="upload-area">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <h2>Upload Your PDF</h2>
+            <p>Drag and drop your PDF file here, or click to browse</p>
+            <button class="btn btn-primary">
+                <i class="fas fa-folder-open"></i> Choose File
+            </button>
+            <input type="file" id="pdf-input" accept="application/pdf">
+        </div>
+
+        <!-- Main Content (Hidden initially) -->
+        <div class="main-content" id="main-content">
+            <!-- Instruction Banner -->
+            <div class="instruction-banner" id="instruction-banner">
+                <i class="fas fa-lightbulb"></i>
+                <span><strong>Tip:</strong> Click <strong>"Edit All"</strong> button to enable editing mode. Then click
+                    any text to edit it (like Microsoft Word)! Drag text boxes to reposition them. If text isn't
+                    visible, use the <strong>OCR</strong> button.</span>
+                <button class="close-banner"
+                    onclick="document.getElementById('instruction-banner').style.display='none'" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="toolbar-group">
+                    <button class="btn btn-primary btn-sm" id="document-view-btn"
+                        title="Switch to editable document view">
+                        <i class="fas fa-file-word"></i> Document View
+                    </button>
+                    <button class="btn btn-success btn-sm" id="edit-all-btn" title="Enable text editing mode">
+                        <i class="fas fa-edit"></i> Edit All
+                    </button>
+                    <button class="tool-btn" id="select-tool" title="Select Tool">
+                        <i class="fas fa-mouse-pointer"></i>
+                    </button>
+                    <button class="tool-btn" id="text-tool" title="Add Text">
+                        <i class="fas fa-font"></i>
+                    </button>
+                    <button class="btn btn-info btn-sm" id="ocr-btn" title="Run OCR on current page">
+                        <i class="fas fa-eye"></i> OCR
+                    </button>
+                </div>
+
+                <div class="toolbar-group">
+                    <button class="tool-btn" id="draw-tool" title="Draw">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                    <button class="tool-btn" id="highlight-tool" title="Highlight">
+                        <i class="fas fa-highlighter"></i>
+                    </button>
+                    <button class="tool-btn" id="eraser-tool" title="Eraser">
+                        <i class="fas fa-eraser"></i>
+                    </button>
+                </div>
+
+                <div class="toolbar-group">
+                    <button class="tool-btn" id="rectangle-tool" title="Rectangle">
+                        <i class="far fa-square"></i>
+                    </button>
+                    <button class="tool-btn" id="circle-tool" title="Circle">
+                        <i class="far fa-circle"></i>
+                    </button>
+                    <button class="tool-btn" id="line-tool" title="Line">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+
+                <div class="toolbar-group">
+                    <select id="font-family">
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Times-Roman">Times Roman</option>
+                        <option value="Courier">Courier</option>
+                    </select>
+                    <input type="number" id="font-size" value="16" min="8" max="72" style="width: 70px;">
+                    <input type="color" id="text-color" value="#000000" title="Text Color">
+                </div>
+
+                <div class="toolbar-group">
+                    <button class="tool-btn" id="bold-btn" title="Bold">
+                        <i class="fas fa-bold"></i>
+                    </button>
+                    <button class="tool-btn" id="italic-btn" title="Italic">
+                        <i class="fas fa-italic"></i>
+                    </button>
+                    <button class="tool-btn" id="underline-btn" title="Underline">
+                        <i class="fas fa-underline"></i>
+                    </button>
+                </div>
+
+                <div class="toolbar-group">
+                    <button class="tool-btn" id="undo-btn" title="Undo">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                    <button class="tool-btn" id="redo-btn" title="Redo">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Editor Layout -->
+            <div class="editor-layout">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <h3>Pages</h3>
+                    <div id="page-thumbnails"></div>
+                </div>
+
+                <!-- Canvas Area -->
+                <div class="canvas-area">
+                    <!-- PDF View (default) -->
+                    <div class="canvas-container" id="canvas-container">
+                        <canvas id="pdf-canvas"></canvas>
+                        <div class="text-layer" id="text-layer"></div>
+                        <div class="annotation-layer" id="annotation-layer"></div>
+                    </div>
+
+                    <!-- Document View (Word-like) -->
+                    <div class="document-view" id="document-view" contenteditable="false">
+                        <p>Loading document...</p>
+                    </div>
+
+                    <!-- Zoom Controls -->
+                    <div class="zoom-controls">
+                        <button id="zoom-out" title="Zoom Out">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span id="zoom-level">100%</span>
+                        <button id="zoom-in" title="Zoom In">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button id="fit-page" title="Fit to Page">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+
+                    <!-- Loading Spinner -->
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p>Processing PDF...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="info-modal">
+        <div class="modal-content">
+            <h2>PDF Editor Info</h2>
+            <p id="modal-message"></p>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configure PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // Global variables
+        let pdfDoc = null;
+        let pdfBytes = null;
+        let currentPage = 1;
+        let scale = 1.5;
+        let currentTool = 'select';
+        let annotations = [];
+        let drawingPath = [];
+        let isDrawing = false;
+        let history = [];
+        let historyIndex = -1;
+        let textElements = [];
+        let editModeEnabled = false;
+        let documentViewMode = false;
+        let extractedDocumentText = '';
+
+        // DOM elements
+        const uploadArea = document.getElementById('upload-area');
+        const pdfInput = document.getElementById('pdf-input');
+        const mainContent = document.getElementById('main-content');
+        const canvas = document.getElementById('pdf-canvas');
+        const ctx = canvas.getContext('2d');
+        const textLayer = document.getElementById('text-layer');
+        const annotationLayer = document.getElementById('annotation-layer');
+        const loading = document.getElementById('loading');
+        const exportBtn = document.getElementById('export-btn');
+
+        // Initialize
+        initializeApp();
+
+        function initializeApp() {
+            setupEventListeners();
+            setupToolbar();
+        }
+
+        function setupEventListeners() {
+            // Upload area
+            uploadArea.addEventListener('click', () => pdfInput.click());
+            pdfInput.addEventListener('change', handleFileSelect);
+
+            // Drag and drop
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('drag-over');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('drag-over');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('drag-over');
+                const file = e.dataTransfer.files[0];
+                if (file && file.type === 'application/pdf') {
+                    loadPDF(file);
+                }
+            });
+
+            // Canvas interactions
+            canvas.addEventListener('mousedown', handleCanvasMouseDown);
+            canvas.addEventListener('mousemove', handleCanvasMouseMove);
+            canvas.addEventListener('mouseup', handleCanvasMouseUp);
+            canvas.addEventListener('click', handleCanvasClick);
+
+            // Zoom controls
+            document.getElementById('zoom-in').addEventListener('click', () => changeZoom(0.1));
+            document.getElementById('zoom-out').addEventListener('click', () => changeZoom(-0.1));
+            document.getElementById('fit-page').addEventListener('click', fitToPage);
+
+            // Export
+            exportBtn.addEventListener('click', exportPDF);
+        }
+
+        function setupToolbar() {
+            // Document View button
+            document.getElementById('document-view-btn').addEventListener('click', toggleDocumentView);
+
+            // Edit All button
+            document.getElementById('edit-all-btn').addEventListener('click', toggleEditMode);
+
+            // Tool buttons
+            const tools = ['select', 'text', 'draw', 'highlight', 'eraser', 'rectangle', 'circle', 'line'];
+            tools.forEach(tool => {
+                const btn = document.getElementById(`${tool}-tool`);
+                if (btn) {
+                    btn.addEventListener('click', () => setTool(tool));
+                }
+            });
+
+            // Formatting buttons
+            document.getElementById('bold-btn').addEventListener('click', () => applyFormat('bold'));
+            document.getElementById('italic-btn').addEventListener('click', () => applyFormat('italic'));
+            document.getElementById('underline-btn').addEventListener('click', () => applyFormat('underline'));
+
+            // Font controls
+            document.getElementById('font-family').addEventListener('change', (e) => {
+                applyFontFamily(e.target.value);
+            });
+            document.getElementById('font-size').addEventListener('change', (e) => {
+                applyFontSize(e.target.value);
+            });
+            document.getElementById('text-color').addEventListener('change', (e) => {
+                applyTextColor(e.target.value);
+            });
+
+            // Undo/Redo
+            document.getElementById('undo-btn').addEventListener('click', undo);
+            document.getElementById('redo-btn').addEventListener('click', redo);
+
+            // OCR button
+            document.getElementById('ocr-btn').addEventListener('click', runOCR);
+        }
+
+        async function toggleDocumentView() {
+            documentViewMode = !documentViewMode;
+            const btn = document.getElementById('document-view-btn');
+            const canvasContainer = document.getElementById('canvas-container');
+            const documentView = document.getElementById('document-view');
+
+            if (documentViewMode) {
+                // Switch to Document View
+                canvasContainer.style.display = 'none';
+                documentView.classList.add('active');
+                documentView.contentEditable = 'true';
+                btn.innerHTML = '<i class="fas fa-file-pdf"></i> PDF View';
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-secondary');
+
+                // Extract and convert PDF to editable document
+                await convertPDFToDocument();
+
+                console.log('📄 Document View - Edit like Word!');
+            } else {
+                // Switch back to PDF View
+                canvasContainer.style.display = 'inline-block';
+                documentView.classList.remove('active');
+                documentView.contentEditable = 'false';
+                btn.innerHTML = '<i class="fas fa-file-word"></i> Document View';
+                btn.classList.remove('btn-secondary');
+                btn.classList.add('btn-primary');
+
+                console.log('📑 PDF View');
+            }
+        }
+
+        async function convertPDFToDocument() {
+            const documentView = document.getElementById('document-view');
+            documentView.innerHTML = '<p style="text-align: center; color: #666;">Converting PDF to editable document...</p>';
+
+            try {
+                let allText = [];
+
+                // Extract text from all pages
+                for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+                    const page = await pdfDoc.getPage(pageNum);
+                    const textContent = await page.getTextContent();
+
+                    // Sort text items by Y position (top to bottom) then X position (left to right)
+                    const items = textContent.items.sort((a, b) => {
+                        const yDiff = Math.abs(a.transform[5] - b.transform[5]);
+                        if (yDiff < 5) { // Same line
+                            return a.transform[4] - b.transform[4]; // Sort by X
+                        }
+                        return b.transform[5] - a.transform[5]; // Sort by Y (top to bottom)
+                    });
+
+                    // Group text items into lines
+                    let lines = [];
+                    let currentLine = [];
+                    let lastY = null;
+
+                    items.forEach(item => {
+                        const y = item.transform[5];
+                        if (lastY === null || Math.abs(y - lastY) < 5) {
+                            currentLine.push(item.str);
+                        } else {
+                            if (currentLine.length > 0) {
+                                lines.push(currentLine.join(' '));
+                            }
+                            currentLine = [item.str];
+                        }
+                        lastY = y;
+                    });
+
+                    if (currentLine.length > 0) {
+                        lines.push(currentLine.join(' '));
+                    }
+
+                    // Add page break marker
+                    if (pageNum < pdfDoc.numPages) {
+                        lines.push('\n--- Page Break ---\n');
+                    }
+
+                    allText = allText.concat(lines);
+                }
+
+                // Convert to HTML paragraphs
+                let htmlContent = '';
+                allText.forEach(line => {
+                    const trimmedLine = line.trim();
+                    if (trimmedLine) {
+                        // Detect headings (lines that are short and might be titles)
+                        if (trimmedLine.length < 50 && trimmedLine.match(/^[A-Z]/)) {
+                            htmlContent += `<h2>${trimmedLine}</h2>`;
+                        } else if (trimmedLine === '--- Page Break ---') {
+                            htmlContent += `<hr style="border: 1px dashed #ccc; margin: 20px 0;">`;
+                        } else {
+                            htmlContent += `<p>${trimmedLine}</p>`;
+                        }
+                    }
+                });
+
+                extractedDocumentText = htmlContent;
+                documentView.innerHTML = htmlContent || '<p>No text found in PDF. The PDF may contain images or scanned content.</p>';
+
+                console.log(`✓ Converted ${pdfDoc.numPages} pages to editable document`);
+            } catch (error) {
+                console.error('Error converting PDF:', error);
+                documentView.innerHTML = '<p style="color: red;">Error converting PDF. Please try again.</p>';
+            }
+        }
+
+        function applyFormat(command) {
+            // In Document View, no need for Edit Mode - always editable
+            if (!documentViewMode && !editModeEnabled) {
+                showModal('Please enable Edit Mode first by clicking "Edit All" or switch to Document View');
+                return;
+            }
+            document.execCommand(command, false, null);
+        }
+
+        function applyFontFamily(fontFamily) {
+            // In Document View, no need for Edit Mode - always editable
+            if (!documentViewMode && !editModeEnabled) {
+                showModal('Please enable Edit Mode first by clicking "Edit All" or switch to Document View');
+                return;
+            }
+            document.execCommand('fontName', false, fontFamily);
+        }
+
+        function applyFontSize(size) {
+            // In Document View, no need for Edit Mode - always editable
+            if (!documentViewMode && !editModeEnabled) {
+                showModal('Please enable Edit Mode first by clicking "Edit All" or switch to Document View');
+                return;
+            }
+            // Convert size to appropriate format for execCommand
+            const sizeMap = {
+                '8': '1',
+                '10': '2',
+                '12': '3',
+                '14': '4',
+                '16': '5',
+                '18': '6',
+                '20': '7'
+            };
+            document.execCommand('fontSize', false, sizeMap[size] || '5');
+        }
+
+        function applyTextColor(color) {
+            // In Document View, no need for Edit Mode - always editable
+            if (!documentViewMode && !editModeEnabled) {
+                showModal('Please enable Edit Mode first by clicking "Edit All" or switch to Document View');
+                return;
+            }
+            document.execCommand('foreColor', false, color);
+        }
+
+        function toggleEditMode() {
+            editModeEnabled = !editModeEnabled;
+            const btn = document.getElementById('edit-all-btn');
+            const canvas = document.getElementById('pdf-canvas');
+            const textLayer = document.getElementById('text-layer');
+
+            if (editModeEnabled) {
+                // Enable edit mode
+                canvas.classList.add('dimmed');
+                textLayer.classList.add('edit-mode');
+                btn.innerHTML = '<i class="fas fa-check"></i> Editing...';
+                btn.classList.remove('btn-success');
+                btn.classList.add('btn-warning');
+                console.log('✏️ Edit mode ENABLED - Click any text to edit');
+            } else {
+                // Disable edit mode
+                canvas.classList.remove('dimmed');
+                textLayer.classList.remove('edit-mode');
+                btn.innerHTML = '<i class="fas fa-edit"></i> Edit All';
+                btn.classList.remove('btn-warning');
+                btn.classList.add('btn-success');
+                console.log('👁️ View mode - Text editing disabled');
+            }
+        }
+
+        function setTool(tool) {
+            currentTool = tool;
+            document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`${tool}-tool`)?.classList.add('active');
+
+            // Change cursor based on tool
+            const cursors = {
+                'select': 'default',
+                'text': 'text',
+                'edit-text': 'pointer',
+                'draw': 'crosshair',
+                'highlight': 'crosshair',
+                'eraser': 'crosshair',
+                'rectangle': 'crosshair',
+                'circle': 'crosshair',
+                'line': 'crosshair'
+            };
+            canvas.style.cursor = cursors[tool] || 'default';
+        }
+
+        async function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                await loadPDF(file);
+            }
+        }
+
+        async function loadPDF(file) {
+            try {
+                showLoading(true);
+
+                // Read file as array buffer
+                const arrayBuffer = await file.arrayBuffer();
+                pdfBytes = new Uint8Array(arrayBuffer);
+
+                // Load with PDF.js
+                const loadingTask = pdfjsLib.getDocument({ data: pdfBytes });
+                pdfDoc = await loadingTask.promise;
+
+                // Show main content
+                uploadArea.style.display = 'none';
+                mainContent.classList.add('active');
+                exportBtn.style.display = 'inline-flex';
+
+                // Render first page
+                await renderPage(1);
+
+                // Generate thumbnails
+                generateThumbnails();
+
+                showLoading(false);
+            } catch (error) {
+                console.error('Error loading PDF:', error);
+                showModal('Error loading PDF. Please try again.');
+                showLoading(false);
+            }
+        }
+
+        async function renderPage(pageNum) {
+            try {
+                currentPage = pageNum;
+
+                const page = await pdfDoc.getPage(pageNum);
+                const viewport = page.getViewport({ scale });
+
+                // Set canvas dimensions
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                // Set container dimensions to match canvas
+                const container = document.getElementById('canvas-container');
+                container.style.width = viewport.width + 'px';
+                container.style.height = viewport.height + 'px';
+
+                // Set text layer dimensions to match
+                textLayer.style.width = viewport.width + 'px';
+                textLayer.style.height = viewport.height + 'px';
+
+                // Render PDF page
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                await page.render(renderContext).promise;
+
+                // Extract text content
+                await extractTextContent(page, viewport);
+
+                // Update active thumbnail
+                updateActiveThumbnail(pageNum);
+            } catch (error) {
+                console.error('Error rendering page:', error);
+            }
+        }
+
+        // Store edited text per page - use original text as key for better matching
+        let editedTextByPage = {};
+
+        async function extractTextContent(page, viewport) {
+            try {
+                const textContent = await page.getTextContent();
+
+                // Save current edits before clearing (use original text + position as key)
+                if (textElements.length > 0) {
+                    if (!editedTextByPage[currentPage]) {
+                        editedTextByPage[currentPage] = {};
+                    }
+                    textElements.forEach((t, idx) => {
+                        const key = `${t.originalText}_${Math.round(t.x)}_${Math.round(t.y)}`;
+                        editedTextByPage[currentPage][key] = {
+                            originalText: t.originalText,
+                            currentText: t.currentText,
+                            x: t.x,
+                            y: t.y,
+                            fontSize: t.fontSize
+                        };
+                    });
+                    console.log(`Saved ${Object.keys(editedTextByPage[currentPage]).length} edits for page ${currentPage}`);
+                }
+
+                textLayer.innerHTML = '';
+                textElements = [];
+
+                // Enhanced text extraction with better coverage
+                textContent.items.forEach((item, index) => {
+                    // Skip empty strings
+                    if (!item.str || item.str.trim() === '') return;
+
+                    const tx = pdfjsLib.Util.transform(viewport.transform, item.transform);
+                    const fontHeight = Math.sqrt((tx[2] * tx[2]) + (tx[3] * tx[3]));
+                    const fontWidth = Math.sqrt((tx[0] * tx[0]) + (tx[1] * tx[1]));
+
+                    const span = document.createElement('span');
+
+                    // Calculate position
+                    const posX = tx[4];
+                    const posY = tx[5] - fontHeight;
+
+                    // Check if this text was edited before (use original text + position as key)
+                    const pageEdits = editedTextByPage[currentPage] || {};
+                    const key = `${item.str}_${Math.round(posX)}_${Math.round(posY)}`;
+                    const editedVersion = pageEdits[key];
+
+                    span.textContent = editedVersion ? editedVersion.currentText : item.str;
+                    span.style.left = posX + 'px';
+                    span.style.top = posY + 'px';
+                    span.style.fontSize = fontHeight + 'px';
+
+                    // Better font detection
+                    let fontFamily = 'sans-serif';
+                    if (item.fontName) {
+                        if (item.fontName.toLowerCase().includes('times') ||
+                            item.fontName.toLowerCase().includes('serif')) {
+                            fontFamily = 'serif';
+                        } else if (item.fontName.toLowerCase().includes('courier') ||
+                            item.fontName.toLowerCase().includes('mono')) {
+                            fontFamily = 'monospace';
+                        }
+                    }
+                    span.style.fontFamily = fontFamily;
+
+                    // Handle text transformations
+                    if (item.transform) {
+                        const scaleX = tx[0];
+                        const skewY = tx[1];
+                        const skewX = tx[2];
+                        const scaleY = tx[3];
+
+                        if (scaleX !== 1 || scaleY !== 1 || skewX !== 0 || skewY !== 0) {
+                            span.style.transform = `matrix(${scaleX}, ${skewY}, ${skewX}, ${scaleY}, 0, 0)`;
+                        }
+                    }
+
+                    span.dataset.index = index;
+                    span.dataset.key = key; // Store key for easy lookup
+
+                    // Text starts as NOT editable - only editable in Edit Mode
+                    span.contentEditable = false;
+
+                    // Make editable when clicking in edit mode
+                    span.addEventListener('click', (e) => {
+                        if (editModeEnabled && !span.contentEditable) {
+                            span.contentEditable = true;
+                            span.focus();
+                        }
+                    });
+
+                    // Save changes when user finishes editing
+                    span.addEventListener('blur', () => {
+                        saveTextEdit(span);
+                        if (editModeEnabled) {
+                            span.contentEditable = false; // Disable after saving
+                        }
+                    });
+
+                    // Auto-save on Enter key
+                    span.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            span.blur(); // This will trigger save
+                        }
+                    });
+
+                    // Make the text box draggable
+                    makeDraggable(span);
+
+                    textLayer.appendChild(span);
+                    textElements.push({
+                        element: span,
+                        originalText: item.str,
+                        currentText: editedVersion ? editedVersion.currentText : item.str,
+                        x: posX,
+                        y: posY,
+                        fontSize: fontHeight,
+                        fontName: item.fontName || fontFamily,
+                        width: item.width * fontWidth,
+                        key: key
+                    });
+                });
+
+                // Log extraction stats for debugging
+                console.log(`Extracted ${textElements.length} text elements from page ${currentPage}`);
+
+                // Show warning if very few text elements detected
+                if (textElements.length < 10) {
+                    console.warn('Very few text elements detected. This PDF might have text embedded as images.');
+                }
+            } catch (error) {
+                console.error('Error extracting text:', error);
+            }
+        }
+
+        function saveTextEdit(span) {
+            const newText = span.textContent;
+
+            // Find and update the corresponding textElement using key
+            const textElIndex = textElements.findIndex(t => t.element === span);
+            if (textElIndex !== -1) {
+                const textEl = textElements[textElIndex];
+                const oldText = textEl.currentText;
+                textEl.currentText = newText;
+
+                // Immediately save to editedTextByPage
+                if (!editedTextByPage[currentPage]) {
+                    editedTextByPage[currentPage] = {};
+                }
+                editedTextByPage[currentPage][textEl.key] = {
+                    originalText: textEl.originalText,
+                    currentText: newText,
+                    x: textEl.x,
+                    y: textEl.y,
+                    fontSize: textEl.fontSize
+                };
+
+                if (oldText !== newText) {
+                    console.log(`✓ Text edited: "${oldText}" -> "${newText}" (Page ${currentPage})`);
+                }
+            }
+
+            saveHistory();
+        }
+
+        // Drag and drop functionality for text elements
+        let draggedElement = null;
+        let dragOffset = { x: 0, y: 0 };
+
+        function makeDraggable(span) {
+            span.addEventListener('mousedown', (e) => {
+                // Only allow dragging if not currently editing and in edit mode
+                if (editModeEnabled && span.contentEditable === 'false') {
+                    e.preventDefault();
+                    draggedElement = span;
+                    span.classList.add('draggable');
+
+                    const rect = span.getBoundingClientRect();
+                    const containerRect = span.parentElement.getBoundingClientRect();
+                    dragOffset.x = e.clientX - rect.left;
+                    dragOffset.y = e.clientY - rect.top;
+                }
+            });
+        }
+
+        // Global mouse move handler
+        document.addEventListener('mousemove', (e) => {
+            if (draggedElement) {
+                const containerRect = draggedElement.parentElement.getBoundingClientRect();
+                const newX = e.clientX - containerRect.left - dragOffset.x;
+                const newY = e.clientY - containerRect.top - dragOffset.y;
+
+                draggedElement.style.left = newX + 'px';
+                draggedElement.style.top = newY + 'px';
+
+                // Update position in textElements
+                const textElIndex = textElements.findIndex(t => t.element === draggedElement);
+                if (textElIndex !== -1) {
+                    textElements[textElIndex].x = newX;
+                    textElements[textElIndex].y = newY;
+                }
+            }
+        });
+
+        // Global mouse up handler
+        document.addEventListener('mouseup', () => {
+            if (draggedElement) {
+                draggedElement.classList.remove('draggable');
+
+                // Save new position
+                const textElIndex = textElements.findIndex(t => t.element === draggedElement);
+                if (textElIndex !== -1) {
+                    const textEl = textElements[textElIndex];
+                    if (!editedTextByPage[currentPage]) {
+                        editedTextByPage[currentPage] = {};
+                    }
+                    editedTextByPage[currentPage][textEl.key] = {
+                        originalText: textEl.originalText,
+                        currentText: textEl.currentText,
+                        x: textEl.x,
+                        y: textEl.y,
+                        fontSize: textEl.fontSize
+                    };
+                    console.log(`📍 Text repositioned to (${Math.round(textEl.x)}, ${Math.round(textEl.y)})`);
+                }
+
+                draggedElement = null;
+                saveHistory();
+            }
+        });
+
+        async function generateThumbnails() {
+            const container = document.getElementById('page-thumbnails');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const page = await pdfDoc.getPage(i);
+                const viewport = page.getViewport({ scale: 0.3 });
+
+                const thumbnailCanvas = document.createElement('canvas');
+                const thumbnailCtx = thumbnailCanvas.getContext('2d');
+                thumbnailCanvas.width = viewport.width;
+                thumbnailCanvas.height = viewport.height;
+
+                await page.render({
+                    canvasContext: thumbnailCtx,
+                    viewport: viewport
+                }).promise;
+
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'page-thumbnail';
+                if (i === currentPage) thumbnail.classList.add('active');
+
+                thumbnail.innerHTML = `
+                    ${thumbnailCanvas.outerHTML}
+                    <div class="page-number">Page ${i}</div>
+                    <div class="page-actions">
+                        <button onclick="rotatePage(${i})"><i class="fas fa-redo"></i></button>
+                        <button onclick="deletePage(${i})"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+
+                thumbnail.addEventListener('click', () => renderPage(i));
+                container.appendChild(thumbnail);
+            }
+        }
+
+        function updateActiveThumbnail(pageNum) {
+            document.querySelectorAll('.page-thumbnail').forEach((thumb, index) => {
+                thumb.classList.toggle('active', index + 1 === pageNum);
+            });
+        }
+
+        function handleCanvasMouseDown(e) {
+            if (currentTool === 'draw' || currentTool === 'highlight') {
+                isDrawing = true;
+                const rect = canvas.getBoundingClientRect();
+                drawingPath = [{
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                }];
+            }
+        }
+
+        function handleCanvasMouseMove(e) {
+            if (isDrawing) {
+                const rect = canvas.getBoundingClientRect();
+                drawingPath.push({
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                });
+                drawPath();
+            }
+        }
+
+        function handleCanvasMouseUp(e) {
+            if (isDrawing) {
+                isDrawing = false;
+                if (drawingPath.length > 1) {
+                    annotations.push({
+                        type: currentTool,
+                        path: [...drawingPath],
+                        color: document.getElementById('text-color').value,
+                        page: currentPage
+                    });
+                    saveHistory();
+                }
+                drawingPath = [];
+            }
+        }
+
+        function handleCanvasClick(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            if (currentTool === 'text') {
+                addTextAnnotation(x, y);
+            }
+        }
+
+        function drawPath() {
+            if (drawingPath.length < 2) return;
+
+            ctx.save();
+            ctx.strokeStyle = currentTool === 'highlight'
+                ? document.getElementById('text-color').value + '80'
+                : document.getElementById('text-color').value;
+            ctx.lineWidth = currentTool === 'highlight' ? 20 : 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(drawingPath[0].x, drawingPath[0].y);
+            for (let i = 1; i < drawingPath.length; i++) {
+                ctx.lineTo(drawingPath[i].x, drawingPath[i].y);
+            }
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        function addTextAnnotation(x, y) {
+            const text = prompt('Enter text:');
+            if (!text) return;
+
+            const fontSize = document.getElementById('font-size').value;
+            const fontFamily = document.getElementById('font-family').value;
+            const color = document.getElementById('text-color').value;
+
+            // Create span element in text layer (like other text)
+            const span = document.createElement('span');
+            span.textContent = text;
+            span.style.left = x + 'px';
+            span.style.top = y + 'px';
+            span.style.fontSize = fontSize + 'px';
+            span.style.fontFamily = fontFamily;
+            span.style.color = color;
+            span.style.position = 'absolute';
+            span.style.background = 'rgba(255, 255, 255, 0.9)';
+            span.style.border = '1px solid rgba(102, 126, 234, 0.3)';
+            span.style.padding = '4px';
+            span.style.borderRadius = '2px';
+            span.contentEditable = false;
+
+            const key = `NEW_${text}_${Math.round(x)}_${Math.round(y)}`;
+            span.dataset.key = key;
+
+            // Make editable when clicking in edit mode
+            span.addEventListener('click', (e) => {
+                if (editModeEnabled && !span.contentEditable) {
+                    span.contentEditable = true;
+                    span.focus();
+                }
+            });
+
+            // Save changes when user finishes editing
+            span.addEventListener('blur', () => {
+                saveTextEdit(span);
+                if (editModeEnabled) {
+                    span.contentEditable = false;
+                }
+            });
+
+            // Auto-save on Enter key
+            span.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    span.blur();
+                }
+            });
+
+            // Make draggable
+            makeDraggable(span);
+
+            textLayer.appendChild(span);
+
+            // Add to textElements
+            textElements.push({
+                element: span,
+                originalText: text,
+                currentText: text,
+                x: x,
+                y: y,
+                fontSize: parseInt(fontSize),
+                fontName: fontFamily,
+                width: 100,
+                key: key,
+                isNew: true
+            });
+
+            // Save to editedTextByPage
+            if (!editedTextByPage[currentPage]) {
+                editedTextByPage[currentPage] = {};
+            }
+            editedTextByPage[currentPage][key] = {
+                originalText: text,
+                currentText: text,
+                x: x,
+                y: y,
+                fontSize: parseInt(fontSize)
+            };
+
+            console.log(`➕ New text added: "${text}" at (${x}, ${y})`);
+
+            // Also save to annotations for backward compatibility
+            annotations.push({
+                type: 'text',
+                text: text,
+                x: x,
+                y: y,
+                fontSize: fontSize,
+                fontFamily: fontFamily,
+                color: color,
+                page: currentPage
+            });
+
+            saveHistory();
+        }
+
+        function changeZoom(delta) {
+            scale = Math.max(0.5, Math.min(3, scale + delta));
+            renderPage(currentPage);
+            document.getElementById('zoom-level').textContent = Math.round(scale * 100) + '%';
+        }
+
+        function fitToPage() {
+            const canvasArea = document.querySelector('.canvas-area');
+            const maxWidth = canvasArea.clientWidth - 40;
+            const maxHeight = canvasArea.clientHeight - 40;
+
+            pdfDoc.getPage(currentPage).then(page => {
+                const viewport = page.getViewport({ scale: 1 });
+                const scaleX = maxWidth / viewport.width;
+                const scaleY = maxHeight / viewport.height;
+                scale = Math.min(scaleX, scaleY);
+                renderPage(currentPage);
+                document.getElementById('zoom-level').textContent = Math.round(scale * 100) + '%';
+            });
+        }
+
+        function saveHistory() {
+            history = history.slice(0, historyIndex + 1);
+            history.push({
+                annotations: JSON.parse(JSON.stringify(annotations)),
+                textElements: textElements.map(t => ({ ...t, text: t.element.textContent }))
+            });
+            historyIndex++;
+        }
+
+        function undo() {
+            if (historyIndex > 0) {
+                historyIndex--;
+                restoreState(history[historyIndex]);
+            }
+        }
+
+        function redo() {
+            if (historyIndex < history.length - 1) {
+                historyIndex++;
+                restoreState(history[historyIndex]);
+            }
+        }
+
+        function restoreState(state) {
+            annotations = JSON.parse(JSON.stringify(state.annotations));
+            // Restore text elements
+            state.textElements.forEach((savedText, index) => {
+                if (textElements[index]) {
+                    textElements[index].element.textContent = savedText.text;
+                }
+            });
+            renderPage(currentPage);
+        }
+
+        async function exportPDF() {
+            try {
+                showLoading(true);
+
+                // Load original PDF with pdf-lib
+                const pdfLibDoc = await PDFLib.PDFDocument.load(pdfBytes);
+
+                // Register fontkit
+                pdfLibDoc.registerFontkit(fontkit);
+
+                // Embed standard fonts
+                const helveticaFont = await pdfLibDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+                const timesFont = await pdfLibDoc.embedFont(PDFLib.StandardFonts.TimesRoman);
+                const courierFont = await pdfLibDoc.embedFont(PDFLib.StandardFonts.Courier);
+
+                const fontMap = {
+                    'Helvetica': helveticaFont,
+                    'Times-Roman': timesFont,
+                    'Courier': courierFont
+                };
+
+                // Apply modifications to each page
+                for (let i = 0; i < pdfLibDoc.getPageCount(); i++) {
+                    const page = pdfLibDoc.getPage(i);
+                    const { width, height } = page.getSize();
+
+                    // Apply annotations for this page
+                    const pageAnnotations = annotations.filter(a => a.page === i + 1);
+
+                    for (const annotation of pageAnnotations) {
+                        if (annotation.type === 'text') {
+                            const font = fontMap[annotation.fontFamily] || helveticaFont;
+                            const rgb = hexToRgb(annotation.color);
+
+                            page.drawText(annotation.text, {
+                                x: annotation.x,
+                                y: height - annotation.y - parseInt(annotation.fontSize),
+                                size: parseInt(annotation.fontSize),
+                                font: font,
+                                color: PDFLib.rgb(rgb.r / 255, rgb.g / 255, rgb.b / 255)
+                            });
+                        }
+                    }
+
+                    // Apply text edits from all pages (now using object with keys)
+                    const pageEdits = editedTextByPage[i + 1] || {};
+                    Object.entries(pageEdits).forEach(([key, textEl]) => {
+                        if (textEl.currentText !== textEl.originalText) {
+                            // Calculate approximate text width
+                            const textWidth = textEl.currentText.length * (textEl.fontSize || 12) * 0.5;
+                            const fontSize = textEl.fontSize || 12;
+
+                            // Draw white rectangle to cover original text
+                            page.drawRectangle({
+                                x: textEl.x,
+                                y: height - textEl.y - fontSize,
+                                width: textWidth,
+                                height: fontSize,
+                                color: PDFLib.rgb(1, 1, 1)
+                            });
+
+                            // Draw new text
+                            const font = fontMap['Helvetica'];
+                            try {
+                                page.drawText(textEl.currentText, {
+                                    x: textEl.x,
+                                    y: height - textEl.y - fontSize,
+                                    size: fontSize,
+                                    font: font,
+                                    color: PDFLib.rgb(0, 0, 0)
+                                });
+                            } catch (err) {
+                                console.warn(`Failed to draw text "${textEl.currentText}":`, err);
+                            }
+                        }
+                    });
+                }
+
+                // Save and download
+                const modifiedPdfBytes = await pdfLibDoc.save();
+                const blob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'edited-document.pdf';
+                a.click();
+
+                URL.revokeObjectURL(url);
+                showLoading(false);
+                showModal('PDF exported successfully!');
+            } catch (error) {
+                console.error('Error exporting PDF:', error);
+                showModal('Error exporting PDF. Please try again.');
+                showLoading(false);
+            }
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : { r: 0, g: 0, b: 0 };
+        }
+
+        function rotatePage(pageNum) {
+            showModal('Page rotation will be implemented in export.');
+        }
+
+        function deletePage(pageNum) {
+            showModal('Page deletion will be implemented in export.');
+        }
+
+        function showLoading(show) {
+            loading.classList.toggle('active', show);
+        }
+
+        async function runOCR() {
+            try {
+                showLoading(true);
+                document.getElementById('loading').querySelector('p').textContent = 'Running OCR... This may take a moment.';
+
+                // Get the current canvas as an image
+                const imageData = canvas.toDataURL('image/png');
+
+                // Run Tesseract OCR
+                const { data: { words } } = await Tesseract.recognize(
+                    imageData,
+                    'eng',
+                    {
+                        logger: info => console.log(info)
+                    }
+                );
+
+                // Add detected text as editable overlays
+                words.forEach((word, index) => {
+                    if (!word.text || word.text.trim() === '' || word.confidence < 60) return;
+
+                    const { bbox } = word;
+                    const posX = bbox.x0;
+                    const posY = bbox.y0;
+                    const fontSize = (bbox.y1 - bbox.y0) * 0.8;
+
+                    // Create unique key for OCR text
+                    const key = `OCR_${word.text}_${Math.round(posX)}_${Math.round(posY)}`;
+
+                    // Check if already edited
+                    const pageEdits = editedTextByPage[currentPage] || {};
+                    const editedVersion = pageEdits[key];
+
+                    const span = document.createElement('span');
+                    span.textContent = editedVersion ? editedVersion.currentText : word.text;
+                    span.style.left = posX + 'px';
+                    span.style.top = posY + 'px';
+                    span.style.width = (bbox.x1 - bbox.x0) + 'px';
+                    span.style.height = (bbox.y1 - bbox.y0) + 'px';
+                    span.style.fontSize = fontSize + 'px';
+                    span.style.fontFamily = 'sans-serif';
+                    span.dataset.index = 'ocr-' + index;
+                    span.dataset.ocr = 'true';
+                    span.dataset.key = key;
+
+                    // Text starts as NOT editable - only editable in Edit Mode
+                    span.contentEditable = false;
+
+                    // Make editable when clicking in edit mode
+                    span.addEventListener('click', (e) => {
+                        if (editModeEnabled && !span.contentEditable) {
+                            span.contentEditable = true;
+                            span.focus();
+                        }
+                    });
+
+                    // Save changes when user finishes editing
+                    span.addEventListener('blur', () => {
+                        saveTextEdit(span);
+                        if (editModeEnabled) {
+                            span.contentEditable = false; // Disable after saving
+                        }
+                    });
+
+                    // Auto-save on Enter key
+                    span.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            span.blur(); // This will trigger save
+                        }
+                    });
+
+                    // Make the text box draggable
+                    makeDraggable(span);
+
+                    textLayer.appendChild(span);
+                    textElements.push({
+                        element: span,
+                        originalText: word.text,
+                        currentText: editedVersion ? editedVersion.currentText : word.text,
+                        x: posX,
+                        y: posY,
+                        fontSize: fontSize,
+                        fontName: 'sans-serif',
+                        width: bbox.x1 - bbox.x0,
+                        isOCR: true,
+                        key: key
+                    });
+                });
+
+                showLoading(false);
+                document.getElementById('loading').querySelector('p').textContent = 'Processing PDF...';
+                showModal(`OCR completed! Found ${words.length} text elements. Double-click any highlighted text to edit it.`);
+
+                console.log(`OCR detected ${words.length} words on page ${currentPage}`);
+            } catch (error) {
+                console.error('OCR error:', error);
+                showLoading(false);
+                document.getElementById('loading').querySelector('p').textContent = 'Processing PDF...';
+                showModal('OCR failed. Please try again or use a different PDF.');
+            }
+        }
+
+        function showModal(message) {
+            document.getElementById('modal-message').textContent = message;
+            document.getElementById('info-modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('info-modal').classList.remove('active');
+        }
+    </script>
+</body>
+
+</html>

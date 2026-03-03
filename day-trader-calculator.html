@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-5QGK66E3WD"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-5QGK66E3WD');
   </script>
@@ -13,8 +14,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>Day Trader Returns Calculator – Calculate Daily Profit & Loss in Percentage</title>
-  <meta name="description" content="Instantly calculate your day trading profit or loss in percentage. Enter your capital, P/L, and charges to get accurate daily returns. Simple, fast, and mobile-friendly Day Trader Returns Calculator.">
-  <meta name="keywords" content="day trading calculator, profit loss calculator, trading returns, P&L calculator, day trader, trading profit percentage, intraday calculator, stock trading calculator">
+  <meta name="description"
+    content="Instantly calculate your day trading profit or loss in percentage. Enter your capital, P/L, and charges to get accurate daily returns. Simple, fast, and mobile-friendly Day Trader Returns Calculator.">
+  <meta name="keywords"
+    content="day trading calculator, profit loss calculator, trading returns, P&L calculator, day trader, trading profit percentage, intraday calculator, stock trading calculator">
   <meta name="author" content="Zero Balanced">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="language" content="English">
@@ -31,7 +34,8 @@
 
   <!-- Open Graph Tags -->
   <meta property="og:title" content="Day Trader Returns Calculator – Calculate Daily Profit & Loss in Percentage">
-  <meta property="og:description" content="Instantly calculate your day trading profit or loss in percentage. Enter your capital, P/L, and charges to get accurate daily returns.">
+  <meta property="og:description"
+    content="Instantly calculate your day trading profit or loss in percentage. Enter your capital, P/L, and charges to get accurate daily returns.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.zerobalanced.com/day-trader-calculator.html">
   <meta property="og:site_name" content="Zero Balanced">
@@ -40,7 +44,8 @@
   <!-- Twitter Card Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Day Trader Returns Calculator – Calculate Daily Profit & Loss in Percentage">
-  <meta name="twitter:description" content="Instantly calculate your day trading profit or loss in percentage. Simple, fast, and mobile-friendly calculator.">
+  <meta name="twitter:description"
+    content="Instantly calculate your day trading profit or loss in percentage. Simple, fast, and mobile-friendly calculator.">
   <meta name="twitter:site" content="@ZeroBalanced">
 
   <!-- Schema.org JSON-LD -->
@@ -82,692 +87,740 @@
   }
   </script>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="styles/modern-dark.css">
 
   <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5970109164913530" crossorigin="anonymous"></script>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      padding: 0;
-      margin: 0;
-    }
-
-    .main-content-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: calc(100vh - 80px);
-      padding: 20px;
-    }
-
-    /* Header Styles */
-    .main-header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 15px 0;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      width: 100%;
-    }
-
-    .header-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo-section {
-      flex-shrink: 0;
-    }
-
-    .logo-section svg {
-      max-width: 300px;
-      height: auto;
-    }
-
-    .main-navigation {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .nav-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .nav-link:hover {
-      background: rgba(255, 255, 255, 0.2);
-      text-decoration: none;
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .nav-link.active {
-      background: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.4);
-      font-weight: 600;
-    }
-
-    .nav-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .nav-dropdown-toggle {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      color: white;
-      border-radius: 6px;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      cursor: pointer;
-    }
-
-    .nav-dropdown-toggle:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .nav-dropdown-toggle.active {
-      background: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.4);
-    }
-
-    .nav-dropdown-toggle i:last-child {
-      font-size: 0.8rem;
-      transition: transform 0.3s ease;
-    }
-
-    .nav-dropdown.open .nav-dropdown-toggle i:last-child {
-      transform: rotate(180deg);
-    }
-
-    .nav-dropdown-menu {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      margin-top: 8px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-      min-width: 280px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-      z-index: 1001;
-      overflow: hidden;
-    }
-
-    .nav-dropdown.open .nav-dropdown-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .dropdown-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 20px;
-      color: #333;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      border-bottom: 1px solid #f0f0f0;
-      background: white;
-    }
-
-    .dropdown-item:last-child {
-      border-bottom: none;
-    }
-
-    .dropdown-item:hover {
-      background: linear-gradient(135deg, #f8f9ff 0%, #e8f4f8 100%);
-      color: #667eea;
-      text-decoration: none;
-      padding-left: 24px;
-    }
-
-    .dropdown-item.active {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      font-weight: 600;
-    }
-
-    .dropdown-item i {
-      font-size: 1.1rem;
-      width: 20px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .dropdown-item-content {
-      flex: 1;
-    }
-
-    .dropdown-item-title {
-      font-size: 0.95rem;
-      font-weight: 500;
-      margin-bottom: 2px;
-    }
-
-    .dropdown-item-desc {
-      font-size: 0.75rem;
-      opacity: 0.7;
-      line-height: 1.3;
-    }
-
-    .nav-link.support-btn {
-      background: rgba(255, 107, 157, 0.2);
-      border-color: rgba(255, 107, 157, 0.4);
-    }
-
-    .nav-link.support-btn:hover {
-      background: rgba(255, 107, 157, 0.3);
-      border-color: rgba(255, 107, 157, 0.6);
-    }
-
-    /* Fixed Vertical Ads */
-    .fixed-ad-left, .fixed-ad-right {
-      position: fixed;
-      top: 100px;
-      width: 160px;
-      z-index: 100;
-    }
-
-    .fixed-ad-left {
-      left: 10px;
-    }
-
-    .fixed-ad-right {
-      right: 10px;
-    }
-
-    /* Mobile Ad Container */
-    .mobile-ad-container {
-      display: none;
-      margin: 20px 0;
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      min-height: 100px;
-    }
-
-    .container {
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      width: 100%;
-      max-width: 1000px;
-      animation: slideIn 0.4s ease-out;
-    }
-
-    .calculator-wrapper {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 30px;
-      margin-top: 30px;
-    }
-
-    @media (min-width: 768px) {
-      .calculator-wrapper {
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-      }
-    }
-
-    .input-section {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .output-section {
-      display: flex;
-      flex-direction: column;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    h1 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      color: #1f2937;
-      text-align: center;
-    }
-
-    .subtitle {
-      font-size: 14px;
-      color: #6b7280;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .input-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: #374151;
-      margin-bottom: 8px;
-    }
-
-    .input-wrapper {
-      position: relative;
-    }
-
-    .currency-symbol {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #6b7280;
-      font-weight: 600;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px 15px 14px 35px;
-      border-radius: 10px;
-      border: 2px solid #e5e7eb;
-      font-size: 16px;
-      transition: all 0.3s ease;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-
-    input::placeholder {
-      color: #9ca3af;
-    }
-
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 25px;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: 600;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      outline: none;
-    }
-
-    .btn-reset {
-      background: #f3f4f6;
-      color: #374151;
-    }
-
-    .btn-reset:hover {
-      background: #e5e7eb;
-    }
-
-    .output {
-      padding: 25px;
-      background: #f9fafb;
-      border-radius: 12px;
-      border-left: 4px solid #667eea;
-      min-height: 200px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s ease-out;
-    }
-
-    .output.show {
-      opacity: 1;
-    }
-
-    .output-placeholder {
-      text-align: center;
-      color: #9ca3af;
-      font-size: 14px;
-      padding: 40px 20px;
-    }
-
-    .output-placeholder.hide {
-      display: none;
-    }
-
-    .result-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .result-row:last-child {
-      border-bottom: none;
-      margin-top: 10px;
-      padding-top: 15px;
-      border-top: 2px solid #e5e7eb;
-    }
-
-    .result-label {
-      font-size: 14px;
-      color: #6b7280;
-      font-weight: 500;
-    }
-
-    .result-value {
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .profit {
-      color: #16a34a;
-    }
-
-    .loss {
-      color: #dc2626;
-    }
-
-    .neutral {
-      color: #6b7280;
-    }
-
-    .percentage-badge {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 16px;
-      font-weight: 700;
-      margin-left: 8px;
-    }
-
-    .percentage-badge.profit {
-      background: #dcfce7;
-      color: #16a34a;
-    }
-
-    .percentage-badge.loss {
-      background: #fee2e2;
-      color: #dc2626;
-    }
-
-    .error-message {
-      background: #fee2e2;
-      color: #dc2626;
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: 15px;
-      font-size: 14px;
-      display: none;
-      text-align: center;
-    }
-
-    .error-message.show {
-      display: block;
-    }
-
-    .info-box {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 8px;
-      padding: 12px;
-      margin-top: 20px;
-      font-size: 13px;
-      color: #1e40af;
-      line-height: 1.5;
-    }
-
-    .info-box strong {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #374151;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #e5e7eb;
-    }
-
-    /* SEO Content Styles */
-    .seo-content {
-      margin-top: 40px;
-      padding: 30px;
-      background: white;
-      border-radius: 12px;
-      line-height: 1.8;
-    }
-
-    .seo-intro {
-      background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%);
-      border-left: 4px solid #667eea;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 30px;
-    }
-
-    .seo-intro p {
-      margin: 0;
-      color: #1e40af;
-      font-size: 15px;
-    }
-
-    .seo-content h2 {
-      font-size: 22px;
-      color: #1f2937;
-      margin: 30px 0 15px 0;
-      font-weight: 700;
-    }
-
-    .seo-content h3 {
-      font-size: 18px;
-      color: #374151;
-      margin: 25px 0 12px 0;
-      font-weight: 600;
-    }
-
-    .seo-content p {
-      color: #4b5563;
-      margin-bottom: 15px;
-      font-size: 15px;
-    }
-
-    .seo-content ul {
-      margin: 15px 0;
-      padding-left: 25px;
-    }
-
-    .seo-content li {
-      color: #4b5563;
-      margin-bottom: 10px;
-      font-size: 15px;
-    }
-
-    .seo-content li strong {
-      color: #1f2937;
-      font-weight: 600;
-    }
-
-    @media (max-width: 1200px) {
-      .fixed-ad-left, .fixed-ad-right {
-        display: none;
-      }
-
-      .mobile-ad-container {
-        display: block;
-      }
-    }
-
-    @media (max-width: 1024px) {
-      .header-container {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px 20px;
-      }
-
-      .logo-section svg {
-        max-width: 250px;
-      }
-
-      .main-navigation {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .nav-dropdown-menu {
-        left: 50%;
-        transform: translateX(-50%) translateY(-10px);
-      }
-
-      .nav-dropdown.open .nav-dropdown-menu {
-        transform: translateX(-50%) translateY(0);
-      }
-    }
-
-    @media (max-width: 767px) {
-      .container {
-        padding: 30px 20px;
-      }
-
-      h1 {
-        font-size: 20px;
-      }
-
-      .button-group {
-        flex-direction: column;
-      }
-
-      .calculator-wrapper {
-        gap: 20px;
-      }
-
-      .output {
-        margin-top: 20px;
-      }
-
-      .main-header {
-        position: relative;
-      }
-
-      .header-container {
-        padding: 10px 15px;
-      }
-
-      .logo-section svg {
-        max-width: 200px;
-      }
-
-      .main-navigation {
-        flex-direction: column;
-        gap: 6px;
-      }
-
-      .nav-link,
-      .nav-dropdown-toggle {
-        width: 100%;
-        justify-content: center;
-        padding: 12px 16px;
-      }
-
-      .nav-dropdown-menu {
-        position: relative;
-        left: 0;
-        transform: none;
-        margin-top: 6px;
-        width: 100%;
-        min-width: 100%;
-        display: none;
-      }
-
-      .nav-dropdown.open .nav-dropdown-menu {
-        display: block;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-      }
-
-      .seo-content {
-        padding: 20px 15px;
-        margin-top: 30px;
-      }
-
-      .seo-content h2 {
-        font-size: 20px;
-      }
-
-      .seo-content h3 {
-        font-size: 16px;
-      }
-
-      .seo-intro {
-        padding: 15px;
-      }
-    }
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5970109164913530"
+    crossorigin="anonymous"></script>
+
+
+
+  .main-content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+  padding: 20px;
+  }
+
+  /* Header Styles */
+  .main-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 15px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  }
+
+  .header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  }
+
+  .logo-section {
+  flex-shrink: 0;
+  }
+
+  .logo-section svg {
+  max-width: 300px;
+  height: auto;
+  }
+
+  .main-navigation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  }
+
+  .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .nav-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .nav-link.active {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  font-weight: 600;
+  }
+
+  .nav-dropdown {
+  position: relative;
+  display: inline-block;
+  }
+
+  .nav-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  color: white;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  }
+
+  .nav-dropdown-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .nav-dropdown-toggle.active {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .nav-dropdown-toggle i:last-child {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+  }
+
+  .nav-dropdown.open .nav-dropdown-toggle i:last-child {
+  transform: rotate(180deg);
+  }
+
+  .nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  min-width: 280px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1001;
+  overflow: hidden;
+  }
+
+  .nav-dropdown.open .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  }
+
+  .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+  background: white;
+  }
+
+  .dropdown-item:last-child {
+  border-bottom: none;
+  }
+
+  .dropdown-item:hover {
+  background: linear-gradient(135deg, #f8f9ff 0%, #e8f4f8 100%);
+  color: #667eea;
+  text-decoration: none;
+  padding-left: 24px;
+  }
+
+  .dropdown-item.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  }
+
+  .dropdown-item i {
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+  }
+
+  .dropdown-item-content {
+  flex: 1;
+  }
+
+  .dropdown-item-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 2px;
+  }
+
+  .dropdown-item-desc {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  line-height: 1.3;
+  }
+
+  .nav-link.support-btn {
+  background: rgba(255, 107, 157, 0.2);
+  border-color: rgba(255, 107, 157, 0.4);
+  }
+
+  .nav-link.support-btn:hover {
+  background: rgba(255, 107, 157, 0.3);
+  border-color: rgba(255, 107, 157, 0.6);
+  }
+
+  /* Fixed Vertical Ads */
+  .fixed-ad-left,
+  .fixed-ad-right {
+  position: fixed;
+  top: 100px;
+  width: 160px;
+  z-index: 100;
+  }
+
+  .fixed-ad-left {
+  left: 10px;
+  }
+
+  .fixed-ad-right {
+  right: 10px;
+  }
+
+  /* Mobile Ad Container */
+  .mobile-ad-container {
+  display: none;
+  margin: 20px auto;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  min-height: 280px;
+  width: calc(100% - 40px);
+  max-width: 100%;
+  text-align: center;
+  overflow: hidden;
+  }
+
+  .mobile-ad-container ins.adsbygoogle {
+  display: inline-block !important;
+  width: 100%;
+  min-width: 320px;
+  min-height: 250px;
+  margin: 0 auto;
+  }
+
+  .container {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 1000px;
+  animation: slideIn 0.4s ease-out;
+  }
+
+  .calculator-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  margin-top: 30px;
+  }
+
+  @media (min-width: 768px) {
+  .calculator-wrapper {
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  }
+  }
+
+  .input-section {
+  display: flex;
+  flex-direction: column;
+  }
+
+  .output-section {
+  display: flex;
+  flex-direction: column;
+  }
+
+  @keyframes slideIn {
+  from {
+  opacity: 0;
+  transform: translateY(-20px);
+  }
+
+  to {
+  opacity: 1;
+  transform: translateY(0);
+  }
+  }
+
+  h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #1f2937;
+  text-align: center;
+  }
+
+  .subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+  margin-bottom: 30px;
+  }
+
+  .input-group {
+  margin-bottom: 20px;
+  }
+
+  label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+  }
+
+  .input-wrapper {
+  position: relative;
+  }
+
+  .currency-symbol {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  font-weight: 600;
+  }
+
+  input {
+  width: 100%;
+  padding: 14px 15px 14px 35px;
+  border-radius: 10px;
+  border: 2px solid #e5e7eb;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  outline: none;
+  }
+
+  input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  input::placeholder {
+  color: #9ca3af;
+  }
+
+  .button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 25px;
+  }
+
+  button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  }
+
+  .btn-reset {
+  background: #f3f4f6;
+  color: #374151;
+  }
+
+  .btn-reset:hover {
+  background: #e5e7eb;
+  }
+
+  .output {
+  padding: 25px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  }
+
+  .output.show {
+  opacity: 1;
+  }
+
+  .output-placeholder {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 14px;
+  padding: 40px 20px;
+  }
+
+  .output-placeholder.hide {
+  display: none;
+  }
+
+  .result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
+  }
+
+  .result-row:last-child {
+  border-bottom: none;
+  margin-top: 10px;
+  padding-top: 15px;
+  border-top: 2px solid #e5e7eb;
+  }
+
+  .result-label {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+  }
+
+  .result-value {
+  font-size: 18px;
+  font-weight: 700;
+  }
+
+  .profit {
+  color: #16a34a;
+  }
+
+  .loss {
+  color: #dc2626;
+  }
+
+  .neutral {
+  color: #6b7280;
+  }
+
+  .percentage-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  margin-left: 8px;
+  }
+
+  .percentage-badge.profit {
+  background: #dcfce7;
+  color: #16a34a;
+  }
+
+  .percentage-badge.loss {
+  background: #fee2e2;
+  color: #dc2626;
+  }
+
+  .error-message {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 14px;
+  display: none;
+  text-align: center;
+  }
+
+  .error-message.show {
+  display: block;
+  }
+
+  .info-box {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #1e40af;
+  line-height: 1.5;
+  }
+
+  .info-box strong {
+  display: block;
+  margin-bottom: 5px;
+  }
+
+  .section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e5e7eb;
+  }
+
+  /* SEO Content Styles */
+  .seo-content {
+  margin-top: 40px;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  line-height: 1.8;
+  }
+
+  .seo-intro {
+  background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%);
+  border-left: 4px solid #667eea;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  }
+
+  .seo-intro p {
+  margin: 0;
+  color: #1e40af;
+  font-size: 15px;
+  }
+
+  .seo-content h2 {
+  font-size: 22px;
+  color: #1f2937;
+  margin: 30px 0 15px 0;
+  font-weight: 700;
+  }
+
+  .seo-content h3 {
+  font-size: 18px;
+  color: #374151;
+  margin: 25px 0 12px 0;
+  font-weight: 600;
+  }
+
+  .seo-content p {
+  color: #4b5563;
+  margin-bottom: 15px;
+  font-size: 15px;
+  }
+
+  .seo-content ul {
+  margin: 15px 0;
+  padding-left: 25px;
+  }
+
+  .seo-content li {
+  color: #4b5563;
+  margin-bottom: 10px;
+  font-size: 15px;
+  }
+
+  .seo-content li strong {
+  color: #1f2937;
+  font-weight: 600;
+  }
+
+  @media (max-width: 1200px) {
+
+  .fixed-ad-left,
+  .fixed-ad-right {
+  display: none;
+  }
+
+  .mobile-ad-container {
+  display: block;
+  }
+  }
+
+  @media (max-width: 1024px) {
+  .header-container {
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px 20px;
+  }
+
+  .logo-section svg {
+  max-width: 250px;
+  }
+
+  .main-navigation {
+  width: 100%;
+  justify-content: center;
+  }
+
+  .nav-dropdown-menu {
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  }
+
+  .nav-dropdown.open .nav-dropdown-menu {
+  transform: translateX(-50%) translateY(0);
+  }
+  }
+
+  @media (max-width: 767px) {
+  .container {
+  padding: 30px 20px;
+  }
+
+  h1 {
+  font-size: 20px;
+  }
+
+  .button-group {
+  flex-direction: column;
+  }
+
+  .calculator-wrapper {
+  gap: 20px;
+  }
+
+  .output {
+  margin-top: 20px;
+  }
+
+  .main-header {
+  position: relative;
+  }
+
+  .header-container {
+  padding: 10px 15px;
+  }
+
+  .logo-section svg {
+  max-width: 200px;
+  }
+
+  .main-navigation {
+  flex-direction: column;
+  gap: 6px;
+  }
+
+  .nav-link,
+  .nav-dropdown-toggle {
+  width: 100%;
+  justify-content: center;
+  padding: 12px 16px;
+  }
+
+  .nav-dropdown-menu {
+  position: relative;
+  left: 0;
+  transform: none;
+  margin-top: 6px;
+  width: 100%;
+  min-width: 100%;
+  display: none;
+  }
+
+  .nav-dropdown.open .nav-dropdown-menu {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  }
+
+  .seo-content {
+  padding: 20px 15px;
+  margin-top: 30px;
+  }
+
+  .seo-content h2 {
+  font-size: 20px;
+  }
+
+  .seo-content h3 {
+  font-size: 16px;
+  }
+
+  .seo-intro {
+  padding: 15px;
+  }
+  }
   </style>
 </head>
+
 <body>
   <!-- Main Navigation Header -->
   <header class="main-header">
     <div class="header-container">
       <div class="logo-section">
         <a href="index.html" style="text-decoration: none;">
-          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-             viewBox="0 0 4305.4 931.1" style="enable-background:new 0 0 4305.4 931.1; width: 100%; max-width: 300px; height: auto;" xml:space="preserve">
-            <style type="text/css">.st0{fill:#FFFFFF;}</style>
-            <g><g><path class="st0" d="M921,653.7v65.2H618.6V667l189.7-228.8H622.6V373h291v51.9L724.4,653.7H921z"/><path class="st0" d="M1222.4,607.7h-201.1c3.6,16.5,12.2,29.5,25.7,39c13.5,9.6,30.3,14.3,50.4,14.3c13.8,0,26.1-2.1,36.8-6.2 c10.7-4.1,20.7-10.6,29.9-19.5l41,44.5c-25,28.7-61.6,43-109.7,43c-30,0-56.5-5.8-79.5-17.5c-23.1-11.7-40.8-27.9-53.4-48.7 c-12.5-20.8-18.8-44.3-18.8-70.7c0-26,6.2-49.5,18.5-70.4c12.4-20.9,29.3-37.2,50.9-48.9c21.6-11.7,45.7-17.5,72.4-17.5 c26,0,49.6,5.6,70.7,16.8c21.1,11.2,37.6,27.3,49.7,48.2c12,20.9,18,45.2,18,72.9C1223.9,588,1223.4,594.9,1222.4,607.7z M1042.1,522.3c-11.9,9.9-19.1,23.4-21.7,40.5h130.9c-2.6-16.8-9.9-30.2-21.7-40.3c-11.9-10-26.4-15.1-43.5-15.1 C1068.6,507.4,1053.9,512.4,1042.1,522.3z"/><path class="st0" d="M1386.2,459c15.6-6.6,33.7-9.9,54.1-9.9v71.2c-8.6-0.7-14.3-1-17.3-1c-22.1,0-39.4,6.2-51.9,18.5 c-12.5,12.4-18.8,30.9-18.8,55.6v125.5h-77.1V453.1h73.6v35.1C1358.1,475.3,1370.6,465.6,1386.2,459z"/><path class="st0" d="M1535,705.3c-22.2-11.7-39.6-27.9-52.1-48.7c-12.5-20.8-18.8-44.3-18.8-70.7c0-26.3,6.3-49.9,18.8-70.7 c12.5-20.8,29.9-37,52.1-48.7c22.2-11.7,47.3-17.5,75.4-17.5c28,0,53,5.9,75.1,17.5c22.1,11.7,39.4,27.9,51.9,48.7 c12.5,20.8,18.8,44.3,18.8,70.7c0,26.4-6.3,49.9-18.8,70.7c-12.5,20.8-29.8,37-51.9,48.7c-22.1,11.7-47.1,17.5-75.1,17.5 C1582.3,722.9,1557.2,717,1535,705.3z M1659,639.6c12.7-13.3,19-31.2,19-53.6c0-22.4-6.3-40.3-19-53.6c-12.7-13.3-28.9-20-48.7-20 c-19.8,0-36.1,6.7-48.9,20c-12.8,13.3-19.3,31.2-19.3,53.6c0,22.4,6.4,40.3,19.3,53.6c12.8,13.3,29.2,20,48.9,20 C1630.1,659.6,1646.3,653,1659,639.6z"/><path class="st0" d="M2253.1,570.4c11.2,14.7,16.8,32.7,16.8,54.1c0,30.3-11.8,53.6-35.3,69.9c-23.6,16.3-57.9,24.5-103,24.5 h-178.9V373h169c42.2,0,74.5,8.1,97.1,24.2c22.6,16.1,33.8,38,33.8,65.7c0,16.8-4,31.8-12.1,45c-8.1,13.2-19.4,23.6-33.8,31.1 C2226.4,545.3,2241.9,555.8,2253.1,570.4z M2032.3,433.3v81.5h79.5c19.8,0,34.7-3.5,45-10.4c10.2-6.9,15.3-17.1,15.3-30.6 c0-13.5-5.1-23.6-15.3-30.4c-10.2-6.7-25.2-10.1-45-10.1H2032.3z M2173.3,648.3c10.7-6.9,16.1-17.6,16.1-32.1 c0-28.7-21.2-43-63.7-43h-93.4v85.5h93.4C2146.7,658.6,2162.6,655.2,2173.3,648.3z"/><path class="st0" d="M2527.3,478.5c22.1,19.6,33.1,49.2,33.1,88.7v151.7h-72.1v-33.1c-14.5,24.7-41.5,37.1-81,37.1 c-20.4,0-38.1-3.5-53.1-10.4c-15-6.9-26.4-16.5-34.3-28.7c-7.9-12.2-11.9-26-11.9-41.5c0-24.7,9.3-44.1,27.9-58.3 c18.6-14.2,47.3-21.2,86.2-21.2h61.3c0-16.8-5.1-29.7-15.3-38.8c-10.2-9.1-25.5-13.6-46-13.6c-14.2,0-28.1,2.2-41.8,6.7 c-13.7,4.4-25.3,10.5-34.8,18l-27.7-53.9c14.5-10.2,31.9-18.1,52.1-23.7c20.3-5.6,41.1-8.4,62.5-8.4 C2473.7,449.1,2505.3,458.9,2527.3,478.5z M2461.6,661.8c10.2-6.1,17.5-15.1,21.7-26.9v-27.2h-52.9c-31.6,0-47.4,10.4-47.4,31.1 c0,9.9,3.9,17.7,11.6,23.5c7.7,5.8,18.4,8.6,31.9,8.6C2439.7,671,2451.4,667.9,2461.6,661.8z"/><path class="st0" d="M2630.1,352.3h77.1v366.6h-77.1V352.3z"/><path class="st0" d="M2980.9,478.5c22.1,19.6,33.1,49.2,33.1,88.7v151.7h-72.1v-33.1c-14.5,24.7-41.5,37.1-81,37.1 c-20.4,0-38.1-3.5-53.1-10.4c-15-6.9-26.4-16.5-34.3-28.7c-7.9-12.2-11.9-26-11.9-41.5c0-24.7,9.3-44.1,27.9-58.3 c18.6-14.2,47.3-21.2,86.2-21.2h61.3c0-16.8-5.1-29.7-15.3-38.8c-10.2-9.1-25.5-13.6-46-13.6c-14.2,0-28.1,2.2-41.8,6.7 c-13.7,4.4-25.3,10.5-34.8,18l-27.7-53.9c14.5-10.2,31.9-18.1,52.1-23.7c20.3-5.6,41.1-8.4,62.5-8.4 C2927.2,449.1,2958.9,458.9,2980.9,478.5z M2915.2,661.8c10.2-6.1,17.5-15.1,21.7-26.9v-27.2h-52.9c-31.6,0-47.4,10.4-47.4,31.1 c0,9.9,3.9,17.7,11.6,23.5c7.7,5.8,18.4,8.6,31.9,8.6C2893.3,671,2905,667.9,2915.2,661.8z"/><path class="st0" d="M3325.1,478.8c20.3,19.8,30.4,49.1,30.4,87.9v152.2h-77.1V578.6c0-21.1-4.6-36.8-13.8-47.2 c-9.2-10.4-22.6-15.6-40-15.6c-19.4,0-34.9,6-46.4,18c-11.5,12-17.3,29.9-17.3,53.6v131.4h-77.1V453.1h73.6v31.1 c10.2-11.2,22.9-19.8,38-25.9c15.1-6.1,31.8-9.1,49.9-9.1C3278.2,449.1,3304.8,459,3325.1,478.8z"/><path class="st0" d="M3480.2,705.3c-22.6-11.7-40.2-27.9-52.9-48.7c-12.7-20.8-19-44.3-19-70.7c0-26.3,6.3-49.9,19-70.7 c12.7-20.8,30.3-37,52.9-48.7c22.6-11.7,48-17.5,76.3-17.5c28,0,52.5,5.9,73.4,17.5c20.9,11.7,36.1,28.4,45.7,50.2l-59.8,32.1 c-13.8-24.4-33.8-36.6-59.8-36.6c-20.1,0-36.7,6.6-49.9,19.8c-13.2,13.2-19.8,31.1-19.8,53.9s6.6,40.7,19.8,53.9 c13.2,13.2,29.8,19.8,49.9,19.8c26.3,0,46.3-12.2,59.8-36.6l59.8,32.6c-9.6,21.1-24.8,37.6-45.7,49.4 c-20.9,11.9-45.4,17.8-73.4,17.8C3528.2,722.9,3502.8,717,3480.2,705.3z"/><path class="st0" d="M3975.5,607.7h-201.1c3.6,16.5,12.2,29.5,25.7,39c13.5,9.6,30.3,14.3,50.4,14.3c13.8,0,26.1-2.1,36.8-6.2 c10.7-4.1,20.7-10.6,29.9-19.5l41,44.5c-25,28.7-61.6,43-109.7,43c-30,0-56.5-5.8-79.5-17.5c-23.1-11.7-40.8-27.9-53.4-48.7 c-12.5-20.8-18.8-44.3-18.8-70.7c0-26,6.2-49.5,18.5-70.4c12.4-20.9,29.3-37.2,50.9-48.9c21.6-11.7,45.7-17.5,72.4-17.5 c26,0,49.6,5.6,70.7,16.8c21.1,11.2,37.6,27.3,49.7,48.2c12,20.9,18,45.2,18,72.9C3977,588,3976.5,594.9,3975.5,607.7z M3795.2,522.3c-11.9,9.9-19.1,23.4-21.7,40.5h130.9c-2.6-16.8-9.9-30.2-21.7-40.3c-11.9-10-26.4-15.1-43.5-15.1 C3821.7,507.4,3807,512.4,3795.2,522.3z"/><path class="st0" d="M4299.2,352.3v366.6h-73.6v-30.6c-19.1,23.1-46.8,34.6-83,34.6c-25,0-47.7-5.6-67.9-16.8 c-20.3-11.2-36.2-27.2-47.7-47.9c-11.5-20.8-17.3-44.8-17.3-72.1c0-27.3,5.8-51.4,17.3-72.1c11.5-20.8,27.4-36.7,47.7-47.9 c20.3-11.2,42.9-16.8,67.9-16.8c33.9,0,60.4,10.7,79.5,32.1v-129H4299.2z M4204.3,639.6c12.8-13.3,19.3-31.2,19.3-53.6 c0-22.4-6.4-40.3-19.3-53.6c-12.8-13.3-29-20-48.4-20c-19.8,0-36.1,6.7-48.9,20c-12.8,13.3-19.3,31.2-19.3,53.6 c0,22.4,6.4,40.3,19.3,53.6s29.2,20,48.9,20C4175.3,659.6,4191.5,653,4204.3,639.6z"/></g><g><circle class="st0" cx="314.6" cy="322.2" r="66.4"/><path class="st0" d="M65.5,392.5l80.8,37.7C266,486,304,638.8,223.1,743.3C175.7,804.6,106.3,863.5,5.4,898.7c0,0,684.1-117.9,476-751.2c0,0,2.5,212.7-131.2,258.9 C257.2,438.7,65.5,392.5,65.5,392.5z"/></g><g><path class="st0" d="M614.5,101c-83.9,5.4-88.3,9.8-93.8,93.8c-5.4-83.9-9.8-88.3-93.8-93.8c83.9-5.4,88.3-9.8,93.8-93.8 C526.2,91.1,530.6,95.5,614.5,101z"/></g></g>
+          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px" y="0px" viewBox="0 0 4305.4 931.1"
+            style="enable-background:new 0 0 4305.4 931.1; width: 100%; max-width: 300px; height: auto;"
+            xml:space="preserve">
+            <style type="text/css">
+              .st0 {
+                fill: #FFFFFF;
+              }
+            </style>
+            <g>
+              <g>
+                <path class="st0" d="M921,653.7v65.2H618.6V667l189.7-228.8H622.6V373h291v51.9L724.4,653.7H921z" />
+                <path class="st0"
+                  d="M1222.4,607.7h-201.1c3.6,16.5,12.2,29.5,25.7,39c13.5,9.6,30.3,14.3,50.4,14.3c13.8,0,26.1-2.1,36.8-6.2 c10.7-4.1,20.7-10.6,29.9-19.5l41,44.5c-25,28.7-61.6,43-109.7,43c-30,0-56.5-5.8-79.5-17.5c-23.1-11.7-40.8-27.9-53.4-48.7 c-12.5-20.8-18.8-44.3-18.8-70.7c0-26,6.2-49.5,18.5-70.4c12.4-20.9,29.3-37.2,50.9-48.9c21.6-11.7,45.7-17.5,72.4-17.5 c26,0,49.6,5.6,70.7,16.8c21.1,11.2,37.6,27.3,49.7,48.2c12,20.9,18,45.2,18,72.9C1223.9,588,1223.4,594.9,1222.4,607.7z M1042.1,522.3c-11.9,9.9-19.1,23.4-21.7,40.5h130.9c-2.6-16.8-9.9-30.2-21.7-40.3c-11.9-10-26.4-15.1-43.5-15.1 C1068.6,507.4,1053.9,512.4,1042.1,522.3z" />
+                <path class="st0"
+                  d="M1386.2,459c15.6-6.6,33.7-9.9,54.1-9.9v71.2c-8.6-0.7-14.3-1-17.3-1c-22.1,0-39.4,6.2-51.9,18.5 c-12.5,12.4-18.8,30.9-18.8,55.6v125.5h-77.1V453.1h73.6v35.1C1358.1,475.3,1370.6,465.6,1386.2,459z" />
+                <path class="st0"
+                  d="M1535,705.3c-22.2-11.7-39.6-27.9-52.1-48.7c-12.5-20.8-18.8-44.3-18.8-70.7c0-26.3,6.3-49.9,18.8-70.7 c12.5-20.8,29.9-37,52.1-48.7c22.2-11.7,47.3-17.5,75.4-17.5c28,0,53,5.9,75.1,17.5c22.1,11.7,39.4,27.9,51.9,48.7 c12.5,20.8,18.8,44.3,18.8,70.7c0,26.4-6.3,49.9-18.8,70.7c-12.5,20.8-29.8,37-51.9,48.7c-22.1,11.7-47.1,17.5-75.1,17.5 C1582.3,722.9,1557.2,717,1535,705.3z M1659,639.6c12.7-13.3,19-31.2,19-53.6c0-22.4-6.3-40.3-19-53.6c-12.7-13.3-28.9-20-48.7-20 c-19.8,0-36.1,6.7-48.9,20c-12.8,13.3-19.3,31.2-19.3,53.6c0,22.4,6.4,40.3,19.3,53.6c12.8,13.3,29.2,20,48.9,20 C1630.1,659.6,1646.3,653,1659,639.6z" />
+                <path class="st0"
+                  d="M2253.1,570.4c11.2,14.7,16.8,32.7,16.8,54.1c0,30.3-11.8,53.6-35.3,69.9c-23.6,16.3-57.9,24.5-103,24.5 h-178.9V373h169c42.2,0,74.5,8.1,97.1,24.2c22.6,16.1,33.8,38,33.8,65.7c0,16.8-4,31.8-12.1,45c-8.1,13.2-19.4,23.6-33.8,31.1 C2226.4,545.3,2241.9,555.8,2253.1,570.4z M2032.3,433.3v81.5h79.5c19.8,0,34.7-3.5,45-10.4c10.2-6.9,15.3-17.1,15.3-30.6 c0-13.5-5.1-23.6-15.3-30.4c-10.2-6.7-25.2-10.1-45-10.1H2032.3z M2173.3,648.3c10.7-6.9,16.1-17.6,16.1-32.1 c0-28.7-21.2-43-63.7-43h-93.4v85.5h93.4C2146.7,658.6,2162.6,655.2,2173.3,648.3z" />
+                <path class="st0"
+                  d="M2527.3,478.5c22.1,19.6,33.1,49.2,33.1,88.7v151.7h-72.1v-33.1c-14.5,24.7-41.5,37.1-81,37.1 c-20.4,0-38.1-3.5-53.1-10.4c-15-6.9-26.4-16.5-34.3-28.7c-7.9-12.2-11.9-26-11.9-41.5c0-24.7,9.3-44.1,27.9-58.3 c18.6-14.2,47.3-21.2,86.2-21.2h61.3c0-16.8-5.1-29.7-15.3-38.8c-10.2-9.1-25.5-13.6-46-13.6c-14.2,0-28.1,2.2-41.8,6.7 c-13.7,4.4-25.3,10.5-34.8,18l-27.7-53.9c14.5-10.2,31.9-18.1,52.1-23.7c20.3-5.6,41.1-8.4,62.5-8.4 C2473.7,449.1,2505.3,458.9,2527.3,478.5z M2461.6,661.8c10.2-6.1,17.5-15.1,21.7-26.9v-27.2h-52.9c-31.6,0-47.4,10.4-47.4,31.1 c0,9.9,3.9,17.7,11.6,23.5c7.7,5.8,18.4,8.6,31.9,8.6C2439.7,671,2451.4,667.9,2461.6,661.8z" />
+                <path class="st0" d="M2630.1,352.3h77.1v366.6h-77.1V352.3z" />
+                <path class="st0"
+                  d="M2980.9,478.5c22.1,19.6,33.1,49.2,33.1,88.7v151.7h-72.1v-33.1c-14.5,24.7-41.5,37.1-81,37.1 c-20.4,0-38.1-3.5-53.1-10.4c-15-6.9-26.4-16.5-34.3-28.7c-7.9-12.2-11.9-26-11.9-41.5c0-24.7,9.3-44.1,27.9-58.3 c18.6-14.2,47.3-21.2,86.2-21.2h61.3c0-16.8-5.1-29.7-15.3-38.8c-10.2-9.1-25.5-13.6-46-13.6c-14.2,0-28.1,2.2-41.8,6.7 c-13.7,4.4-25.3,10.5-34.8,18l-27.7-53.9c14.5-10.2,31.9-18.1,52.1-23.7c20.3-5.6,41.1-8.4,62.5-8.4 C2927.2,449.1,2958.9,458.9,2980.9,478.5z M2915.2,661.8c10.2-6.1,17.5-15.1,21.7-26.9v-27.2h-52.9c-31.6,0-47.4,10.4-47.4,31.1 c0,9.9,3.9,17.7,11.6,23.5c7.7,5.8,18.4,8.6,31.9,8.6C2893.3,671,2905,667.9,2915.2,661.8z" />
+                <path class="st0"
+                  d="M3325.1,478.8c20.3,19.8,30.4,49.1,30.4,87.9v152.2h-77.1V578.6c0-21.1-4.6-36.8-13.8-47.2 c-9.2-10.4-22.6-15.6-40-15.6c-19.4,0-34.9,6-46.4,18c-11.5,12-17.3,29.9-17.3,53.6v131.4h-77.1V453.1h73.6v31.1 c10.2-11.2,22.9-19.8,38-25.9c15.1-6.1,31.8-9.1,49.9-9.1C3278.2,449.1,3304.8,459,3325.1,478.8z" />
+                <path class="st0"
+                  d="M3480.2,705.3c-22.6-11.7-40.2-27.9-52.9-48.7c-12.7-20.8-19-44.3-19-70.7c0-26.3,6.3-49.9,19-70.7 c12.7-20.8,30.3-37,52.9-48.7c22.6-11.7,48-17.5,76.3-17.5c28,0,52.5,5.9,73.4,17.5c20.9,11.7,36.1,28.4,45.7,50.2l-59.8,32.1 c-13.8-24.4-33.8-36.6-59.8-36.6c-20.1,0-36.7,6.6-49.9,19.8c-13.2,13.2-19.8,31.1-19.8,53.9s6.6,40.7,19.8,53.9 c13.2,13.2,29.8,19.8,49.9,19.8c26.3,0,46.3-12.2,59.8-36.6l59.8,32.6c-9.6,21.1-24.8,37.6-45.7,49.4 c-20.9,11.9-45.4,17.8-73.4,17.8C3528.2,722.9,3502.8,717,3480.2,705.3z" />
+                <path class="st0"
+                  d="M3975.5,607.7h-201.1c3.6,16.5,12.2,29.5,25.7,39c13.5,9.6,30.3,14.3,50.4,14.3c13.8,0,26.1-2.1,36.8-6.2 c10.7-4.1,20.7-10.6,29.9-19.5l41,44.5c-25,28.7-61.6,43-109.7,43c-30,0-56.5-5.8-79.5-17.5c-23.1-11.7-40.8-27.9-53.4-48.7 c-12.5-20.8-18.8-44.3-18.8-70.7c0-26,6.2-49.5,18.5-70.4c12.4-20.9,29.3-37.2,50.9-48.9c21.6-11.7,45.7-17.5,72.4-17.5 c26,0,49.6,5.6,70.7,16.8c21.1,11.2,37.6,27.3,49.7,48.2c12,20.9,18,45.2,18,72.9C3977,588,3976.5,594.9,3975.5,607.7z M3795.2,522.3c-11.9,9.9-19.1,23.4-21.7,40.5h130.9c-2.6-16.8-9.9-30.2-21.7-40.3c-11.9-10-26.4-15.1-43.5-15.1 C3821.7,507.4,3807,512.4,3795.2,522.3z" />
+                <path class="st0"
+                  d="M4299.2,352.3v366.6h-73.6v-30.6c-19.1,23.1-46.8,34.6-83,34.6c-25,0-47.7-5.6-67.9-16.8 c-20.3-11.2-36.2-27.2-47.7-47.9c-11.5-20.8-17.3-44.8-17.3-72.1c0-27.3,5.8-51.4,17.3-72.1c11.5-20.8,27.4-36.7,47.7-47.9 c20.3-11.2,42.9-16.8,67.9-16.8c33.9,0,60.4,10.7,79.5,32.1v-129H4299.2z M4204.3,639.6c12.8-13.3,19.3-31.2,19.3-53.6 c0-22.4-6.4-40.3-19.3-53.6c-12.8-13.3-29-20-48.4-20c-19.8,0-36.1,6.7-48.9,20c-12.8,13.3-19.3,31.2-19.3,53.6 c0,22.4,6.4,40.3,19.3,53.6s29.2,20,48.9,20C4175.3,659.6,4191.5,653,4204.3,639.6z" />
+              </g>
+              <g>
+                <circle class="st0" cx="314.6" cy="322.2" r="66.4" />
+                <path class="st0"
+                  d="M65.5,392.5l80.8,37.7C266,486,304,638.8,223.1,743.3C175.7,804.6,106.3,863.5,5.4,898.7c0,0,684.1-117.9,476-751.2c0,0,2.5,212.7-131.2,258.9 C257.2,438.7,65.5,392.5,65.5,392.5z" />
+              </g>
+              <g>
+                <path class="st0"
+                  d="M614.5,101c-83.9,5.4-88.3,9.8-93.8,93.8c-5.4-83.9-9.8-88.3-93.8-93.8c83.9-5.4,88.3-9.8,93.8-93.8 C526.2,91.1,530.6,95.5,614.5,101z" />
+              </g>
+            </g>
           </svg>
         </a>
       </div>
@@ -779,21 +832,49 @@
             <i class="fas fa-chevron-down"></i>
           </div>
           <div class="nav-dropdown-menu">
-            <a href="index.html" class="dropdown-item">
+            <a href="index.html" target="_blank" class="dropdown-item">
               <i class="fas fa-chart-line"></i>
               <div class="dropdown-item-content">
                 <div class="dropdown-item-title">Financial Planning</div>
                 <div class="dropdown-item-desc">Plan your financial future & goals</div>
               </div>
             </a>
-            <a href="time-calculator.html" class="dropdown-item">
+            <a href="time-calculator.html" target="_blank" class="dropdown-item">
               <i class="fas fa-clock"></i>
               <div class="dropdown-item-content">
                 <div class="dropdown-item-title">Time Calculator</div>
                 <div class="dropdown-item-desc">Add, subtract & calculate time</div>
               </div>
             </a>
-            <a href="day-trader-calculator.html" class="dropdown-item active">
+            <a href="day-trader-calculator.html" target="_blank" class="dropdown-item active">
+              <i class="fas fa-coins"></i>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Day Trader Returns</div>
+                <div class="dropdown-item-desc">Calculate profit & loss percentage</div>
+              </div>
+            </a>
+            <a href="health-insurance-gap-calculator.html" target="_blank" class="dropdown-item">
+              <i class="fas fa-heartbeat"></i>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Health Insurance Gap</div>
+                <div class="dropdown-item-desc">Are you underinsured?</div>
+              </div>
+            </a>
+            <a href="pdf-editor.html" target="_blank" class="dropdown-item">
+              <i class="fas fa-file-pdf"></i>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">PDF Editor</div>
+                <div class="dropdown-item-desc">Edit & annotate PDF files online</div>
+              </div>
+            </a>
+            <a href="time-calculator.html" target="_blank" class="dropdown-item">
+              <i class="fas fa-clock"></i>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Time Calculator</div>
+                <div class="dropdown-item-desc">Add, subtract & calculate time</div>
+              </div>
+            </a>
+            <a href="day-trader-calculator.html" target="_blank" class="dropdown-item active">
               <i class="fas fa-coins"></i>
               <div class="dropdown-item-content">
                 <div class="dropdown-item-title">Day Trader Returns</div>
@@ -804,7 +885,7 @@
         </div>
         <a href="https://ko-fi.com/sanjeeev" target="_blank" class="nav-link support-btn">
           <i class="fas fa-heart"></i>
-          <span>Support Me</span>
+          <span>Support</span>
         </a>
       </nav>
     </div>
@@ -825,7 +906,7 @@
     }
 
     // Close dropdown when clicking outside
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
       if (!event.target.closest('.nav-dropdown')) {
         document.querySelectorAll('.nav-dropdown').forEach(d => {
           d.classList.remove('open');
@@ -837,192 +918,168 @@
   <!-- Fixed Position Vertical Ads on Background -->
   <!-- Left Vertical Ad -->
   <div class="fixed-ad-left" aria-label="Advertisement">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-5970109164913530"
-         data-ad-slot="3568950891"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530" data-ad-slot="3568950891"
+      data-ad-format="auto" data-full-width-responsive="true"></ins>
   </div>
 
   <!-- Right Vertical Ad -->
   <div class="fixed-ad-right" aria-label="Advertisement">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-5970109164913530"
-         data-ad-slot="3568950891"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530" data-ad-slot="3568950891"
+      data-ad-format="auto" data-full-width-responsive="true"></ins>
   </div>
 
   <!-- Main Content Wrapper -->
   <div class="main-content-wrapper">
     <div class="container">
-    <h1><i class="fas fa-chart-line"></i> Day Trader Returns Calculator</h1>
-    <p class="subtitle">Calculate Daily Profit & Loss in Percentage</p>
+      <h1><i class="fas fa-chart-line"></i> Day Trader Returns Calculator</h1>
+      <p class="subtitle">Calculate Daily Profit & Loss in Percentage</p>
 
-    <div class="calculator-wrapper">
-      <!-- Left Section: Input Fields -->
-      <div class="input-section">
-        <h2 class="section-title"><i class="fas fa-edit"></i> Enter Trading Details</h2>
+      <div class="calculator-wrapper">
+        <!-- Left Section: Input Fields -->
+        <div class="input-section">
+          <h2 class="section-title"><i class="fas fa-edit"></i> Enter Trading Details</h2>
 
-        <div class="input-group">
-          <label for="capital"><i class="fas fa-wallet"></i> Capital Used</label>
-          <div class="input-wrapper">
-            <span class="currency-symbol">₹</span>
-            <input
-              type="number"
-              id="capital"
-              placeholder="Enter capital used"
-              step="0.01"
-              min="0"
-              autocomplete="off"
-            />
-          </div>
-        </div>
-
-        <div class="input-group">
-          <label for="profit"><i class="fas fa-coins"></i> Profit / Loss</label>
-          <div class="input-wrapper">
-            <span class="currency-symbol">₹</span>
-            <input
-              type="number"
-              id="profit"
-              placeholder="Enter profit (+) or loss (-)"
-              step="0.01"
-              autocomplete="off"
-            />
-          </div>
-        </div>
-
-        <div class="input-group">
-          <label for="charges"><i class="fas fa-receipt"></i> Brokerage & Charges (Optional)</label>
-          <div class="input-wrapper">
-            <span class="currency-symbol">₹</span>
-            <input
-              type="number"
-              id="charges"
-              placeholder="Enter total charges"
-              step="0.01"
-              min="0"
-              value="0"
-              autocomplete="off"
-            />
-          </div>
-        </div>
-
-        <div class="button-group">
-          <button class="btn-reset" onclick="resetCalculator()">Reset</button>
-        </div>
-
-        <div class="error-message" id="errorMessage"></div>
-      </div>
-
-      <!-- Right Section: Results -->
-      <div class="output-section">
-        <h2 class="section-title"><i class="fas fa-chart-bar"></i> Your Results</h2>
-
-        <div class="output" id="output">
-          <div class="output-placeholder" id="placeholder">
-            Enter your trading details on the left to see your profit/loss calculation and return percentage.
-          </div>
-          <div id="results" style="display: none;">
-            <div class="result-row">
-              <span class="result-label">Gross P&L:</span>
-              <span class="result-value" id="grossPL">₹0.00</span>
+          <div class="input-group">
+            <label for="capital"><i class="fas fa-wallet"></i> Capital Used</label>
+            <div class="input-wrapper">
+              <span class="currency-symbol">₹</span>
+              <input type="number" id="capital" placeholder="Enter capital used" step="0.01" min="0"
+                autocomplete="off" />
             </div>
-            <div class="result-row">
-              <span class="result-label">Net P&L:</span>
-              <span class="result-value" id="netPL">₹0.00</span>
+          </div>
+
+          <div class="input-group">
+            <label for="profit"><i class="fas fa-coins"></i> Profit / Loss</label>
+            <div class="input-wrapper">
+              <span class="currency-symbol">₹</span>
+              <input type="number" id="profit" placeholder="Enter profit (+) or loss (-)" step="0.01"
+                autocomplete="off" />
             </div>
-            <div class="result-row">
-              <span class="result-label">Return Percentage:</span>
-              <span class="result-value" id="returnPercentage">
-                <span id="percentageValue">0.00%</span>
-              </span>
+          </div>
+
+          <div class="input-group">
+            <label for="charges"><i class="fas fa-receipt"></i> Brokerage & Charges (Optional)</label>
+            <div class="input-wrapper">
+              <span class="currency-symbol">₹</span>
+              <input type="number" id="charges" placeholder="Enter total charges" step="0.01" min="0" value="0"
+                autocomplete="off" />
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button class="btn-reset" onclick="resetCalculator()">Reset</button>
+          </div>
+
+          <div class="error-message" id="errorMessage"></div>
+        </div>
+
+        <!-- Right Section: Results -->
+        <div class="output-section">
+          <h2 class="section-title"><i class="fas fa-chart-bar"></i> Your Results</h2>
+
+          <div class="output" id="output">
+            <div class="output-placeholder" id="placeholder">
+              Enter your trading details on the left to see your profit/loss calculation and return percentage.
+            </div>
+            <div id="results" style="display: none;">
+              <div class="result-row">
+                <span class="result-label">Gross P&L:</span>
+                <span class="result-value" id="grossPL">₹0.00</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Net P&L:</span>
+                <span class="result-value" id="netPL">₹0.00</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Return Percentage:</span>
+                <span class="result-value" id="returnPercentage">
+                  <span id="percentageValue">0.00%</span>
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Mobile Top Ad -->
-    <div class="mobile-ad-container" aria-label="Advertisement">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-5970109164913530"
-           data-ad-slot="1469347266"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-    </div>
-
-    <!-- SEO Content Section -->
-    <section class="seo-content">
-      <div class="seo-intro">
-        <p><strong>Calculate your day trading returns instantly!</strong> Enter your capital, profit/loss, and charges to get accurate percentage returns. Perfect for day traders, intraday traders, and active stock market participants.</p>
+      <!-- Mobile Top Ad -->
+      <div class="mobile-ad-container" aria-label="Advertisement">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530"
+          data-ad-slot="1469347266" data-ad-format="auto" data-full-width-responsive="true"></ins>
       </div>
 
-      <h2>How to Use the Day Trader Returns Calculator</h2>
-      <p>Our free online day trader calculator makes it simple to calculate your daily trading profit or loss percentage. Just enter three values: your capital used, profit/loss amount (use negative numbers for losses), and any brokerage charges. The calculator instantly shows your gross P&L, net P&L, and return percentage.</p>
+      <!-- SEO Content Section -->
+      <section class="seo-content">
+        <div class="seo-intro">
+          <p><strong>Calculate your day trading returns instantly!</strong> Enter your capital, profit/loss, and charges
+            to get accurate percentage returns. Perfect for day traders, intraday traders, and active stock market
+            participants.</p>
+        </div>
 
-      <h3>Key Features:</h3>
-      <ul>
-        <li><strong>Real-time Calculation:</strong> See instant results as you type - no need to click calculate</li>
-        <li><strong>Gross & Net P&L:</strong> View both gross profit/loss and net profit/loss after charges</li>
-        <li><strong>Return Percentage:</strong> Automatically calculates your daily return percentage on capital</li>
-        <li><strong>Brokerage Inclusion:</strong> Factor in brokerage charges and transaction costs</li>
-        <li><strong>Color-coded Results:</strong> Green for profits, red for losses for easy visualization</li>
-        <li><strong>Mobile Friendly:</strong> Works perfectly on all devices - desktop, tablet, and smartphone</li>
-        <li><strong>100% Free:</strong> No registration, no hidden fees, completely free to use</li>
-      </ul>
+        <h2>How to Use the Day Trader Returns Calculator</h2>
+        <p>Our free online day trader calculator makes it simple to calculate your daily trading profit or loss
+          percentage. Just enter three values: your capital used, profit/loss amount (use negative numbers for losses),
+          and any brokerage charges. The calculator instantly shows your gross P&L, net P&L, and return percentage.</p>
 
-      <h3>Perfect For:</h3>
-      <ul>
-        <li><strong>Day Traders:</strong> Calculate daily returns on intraday positions</li>
-        <li><strong>Swing Traders:</strong> Track profit/loss percentage on short-term trades</li>
-        <li><strong>Stock Market Investors:</strong> Measure trading performance accurately</li>
-        <li><strong>Options Traders:</strong> Calculate returns on options strategies</li>
-        <li><strong>Forex Traders:</strong> Determine profit percentage on currency trades</li>
-        <li><strong>Crypto Traders:</strong> Track returns on cryptocurrency day trading</li>
-      </ul>
+        <h3>Key Features:</h3>
+        <ul>
+          <li><strong>Real-time Calculation:</strong> See instant results as you type - no need to click calculate</li>
+          <li><strong>Gross & Net P&L:</strong> View both gross profit/loss and net profit/loss after charges</li>
+          <li><strong>Return Percentage:</strong> Automatically calculates your daily return percentage on capital</li>
+          <li><strong>Brokerage Inclusion:</strong> Factor in brokerage charges and transaction costs</li>
+          <li><strong>Color-coded Results:</strong> Green for profits, red for losses for easy visualization</li>
+          <li><strong>Mobile Friendly:</strong> Works perfectly on all devices - desktop, tablet, and smartphone</li>
+          <li><strong>100% Free:</strong> No registration, no hidden fees, completely free to use</li>
+        </ul>
 
-      <h3>Why Track Your Trading Returns?</h3>
-      <p>Successful traders track every trade meticulously. Knowing your exact return percentage helps you:</p>
-      <ul>
-        <li>Evaluate trading strategy performance</li>
-        <li>Identify profitable patterns and setups</li>
-        <li>Calculate realistic profit targets</li>
-        <li>Manage risk and position sizing effectively</li>
-        <li>Track progress toward financial goals</li>
-        <li>Maintain accurate trading journals</li>
-      </ul>
+        <h3>Perfect For:</h3>
+        <ul>
+          <li><strong>Day Traders:</strong> Calculate daily returns on intraday positions</li>
+          <li><strong>Swing Traders:</strong> Track profit/loss percentage on short-term trades</li>
+          <li><strong>Stock Market Investors:</strong> Measure trading performance accurately</li>
+          <li><strong>Options Traders:</strong> Calculate returns on options strategies</li>
+          <li><strong>Forex Traders:</strong> Determine profit percentage on currency trades</li>
+          <li><strong>Crypto Traders:</strong> Track returns on cryptocurrency day trading</li>
+        </ul>
 
-      <h3>Understanding P&L Calculations</h3>
-      <p><strong>Gross P&L</strong> is your raw profit or loss before any charges. <strong>Net P&L</strong> is your actual profit or loss after deducting brokerage, STT, exchange charges, and other transaction costs. The <strong>Return Percentage</strong> shows your net P&L as a percentage of your capital used, giving you a clear picture of your trading performance.</p>
+        <h3>Why Track Your Trading Returns?</h3>
+        <p>Successful traders track every trade meticulously. Knowing your exact return percentage helps you:</p>
+        <ul>
+          <li>Evaluate trading strategy performance</li>
+          <li>Identify profitable patterns and setups</li>
+          <li>Calculate realistic profit targets</li>
+          <li>Manage risk and position sizing effectively</li>
+          <li>Track progress toward financial goals</li>
+          <li>Maintain accurate trading journals</li>
+        </ul>
 
-      <h3>Tips for Day Trading Success</h3>
-      <ul>
-        <li>Always factor in all charges when calculating returns</li>
-        <li>Set realistic profit targets based on your capital</li>
-        <li>Use stop-loss to limit potential losses</li>
-        <li>Track every trade to identify what works</li>
-        <li>Focus on percentage returns, not absolute amounts</li>
-        <li>Maintain consistent position sizing</li>
-      </ul>
+        <h3>Understanding P&L Calculations</h3>
+        <p><strong>Gross P&L</strong> is your raw profit or loss before any charges. <strong>Net P&L</strong> is your
+          actual profit or loss after deducting brokerage, STT, exchange charges, and other transaction costs. The
+          <strong>Return Percentage</strong> shows your net P&L as a percentage of your capital used, giving you a clear
+          picture of your trading performance.
+        </p>
 
-      <p><strong>Start Calculating Your Trading Returns Now!</strong> Whether you're a beginner day trader or an experienced professional, our calculator helps you quickly assess your trading performance. Track your wins, learn from your losses, and continuously improve your trading strategy.</p>
-    </section>
+        <h3>Tips for Day Trading Success</h3>
+        <ul>
+          <li>Always factor in all charges when calculating returns</li>
+          <li>Set realistic profit targets based on your capital</li>
+          <li>Use stop-loss to limit potential losses</li>
+          <li>Track every trade to identify what works</li>
+          <li>Focus on percentage returns, not absolute amounts</li>
+          <li>Maintain consistent position sizing</li>
+        </ul>
 
-    <!-- Mobile Bottom Ad -->
-    <div class="mobile-ad-container" aria-label="Advertisement">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-5970109164913530"
-           data-ad-slot="1469347266"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
+        <p><strong>Start Calculating Your Trading Returns Now!</strong> Whether you're a beginner day trader or an
+          experienced professional, our calculator helps you quickly assess your trading performance. Track your wins,
+          learn from your losses, and continuously improve your trading strategy.</p>
+      </section>
+
+      <!-- Mobile Bottom Ad -->
+      <div class="mobile-ad-container" aria-label="Advertisement">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530"
+          data-ad-slot="1469347266" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </div>
     </div>
-  </div>
   </div>
 
   <script>
@@ -1125,13 +1182,13 @@
 
     // Add real-time calculation on input
     document.querySelectorAll('input').forEach(input => {
-      input.addEventListener('input', function() {
+      input.addEventListener('input', function () {
         calculateReturn();
       });
     });
 
     // Also allow Enter key to trigger focus on next field
-    document.addEventListener('keypress', function(event) {
+    document.addEventListener('keypress', function (event) {
       if (event.key === 'Enter') {
         const inputs = Array.from(document.querySelectorAll('input'));
         const currentIndex = inputs.indexOf(document.activeElement);
@@ -1144,33 +1201,75 @@
 
   <!-- Initialize AdSense ads after page load -->
   <script>
-    window.addEventListener('load', function() {
-      // Wait a moment for layout to stabilize
-      setTimeout(function() {
-        try {
-          // Initialize desktop vertical ads (if visible)
-          const leftAd = document.querySelector('.fixed-ad-left');
-          const rightAd = document.querySelector('.fixed-ad-right');
+    // Function to check if element is ready for ads
+    function isElementReady(element) {
+      if (!element) return false;
+      const rect = element.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
+    }
 
-          if (leftAd && window.getComputedStyle(leftAd).display !== 'none') {
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          }
-          if (rightAd && window.getComputedStyle(rightAd).display !== 'none') {
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          }
+    // Function to initialize ads with retry logic
+    function initializeAds() {
+      try {
+        const isMobile = window.innerWidth <= 1200;
 
-          // Initialize mobile ads (if visible)
-          const mobileAds = document.querySelectorAll('.mobile-ad-container');
-          mobileAds.forEach(function(ad) {
-            if (window.getComputedStyle(ad).display !== 'none') {
-              (adsbygoogle = window.adsbygoogle || []).push({});
+        if (isMobile) {
+          // Initialize mobile ads
+          const mobileAdContainers = document.querySelectorAll('.mobile-ad-container');
+
+          mobileAdContainers.forEach(function (container) {
+            const adElement = container.querySelector('ins.adsbygoogle');
+
+            // Check if container and ad element are ready
+            if (adElement && isElementReady(container) && !adElement.getAttribute('data-adsbygoogle-status')) {
+              try {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+              } catch (e) {
+                console.error('Error pushing mobile ad:', e);
+              }
             }
           });
-        } catch (e) {
-          console.error('AdSense initialization error:', e);
+        } else {
+          // Initialize desktop vertical ads
+          const leftAdContainer = document.querySelector('.fixed-ad-left');
+          const rightAdContainer = document.querySelector('.fixed-ad-right');
+
+          if (leftAdContainer && isElementReady(leftAdContainer)) {
+            const leftAd = leftAdContainer.querySelector('ins.adsbygoogle');
+            if (leftAd && !leftAd.getAttribute('data-adsbygoogle-status')) {
+              try {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+              } catch (e) {
+                console.error('Error pushing left ad:', e);
+              }
+            }
+          }
+
+          if (rightAdContainer && isElementReady(rightAdContainer)) {
+            const rightAd = rightAdContainer.querySelector('ins.adsbygoogle');
+            if (rightAd && !rightAd.getAttribute('data-adsbygoogle-status')) {
+              try {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+              } catch (e) {
+                console.error('Error pushing right ad:', e);
+              }
+            }
+          }
         }
-      }, 500);
-    });
+      } catch (e) {
+        console.error('AdSense initialization error:', e);
+      }
+    }
+
+    // Wait for page to fully load
+    if (document.readyState === 'complete') {
+      setTimeout(initializeAds, 1500);
+    } else {
+      window.addEventListener('load', function () {
+        setTimeout(initializeAds, 1500);
+      });
+    }
   </script>
 </body>
+
 </html>
