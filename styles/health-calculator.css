@@ -1,0 +1,346 @@
+/* Health Insurance Gap Calculator Styles */
+
+:root {
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --bg-light: #f3f4f6;
+  --card-bg: #ffffff;
+}
+
+/* Calculator Container */
+.calculator-container {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 95%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.intro-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.intro-section h1 {
+  font-size: 2.2rem;
+  color: var(--text-dark);
+  margin-bottom: 15px;
+  line-height: 1.2;
+}
+
+.intro-section p {
+  color: var(--text-light);
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Calculator Grid */
+.calc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+@media (min-width: 900px) {
+  .calc-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+}
+
+/* Input Section */
+.input-card {
+  background: #f9fafb;
+  padding: 25px;
+  border-radius: 15px;
+  border: 1px solid #e5e7eb;
+}
+
+.section-header {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 10px;
+}
+
+.section-header i {
+  color: var(--primary-color);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--text-dark);
+  font-size: 0.95rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+select.form-control {
+  cursor: pointer;
+}
+
+.radio-group {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.radio-option {
+  position: relative;
+}
+
+.radio-option input[type="radio"] {
+  display: none;
+}
+
+.radio-option label {
+  display: inline-block;
+  padding: 10px 20px;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+.radio-option input[type="radio"]:checked+label {
+  border-color: var(--primary-color);
+  background: #eff6ff;
+  color: var(--primary-color);
+}
+
+.range-wrap {
+  position: relative;
+  margin-top: 10px;
+}
+
+.range-value {
+  text-align: center;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 5px;
+}
+
+/* Result Section */
+.result-card {
+  position: sticky;
+  top: 100px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.result-header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.result-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.result-body {
+  padding: 25px;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.result-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.result-label {
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+.result-value {
+  font-weight: 700;
+  font-size: 1.1rem;
+  /* Reduced from 1.2rem */
+  color: var(--text-dark);
+}
+
+.gap-display {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.gap-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gap-amount {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+}
+
+.risk-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.risk-badge.green {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.risk-badge.yellow {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.risk-badge.red {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.result-explanation {
+  background: #eff6ff;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+  font-size: 0.95rem;
+  color: #1e40af;
+  line-height: 1.6;
+}
+
+/* Action Button */
+.btn-calculate {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin-top: 20px;
+}
+
+.btn-calculate:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* Tooltips */
+.tooltip-icon {
+  color: var(--text-light);
+  cursor: help;
+  margin-left: 5px;
+  font-size: 0.9rem;
+}
+
+/* SEO Content */
+.seo-section {
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.seo-section h2 {
+  font-size: 1.8rem;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+}
+
+.seo-section h3 {
+  font-size: 1.4rem;
+  color: var(--text-dark);
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+
+.seo-section p {
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-bottom: 15px;
+}
+
+.seo-section ul {
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.seo-section li {
+  color: var(--text-light);
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+/* Disclaimer */
+.disclaimer-box {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 40px;
+  font-size: 0.85rem;
+  color: #6b7280;
+  text-align: center;
+}
