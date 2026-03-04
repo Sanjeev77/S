@@ -1593,13 +1593,13 @@ body[data-page="legal"] .container::before,
 
 /* Support button */
 .nav-link.support-btn {
-  background: rgba(249, 115, 22, 0.2);
-  border-color: rgba(249, 115, 22, 0.4);
+  background: rgba(0, 175, 244, 0.2);
+  border-color: rgba(0, 175, 244, 0.4);
 }
 
 .nav-link.support-btn:hover {
-  background: rgba(249, 115, 22, 0.3);
-  border-color: rgba(249, 115, 22, 0.6);
+  background: rgba(0, 175, 244, 0.3);
+  border-color: rgba(0, 175, 244, 0.6);
 }
 
 /* Responsive navigation */

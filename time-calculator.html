@@ -247,15 +247,9 @@
 
       <!-- Mobile Top Ad (After Intro) -->
       <div class="mobile-ad-container" aria-label="Advertisement">
-        <script async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5970109164913530"
-          crossorigin="anonymous"></script>
         <!-- Horizontal -->
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530"
           data-ad-slot="1469347266" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
       </div>
 
       <div class="top-layout">
@@ -795,6 +789,20 @@
     document.addEventListener('DOMContentLoaded', function () {
       initializeTimeCards();
       updateLiveTotal();
+    });
+
+    // Initialize all AdSense ads
+    window.addEventListener('load', function () {
+      const allAds = document.querySelectorAll('.adsbygoogle');
+      allAds.forEach(function (ad) {
+        if (!ad.dataset.adsbygoogleStatus) {
+          try {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          } catch (e) {
+            console.error('AdSense error:', e);
+          }
+        }
+      });
     });
   </script>
 </body>
