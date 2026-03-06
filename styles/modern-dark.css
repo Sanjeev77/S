@@ -134,7 +134,7 @@ a:hover {
 .container {
     max-width: 100%;
     width: 100%;
-    margin: 0;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: 180px 3fr 2fr 180px;
     /* Weighted 3:2 split for Dashboard */
@@ -147,24 +147,22 @@ a:hover {
 }
 
 /* Time Calculator Specific Layout Override */
-body.time-calculator-page .container {
+/* body.time-calculator-page .container {
     display: flex !important;
     flex-direction: column !important;
     max-width: 1200px !important;
-    /* Increase width for side-by-side layout */
     width: 95% !important;
     grid-template-columns: none !important;
     padding: 30px 20px !important;
     gap: 30px !important;
     margin: 0 auto !important;
-    /* Center the container */
-}
+} */
 
-body.time-calculator-page .ad-sidebar,
+/* body.time-calculator-page .ad-sidebar,
 body.time-calculator-page .left-panel,
 body.time-calculator-page .right-panel {
     display: none !important;
-}
+} */
 
 /* Sidebars & Panels */
 .ad-sidebar {

@@ -91,6 +91,7 @@
     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="styles/modern-dark.css">
+  <link rel="stylesheet" href="styles/time-calculator.css">
 
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5970109164913530"
@@ -220,23 +221,18 @@
     });
   </script>
 
-  <!-- Fixed Position Vertical Ads on Background -->
-  <!-- Left Vertical Ad -->
-  <div class="fixed-ad-left" aria-label="Advertisement">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530" data-ad-slot="3568950891"
-      data-ad-format="auto" data-full-width-responsive="true"></ins>
-  </div>
+  <div class="container">
+    <!-- Ad Space: Left Sidebar -->
+    <div class="ad-sidebar left-ad">
+      <div class="ad-container sidebar vertical">
+        <ins class="adsbygoogle" style="display:block;width:180px;min-height:600px;"
+          data-ad-client="ca-pub-5970109164913530" data-ad-slot="3568950891" data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+      </div>
+    </div>
 
-  <!-- Right Vertical Ad -->
-  <div class="fixed-ad-right" aria-label="Advertisement">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5970109164913530" data-ad-slot="3568950891"
-      data-ad-format="auto" data-full-width-responsive="true"></ins>
-  </div>
-
-  <!-- Main Content Wrapper -->
-  <div class="main-content">
-    <!-- Time Calculator Container -->
-    <div class="container">
+    <!-- Main Content Panel -->
+    <div class="main-panel">
       <h1 class="time-calc-title">⏰ Time Calculator</h1>
 
       <!-- SEO Content Section -->
@@ -351,40 +347,20 @@
         <script>
           (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
+      </div> <!-- end mobile-bottom-ad -->
+    </div> <!-- end main-panel -->
+
+    <!-- Ad Space: Right Sidebar -->
+    <div class="ad-sidebar right-ad">
+      <div class="ad-container sidebar vertical">
+        <ins class="adsbygoogle" style="display:block;width:180px;min-height:600px;"
+          data-ad-client="ca-pub-5970109164913530" data-ad-slot="3568950891" data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
       </div>
-    </div> <!-- end container -->
-  </div> <!-- end main-content -->
+    </div>
+  </div> <!-- end container -->
 
-  <!-- Initialize AdSense ads after page load -->
-  <script>
-    window.addEventListener('load', function () {
-      // Wait a moment for layout to stabilize
-      setTimeout(function () {
-        try {
-          // Initialize desktop vertical ads (if visible)
-          const leftAd = document.querySelector('.fixed-ad-left');
-          const rightAd = document.querySelector('.fixed-ad-right');
 
-          if (leftAd && window.getComputedStyle(leftAd).display !== 'none') {
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          }
-          if (rightAd && window.getComputedStyle(rightAd).display !== 'none') {
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          }
-
-          // Initialize mobile ads (if visible)
-          const mobileAds = document.querySelectorAll('.mobile-ad-container');
-          mobileAds.forEach(function (ad) {
-            if (window.getComputedStyle(ad).display !== 'none') {
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            }
-          });
-        } catch (e) {
-          console.error('AdSense initialization error:', e);
-        }
-      }, 500);
-    });
-  </script>
 
   <!-- Time Calculator JavaScript -->
   <script>

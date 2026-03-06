@@ -507,8 +507,8 @@
       align-items: center;
       gap: 8px;
       padding: 14px 28px;
-      background: var(--ok);
-      color: #0a0a0f;
+      background: #ff5e5b;
+      color: #fff;
       text-decoration: none;
       border-radius: 11px;
       font-family: system-ui, sans-serif;
@@ -519,7 +519,8 @@
 
     .dlbtn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 22px rgba(0, 229, 160, .3)
+      box-shadow: 0 8px 22px rgba(255, 94, 91, .4);
+      background: #ff4a47
     }
 
     .abtn {
@@ -807,7 +808,8 @@
         <h2>Success!</h2>
         <p class="smeta" id="smeta"></p>
         <div class="btn-group">
-          <a class="dlbtn" id="dl" href="#">&#11015; Download Fixed .aep</a>
+          <a class="dlbtn" id="dl" href="https://ko-fi.com/sanjeeev" target="_blank" rel="noopener noreferrer">&#9749;
+            Buy me a Coffee</a>
           <button class="abtn" id="abtn">&#8592; Convert Another File</button>
         </div>
       </div>
@@ -1001,8 +1003,7 @@
         anchor.click();
         document.body.removeChild(anchor);
 
-        // Show success screen
-        $('dl').href = URL.createObjectURL(new Blob([res.buf])); $('dl').download = name;
+        // Ko-fi button shown – download already triggered automatically above
         $('smeta').textContent = `Target: ${VLABEL[v]} · ${res.count} chunks modified`;
         setTimeout(() => { $('mainCard').style.display = 'none'; $('scard').classList.add('on'); $('vsel').disabled = false; }, 250);
       }, 250);
