@@ -531,6 +531,7 @@ select {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(15px);
+    display: block !important; /* Ensure it's shown */
 }
 
 .dropdown-item {
@@ -614,11 +615,18 @@ footer {
         grid-template-columns: 1fr;
     }
 
-    .ad-sidebar,
-    .left-panel,
-    .right-panel {
+    .ad-sidebar {
         display: none !important;
         /* Hide sidebars on mobile/tablet */
+    }
+
+    .left-panel,
+    .right-panel {
+        width: 100%;
+        height: auto;
+        position: relative;
+        overflow-y: visible;
+        display: block; /* Ensure they are displayed by default */
     }
 
     .main-header {
@@ -631,6 +639,11 @@ footer {
         width: 100%;
         max-width: 100%;
         padding: 16px;
+    }
+
+    /* Mobile section switching utility */
+    .mobile-hidden {
+        display: none !important;
     }
 }
 
@@ -659,18 +672,99 @@ footer {
 
     .header-container {
         flex-direction: column;
-        gap: 16px;
+        gap: 12px;
+        position: relative; /* Base for dropdown positioning */
+        padding: 0 16px;
     }
 
     .main-navigation {
         width: 100%;
+        display: flex;
+        flex-direction: row; /* Tools on left, Support on right */
         justify-content: space-between;
-        overflow-x: auto;
-        padding-bottom: 5px;
+        align-items: center;
+        overflow: visible !important;
+        padding-bottom: 0;
     }
 
     .logo-section svg {
-        height: 32px;
+        height: 28px;
+    }
+
+    body {
+        padding-bottom: 80px; /* Space for mobile nav */
+    }
+
+    .nav-dropdown {
+        position: static; /* Let menu position relative to header container */
+    }
+
+    .nav-dropdown-menu {
+        left: 10px !important;
+        right: 10px !important;
+        top: calc(100% + 10px) !important;
+        transform: none !important;
+        min-width: 0 !important;
+        width: auto !important;
+        max-width: none !important;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .nav-dropdown.open .nav-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(5px) !important;
+    }
+
+    /* Mobile Bottom Navigation */
+    .mobile-nav {
+        display: flex !important;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(10, 10, 10, 0.8);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid var(--border-color);
+        padding: 10px 0;
+        z-index: 1000;
+        justify-content: space-around;
+        box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .mobile-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.2s;
+        flex: 1;
+        padding: 5px;
+    }
+
+    .mobile-nav-item i {
+        font-size: 1.25rem;
+    }
+
+    .mobile-nav-item span {
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .mobile-nav-item.active {
+        color: var(--accent-primary);
+    }
+
+    .mobile-ad-container {
+        display: block !important;
+        margin: 20px 0;
+        text-align: center;
+        overflow: hidden;
     }
 }
 
